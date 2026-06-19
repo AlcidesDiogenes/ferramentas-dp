@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programação de Férias - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2>Ferramentas DP</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="menu-list">
+                <li>
+                    <a href="../index.html" class="menu-item">
+                        <span class="menu-icon">📊</span> Painel Geral
+                    </a>
+                </li>
+                <li>
+                    <a href="afastamentos.html" class="menu-item">
+                        <span class="menu-icon">🏥</span> Análise de Afastamentos
+                    </a>
+                </li>
+                <li>
+                    <a href="programacao-ferias.html" class="menu-item active">
+                        <span class="menu-icon">📅</span> Programação de Férias
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Análise Crítica de Programação de Férias</h1>
+            <p class="subtitle">Importe os relatórios em PDF para identificar prazos limites de 60 dias e evitar bitributação ou passivos trabalhistas.</p>
+        </header>
+
+        <section class="module-card">
+            <h3>Importação de Relatórios (eSocial)</h3>
+            <p class="subtitle" style="font-size: 0.9rem; margin-bottom: 15px;">Selecione um ou múltiplos arquivos PDF simultaneamente.</p>
+            
+            <div class="upload-zone">
+                <input type="file" id="file-input" multiple accept=".pdf" class="input-file-hidden">
+                <label for="file-input" class="btn-action">📁 Selecionar Arquivos PDF</label>
+            </div>
+
+            <div class="import-status-container" id="import-status-area" style="display: none;">
+                <h4>Arquivos Carregados:</h4>
+                <ul id="lista-arquivos-importados" class="file-status-list">
+                    </ul>
+            </div>
+        </section>
+
+        <div class="actions-bar" id="actions-panel" style="display: none; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div class="export-buttons" style="display: flex; gap: 15px;">
+                <button id="btn-export-excel" class="btn-action btn-excel">🟢 Baixar em Planilha</button>
+                <button id="btn-export-pdf" class="btn-action btn-pdf">🔴 Baixar em PDF</button>
+            </div>
+            
+            <div class="filter-container" style="min-width: 300px;">
+                <input type="text" id="input-filtro" placeholder="Filtrar por nome, código ou empresa...">
+            </div>
+        </div>
+
+        <section class="module-card" id="report-section" style="display: none;">
+            <div id="print-area">
+                <div class="report-web-header">
+                    <h3>Relatório de Férias Críticas</h3>
+                    <p id="report-date-base" class="subtitle" style="font-size: 0.9rem;"></p>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table" id="tabela-resultados">
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Código</th>
+                                <th>Nome do Colaborador</th>
+                                <th>Data Limite</th>
+                                <th>Dias Restantes</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-corpo">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/programacao-ferias.js" defer></script>
+</body>
+</html>
