@@ -20,6 +20,10 @@ const inputFiltro = document.getElementById('input-filtro');
 document.getElementById('btn-export-excel').addEventListener('click', gerarExcel);
 document.getElementById('btn-export-pdf').addEventListener('click', gerarPDF);
 
+document.addEventListener('DOMContentLoaded', () => {
+    MotorFiltros.init('#input-filtro', "Ex: 'Ana 60 dias' ou 'Empresa X'");
+});
+
 // GATILHO DE IMPORTAÇÃO
 inputArquivo.addEventListener('change', async (event) => {
     const arquivos = event.target.files;
@@ -58,19 +62,14 @@ inputArquivo.addEventListener('change', async (event) => {
     secaoRelatorio.style.display = 'block';
 });
 
-// SISTEMA DE FILTRO EM TEMPO REAL
+// SISTEMA DE FILTRO EM TEMPO REAL (Usando Motor Global Multi-termos)
 inputFiltro.addEventListener('input', (e) => {
-    const termo = e.target.value.toLowerCase().trim();
-    
-    // Se o campo estiver vazio, mostra tudo. Senão, filtra.
-    const dadosFiltrados = termo === '' 
-        ? analiseGlobal 
-        : analiseGlobal.filter(d => 
-            d.nome.toLowerCase().includes(termo) || 
-            d.codigo.includes(termo) ||
-            d.empresa.toLowerCase().includes(termo)
-          );
-          
+    // Busca em: Nome, Código e Empresa
+    const dadosFiltrados = MotorFiltros.filtrarMultiplo(
+        analiseGlobal, 
+        e.target.value, 
+        ['nome', 'codigo', 'empresa']
+    );
     renderizarTabela(dadosFiltrados);
 });
 

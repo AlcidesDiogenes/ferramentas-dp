@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Afastamentos - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2 class="brand-text">Ferramentas DP</h2>
+            <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu">☰</button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="menu-list">
+                <li>
+                    <a href="../index.html" class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        <span class="menu-text">Painel Geral</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="afastamentos.html" class="menu-item active">
+                        <span class="menu-icon">🏥</span>
+                        <span class="menu-text">Análise de Afastamentos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="programacao-ferias.html" class="menu-item">
+                        <span class="menu-icon">📅</span>
+                        <span class="menu-text">Programação de Férias</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Auditoria de Afastamentos e Atestados</h1>
+            <p class="subtitle">Importe a Relação de Afastamentos para cruzar as incidências e monitorar reincidências de CIDs e atestados.</p>
+        </header>
+
+        <section class="module-card">
+            <h3>Importação de Relatórios de Afastamento</h3>
+            <p class="subtitle" style="font-size: 0.9rem; margin-bottom: 15px;">Selecione o arquivo PDF contendo a Relação de Afastamentos gerada pelo sistema.</p>
+            
+            <div class="upload-zone">
+                <input type="file" id="file-input" multiple accept=".pdf" class="input-file-hidden">
+                <label for="file-input" class="btn-action">📁 Selecionar Arquivos PDF</label>
+            </div>
+
+            <div class="import-status-container" id="import-status-area" style="display: none;">
+                <h4>Arquivos Carregados:</h4>
+                <ul id="lista-arquivos-importados" class="file-status-list"></ul>
+            </div>
+        </section>
+
+        <div class="actions-bar" id="actions-panel" style="display: none;">
+            <div class="export-buttons">
+                <button id="btn-export-excel" class="btn-action btn-excel">🟢 Baixar em Planilha</button>
+                <button id="btn-export-pdf" class="btn-action btn-pdf">🔴 Baixar em PDF</button>
+            </div>
+            
+            <div class="filter-container">
+                <input type="text" id="input-filtro" placeholder="Filtrar por colaborador, código ou motivo...">
+            </div>
+        </div>
+
+        <section class="module-card" id="report-section" style="display: none;">
+            <div id="print-area">
+                <div class="report-web-header">
+                    <h3>Mapeamento de Afastamentos</h3>
+                    <p id="report-period" class="subtitle" style="font-size: 0.9rem;"></p>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table" id="tabela-resultados">
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Cód</th>
+                                <th>Colaborador</th>
+                                <th>Início</th>
+                                <th>Retorno</th>
+                                <th>Motivo</th>
+                                <th style="text-align: center;">Dias Afastado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-corpo">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/motor-filtros.js" defer></script>
+    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/afastamentos.js" defer></script>
+</body>
+</html>

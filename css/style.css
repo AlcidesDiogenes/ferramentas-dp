@@ -267,8 +267,9 @@ body {
 }
 
 #input-filtro::placeholder {
-    color: var(--cor-texto-secundario);
-    opacity: 0.7;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-style: italic;
 }
 
 /* Injeção do Ícone de Lupa via CSS (Garante alinhamento perfeito) */
