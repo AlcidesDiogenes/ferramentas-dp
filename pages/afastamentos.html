@@ -6,7 +6,8 @@
     <title>Análise de Afastamentos - Ferramentas DP</title>
     
     <link rel="stylesheet" href="../css/style.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -15,39 +16,12 @@
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <h2 class="brand-text">Ferramentas DP</h2>
-            <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu">☰</button>
-        </div>
-        <nav class="sidebar-nav">
-            <ul class="menu-list">
-                <li>
-                    <a href="../index.html" class="menu-item">
-                        <span class="menu-icon">📊</span>
-                        <span class="menu-text">Painel Geral</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="afastamentos.html" class="menu-item active">
-                        <span class="menu-icon">🏥</span>
-                        <span class="menu-text">Análise de Afastamentos</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="programacao-ferias.html" class="menu-item">
-                        <span class="menu-icon">📅</span>
-                        <span class="menu-text">Programação de Férias</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
+    <div id="sidebar-placeholder"></div>
 
     <main class="main-content">
         <header class="main-header">
             <h1>Auditoria de Afastamentos e Atestados</h1>
-            <p class="subtitle">Importe a Relação de Afastamentos para cruzar as incidências e monitorar reincidências de CIDs e atestados.</p>
+            <p class="subtitle">Importe a Relação de Afastamentos para cruzar as incidências e monitorar reincidências de  atestados.</p>
         </header>
 
         <section class="module-card">
@@ -105,7 +79,7 @@
     </main>
 
     <script src="../js/motor-filtros.js" defer></script>
-    <script src="../js/sidebar.js" defer></script>
+    <script src="../js/loader.js" defer></script>
     <script src="../js/afastamentos.js" defer></script>
 </body>
 </html>

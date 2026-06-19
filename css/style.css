@@ -5,7 +5,7 @@
     /* Paleta de Cores */
     --cor-fundo: #f4f7fa;
     --cor-sidebar: #1e293b;
-    --cor-sidebar-hover: #334155;
+    --cor-sidebar-hover: #1e293b;
     --cor-texto-principal: #334155;
     --cor-texto-secundario: #64748b;
     --cor-texto-claro: #f8fafc;
@@ -19,6 +19,7 @@
     --espacamento-padrao: 20px;
     --borda-raio: 8px;
     --transicao-suave: all 0.3s ease;
+    --fonte-principal: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* ==========================================================================
@@ -30,30 +31,44 @@
     box-sizing: border-box;
 }
 
+h1, h2, h3 {
+    font-weight: 600; /* Títulos um pouco mais grossos dão autoridade */
+    color: #1e293b;
+}
+
 /* Trava global de animações no carregamento (Evita o efeito piscar/flicker) */
 .preload, .preload * {
     transition: none !important;
 }
 
 body {
-    font-family: var(--fonte-principal);
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto-principal);
     display: flex;
-    min-height: 100vh;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden; /* Evita que o conteúdo quebre o layout */
+    font-family: var(--fonte-principal);
+    -webkit-font-smoothing: antialiased; /* Deixa as letras mais nítidas no Mac/Chrome */
+    font-weight: 400; /* Peso padrão para leitura confortável */
+    line-height: 1.5; /* Espaçamento entre linhas melhora muito a leitura */
 }
 
 /* ==========================================================================
    3. MENU LATERAL (SIDEBAR)
    ========================================================================== */
 .sidebar {
-    width: 280px;
-    background-color: var(--cor-sidebar);
-    color: var(--cor-texto-claro);
+    background-color: #1e293b !important; /* Cor dark fixa */
+    color: #ffffff !important;            /* Texto branco fixo */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--cor-borda);
-    transition: width 0.3s ease; /* Adicione apenas esta linha */
+    transition: width 0.3s ease;
+}
+
+#sidebar-placeholder {
+    flex: 0 0 280px; /* Não cresce nem encolhe, mantém 280px */
+    transition: flex 0.3s ease; /* Animação suave */
+    height: 100vh;
+    background-color: var(--cor-sidebar);
 }
 
 .sidebar-brand h2 {
@@ -82,8 +97,8 @@ body {
 }
 
 .menu-item:hover, .menu-item.active {
-    background-color: var(--cor-sidebar-hover);
-    border-left-color: var(--cor-destaque);
+    background-color: transparent; /* Remove a mudança de cor de fundo */
+    border-left-color: var(--cor-destaque); /* Mantém apenas a borda de destaque */
 }
 
 .menu-icon {
@@ -95,8 +110,8 @@ body {
    4. ÁREA PRINCIPAL (MAIN CONTENT)
    ========================================================================== */
 .main-content {
-    flex: 1;
-    padding: 40px;
+    flex: 1; /* Isto faz ele ocupar o espaço que sobrar, nunca ficando atrás da sidebar */
+    padding: 20px;
     overflow-y: auto;
 }
 
@@ -429,6 +444,15 @@ body {
     border-radius: var(--borda-raio);
 }
 
+.brand-text {
+    color: #ffffff !important; /* Branco puro para alto contraste */
+    font-weight: 700;         /* Negrito para dar autoridade */
+    font-size: 1.25rem;       /* Tamanho ideal para painéis */
+    letter-spacing: -0.02em;  /* Deixa o texto com um toque mais elegante e moderno */
+    white-space: nowrap;      /* Evita que o texto quebre em duas linhas */
+    margin: 0;
+}
+
 .toggle-btn:hover {
     color: var(--cor-destaque);
     background-color: rgba(255, 255, 255, 0.05); /* Fundo sutil para destacar a área de clique */
@@ -461,4 +485,47 @@ body {
 .menu-fechado .menu-icon {
     margin-right: 0;
     font-size: 1.4rem;
+}
+
+.sidebar a {
+    color: #ffffff !important;
+    text-decoration: none;
+}
+/* --- Ajustes para o Menu Minimizado --- */
+
+/* --- CONFIGURAÇÃO DEFINITIVA DO MENU MINIMIZADO --- */
+
+/* Quando fechado: Container encolhe */
+html.menu-fechado #sidebar-placeholder {
+    flex: 0 0 80px; /* Encolhe para 80px */
+}
+
+/* Quando fechado: A sidebar interna encolhe */
+html.menu-fechado .sidebar {
+    width: 80px !important;
+    background-color: #1e293b !important;
+}
+
+/* Quando fechado: Conteúdo principal preenche o resto */
+html.menu-fechado .main-content {
+    width: calc(100% - 80px) !important;
+}
+
+/* Quando fechado: Esconde textos */
+html.menu-fechado .brand-text,
+html.menu-fechado .menu-text {
+    display: none !important;
+}
+
+/* Quando fechado: Ajusta alinhamento */
+html.menu-fechado .sidebar-brand {
+    justify-content: center !important;
+}
+
+html.menu-fechado .menu-item {
+    justify-content: center !important;
+}
+
+html.menu-fechado .menu-icon {
+    margin-right: 0 !important;
 }
