@@ -1,6 +1,5 @@
 /**
- * MOTOR ANALÍTICO - AFASTAMENTOS (V2 - Máquina de Estado e Tolerância de Eixo)
- * Captura dados fracionados e desalinhados gerados por sistemas contábeis.
+ * MOTOR ANALÍTICO - AFASTAMENTOS (V2 - Arquivo Único e Consolidado)
  */
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -59,9 +58,8 @@ inputArquivo.addEventListener('change', async (event) => {
     secaoRelatorio.style.display = 'block';
 });
 
-// FILTRO EM TEMPO REAL (Usando Motor Global Multi-termos)
+// FILTRO EM TEMPO REAL
 inputFiltro.addEventListener('input', (e) => {
-    // Busca em: Nome, Código, Motivo e Empresa
     const dadosFiltrados = MotorFiltros.filtrarMultiplo(
         analiseAfastamentosGlobal, 
         e.target.value, 
@@ -87,7 +85,7 @@ function parseDataParaMatematica(dataStr) {
     return new Date(ano, partes[1] - 1, partes[0]);
 }
 
-// CÉREBRO DE EXTRAÇÃO (MÁQUINA DE ESTADO)
+// CÉREBRO DE EXTRAÇÃO
 async function processarPDF(arrayBuffer, nomeArquivo) {
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     let paginasTexto = [];
@@ -97,7 +95,6 @@ async function processarPDF(arrayBuffer, nomeArquivo) {
         const textContent = await page.getTextContent();
         let items = textContent.items;
 
-        // Tolerância de 5 pixels no eixo Y para agrupar linhas desalinhadas da tabela
         items.sort((a, b) => {
             let diffY = Math.round(b.transform[5]) - Math.round(a.transform[5]);
             if (Math.abs(diffY) > 5) return diffY;
@@ -121,69 +118,74 @@ async function processarPDF(arrayBuffer, nomeArquivo) {
         paginasTexto.push(linhasPagina);
     }
 
+    // EXTRAÇÃO ROBUSTA DE CABEÇALHO
+    // --- EXTRAÇÃO ROBUSTA ---
+    const todasLinhas = paginasTexto.flat();
+
+    // 1. Extração da Empresa: Pega a linha e remove qualquer "Data: ..." que apareça nela
     let nomeEmpresa = "Desconhecida";
-    let periodoApuracao = "Desconhecido";
+    const indexRelacao = todasLinhas.findIndex(l => l.includes("RELAÇÃO DE AFASTAMENTOS"));
+    if (indexRelacao !== -1 && todasLinhas[indexRelacao + 1]) {
+        // Limpa qualquer "Data:" ou sujeira que vier grudada
+        nomeEmpresa = todasLinhas[indexRelacao + 1].replace(/Data:.*$/i, '').trim();
+    }
 
-   // Captura Cabeçalho Limpo
-    const linhasP1 = paginasTexto[0] || [];
-    const textoCompletoP1 = linhasP1.join(" ");
-
-    const regexPeriodo = /Periodo:\s*(\d{2}\/\d{2}\/\d{4}\s*até\s*\d{2}\/\d{2}\/\d{4})/i;
-    const matchPeriodo = textoCompletoP1.match(regexPeriodo);
+    // 2. Extração do Período: Busca agressiva pelo padrão de datas DD/MM/AAAA até DD/MM/AAAA
+    let periodoApuracao = "Período não identificado";
     
-    if (matchPeriodo) {
-        periodoApuracao = matchPeriodo[1].trim();
+    // Junta todas as linhas para procurar o padrão de data sem se preocupar com quebras de linha
+    const textoCompleto = todasLinhas.join(" ");
+    
+    // Regex que busca: Data (2/2/4 dígitos) + espaço/até + Data (2/2/4 dígitos)
+    const regexDataRange = /(\d{2}\/\d{2}\/\d{4}\s+(?:até|a)\s+\d{2}\/\d{2}\/\d{4})/i;
+    const match = textoCompleto.match(regexDataRange);
+
+    if (match) {
+        periodoApuracao = match[0]; // Pega o intervalo encontrado (ex: 01/04/2026 até 30/06/2026)
     } else {
-        const matchDataAlternativa = textoCompletoP1.match(/(\d{2}\/\d{2}\/\d{4}\s*a\s*\d{2}\/\d{2}\/\d{4})/);
-        periodoApuracao = matchDataAlternativa ? matchDataAlternativa[0] : "Período não identificado";
+        // Fallback: se não achar pelo padrão, tenta procurar pela palavra "Periodo" de forma flexível
+        const linhaPeriodo = todasLinhas.find(l => l.toLowerCase().includes("periodo"));
+        if (linhaPeriodo) {
+            periodoApuracao = linhaPeriodo.toLowerCase().split("periodo")[1].replace(/:/g, '').trim();
+        }
     }
     
-    // Atualiza o DOM uma única vez
-    lblPeriodo.innerText = `Período de Apuração: ${periodoApuracao}`;
+    // Atualiza o DOM
+    lblPeriodo.innerText = `Empresa: ${nomeEmpresa} | Período: ${periodoApuracao}`;
+    
+    // Atualiza o DOM
+    lblPeriodo.innerText = `Empresa: ${nomeEmpresa} | Período: ${periodoApuracao}`;
 
-    // Variáveis da Máquina de Estado (A memória fluida do motor)
+    // MÁQUINA DE ESTADO
     let codigoAtual = "";
     let nomeAtual = "";
     let inicioPendente = "";
     let retornoPendente = "";
 
-    // Padrões super flexíveis de busca
-    // Ex: "669 CAROLINE BATISTA" ou "17 12884822196 FABIO MELO"
     const regexEmpregado = /^(\d{1,6})\s+(?:\d{11}\s+)?([A-ZÀ-Ú\s]{5,}[A-ZÀ-Ú])/; 
     const regexDatas = /\d{2}\/\d{2}\/\d{2,4}/g;
     const regexMotivo = /(\d{2}\s*[-–]\s*.+)/;
 
     for (let p = 0; p < paginasTexto.length; p++) {
         const linhas = paginasTexto[p];
-
         for (let linha of linhas) {
-            // Pula os cabeçalhos das páginas
-            if (linha.includes("Página:") || linha.includes("RELAÇÃO DE AFASTAMENTOS") || linha.includes("Periodo:") || linha.includes("COD NOME")) {
-                continue;
-            }
+            if (linha.includes("Página:") || linha.includes("RELAÇÃO DE AFASTAMENTOS") || linha.includes("Periodo:") || linha.includes("COD NOME")) continue;
 
-            // 1. Tenta atualizar o funcionário atual
             const matchEmpregado = linha.match(regexEmpregado);
             if (matchEmpregado && !linha.includes("Total de")) {
                 codigoAtual = matchEmpregado[1];
                 nomeAtual = matchEmpregado[2].trim();
             }
 
-            // 2. Tenta capturar as datas de afastamento (ignora data de admissão se estiver junto)
             const datasEncontradas = [...linha.matchAll(regexDatas)].map(m => m[0]);
             if (datasEncontradas.length >= 2) {
-                // Sempre pega as duas últimas datas da linha (Início e Retorno)
                 inicioPendente = datasEncontradas[datasEncontradas.length - 2];
                 retornoPendente = datasEncontradas[datasEncontradas.length - 1];
             }
 
-            // 3. Tenta encontrar o Motivo
             const matchMotivo = linha.match(regexMotivo);
-            
-            // 4. O Cruzamento: Se a memória tem funcionário, datas guardadas e achou o motivo, SALVA.
             if (matchMotivo && inicioPendente && retornoPendente && codigoAtual !== "") {
-                let motivoStr = matchMotivo[1].trim();
-                motivoStr = motivoStr.replace(/\s{2,}.*/, ''); // Limpa espaços perdidos no fim
+                let motivoStr = matchMotivo[1].trim().replace(/\s{2,}.*/, '');
 
                 const inicioObj = parseDataParaMatematica(inicioPendente);
                 const retornoObj = parseDataParaMatematica(retornoPendente);
@@ -191,13 +193,11 @@ async function processarPDF(arrayBuffer, nomeArquivo) {
                 let dias = 0;
                 if(inicioObj && retornoObj) {
                     const diferencaTempo = retornoObj.getTime() - inicioObj.getTime();
-                    // O Retorno é dia trabalhado. A diferença direta entrega os dias exatos de atestado.
                     dias = Math.ceil(diferencaTempo / (1000 * 3600 * 24)); 
                 }
 
                 analiseAfastamentosGlobal.push({
                     empresa: nomeEmpresa,
-                    periodo: periodoApuracao,
                     codigo: codigoAtual,
                     nome: nomeAtual,
                     inicio: inicioPendente,
@@ -205,8 +205,6 @@ async function processarPDF(arrayBuffer, nomeArquivo) {
                     motivo: motivoStr,
                     diasAfastado: dias
                 });
-
-                // Esvazia o bolso das datas para não duplicar no próximo atestado
                 inicioPendente = "";
                 retornoPendente = "";
             }
@@ -214,45 +212,33 @@ async function processarPDF(arrayBuffer, nomeArquivo) {
     }
 }
 
-// RENDERIZAÇÃO E INTELIGÊNCIA DE SOMA
+// RENDERIZAÇÃO
 function renderizarTabelaAfastamentos(dados) {
     corpoTabela.innerHTML = '';
-    
     if (dados.length === 0) {
-        corpoTabela.innerHTML = `<tr><td colspan="7" style="text-align:center;">Nenhum atestado ou período mapeado nos arquivos selecionados.</td></tr>`;
+        corpoTabela.innerHTML = `<tr><td colspan="7" style="text-align:center;">Nenhum atestado mapeado.</td></tr>`;
         return;
     }
 
-    // 1. Mapeia o total acumulado de dias de doença por funcionário
     const somaDoencas = {};
     dados.forEach(d => {
-        // Filtra apenas atestados médicos (motivo 18 ou palavra doença/novo afastamento)
-        const motivoLower = d.motivo.toLowerCase();
-        if (motivoLower.includes("doença") || d.motivo.includes("18-") || d.motivo.includes("12-")) {
+        const m = d.motivo.toLowerCase();
+        if (m.includes("doença") || d.motivo.includes("18-") || d.motivo.includes("12-")) {
             somaDoencas[d.codigo] = (somaDoencas[d.codigo] || 0) + d.diasAfastado;
         }
     });
 
-    // 2. Constrói a tabela com os alertas de risco injetados
     dados.forEach(dado => {
         let badgeDias = dado.diasAfastado >= 15 ? 'badge-critico' : 'badge-alerta';
-        let spanVisualDias = `<span class="badge ${badgeDias}">${dado.diasAfastado} dias</span>`;
-
-        // Lógica do Alerta INSS
         let alertaAcumulo = "";
-        const motivoLower = dado.motivo.toLowerCase();
+        const m = dado.motivo.toLowerCase();
         
-        if (motivoLower.includes("doença") || dado.motivo.includes("18-") || dado.motivo.includes("12-")) {
-            const totalEmpregado = somaDoencas[dado.codigo];
-            if (totalEmpregado >= 15) {
-                alertaAcumulo = `<br><span style="font-size: 0.75rem; color: #b91c1c; font-weight: bold;">⚠️ Risco INSS: Acumulou ${totalEmpregado} dias no período</span>`;
-            } else if (totalEmpregado >= 10) {
-                alertaAcumulo = `<br><span style="font-size: 0.75rem; color: #b45309;">Atenção: Acumulou ${totalEmpregado} dias no período</span>`;
-            }
+        if (m.includes("doença") || dado.motivo.includes("18-") || dado.motivo.includes("12-")) {
+            const total = somaDoencas[dado.codigo];
+            if (total >= 15) alertaAcumulo = `<br><span style="font-size: 0.75rem; color: #b91c1c; font-weight: bold;">⚠️ Risco INSS: Acumulou ${total} dias</span>`;
         }
 
         const tr = document.createElement('tr');
-        // REMOVIDO: A coluna de período não será mais renderizada aqui
         tr.innerHTML = `
             <td style="font-size: 0.8rem; color: #64748b;">${dado.empresa}</td>
             <td><strong>${dado.codigo}</strong></td>
@@ -260,17 +246,14 @@ function renderizarTabelaAfastamentos(dados) {
             <td>${dado.inicio}</td>
             <td>${dado.retorno}</td>
             <td style="font-size: 0.85rem;">${dado.motivo}</td>
-            <td style="text-align:center;">${spanVisualDias}</td>
+            <td style="text-align:center;"><span class="badge ${badgeDias}">${dado.diasAfastado} dias</span></td>
         `;
         corpoTabela.appendChild(tr);
     });
 }
 
-// EXPORTAÇÃO EXCEL E PDF
+// EXPORTAÇÃO
 function gerarExcel() {
-    const linhasVisiveis = Array.from(corpoTabela.querySelectorAll('tr')).filter(tr => tr.children.length > 1);
-    if (linhasVisiveis.length === 0) return alert("Nenhum dado para exportar.");
-
     const dadosParaPlanilha = analiseAfastamentosGlobal.map(d => ({
         'Empresa': d.empresa,
         'Cód': d.codigo,
@@ -280,33 +263,18 @@ function gerarExcel() {
         'Dias Afastado': d.diasAfastado,
         'Motivo': d.motivo
     }));
-
     const ws = XLSX.utils.json_to_sheet(dadosParaPlanilha);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Afastamentos");
-    
-    // Corrigido para 7 colunas exatas (uma para cada campo acima)
-    ws['!cols'] = [
-        {wch: 30}, // Empresa
-        {wch: 10}, // Cód
-        {wch: 40}, // Colaborador
-        {wch: 12}, // Início
-        {wch: 12}, // Retorno
-        {wch: 15}, // Dias Afastado
-        {wch: 40}  // Motivo
-    ];
-    
+    ws['!cols'] = [{wch: 30}, {wch: 10}, {wch: 40}, {wch: 12}, {wch: 12}, {wch: 15}, {wch: 40}];
     XLSX.writeFile(wb, "Relatorio_Afastamentos.xlsx");
 }
 
 function gerarPDF() {
-    const elementoRelatorio = document.getElementById('print-area');
-    const opcoes = {
+    html2pdf().set({
         margin: [10, 10, 10, 10],
         filename: 'Analise_Afastamentos.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+        html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-    };
-    html2pdf().set(opcoes).from(elementoRelatorio).save();
+    }).from(document.getElementById('print-area')).save();
 }
