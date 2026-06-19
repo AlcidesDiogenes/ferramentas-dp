@@ -30,6 +30,11 @@
     box-sizing: border-box;
 }
 
+/* Trava global de animações no carregamento (Evita o efeito piscar/flicker) */
+.preload, .preload * {
+    transition: none !important;
+}
+
 body {
     font-family: var(--fonte-principal);
     background-color: var(--cor-fundo);
@@ -48,11 +53,7 @@ body {
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--cor-borda);
-}
-
-.sidebar-brand {
-    padding: 30px var(--espacamento-padrao);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: width 0.3s ease; /* Adicione apenas esta linha */
 }
 
 .sidebar-brand h2 {
@@ -397,4 +398,66 @@ body {
     margin-bottom: 25px;
     border-bottom: 2px solid var(--cor-borda);
     padding-bottom: 20px;
+}
+
+/* ==========================================================================
+   7. COMPORTAMENTO: BARRA LATERAL RETRÁTIL (COLLAPSED)
+   ========================================================================== */
+.sidebar-brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transicao-suave);
+}
+
+.toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--cor-texto-claro);
+    font-size: 1.6rem; /* Tamanho ajustado para melhor proporção */
+    cursor: pointer;
+    transition: var(--transicao-suave);
+    /* Força o ícone ☰ a ficar no centro exato do botão */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--borda-raio);
+}
+
+.toggle-btn:hover {
+    color: var(--cor-destaque);
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo sutil para destacar a área de clique */
+}
+
+/* O SEGREDO DO ALINHAMENTO: Quando fechado, centraliza o botão na barra de 80px */
+.menu-fechado .sidebar-brand {
+    justify-content: center;
+    padding: 25px 0;
+}
+
+/* Regras quando o menu está fechado na raiz do site */
+.menu-fechado .sidebar {
+    width: 80px;
+}
+
+.menu-fechado .brand-text {
+    display: none;
+}
+
+.menu-fechado .menu-text {
+    display: none;
+}
+
+.menu-fechado .menu-item {
+    justify-content: center;
+    padding: 15px 0;
+}
+
+.menu-fechado .menu-icon {
+    margin-right: 0;
+    font-size: 1.4rem;
 }

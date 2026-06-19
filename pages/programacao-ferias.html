@@ -5,33 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programação de Férias - Ferramentas DP</title>
     
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css"> <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
-<body>
+<body class="preload">
 
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <h2>Ferramentas DP</h2>
+            <h2 class="brand-text">Ferramentas DP</h2>
+            <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu">☰</button>
         </div>
         <nav class="sidebar-nav">
             <ul class="menu-list">
                 <li>
                     <a href="../index.html" class="menu-item">
-                        <span class="menu-icon">📊</span> Painel Geral
+                        <span class="menu-icon">📊</span>
+                        <span class="menu-text">Painel Geral</span>
                     </a>
                 </li>
                 <li>
                     <a href="afastamentos.html" class="menu-item">
-                        <span class="menu-icon">🏥</span> Análise de Afastamentos
+                        <span class="menu-icon">🏥</span>
+                        <span class="menu-text">Análise de Afastamentos</span>
                     </a>
                 </li>
                 <li>
                     <a href="programacao-ferias.html" class="menu-item active">
-                        <span class="menu-icon">📅</span> Programação de Férias
+                        <span class="menu-icon">📅</span>
+                        <span class="menu-text">Programação de Férias</span>
                     </a>
                 </li>
             </ul>
@@ -45,7 +49,7 @@
         </header>
 
         <section class="module-card">
-            <h3>Importação de Relatórios (eSocial)</h3>
+            <h3>Importação de Relatórios</h3>
             <p class="subtitle" style="font-size: 0.9rem; margin-bottom: 15px;">Selecione um ou múltiplos arquivos PDF simultaneamente.</p>
             
             <div class="upload-zone">
@@ -98,6 +102,7 @@
         </section>
     </main>
 
+    <script src="../js/sidebar.js" defer></script>
     <script src="../js/programacao-ferias.js" defer></script>
 </body>
 </html>
