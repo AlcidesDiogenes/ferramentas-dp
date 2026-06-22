@@ -67,14 +67,14 @@ class GeradorDossieFiscal {
 
         const ws = XLSX.utils.json_to_sheet(dadosParaPlanilha);
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Dossiê de Passivos");
+        XLSX.utils.book_append_sheet(wb, ws, "Relatório de Passivos");
 
         ws['!cols'] = [
             {wch: 20}, {wch: 40}, {wch: 45}, {wch: 15}, {wch: 25}, 
             {wch: 45}, {wch: 15}, {wch: 18}, {wch: 18}, {wch: 25}, {wch: 22}
         ];
 
-        XLSX.writeFile(wb, "Dossie_Analitico_Passivos_Fiscais.xlsx");
+        XLSX.writeFile(wb, "Relatorio_Passivos_Fiscais.xlsx");
     }
 
     static parseLinhaDebito(linhaRaw) {

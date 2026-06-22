@@ -1,7 +1,7 @@
 /**
  * @module AnaliseFiscal
  * @description Processador de Relatórios de Situação Fiscal da RFB
- * Nível: Produção / Enterprise (Matriz de Viewport + Categorização Flexível)
+ * Nível: Produção / Enterprise (Matriz de Viewport + Categorização Flexível + Exportação Dupla)
  */
 
 "use strict";
@@ -20,7 +20,8 @@ class AnaliseFiscalProcessor {
             painelAcoes: document.getElementById('actions-panel-fiscal'),
             btnExcel: document.getElementById('btn-export-excel-fiscal'),
             btnPdf: document.getElementById('btn-export-pdf-fiscal'),
-            btnDetalhar: document.getElementById('btn-detalhar-pendencias'),
+            btnDetalharExcel: document.getElementById('btn-detalhar-excel'), // NOVO BOTÃO
+            btnDetalharPdf: document.getElementById('btn-detalhar-pdf'),     // NOVO BOTÃO
             inputFiltro: document.getElementById('input-filtro-fiscal')
         };
 
@@ -35,7 +36,11 @@ class AnaliseFiscalProcessor {
         
         if (this.elementos.btnExcel) this.elementos.btnExcel.addEventListener('click', () => this.exportarExcel());
         if (this.elementos.btnPdf) this.elementos.btnPdf.addEventListener('click', () => this.exportarPDF());
-        if (this.elementos.btnDetalhar) this.elementos.btnDetalhar.addEventListener('click', () => this.gerarRelatorioDetalhado());
+        
+        // Mapeamento dos novos botões
+        if (this.elementos.btnDetalharExcel) this.elementos.btnDetalharExcel.addEventListener('click', () => this.gerarRelatorioDetalhado('excel'));
+        if (this.elementos.btnDetalharPdf) this.elementos.btnDetalharPdf.addEventListener('click', () => this.gerarRelatorioDetalhado('pdf'));
+        
         if (this.elementos.inputFiltro) this.elementos.inputFiltro.addEventListener('input', (e) => this.filtrarTabela(e.target.value));
     }
 
@@ -144,14 +149,11 @@ class AnaliseFiscalProcessor {
 
                         for (const linha of linhasOrganizadas) {
                             
-                            // 1. DETECÇÃO DE CATEGORIA DE DÉBITOS (Correção Flexível)
-                            // Não exige estar no início, foca apenas na combinação de ação + sistema
                             const isCategoria = /(Pendência|Débito com|Parcelamento com|Inscrição com|Processo de|com Exigibilidade)/i.test(linha) && 
                                                 /(SIEF|SIDA|SISPAR|SIEFPAR|DIVIDA|DCTFWeb|PAEX|PARCSN|PARCMEI)/i.test(linha);
 
                             if (isCategoria) {
                                 let catLimpa = linha.replace(/[\|☐]/g, '').trim();
-                                // Se a linha vier fatiada do PDF (Ex: "com Exigibilidade Suspensa (SISPAR)")
                                 if (catLimpa.toLowerCase().startsWith('com exigibilidade')) {
                                     categoriaAtual = "Categoria " + catLimpa;
                                 } else {
@@ -160,7 +162,6 @@ class AnaliseFiscalProcessor {
                                 continue; 
                             }
 
-                            // 2. FILTROS DE CABEÇALHOS FALSOS
                             if (/Sdo/i.test(linha) && /Devedor/i.test(linha)) {
                                 linhaAnterior = linha; continue;
                             }
@@ -168,7 +169,6 @@ class AnaliseFiscalProcessor {
                                 linhaAnterior = linha; continue;
                             }
                             
-                            // 3. CAPTURA EFETIVA DO DÉBITO
                             if (/(DEVEDOR|ATIVA AJUIZADA|ATIVA EM COBRANCA|ATIVA NAO AJUIZAVEL|PARCELAMENTO RESCINDIDO|SUSPENSO-JULGAMENTO)/i.test(linha)) {
                                 temPendencia = true;
                                 let linhaFinal = linha;
@@ -277,12 +277,22 @@ class AnaliseFiscalProcessor {
         html2pdf().set(opcoes).from(elementoRelatorio).save();
     }
 
-    gerarRelatorioDetalhado() {
+    // Direcionador do tipo de exportação (Excel ou PDF)
+    gerarRelatorioDetalhado(formato) {
         const empresasComPendencia = this.dadosGlobais.filter(d => d.situacao === 'Com Pendência');
-        if (typeof GeradorDossieFiscal !== 'undefined') {
-            GeradorDossieFiscal.gerar(empresasComPendencia);
-        } else {
-            alert("Erro de sistema: O módulo de detalhamento não foi carregado na página.");
+        
+        if (formato === 'excel') {
+            if (typeof GeradorDossieFiscal !== 'undefined') {
+                GeradorDossieFiscal.gerar(empresasComPendencia);
+            } else {
+                alert("Erro: O módulo detalhamento-fiscal.js não foi carregado.");
+            }
+        } else if (formato === 'pdf') {
+            if (typeof GeradorDossiePDF !== 'undefined') {
+                GeradorDossiePDF.gerarPDF(empresasComPendencia);
+            } else {
+                alert("Erro: O módulo detalhamento-pdf.js não foi carregado.");
+            }
         }
     }
 }
