@@ -8,9 +8,9 @@ let analiseGlobal = [];
 const dataBaseAtual = new Date();
 
 // MAPEAMENTO DOM
-const inputArquivo = document.getElementById('file-input');
-const listaArquivos = document.getElementById('lista-arquivos-importados');
-const areaStatus = document.getElementById('import-status-area');
+const inputArquivo = document.getElementById('file-input-ferias');
+const listaArquivos = document.getElementById('lista-arquivos-ferias');
+const areaStatus = document.getElementById('import-status-ferias');
 const painelAcoes = document.getElementById('actions-panel');
 const secaoRelatorio = document.getElementById('report-section');
 const corpoTabela = document.getElementById('tabela-corpo');

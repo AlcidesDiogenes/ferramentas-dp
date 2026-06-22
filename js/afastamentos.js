@@ -7,9 +7,9 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 let analiseAfastamentosGlobal = [];
 
 // MAPEAMENTO DOM
-const inputArquivo = document.getElementById('file-input');
-const listaArquivos = document.getElementById('lista-arquivos-importados');
-const areaStatus = document.getElementById('import-status-area');
+const inputArquivo = document.getElementById('file-input-afastamentos');
+const listaArquivos = document.getElementById('lista-arquivos-afastamentos');
+const areaStatus = document.getElementById('import-status-afastamentos');;
 const painelAcoes = document.getElementById('actions-panel');
 const secaoRelatorio = document.getElementById('report-section');
 const corpoTabela = document.getElementById('tabela-corpo');
