@@ -63,12 +63,12 @@ class AnaliseFiscalProcessor {
             }
         }
         
-        // Limpa o input para permitir selecionar os mesmos arquivos novamente se necessário
+        // Limpa o input para permitir selecionar os mesmos arquivos novamente
         this.elementos.input.value = '';
     }
 
     /**
-     * Motor de extração de dados do PDF (Refatorado para Ancoragem de Texto)
+     * Motor de extração de dados do PDF
      */
     async extrairDadosPDF(arquivo) {
         return new Promise((resolve, reject) => {
@@ -82,8 +82,9 @@ class AnaliseFiscalProcessor {
                     let nomeEmpresa = "Não identificado";
                     let identificador = "Não encontrado";
                     let situacaoFinal = "Regular";
+                    let dataConsulta = "Data não identificada";
 
-                    // 1. Extração da Página 1 (Foco Exclusivo nos Dados Cadastrais)
+                    // 1. Extração da Página 1 (Foco Exclusivo nos Dados Cadastrais e Data)
                     const pagina1 = await pdf.getPage(1);
                     const conteudoPagina1 = await pagina1.getTextContent();
                     
@@ -91,23 +92,23 @@ class AnaliseFiscalProcessor {
                     const textoItens = conteudoPagina1.items.map(i => i.str.trim()).filter(i => i.length > 0);
                     const textoCompletoPagina1 = textoItens.join(' ');
 
-                    // REGEX ENTERPRISE: 
-                    // - Busca CPF: ou CNPJ:
-                    // - Captura o número
-                    // - Captura o NOME que vem logo em seguida
-                    // - PARA EXATAMENTE quando encontrar as palavras "Dados Cadastrais" ou "Por meio do Portal"
+                    // ==========================================
+                    // EXTRAÇÃO 1: CNPJ/CPF e NOME
+                    // ==========================================
                     const regexCabecalho = /(?:CPF|CNPJ):\s*([\d\.\-\/]+)\s+(.*?)(?:Dados Cadastrais|Por meio do Portal)/i;
                     const matchCabecalho = textoCompletoPagina1.match(regexCabecalho);
 
                     if (matchCabecalho) {
                         identificador = matchCabecalho[1]; 
-                        nomeEmpresa = matchCabecalho[2].trim();
+                        let nomeBruto = matchCabecalho[2].trim();
 
-                        // Limpeza fina caso a receita insira "da Matriz" antes do CNPJ completo
-                        nomeEmpresa = nomeEmpresa.replace(/^(da Matriz|da Filial)\s*/i, '').trim();
+                        // LIMPEZA DO NOME:
+                        nomeEmpresa = nomeBruto
+                            .replace(/^(da Matriz|da Filial)\s*/i, '') // Remove sujeira de filiais
+                            .replace(/^[\-\s]+/, '') // CORREÇÃO: Remove o traço "-" e espaços logo no início do nome
+                            .trim();
                         
-                        // Se o identificador capturado for apenas o CNPJ Raiz (8 dígitos como 28.043.851)
-                        // Fazemos uma busca rápida apenas pelo formato completo do CNPJ na página
+                        // Busca secundária caso tenha pegado apenas o CNPJ Raiz (8 dígitos)
                         if (identificador.replace(/[^\d]/g, '').length === 8) {
                             const regexCNPJCompleto = /CNPJ:\s*(\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})/i;
                             const matchCompleto = textoCompletoPagina1.match(regexCNPJCompleto);
@@ -117,7 +118,20 @@ class AnaliseFiscalProcessor {
                         }
                     }
 
-                    // 2. Varredura Profunda de Passivos Fiscais (PGFN e RFB)
+                    // ==========================================
+                    // EXTRAÇÃO 2: DATA E HORA DA CONSULTA
+                    // ==========================================
+                    // Caça o padrão exato de Data e Hora: DD/MM/AAAA HH:MM:SS
+                    const regexData = /(\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}:\d{2})/;
+                    const matchData = textoCompletoPagina1.match(regexData);
+                    
+                    if (matchData) {
+                        dataConsulta = matchData[1];
+                    }
+
+                    // ==========================================
+                    // EXTRAÇÃO 3: VARREDURA DE PASSIVOS FISCAIS
+                    // ==========================================
                     let temPendencia = false;
                     
                     for (let numPag = 1; numPag <= pdf.numPages; numPag++) {
@@ -125,17 +139,14 @@ class AnaliseFiscalProcessor {
                         const conteudo = await pagina.getTextContent();
                         const textoPagina = conteudo.items.map(i => i.str).join(' ');
 
-                        // Tática heurística para contornar o cabeçalho falso-positivo "Sdo. Devedor"
                         const qtdDevedor = (textoPagina.match(/\bDEVEDOR\b/gi) || []).length;
                         const qtdSdoDevedor = (textoPagina.match(/Sdo\.\s*Devedor/gi) || []).length;
                         
-                        // Se a palavra "DEVEDOR" aparecer mais vezes do que o cabeçalho "Sdo. Devedor", é dívida real.
                         if (qtdDevedor > qtdSdoDevedor) {
                             temPendencia = true;
                             break;
                         }
                         
-                        // Verifica status críticos imutáveis na PGFN (Sistema Dívida Ativa)
                         if (/(ATIVA AJUIZADA|ATIVA EM COBRANCA|ATIVA NAO AJUIZAVEL)/i.test(textoPagina)) {
                             temPendencia = true;
                             break;
@@ -147,6 +158,7 @@ class AnaliseFiscalProcessor {
                     resolve({
                         nome: nomeEmpresa || "Empresa sem denominação",
                         documento: identificador,
+                        dataConsulta: dataConsulta, // NOVA INFORMAÇÃO ENVIADA PARA A TABELA
                         situacao: situacaoFinal
                     });
 
@@ -191,9 +203,11 @@ class AnaliseFiscalProcessor {
         const classeBadge = dados.situacao === 'Regular' ? '' : 'badge-critico';
         
         const tr = document.createElement('tr');
+        // Nova estrutura do HTML refletida aqui, com a coluna de data adicionada
         tr.innerHTML = `
             <td style="font-weight: 500;">${dados.nome}</td>
             <td>${dados.documento}</td>
+            <td style="color: var(--cor-texto-secundario); font-size: 0.9rem;">${dados.dataConsulta}</td>
             <td><span class="badge ${classeBadge}">${dados.situacao}</span></td>
         `;
         
