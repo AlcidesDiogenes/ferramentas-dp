@@ -73,3 +73,30 @@
 .input-file-hidden {
     display: none !important;
 }
+
+/* Filtros */
+.filter-container {
+    flex: 1; /* Permite que o filtro cresça e ocupe o espaço disponível na barra */
+    min-width: 250px;
+    max-width: 400px; /* Evita que o campo fique gigante em ecrãs muito largos */
+}
+
+.filter-container input {
+    height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--borda-raio);
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--cor-texto-principal);
+    background-color: #fff;
+    transition: var(--transicao-suave);
+    outline: none; /* Remove a borda azul padrão do navegador */
+}
+
+/* Efeito de foco profissional (quando o utilizador clica para escrever) */
+.filter-container input:focus {
+    border-color: var(--cor-destaque);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}

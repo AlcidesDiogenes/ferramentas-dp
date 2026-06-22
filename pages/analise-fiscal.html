@@ -10,6 +10,9 @@
 
     <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 </head>
 <body class="preload">
 
@@ -35,6 +38,17 @@
             </div>
         </section>
 
+        <div class="actions-bar" id="actions-panel-fiscal" style="display: none;">
+            <div class="export-buttons">
+                <button id="btn-export-excel-fiscal" class="btn-action btn-excel">🟢 Baixar em Planilha</button>
+                <button id="btn-export-pdf-fiscal" class="btn-action btn-pdf">🔴 Baixar em PDF</button>
+            </div>
+            
+            <div class="filter-container">
+                <input type="text" id="input-filtro-fiscal">
+            </div>
+        </div>
+
         <section class="module-card" id="report-section" style="display: none; margin-top: 20px;">
             <div id="print-area">
                 <div class="report-web-header">
@@ -59,6 +73,7 @@
         </section>
     </main>
 
+    <script src="../js/motor-filtros.js" defer></script>
     <script src="../js/loader.js" defer></script>
     <script src="../js/analise-fiscal.js" defer></script>
 </body>
