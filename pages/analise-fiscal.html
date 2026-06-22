@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Fiscal - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+</head>
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <div class="main-header"> <h1>Análise de Situação Fiscal</h1>
+            <p class="subtitle">Selecione os relatórios em PDF para processamento.</p>
+        </div>
+
+        <section class="module-card">
+            <h3>Importação de Relatórios Fiscais</h3>
+            <p class="subtitle">Selecione os relatórios em PDF para processamento.</p>
+            
+            <div class="upload-zone">
+                <input type="file" id="file-input-fiscal" multiple accept=".pdf" class="input-file-hidden">
+                <label for="file-input-fiscal" class="btn-action btn-action">📁 Selecionar Arquivos PDF</label>
+            </div>
+
+            <div class="import-status-container" id="import-status-fiscal" style="display: none;">
+                <h4>Arquivos Carregados:</h4>
+                <ul id="lista-arquivos-fiscal" class="file-status-list"></ul>
+            </div>
+        </section>
+
+        <section class="module-card" id="report-section" style="display: none; margin-top: 20px;">
+            <div id="print-area">
+                <div class="report-web-header">
+                    <h3>Resultado da Análise Fiscal</h3>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table" id="tabela-resultados">
+                        <thead>
+                            <tr>
+                                <th>Nome / Empresa</th>
+                                <th>CPF/CNPJ</th>
+                                <th>Situação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-corpo">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/loader.js" defer></script>
+    <script src="../js/analise-fiscal.js" defer></script>
+</body>
+</html>

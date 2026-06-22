@@ -1,0 +1,50 @@
+/* css/_file-uploader.css */
+
+/* Container principal do componente */
+.file-uploader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border: 2px dashed var(--cor-borda);
+    border-radius: var(--borda-raio);
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: var(--transicao-suave);
+    position: relative;
+    width: 100%;
+}
+
+.file-uploader:hover {
+    border-color: var(--cor-destaque);
+    background-color: #eff6ff;
+}
+
+/* Esconde o input nativo, mas mantém ele funcional */
+.file-uploader input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Estilo do texto/ícone dentro do uploader */
+.uploader-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none; /* Não atrapalha o clique no input */
+}
+
+.uploader-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--cor-texto-secundario);
+}
+
+.uploader-text {
+    font-weight: 500;
+    color: var(--cor-texto-principal);
+}

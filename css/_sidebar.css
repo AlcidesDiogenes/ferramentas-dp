@@ -1,0 +1,76 @@
+/* css/_sidebar.css */
+#sidebar-placeholder {
+    flex: 0 0 280px;
+    transition: flex 0.3s ease;
+    height: 100vh;
+    background-color: var(--cor-sidebar);
+}
+
+.sidebar {
+    background-color: var(--cor-sidebar) !important;
+    color: #ffffff !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+}
+
+.sidebar-brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transicao-suave);
+}
+
+.brand-text {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.toggle-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.6rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--borda-raio);
+}
+
+.toggle-btn:hover {
+    color: var(--cor-destaque);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.menu-list { list-style: none; }
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    border-left: 4px solid transparent;
+}
+
+.menu-item:hover, .menu-item.active { border-left-color: var(--cor-destaque); }
+.menu-icon { margin-right: 12px; }
+
+/* Lógica do Menu Fechado (Migrada do final do seu style.css original) */
+html.menu-fechado #sidebar-placeholder { flex: 0 0 80px; }
+html.menu-fechado .sidebar { width: 80px !important; }
+html.menu-fechado .main-content { width: calc(100% - 80px) !important; }
+html.menu-fechado .brand-text, html.menu-fechado .menu-text { display: none !important; }
+html.menu-fechado .sidebar-brand { justify-content: center; padding: 25px 0; }
+html.menu-fechado .menu-item { justify-content: center; }
+html.menu-fechado .menu-icon { margin-right: 0; font-size: 1.4rem; }

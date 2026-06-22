@@ -1,0 +1,20 @@
+/* _variables.css */
+:root {
+    /* Paleta de Cores */
+    --cor-fundo: #f4f7fa;
+    --cor-sidebar: #1e293b;
+    --cor-sidebar-hover: #1e293b;
+    --cor-texto-principal: #334155;
+    --cor-texto-secundario: #64748b;
+    --cor-texto-claro: #f8fafc;
+    --cor-destaque: #2563eb;
+    --cor-destaque-hover: #1d4ed8;
+    --cor-card-bg: #ffffff;
+    --cor-borda: #e2e8f0;
+
+    /* Tipografia e Espaçamentos */
+    --fonte-principal: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --espacamento-padrao: 20px;
+    --borda-raio: 8px;
+    --transicao-suave: all 0.3s ease;
+}

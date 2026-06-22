@@ -1,0 +1,30 @@
+/* _layout.css */
+/* O container principal que recebe o conteúdo */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.main-header {
+    margin-bottom: 40px;
+}
+
+.main-header h1 {
+    font-size: 2rem;
+    color: var(--cor-texto-principal);
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--cor-texto-secundario);
+    font-size: 1.1rem;
+}
+
+/* Grid de módulos do index */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
