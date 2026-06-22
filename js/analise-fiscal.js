@@ -1,7 +1,7 @@
 /**
  * @module AnaliseFiscal
  * @description Processador de Relatórios de Situação Fiscal da RFB
- * Nível: Produção / Enterprise (Com Exportação e Filtro)
+ * Nível: Produção / Enterprise (Matriz de Viewport + Categorização Flexível)
  */
 
 "use strict";
@@ -9,11 +9,8 @@
 class AnaliseFiscalProcessor {
     constructor() {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-        
-        // Memória Global para o Filtro e Exportação
         this.dadosGlobais = [];
 
-        // Mapeamento de Elementos da DOM
         this.elementos = {
             input: document.getElementById('file-input-fiscal'),
             listaStatus: document.getElementById('lista-arquivos-fiscal'),
@@ -23,6 +20,7 @@ class AnaliseFiscalProcessor {
             painelAcoes: document.getElementById('actions-panel-fiscal'),
             btnExcel: document.getElementById('btn-export-excel-fiscal'),
             btnPdf: document.getElementById('btn-export-pdf-fiscal'),
+            btnDetalhar: document.getElementById('btn-detalhar-pendencias'),
             inputFiltro: document.getElementById('input-filtro-fiscal')
         };
 
@@ -31,32 +29,20 @@ class AnaliseFiscalProcessor {
 
     iniciar() {
         if (!this.elementos.input) return;
+        if (typeof MotorFiltros !== 'undefined') MotorFiltros.init('#input-filtro-fiscal', "Ex: 'Devedor' ou 'Empresa X'");
         
-        // Inicia Motor de Filtros Visualmente
-        if (typeof MotorFiltros !== 'undefined') {
-            MotorFiltros.init('#input-filtro-fiscal', "Ex: 'Devedor' ou 'Empresa X'");
-        }
-        
-        // Event Listeners
         this.elementos.input.addEventListener('change', (e) => this.processarLote(e));
         
-        if (this.elementos.btnExcel) {
-            this.elementos.btnExcel.addEventListener('click', () => this.exportarExcel());
-        }
-        if (this.elementos.btnPdf) {
-            this.elementos.btnPdf.addEventListener('click', () => this.exportarPDF());
-        }
-        
-        if (this.elementos.inputFiltro) {
-            this.elementos.inputFiltro.addEventListener('input', (e) => this.filtrarTabela(e.target.value));
-        }
+        if (this.elementos.btnExcel) this.elementos.btnExcel.addEventListener('click', () => this.exportarExcel());
+        if (this.elementos.btnPdf) this.elementos.btnPdf.addEventListener('click', () => this.exportarPDF());
+        if (this.elementos.btnDetalhar) this.elementos.btnDetalhar.addEventListener('click', () => this.gerarRelatorioDetalhado());
+        if (this.elementos.inputFiltro) this.elementos.inputFiltro.addEventListener('input', (e) => this.filtrarTabela(e.target.value));
     }
 
     async processarLote(evento) {
         const arquivos = evento.target.files;
         if (arquivos.length === 0) return;
 
-        // Reset Total da Interface e Dados
         this.dadosGlobais = [];
         this.elementos.containerStatus.style.display = 'block';
         this.elementos.containerTabela.style.display = 'block';
@@ -79,8 +65,30 @@ class AnaliseFiscalProcessor {
                 this.atualizarStatusVisual(idLi, 'Erro na leitura', 'Erro');
             }
         }
-        
         this.elementos.input.value = '';
+    }
+
+    reconstruirLinhasVisuais(itensTexto, viewport) {
+        const linhasMap = new Map();
+        const m = viewport.transform; 
+        
+        itensTexto.forEach(item => {
+            const tx = item.transform[4];
+            const ty = item.transform[5];
+            const x = m[0] * tx + m[2] * ty + m[4];
+            const y = m[1] * tx + m[3] * ty + m[5];
+            const roundedY = Math.round(y / 5) * 5;
+            
+            if (!linhasMap.has(roundedY)) linhasMap.set(roundedY, []);
+            linhasMap.get(roundedY).push({ str: item.str, x: x });
+        });
+
+        const eixosYOrdenados = Array.from(linhasMap.keys()).sort((a, b) => a - b);
+        
+        return eixosYOrdenados.map(y => {
+            const linha = linhasMap.get(y).sort((a, b) => a.x - b.x);
+            return linha.map(i => i.str.trim()).filter(s => s.length > 0).join(' | ');
+        }).filter(linha => linha.length > 0);
     }
 
     async extrairDadosPDF(arquivo) {
@@ -122,21 +130,60 @@ class AnaliseFiscalProcessor {
                     if (matchData) dataConsulta = matchData[1];
 
                     let temPendencia = false;
+                    let listaDetalhesPendencias = []; 
+                    
+                    let categoriaAtual = "Categoria Não Especificada";
+
                     for (let numPag = 1; numPag <= pdf.numPages; numPag++) {
                         const pagina = await pdf.getPage(numPag);
                         const conteudo = await pagina.getTextContent();
-                        const textoPagina = conteudo.items.map(i => i.str).join(' ');
-
-                        const qtdDevedor = (textoPagina.match(/\bDEVEDOR\b/gi) || []).length;
-                        const qtdSdoDevedor = (textoPagina.match(/Sdo\.\s*Devedor/gi) || []).length;
+                        const viewport = pagina.getViewport({ scale: 1.0 }); 
+                        const linhasOrganizadas = this.reconstruirLinhasVisuais(conteudo.items, viewport);
                         
-                        if (qtdDevedor > qtdSdoDevedor) {
-                            temPendencia = true;
-                            break;
-                        }
-                        if (/(ATIVA AJUIZADA|ATIVA EM COBRANCA|ATIVA NAO AJUIZAVEL)/i.test(textoPagina)) {
-                            temPendencia = true;
-                            break;
+                        let linhaAnterior = "";
+
+                        for (const linha of linhasOrganizadas) {
+                            
+                            // 1. DETECÇÃO DE CATEGORIA DE DÉBITOS (Correção Flexível)
+                            // Não exige estar no início, foca apenas na combinação de ação + sistema
+                            const isCategoria = /(Pendência|Débito com|Parcelamento com|Inscrição com|Processo de|com Exigibilidade)/i.test(linha) && 
+                                                /(SIEF|SIDA|SISPAR|SIEFPAR|DIVIDA|DCTFWeb|PAEX|PARCSN|PARCMEI)/i.test(linha);
+
+                            if (isCategoria) {
+                                let catLimpa = linha.replace(/[\|☐]/g, '').trim();
+                                // Se a linha vier fatiada do PDF (Ex: "com Exigibilidade Suspensa (SISPAR)")
+                                if (catLimpa.toLowerCase().startsWith('com exigibilidade')) {
+                                    categoriaAtual = "Categoria " + catLimpa;
+                                } else {
+                                    categoriaAtual = catLimpa;
+                                }
+                                continue; 
+                            }
+
+                            // 2. FILTROS DE CABEÇALHOS FALSOS
+                            if (/Sdo/i.test(linha) && /Devedor/i.test(linha)) {
+                                linhaAnterior = linha; continue;
+                            }
+                            if (/Tipo/i.test(linha) && /Devedor/i.test(linha)) {
+                                linhaAnterior = linha; continue;
+                            }
+                            
+                            // 3. CAPTURA EFETIVA DO DÉBITO
+                            if (/(DEVEDOR|ATIVA AJUIZADA|ATIVA EM COBRANCA|ATIVA NAO AJUIZAVEL|PARCELAMENTO RESCINDIDO|SUSPENSO-JULGAMENTO)/i.test(linha)) {
+                                temPendencia = true;
+                                let linhaFinal = linha;
+                                
+                                if (linhaAnterior && !/(DEVEDOR|ATIVA|RESCINDIDO|SUSPENSO)/i.test(linhaAnterior) && !/(Pendência|Débito|Parcelamento|Inscrição|Processo)/i.test(linhaAnterior)) {
+                                    linhaFinal = linhaAnterior + " | " + linha;
+                                }
+                                
+                                let pacoteDados = `${categoriaAtual} ||| ${linhaFinal}`;
+                                
+                                if (!listaDetalhesPendencias.includes(pacoteDados)) {
+                                    listaDetalhesPendencias.push(pacoteDados);
+                                }
+                            }
+                            linhaAnterior = linha;
                         }
                     }
 
@@ -146,7 +193,8 @@ class AnaliseFiscalProcessor {
                         nome: nomeEmpresa || "Empresa sem denominação",
                         documento: identificador,
                         dataConsulta: dataConsulta,
-                        situacao: situacaoFinal
+                        situacao: situacaoFinal,
+                        detalhes: listaDetalhesPendencias
                     });
 
                 } catch (erro) {
@@ -156,8 +204,6 @@ class AnaliseFiscalProcessor {
             leitor.readAsArrayBuffer(arquivo);
         });
     }
-
-    /* ==================== CAMADA VISUAL E RENDERIZAÇÃO ==================== */
 
     adicionarStatusVisual(nomeArquivo, status, idLi, tipo) {
         const icone = tipo === 'Carregando' ? '⏳' : (tipo === 'Sucesso' ? '✅' : '❌');
@@ -180,7 +226,6 @@ class AnaliseFiscalProcessor {
 
     renderizarTabela(dadosParaRenderizar) {
         this.elementos.tabelaCorpo.innerHTML = '';
-        
         if (dadosParaRenderizar.length === 0) {
             this.elementos.tabelaCorpo.innerHTML = `<tr><td colspan="4" style="text-align:center;">Nenhum registro encontrado.</td></tr>`;
             return;
@@ -201,18 +246,11 @@ class AnaliseFiscalProcessor {
 
     filtrarTabela(termo) {
         if (typeof MotorFiltros === 'undefined') return;
-        const dadosFiltrados = MotorFiltros.filtrarMultiplo(
-            this.dadosGlobais, 
-            termo, 
-            ['nome', 'documento', 'situacao']
-        );
+        const dadosFiltrados = MotorFiltros.filtrarMultiplo(this.dadosGlobais, termo, ['nome', 'documento', 'situacao']);
         this.renderizarTabela(dadosFiltrados);
     }
 
-    /* ==================== EXPORTAÇÕES ==================== */
-
     exportarExcel() {
-        // Pega apenas as linhas que estão visíveis na tela (respeita o filtro)
         const linhasVisiveis = Array.from(this.elementos.tabelaCorpo.querySelectorAll('tr')).filter(tr => tr.children.length > 1);
         if (linhasVisiveis.length === 0) return alert("Nenhum dado para exportar.");
 
@@ -229,23 +267,23 @@ class AnaliseFiscalProcessor {
         const ws = XLSX.utils.json_to_sheet(dadosParaPlanilha);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Análise Fiscal");
-
-        // Ajusta a largura das colunas do Excel
         ws['!cols'] = [{wch: 45}, {wch: 20}, {wch: 22}, {wch: 15}];
         XLSX.writeFile(wb, "Relatorio_Analise_Fiscal.xlsx");
     }
 
     exportarPDF() {
         const elementoRelatorio = document.getElementById('print-area');
-        const opcoes = {
-            margin:       [10, 10, 10, 10],
-            filename:     'Relatorio_Analise_Fiscal.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-        };
-
+        const opcoes = { margin: [10, 10, 10, 10], filename: 'Resumo_Analise_Fiscal.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' } };
         html2pdf().set(opcoes).from(elementoRelatorio).save();
+    }
+
+    gerarRelatorioDetalhado() {
+        const empresasComPendencia = this.dadosGlobais.filter(d => d.situacao === 'Com Pendência');
+        if (typeof GeradorDossieFiscal !== 'undefined') {
+            GeradorDossieFiscal.gerar(empresasComPendencia);
+        } else {
+            alert("Erro de sistema: O módulo de detalhamento não foi carregado na página.");
+        }
     }
 }
 
