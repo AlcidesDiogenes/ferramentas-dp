@@ -1,28 +1,36 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const placeholder = document.getElementById('sidebar-placeholder');
-    
-    // Early return: se não houver menu na página, ignora o script
     if (!placeholder) return;
 
     try {
-        // Lógica inteligente: Verifica se a URL atual contém a pasta "/pages/"
         const isSubpage = window.location.pathname.includes('/pages/');
-        
-        // Se estiver numa subpágina, volta uma pasta (../). Se estiver no index, usa a pasta atual (./).
         const basePath = isSubpage ? '../' : './';
         
-        // Faz a busca do HTML do menu lateral
         const response = await fetch(`${basePath}components/sidebar.html`);
         
         if (!response.ok) {
             throw new Error(`Erro ao buscar sidebar: ${response.status}`);
         }
         
-        // Injeta o HTML na página
         const html = await response.text();
         placeholder.innerHTML = html;
         
-        // Inicializa o botão de retrair o menu (Antigo inicializarMenu)
+        // ==========================================
+        const links = placeholder.querySelectorAll('a');
+        links.forEach(link => {
+            let href = link.getAttribute('href');
+            
+            // Só altera links internos (ignora links externos com http ou âncoras #)
+            if (href && !href.startsWith('http') && !href.startsWith('#')) {
+                // Remove qualquer "../" ou "./" que você possa ter digitado por engano no sidebar.html
+                href = href.replace(/^(\.\.\/)+/, '').replace(/^\.\//, '');
+                
+                // Aplica a base correta (volta uma pasta se estiver no módulo, ou mantém na raiz se estiver no index)
+                link.setAttribute('href', basePath + href);
+            }
+        });
+        // ==========================================
+        
         const toggleBtn = document.getElementById('toggle-sidebar');
         if (toggleBtn) {
             toggleBtn.addEventListener('click', () => {
