@@ -1,35 +1,36 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const placeholder = document.getElementById('sidebar-placeholder');
     
-    if (placeholder) {
-        // Lógica: se estiver em 'pages', volta uma pasta. Se não, busca na pasta atual.
-        const isPages = window.location.pathname.includes('pages');
-        const path = isPages ? '../components/sidebar.html' : 'components/sidebar.html';
+    // Early return: se não houver menu na página, ignora o script
+    if (!placeholder) return;
 
-        try {
-            console.log("Tentando buscar sidebar em:", path); // Isso vai aparecer no seu F12
-            const response = await fetch(path);
-            
-            if (!response.ok) {
-                throw new Error(`Arquivo não encontrado em: ${window.location.origin}/${path}`);
-            }
-            
-            const html = await response.text();
-            placeholder.innerHTML = html;
-            inicializarMenu();
-        } catch (error) {
-            console.error("Erro no loader:", error);
-            placeholder.innerHTML = `<p style="color:red;">Erro: ${error.message}</p>`;
+    try {
+        // Lógica inteligente: Verifica se a URL atual contém a pasta "/pages/"
+        const isSubpage = window.location.pathname.includes('/pages/');
+        
+        // Se estiver numa subpágina, volta uma pasta (../). Se estiver no index, usa a pasta atual (./).
+        const basePath = isSubpage ? '../' : './';
+        
+        // Faz a busca do HTML do menu lateral
+        const response = await fetch(`${basePath}components/sidebar.html`);
+        
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar sidebar: ${response.status}`);
         }
+        
+        // Injeta o HTML na página
+        const html = await response.text();
+        placeholder.innerHTML = html;
+        
+        // Inicializa o botão de retrair o menu (Antigo inicializarMenu)
+        const toggleBtn = document.getElementById('toggle-sidebar');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle("menu-fechado");
+                localStorage.setItem("menuRetraido", document.documentElement.classList.contains("menu-fechado"));
+            });
+        }
+    } catch (error) {
+        console.error("Erro no loader.js:", error);
     }
 });
-
-function inicializarMenu() {
-    const toggleBtn = document.getElementById('toggle-sidebar');
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            document.documentElement.classList.toggle("menu-fechado");
-            localStorage.setItem("menuRetraido", document.documentElement.classList.contains("menu-fechado"));
-        });
-    }
-}
