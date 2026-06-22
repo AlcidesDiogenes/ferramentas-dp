@@ -28,13 +28,13 @@ class GeradorDossiePDF {
 
         let html = `
             <div style="text-align: center; border-bottom: 2px solid #cbd5e1; margin-bottom: 20px; padding-bottom: 10px;">
-                <h2 style="margin: 0; color: #b91c1c; font-size: 20px; text-transform: uppercase;">Relatório Analítico de Passivos Fiscais</h2>
+                <h2 style="margin: 0; color: #b91c1c; font-size: 20px; text-transform: uppercase;">Relatório de Pendências Fiscais</h2>
             </div>
         `;
 
         empresasComPendencia.forEach(emp => {
             html += `
-                <div style="margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; page-break-inside: avoid;">
+                <div style="margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff;">
                     <div style="background: #f8fafc; padding: 12px 15px; border-bottom: 1px solid #e2e8f0;">
                         <h3 style="margin: 0 0 4px 0; color: #0f172a; font-size: 14px; text-transform: uppercase;">${emp.nome}</h3>
                         <p style="margin: 0; font-size: 11px; color: #475569;">
@@ -115,11 +115,11 @@ class GeradorDossiePDF {
 
         const opcoes = {
             margin: [10, 10, 10, 10], 
-            filename: 'Relatorio_Analitico_Passivos.pdf',
+            filename: 'Relatorio_Pendencias_Fiscais.pdf',
             image: { type: 'jpeg', quality: 1.0 },
             html2canvas: { scale: 2, useCORS: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            pagebreak: { mode: ['css', 'legacy'] }
         };
 
         html2pdf().set(opcoes).from(divDossie).save();
