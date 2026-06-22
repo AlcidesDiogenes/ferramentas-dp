@@ -279,17 +279,37 @@ class AnaliseFiscalProcessor {
 
     // Direcionador do tipo de exportação (Excel ou PDF)
     gerarRelatorioDetalhado(formato) {
-        const empresasComPendencia = this.dadosGlobais.filter(d => d.situacao === 'Com Pendência');
+        // 1. Lê as linhas que estão visíveis na tabela agora (respeitando a pesquisa)
+        const linhasVisiveis = Array.from(this.elementos.tabelaCorpo.querySelectorAll('tr')).filter(tr => tr.children.length > 1);
         
+        if (linhasVisiveis.length === 0) {
+            alert("Nenhum dado visível para detalhar. Limpe ou ajuste o seu filtro.");
+            return;
+        }
+
+        // 2. Captura os Documentos (CPF/CNPJ) apenas das empresas que ficaram na tela
+        const docsVisiveis = linhasVisiveis.map(tr => tr.children[1].innerText.trim());
+
+        // 3. Cruza os documentos da tela com o banco de dados e separa quem tem pendência
+        const empresasFiltradasEPendentes = this.dadosGlobais.filter(d => 
+            docsVisiveis.includes(d.documento) && d.situacao === 'Com Pendência'
+        );
+
+        if (empresasFiltradasEPendentes.length === 0) {
+            alert("As empresas que estão no filtro atual não possuem pendências detalhadas.");
+            return;
+        }
+        
+        // 4. Dispara a exportação com o novo volume de dados exato
         if (formato === 'excel') {
             if (typeof GeradorDossieFiscal !== 'undefined') {
-                GeradorDossieFiscal.gerar(empresasComPendencia);
+                GeradorDossieFiscal.gerar(empresasFiltradasEPendentes);
             } else {
                 alert("Erro: O módulo detalhamento-fiscal.js não foi carregado.");
             }
         } else if (formato === 'pdf') {
             if (typeof GeradorDossiePDF !== 'undefined') {
-                GeradorDossiePDF.gerarPDF(empresasComPendencia);
+                GeradorDossiePDF.gerarPDF(empresasFiltradasEPendentes);
             } else {
                 alert("Erro: O módulo detalhamento-pdf.js não foi carregado.");
             }
