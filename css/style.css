@@ -1,7 +1,7 @@
 /* style.css (O seu arquivo mestre) */
-@import '_variables.css';
-@import '_reset.css';
-@import '_layout.css';
-@import '_sidebar.css';
-@import '_components.css';
-@import '_file-uploader.css';
+@import 'variables.css';
+@import 'reset.css';
+@import 'layout.css';
+@import 'sidebar.css';
+@import 'components.css';
+@import 'file-uploader.css';
