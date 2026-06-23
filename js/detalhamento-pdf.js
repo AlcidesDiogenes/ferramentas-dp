@@ -61,10 +61,31 @@ class GeradorDossiePDF {
             `;
 
             if (emp.detalhes && emp.detalhes.length > 0) {
-                emp.detalhes.forEach(detalhe => {
+                // Motor de Ordenação Seguro (com trava anti-falhas)
+                let detalhesOrdenados = emp.detalhes;
+                try {
+                    detalhesOrdenados = [...emp.detalhes].sort((a, b) => {
+                        const catA = String(a).split(" ||| ")[0].toUpperCase();
+                        const catB = String(b).split(" ||| ")[0].toUpperCase();
+                        
+                        const isParcelamentoA = catA.includes("PARCELAMENTO");
+                        const isParcelamentoB = catB.includes("PARCELAMENTO");
+                        
+                        if (isParcelamentoA && !isParcelamentoB) return 1;
+                        if (!isParcelamentoA && isParcelamentoB) return -1;
+                        if (catA < catB) return -1;
+                        if (catA > catB) return 1;
+                        return 0;
+                    });
+                } catch (e) {
+                    console.error("Erro na ordenação:", e);
+                }
+
+                detalhesOrdenados.forEach(detalhe => {
                     const partes = detalhe.split(" ||| ");
                     let categoria = "Não Especificada";
                     let linhaRaw = detalhe;
+                    
                     if (partes.length > 1) {
                         categoria = partes[0];
                         linhaRaw = partes[1];
