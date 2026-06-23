@@ -153,7 +153,9 @@ class AnaliseFiscalProcessor {
                                                 /(SIEF|SIDA|SISPAR|SIEFPAR|DIVIDA|DCTFWeb|PAEX|PARCSN|PARCMEI)/i.test(linha);
 
                             if (isCategoria) {
-                                let catLimpa = linha.replace(/[\|☐]/g, '').trim();
+                                // Limpeza avançada: remove pipes, caixas, sequência de sublinhados (_) e normaliza os espaços extras
+                                let catLimpa = linha.replace(/[\|☐_]/g, '').replace(/\s{2,}/g, ' ').trim();
+                                
                                 if (catLimpa.toLowerCase().startsWith('com exigibilidade')) {
                                     categoriaAtual = "Categoria " + catLimpa;
                                 } else {
@@ -169,11 +171,12 @@ class AnaliseFiscalProcessor {
                                 linhaAnterior = linha; continue;
                             }
                             
-                            if (/(DEVEDOR|ATIVA AJUIZADA|ATIVA EM COBRANCA|ATIVA NAO AJUIZAVEL|PARCELAMENTO RESCINDIDO|SUSPENSO-JULGAMENTO)/i.test(linha)) {
+                            // 3. CAPTURA EFETIVA DO DÉBITO (Atualizado para Parcelamentos)
+                            if (/(DEVEDOR|ATIVA AJUIZADA|ATIVA EM COBRANCA|ATIVA NAO AJUIZAVEL|PARCELAMENTO RESCINDIDO|SUSPENSO-JULGAMENTO|Parcelas em atraso|Valor Suspenso|Conta\s*\d+|Modalidade:)/i.test(linha)) {
                                 temPendencia = true;
                                 let linhaFinal = linha;
                                 
-                                if (linhaAnterior && !/(DEVEDOR|ATIVA|RESCINDIDO|SUSPENSO)/i.test(linhaAnterior) && !/(Pendência|Débito|Parcelamento|Inscrição|Processo)/i.test(linhaAnterior)) {
+                                if (linhaAnterior && !/(DEVEDOR|ATIVA|RESCINDIDO|SUSPENSO|Parcelas|Valor Suspenso|Conta|Modalidade)/i.test(linhaAnterior) && !/(Pendência|Débito|Parcelamento|Inscrição|Processo)/i.test(linhaAnterior)) {
                                     linhaFinal = linhaAnterior + " | " + linha;
                                 }
                                 

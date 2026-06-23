@@ -73,10 +73,11 @@ class GeradorDossiePDF {
                     // Reutiliza o motor perfeito do ficheiro Excel para extrair os dados
                     const extraido = GeradorDossieFiscal.parseLinhaDebito(linhaRaw);
 
-                    let corBadge = "#fee2e2"; 
+                    let corBadge = "#fee2e2"; // Vermelho padrão (Devedor)
                     let corTextoBadge = "#991b1b"; 
-                    if (extraido.situacao.includes("ATIVA")) { corBadge = "#ffedd5"; corTextoBadge = "#9a3412"; } 
-                    else if (extraido.situacao.includes("SUSPENSO")) { corBadge = "#fef9c3"; corTextoBadge = "#854d0e"; }
+                    if (extraido.situacao.includes("ATIVA")) { corBadge = "#ffedd5"; corTextoBadge = "#9a3412"; } // Laranja
+                    else if (extraido.situacao.includes("SUSPENSO")) { corBadge = "#fef9c3"; corTextoBadge = "#854d0e"; } // Amarelo
+                    else if (extraido.situacao.includes("PARCELA")) { corBadge = "#dbeafe"; corTextoBadge = "#1e40af"; } // NOVO: Azul elegante para Parcelamentos
 
                     html += `
                         <tr style="border-bottom: 1px solid #f1f5f9;">
@@ -88,7 +89,9 @@ class GeradorDossiePDF {
                             <td style="padding: 8px 4px; color: #475569;">${extraido.valorOriginal}</td>
                             <td style="padding: 8px 4px; color: #b91c1c; font-weight: 700;">${extraido.valorTotal}</td>
                             <td style="padding: 8px 4px; text-align: right;">
-                                <span style="background: ${corBadge}; color: ${corTextoBadge}; padding: 3px 6px; border-radius: 4px; font-size: 8px; font-weight: bold; text-transform: uppercase;">${extraido.situacao.substring(0, 15)}</span>
+                                <span style="background: ${corBadge}; color: ${corTextoBadge}; padding: 3px 6px; border-radius: 4px; font-size: 8px; font-weight: bold; text-transform: uppercase; display: inline-block;">
+                                    ${extraido.situacao}
+                                </span>
                             </td>
                         </tr>
                     `;

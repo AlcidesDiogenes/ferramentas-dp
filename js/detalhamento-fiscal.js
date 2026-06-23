@@ -81,12 +81,22 @@ class GeradorDossieFiscal {
         let texto = linhaRaw.replace(/[\|☐]/g, ' ').replace(/\s{2,}/g, ' ').trim();
 
         // 1. Extrair Situação
+        // 1. Extrair Situação e Tratar Parcelamentos
         let situacao = "PENDENTE";
         const regexSit = /(DEVEDOR|ATIVA AJUIZADA|ATIVA EM COBRANCA|ATIVA NAO AJUIZAVEL|PARCELAMENTO RESCINDIDO|SUSPENSO-JULGAMENTO)/i;
         const matchSit = texto.match(regexSit);
+        
         if (matchSit) {
             situacao = matchSit[1].toUpperCase();
             texto = texto.replace(matchSit[0], ''); 
+        } else if (/Parcelas em atraso/i.test(texto)) {
+            situacao = "PARCELAS EM ATRASO";
+            texto = texto.replace(/Parcelas em atraso\s*\d*/i, '').trim(); // Remove o termo para não sujar a descrição
+        } else if (/Valor Suspenso/i.test(texto)) {
+            situacao = "PARCELAMENTO SUSPENSO";
+            texto = texto.replace(/Valor Suspenso:/i, '').trim();
+        } else if (/(Conta\s*\d+|Modalidade:)/i.test(texto)) {
+            situacao = "PARCELAMENTO ATIVO";
         } else if (texto.toUpperCase().includes('DEVEDOR')) {
             situacao = "DEVEDOR";
             texto = texto.replace(/DEVEDOR/ig, '');
