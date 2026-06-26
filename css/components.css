@@ -3,19 +3,31 @@
 /* Cards */
 .module-card {
     background-color: var(--cor-card-bg);
-    padding: 30px;
+    padding: 20px;
     border-radius: var(--borda-raio);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--cor-borda);
     margin-bottom: 25px;
+}
+
+.modules-grid .module-card {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
+.modules-grid .module-card p {
+    flex-grow: 1;
+    margin-bottom: 20px;
+}
+
+.modules-grid .module-card .btn-action {
+    align-self: center;
+    margin-top: auto;
+}
 .module-card p {
     flex-grow: 1; /* Faz o texto ocupar o espaço disponível */
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .module-card .btn-action {
