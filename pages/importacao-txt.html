@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Importação TXT - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Importação de Lançamentos TXT</h1>
+            <p class="subtitle">Converta sua planilha para o leiaute de importação da Domínio Sistemas.</p>
+        </header>
+
+        <section class="module-card">
+            <h3>Seleção de Planilha</h3>
+            <p class="subtitle">Selecione o arquivo Excel ou CSV para conversão.</p>
+            
+            <div class="upload-zone">
+                <input type="file" id="csv-input" accept=".csv, .xls, .xlsx" class="input-file-hidden">
+                <label for="csv-input" class="btn-action">📁 Selecionar Planilha</label>
+            </div>
+
+            <div class="import-status-container" id="import-status-txt" style="display: none; margin-top: 15px;">
+                <h4>Arquivo Carregado:</h4>
+                <ul id="lista-arquivos-txt" class="file-status-list"></ul>
+            </div>
+        </section>
+
+        <div id="info-header" style="display: none; margin-bottom: 20px; padding: 15px; background: var(--cor-card-bg); border-radius: var(--borda-raio); border: 1px solid var(--cor-borda);">
+            <p><strong>Empresa:</strong> <span id="display-empresa"></span></p>
+            <p><strong>Competência:</strong> <span id="display-competencia"></span></p>
+        </div>
+
+        <div class="actions-bar" id="actions-panel" style="display: none; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <button id="btn-processar-txt" class="btn-action btn-primary">Gerar Arquivo TXT</button>
+            
+            <div class="filter-container" style="min-width: 300px;">
+                <input type="text" id="input-filtro" placeholder="Filtrar por nome ou código...">
+            </div>
+        </div>
+
+        <section class="module-card" id="report-section" style="display: none;">
+            <div class="table-responsive">
+                <table class="data-table" id="tabela-resultados">
+                    <thead>
+                        <tr>
+                            <th>Cálculo</th>
+                            <th>Folha</th>
+                            <th>Colaborador</th>
+                            <th>Rubrica</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/motor-filtros.js" defer></script>
+    <script src="../js/loader.js" defer></script>
+    <script src="../js/importacao-txt.js" defer></script>
+</body>
+</html>
