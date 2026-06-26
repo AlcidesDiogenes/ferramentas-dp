@@ -26,7 +26,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 href = href.replace(/^(\.\.\/)+/, '').replace(/^\.\//, '');
                 
                 // Aplica a base correta (volta uma pasta se estiver no módulo, ou mantém na raiz se estiver no index)
-                link.setAttribute('href', basePath + href);
+                link.setAttribute('href', basePath + href);   
+            }
+        });
+
+        const caminhoAtual = window.location.pathname;
+        
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            
+            // Removemos os pontos e barras iniciais para comparar apenas o nome do arquivo/pasta
+            const caminhoComparacao = href.replace(/^(\.\.\/)+/, '').replace(/^\.\//, '');
+            
+            // Verifica se o caminho atual termina com o endereço do link
+            if (caminhoAtual.endsWith(caminhoComparacao)) {
+                link.classList.add('active');
             }
         });
         // ==========================================
@@ -40,5 +54,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (error) {
         console.error("Erro no loader.js:", error);
-    }
+    }    
 });

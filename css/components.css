@@ -8,6 +8,7 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--cor-borda);
     margin-bottom: 25px;
+    text-align: center; /* Centraliza textos nos cards */
 }
 
 .modules-grid .module-card {
@@ -17,7 +18,7 @@
 }
 
 .modules-grid .module-card p {
-    flex-grow: 1;
+    flex-grow: 1; /* Expande o texto para preencher o espaço */
     margin-bottom: 20px;
 }
 
@@ -86,7 +87,10 @@
 }
 
 /* Tabelas */
-.data-table { width: 100%; border-collapse: collapse; }
+.data-table { width: 100%; 
+    border-collapse: collapse;
+    text-align: left;
+}
 .data-table th, .data-table td { padding: 14px; border-bottom: 1px solid var(--cor-borda); }
 .data-table th { background-color: #f8fafc; }
 
@@ -124,4 +128,18 @@
 .filter-container input:focus {
     border-color: var(--cor-destaque);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--cor-texto-secundario);
+    font-style: italic;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+    /* Suaviza a barra de rolagem em navegadores modernos */
+    scrollbar-width: thin; 
 }
