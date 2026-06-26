@@ -74,3 +74,15 @@ html.menu-fechado .brand-text, html.menu-fechado .menu-text { display: none !imp
 html.menu-fechado .sidebar-brand { justify-content: center; padding: 25px 0; }
 html.menu-fechado .menu-item { justify-content: center; }
 html.menu-fechado .menu-icon { margin-right: 0; font-size: 1.4rem; }
+
+html.menu-fechado .menu-item:hover .menu-text {
+    display: block !important;
+    position: absolute;
+    left: 80px;
+    background: var(--cor-sidebar);
+    padding: 10px 15px;
+    border-radius: 0 8px 8px 0;
+    z-index: 1000;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    border-left: 1px solid var(--cor-destaque);
