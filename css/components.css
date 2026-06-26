@@ -8,6 +8,19 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--cor-borda);
     margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.module-card p {
+    flex-grow: 1; /* Faz o texto ocupar o espaço disponível */
+    margin-bottom: 20px;
+}
+
+.module-card .btn-action {
+    align-self: center; /* Centraliza o botão horizontalmente */
+    margin-top: auto;   /* Força o botão a ficar na parte inferior do card */
 }
 
 /* Barra de Ações (Ações, Exportação, Filtro) */
