@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+    // Lógica Visual
     selectRegime.addEventListener('change', (e) => {
         if (e.target.value === 'lucro') {
             divInssPatronal.style.display = 'block';
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const valorJaContribuido = parseFloat(formData.get('valorContribuido')) || 0;
         const percPatronal = regime === 'lucro' ? parseFloat(formData.get('inssPatronal')) || 0 : 0;
 
+        // Cálculos
         const baseInssCalculada = Math.min(salarioBruto + outrasBases, TETO_INSS);
         const inssSegurado = Math.max(0, (baseInssCalculada * 0.11) - valorJaContribuido);
         const inssPatronal = (salarioBruto * (percPatronal / 100));
@@ -64,22 +66,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const valorLiquido = salarioBruto - inssSegurado - (irrf > 0 ? irrf : 0);
+        
+        // Custos
         const custoProvento = salarioBruto * periodicidade;
         const custoEncargos = inssPatronal * periodicidade;
         const custoTotalEmpresa = custoProvento + custoEncargos;
         const textoPeriodicidade = periodicidade === 1 ? 'Mensal' : (periodicidade === 6 ? 'Semestral' : 'Anual');
 
+        // Renderização Final
         divResultado.innerHTML = `
             <div class="sim-card">
                 <div class="sim-section">
                     <h4>Informações da Simulação</h4>
                     <div class="sim-grid">
-                        <div class="sim-item"><span class="sim-label">Regime Tributário</span><span class="sim-value">${regime === 'lucro' ? 'Lucro Presumido/Real' : 'Simples Nacional'}</span></div>
+                        <div class="sim-item"><span class="sim-label">Regime</span><span class="sim-value">${regime === 'lucro' ? 'Lucro Presumido/Real' : 'Simples Nacional'}</span></div>
                         <div class="sim-item"><span class="sim-label">Periodicidade</span><span class="sim-value">${textoPeriodicidade}</span></div>
                         ${regime === 'lucro' ? `<div class="sim-item"><span class="sim-label">Alíquota Patronal</span><span class="sim-value">${percPatronal}%</span></div>` : ''}
                         ${filhos > 0 ? `<div class="sim-item"><span class="sim-label">Dependentes</span><span class="sim-value">${filhos}</span></div>` : ''}
                     </div>
                 </div>
+
+                ${(outrasBases > 0 || valorJaContribuido > 0) ? `
+                <div class="sim-section">
+                    <h4>Outras Bases INSS</h4>
+                    <div class="sim-grid">
+                        ${outrasBases > 0 ? `<div class="sim-item"><span class="sim-label">Outras Bases</span><span class="sim-value">R$ ${formatarMoeda(outrasBases)}</span></div>` : ''}
+                        ${valorJaContribuido > 0 ? `<div class="sim-item"><span class="sim-label">Já Contribuído</span><span class="sim-value">R$ ${formatarMoeda(valorJaContribuido)}</span></div>` : ''}
+                    </div>
+                </div>
+                ` : ''}
 
                 <div class="sim-section">
                     <h4>Bases de Cálculo</h4>
@@ -108,9 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="sim-item"><span class="sim-label">Custo Provento</span><span class="sim-value">R$ ${formatarMoeda(custoProvento)}</span></div>
                         <div class="sim-item"><span class="sim-label">Custo Encargos</span><span class="sim-value">R$ ${formatarMoeda(custoEncargos)}</span></div>
                     </div>
-                    <div class="total-bar" style="background-color: #f1f5f9; border-color: #cbd5e1;">
-                        <span class="highlight-label" style="color: #475569;">Custo Total da Empresa</span>
-                        <span class="highlight-value" style="color: #1e293b;">R$ ${formatarMoeda(custoTotalEmpresa)}</span>
+                    <div class="total-bar cost-total-bar">
+                        <span class="highlight-label">Custo Total da Empresa</span>
+                        <span class="cost-total-value">R$ ${formatarMoeda(custoTotalEmpresa)}</span>
                     </div>
                 </div>
             </div>
