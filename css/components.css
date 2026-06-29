@@ -50,19 +50,21 @@
 }
 
 .btn-action {
-    background-color: var(--cor-destaque); /* Isso é o azul padrão */
+    background-color: var(--cor-destaque);
     color: white;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 0 24px;
-    height: 44px;
+    gap: 8px;
+    padding: 0 20px;
+    height: 40px; /* Tamanho unificado e profissional */
     border-radius: var(--borda-raio);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
     transition: var(--transicao-suave);
+    border: none;
+    font-size: 0.9rem;
 }
 
 .btn-excel { background-color: #107c41; color: white; }
