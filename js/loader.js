@@ -3,8 +3,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!placeholder) return;
 
     try {
-        const isSubpage = window.location.pathname.includes('/pages/');
-        const basePath = isSubpage ? '../' : './';
+        // Cálculo dinâmico do caminho base para o root
+        // Verifica profundidade para saber quantos níveis voltar (../)
+        const pathParts = window.location.pathname.split('/').filter(p => p.length > 0);
+        const depth = pathParts.includes('pages') ? (pathParts.length - (pathParts.indexOf('pages') + 1)) : 0;
+        const basePath = depth === 0 ? './' : '../'.repeat(depth);
         
         const response = await fetch(`${basePath}components/sidebar.html`);
         
@@ -16,35 +19,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         placeholder.innerHTML = html;
         
         // ==========================================
+        // 1. Ajuste dos links da sidebar (Caminhos)
         const links = placeholder.querySelectorAll('a');
         links.forEach(link => {
             let href = link.getAttribute('href');
             
-            // Só altera links internos (ignora links externos com http ou âncoras #)
             if (href && !href.startsWith('http') && !href.startsWith('#')) {
-                // Remove qualquer "../" ou "./" que você possa ter digitado por engano no sidebar.html
+                // Remove prefixos para garantir caminho limpo a partir da raiz
                 href = href.replace(/^(\.\.\/)+/, '').replace(/^\.\//, '');
-                
-                // Aplica a base correta (volta uma pasta se estiver no módulo, ou mantém na raiz se estiver no index)
-                link.setAttribute('href', basePath + href);   
+                link.setAttribute('href', basePath + href);
             }
         });
 
+        // ==========================================
+        // 2. Lógica para identificar a página ativa
         const caminhoAtual = window.location.pathname;
-        
         links.forEach(link => {
             const href = link.getAttribute('href');
-            
-            // Removemos os pontos e barras iniciais para comparar apenas o nome do arquivo/pasta
-            const caminhoComparacao = href.replace(/^(\.\.\/)+/, '').replace(/^\.\//, '');
-            
-            // Verifica se o caminho atual termina com o endereço do link
-            if (caminhoAtual.endsWith(caminhoComparacao)) {
+            // Verifica se a URL atual termina com o endereço do link
+            if (caminhoAtual.endsWith(href.replace(/^\.\//, ''))) {
                 link.classList.add('active');
             }
         });
-        // ==========================================
         
+        // ==========================================
+        // 3. Toggle da Sidebar
         const toggleBtn = document.getElementById('toggle-sidebar');
         if (toggleBtn) {
             toggleBtn.addEventListener('click', () => {
@@ -54,5 +53,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (error) {
         console.error("Erro no loader.js:", error);
-    }    
+    }
 });
