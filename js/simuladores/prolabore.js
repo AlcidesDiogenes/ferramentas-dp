@@ -14,9 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultadoSection = document.getElementById('resultado-section');
     const divResultado = document.getElementById('resultado-calculo');
 
-    const formatarMoeda = (valor) => {
-        return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    };
+    const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
     selectRegime.addEventListener('change', (e) => {
         if (e.target.value === 'lucro') {
@@ -51,43 +49,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const valorJaContribuido = parseFloat(formData.get('valorContribuido')) || 0;
         const percPatronal = regime === 'lucro' ? parseFloat(formData.get('inssPatronal')) || 0 : 0;
 
-        // Cálculos
         const baseInssCalculada = Math.min(salarioBruto + outrasBases, TETO_INSS);
         const inssSegurado = Math.max(0, (baseInssCalculada * 0.11) - valorJaContribuido);
         const inssPatronal = (salarioBruto * (percPatronal / 100));
 
-        // Cálculo IRRF
         const baseIrrf = Math.max(0, salarioBruto - inssSegurado - (filhos * VALOR_DEDUCAO_DEPENDENTE));
         let irrf = 0;
         if (baseIrrf > 0) {
             const faixaIrrf = TABELA_IRRF.find(f => baseIrrf <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
             let impostoBruto = (baseIrrf * faixaIrrf.aliquota) - faixaIrrf.deducao;
-
             let reducao = (salarioBruto <= TABELA_REDUCAO_MENSAL.limiteInferior) ? TABELA_REDUCAO_MENSAL.reducaoFixa : 
                           (salarioBruto <= TABELA_REDUCAO_MENSAL.limiteSuperior ? TABELA_REDUCAO_MENSAL.formulaVariavel(salarioBruto) : 0);
-            
             irrf = Math.max(0, impostoBruto - reducao);
         }
 
         const valorLiquido = salarioBruto - inssSegurado - (irrf > 0 ? irrf : 0);
-        
-        // Cálculo de Custos
         const custoProvento = salarioBruto * periodicidade;
         const custoEncargos = inssPatronal * periodicidade;
         const custoTotalEmpresa = custoProvento + custoEncargos;
+        const textoPeriodicidade = periodicidade === 1 ? 'Mensal' : (periodicidade === 6 ? 'Semestral' : 'Anual');
 
-        // Renderização Profissional
         divResultado.innerHTML = `
             <div class="sim-card">
                 <div class="sim-section">
                     <h4>Informações da Simulação</h4>
                     <div class="sim-grid">
-                        <div class="sim-item"><span class="sim-label">Regime</span><span class="sim-value">${regime === 'lucro' ? 'Lucro Presumido/Real' : 'Simples Nacional'}</span></div>
-                        <div class="sim-item"><span class="sim-label">Periodicidade</span><span class="sim-value">${periodicidade === 1 ? 'Mensal' : (periodicidade === 6 ? 'Semestral' : 'Anual')}</span></div>
+                        <div class="sim-item"><span class="sim-label">Regime Tributário</span><span class="sim-value">${regime === 'lucro' ? 'Lucro Presumido/Real' : 'Simples Nacional'}</span></div>
+                        <div class="sim-item"><span class="sim-label">Periodicidade</span><span class="sim-value">${textoPeriodicidade}</span></div>
                         ${regime === 'lucro' ? `<div class="sim-item"><span class="sim-label">Alíquota Patronal</span><span class="sim-value">${percPatronal}%</span></div>` : ''}
                         ${filhos > 0 ? `<div class="sim-item"><span class="sim-label">Dependentes</span><span class="sim-value">${filhos}</span></div>` : ''}
-                        ${outrasBases > 0 ? `<div class="sim-item"><span class="sim-label">Base Externa</span><span class="sim-value">R$ ${formatarMoeda(outrasBases)}</span></div>` : ''}
-                        ${valorJaContribuido > 0 ? `<div class="sim-item"><span class="sim-label">Contr. Anterior</span><span class="sim-value">R$ ${formatarMoeda(valorJaContribuido)}</span></div>` : ''}
                     </div>
                 </div>
 
@@ -107,20 +97,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="sim-item"><span class="sim-label">IRRF</span><span class="sim-value">R$ ${irrf > 0 ? formatarMoeda(irrf) : '0,00'}</span></div>
                     </div>
                     <div class="total-bar">
-                        <span style="font-weight: 600;">Líquido a Receber</span>
+                        <span class="highlight-label">Líquido a Receber</span>
                         <span class="highlight-value">R$ ${formatarMoeda(valorLiquido)}</span>
                     </div>
                 </div>
 
-                <div class="sim-section" style="margin-bottom: 0;">
-                    <h4>Custos da Empresa (${periodicidade === 1 ? 'Mensal' : (periodicidade === 6 ? 'Semestral' : 'Anual')})</h4>
+                <div class="sim-section" style="border:none; margin:0;">
+                    <h4>Custos da Empresa (${textoPeriodicidade})</h4>
                     <div class="sim-grid">
                         <div class="sim-item"><span class="sim-label">Custo Provento</span><span class="sim-value">R$ ${formatarMoeda(custoProvento)}</span></div>
                         <div class="sim-item"><span class="sim-label">Custo Encargos</span><span class="sim-value">R$ ${formatarMoeda(custoEncargos)}</span></div>
                     </div>
-                    <div class="total-bar" style="background-color: #eff6ff; margin-top: 10px;">
-                        <span style="font-weight: 600;">Custo Total da Empresa</span>
-                        <span class="highlight-value" style="color: #1e40af;">R$ ${formatarMoeda(custoTotalEmpresa)}</span>
+                    <div class="total-bar" style="background-color: #f1f5f9; border-color: #cbd5e1;">
+                        <span class="highlight-label" style="color: #475569;">Custo Total da Empresa</span>
+                        <span class="highlight-value" style="color: #1e293b;">R$ ${formatarMoeda(custoTotalEmpresa)}</span>
                     </div>
                 </div>
             </div>

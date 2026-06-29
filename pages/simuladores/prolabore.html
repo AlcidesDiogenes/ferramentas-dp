@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>if (localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
 </head>
-
 <body class="preload">
 
     <div id="sidebar-placeholder"></div>
@@ -18,81 +16,82 @@
     <main class="main-content">
         <header class="main-header">
             <h1>Simulador de Pró-labore</h1>
-            <p class="subtitle">Preencha os dados abaixo para calcular a estimativa.</p>
+            <p class="subtitle">Preencha os dados abaixo para calcular a estimativa de custos e encargos.</p>
         </header>
 
         <section class="module-card">
             <form id="form-prolabore" class="simulator-form">
+                
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>Informações da Empresa</h3>
+                        
+                        <div class="form-group">
+                            <label for="regime" class="form-label">Regime Tributário</label>
+                            <select id="regime" name="regime" class="form-control">
+                                <option value="simples">Simples Nacional</option>
+                                <option value="lucro">Lucro Presumido/Real</option>
+                            </select>
+                        </div>
 
-                <h3 style="text-align: center; margin-bottom: 15px;">Informações da Empresa</h3>
+                        <div class="form-group">
+                            <label for="periodicidade" class="form-label">Periodicidade do Custo</label>
+                            <select id="periodicidade" name="periodicidade" class="form-control">
+                                <option value="1">Mensal</option>
+                                <option value="6">Semestral</option>
+                                <option value="12">Anual</option>
+                            </select>
+                        </div>
 
-                <div class="form-group">
-                    <label for="regime" class="form-label">Regime Tributário:</label>
-                    <select id="regime" name="regime" class="form-control">
-                        <option value="simples">Simples Nacional</option>
-                        <option value="lucro">Lucro Presumido/Real</option>
-                    </select>
+                        <div id="div-inss-patronal" class="form-group" style="display: none;">
+                            <label for="inssPatronal" class="form-label">% INSS Patronal</label>
+                            <input type="number" id="inssPatronal" name="inssPatronal" class="form-control" value="20" step="0.1">
+                        </div>
+                    </div>
 
-                    <div id="div-inss-patronal" class="form-group" style="display: none;">
-                        <label for="inssPatronal" class="form-label">% INSS Patronal</label>
-                        <input type="number" id="inssPatronal" name="inssPatronal" class="form-control" value="20"
-                            step="0.1">
+                    <div class="form-section">
+                        <h3>Informações do Contribuinte</h3>
+                        
+                        <div class="form-group">
+                            <label for="salario" class="form-label">Salário (Pró-labore)</label>
+                            <input type="number" step="0.01" id="salario" name="salario" class="form-control" placeholder="0,00" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filhos" class="form-label">Filhos (Qtd para abate IRRF)</label>
+                            <input type="number" id="filhos" name="filhos" class="form-control" value="0" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descontarInss" class="form-label">Descontar INSS</label>
+                            <select id="descontarInss" name="descontarInss" class="form-control">
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="outrasBases" class="form-label">Outras bases INSS (Ganho externo)</label>
+                            <input type="number" step="0.01" id="outrasBases" name="outrasBases" class="form-control" placeholder="0,00" min="0">
+                        </div>
+
+                        <div id="div-valor-contribuido" class="form-group" style="display: none;">
+                            <label for="valorContribuido" class="form-label">Valor já contribuído de INSS</label>
+                            <input type="number" step="0.01" id="valorContribuido" name="valorContribuido" class="form-control" placeholder="0,00" min="0">
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="periodicidade" class="form-label">Periodicidade do Custo</label>
-                    <select id="periodicidade" name="periodicidade" class="form-control">
-                        <option value="1">Mensal</option>
-                        <option value="6">Semestral</option>
-                        <option value="12">Anual</option>
-                    </select>
-                </div>
-
-                <h3 style="text-align: center; margin-bottom: 15px; margin-top: 20px;">Informações do Contribuinte</h3>
-
-                <div class="form-group">
-                    <label for="salario" class="form-label">Salário (Valor Pró-labore):</label>
-                    <input type="number" step="0.01" id="salario" name="salario" class="form-control"
-                        placeholder="Ex: 2500,00" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="filhos" class="form-label">Filhos (Qtd para abate IRRF):</label>
-                    <input type="number" id="filhos" name="filhos" class="form-control" placeholder="0" min="0">
-                </div>
-
-                <div class="form-group">
-                    <label for="descontarInss" class="form-label">Descontar INSS:</label>
-                    <select id="descontarInss" name="descontarInss" class="form-control">
-                        <option value="sim">Sim</option>
-                        <option value="nao">Não</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="outrasBases" class="form-label">Outras bases INSS (ganho externo):</label>
-                    <input type="number" step="0.01" id="outrasBases" name="outrasBases" class="form-control"
-                        placeholder="0,00" min="0">
-                </div>
-
-                <div class="form-group" id="div-valor-contribuido" style="display: none;">
-                    <label for="valorContribuido" class="form-label">Valor já contribuído de INSS</label>
-                    <input type="number" step="0.01" id="valorContribuido" name="valorContribuido" class="form-control"
-                        placeholder="0.00" min="0">
-                </div>
                 <button type="submit" class="btn-action">Simular Cálculo</button>
             </form>
         </section>
 
-        <section class="module-card" id="resultado-section" style="display: none;">
-            <h3>Resultado da Simulação</h3>
-            <div id="resultado-calculo" style="padding: 20px; font-size: 1.1rem; line-height: 1.8;"></div>
+        <section id="resultado-section" style="display: none;">
+            <div id="resultado-calculo"></div>
         </section>
     </main>
 
     <script src="../../js/loader.js" defer></script>
     <script type="module" src="../../js/simuladores/prolabore.js" defer></script>
 </body>
-
 </html>
