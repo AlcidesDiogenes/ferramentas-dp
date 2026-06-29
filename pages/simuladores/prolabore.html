@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Pró-labore - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+</head>
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Simulador de Pró-labore</h1>
+            <p class="subtitle">Preencha os dados abaixo para calcular a estimativa.</p>
+        </header>
+
+        <section class="module-card">
+            <form id="form-prolabore" style="text-align: left; max-width: 500px; margin: 0 auto;">
+                
+                <h3 style="text-align: center; margin-bottom: 20px;">Informações da Empresa</h3>
+                <div style="margin-bottom: 20px;">
+                    <label for="regime">Regime Tributário:</label>
+                    <select id="regime" name="regime" class="filter-container input" style="width: 100%; height: 44px; margin-top: 5px;">
+                        <option value="simples">Simples Nacional</option>
+                        <option value="lucro">Lucro Presumido/Real</option>
+                    </select>
+                </div>
+
+                <h3 style="text-align: center; margin-bottom: 20px; margin-top: 30px;">Informações do Contribuinte</h3>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="salario">Salário (Valor Pró-labore):</label>
+                    <input type="number" step="0.01" id="salario" name="salario" class="filter-container input" style="width: 100%; height: 44px; margin-top: 5px;" placeholder="Ex: 2500.00" required>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label for="filhos">Filhos (Qtd para abate IRRF):</label>
+                    <input type="number" id="filhos" name="filhos" class="filter-container input" style="width: 100%; height: 44px; margin-top: 5px;" placeholder="0" min="0" required>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label for="descontarInss">Descontar INSS:</label>
+                    <select id="descontarInss" name="descontarInss" class="filter-container input" style="width: 100%; height: 44px; margin-top: 5px;">
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <label for="outrasBases">Outras bases INSS (ganho externo):</label>
+                    <input type="number" step="0.01" id="outrasBases" name="outrasBases" class="filter-container input" style="width: 100%; height: 44px; margin-top: 5px;" placeholder="0.00" min="0">
+                </div>
+
+                <button type="submit" class="btn-action" style="width: 100%;">Simular Cálculo</button>
+            </form>
+        </section>
+
+        <section class="module-card" id="resultado-section" style="display: none;">
+            <h3>Resultado da Simulação</h3>
+            <div id="resultado-calculo" style="padding: 20px; font-size: 1.1rem; line-height: 1.8;"></div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script src="../../js/simuladores/prolabore.js" defer></script>
+</body>
+</html>
