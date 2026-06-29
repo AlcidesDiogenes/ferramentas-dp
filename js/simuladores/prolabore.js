@@ -1,135 +1,113 @@
 // js/simuladores/prolabore.js
-import { TABELA_IRRF, TABELA_REDUCAO_MENSAL, VALOR_DEDUCAO_DEPENDENTE, TETO_INSS } from './tabelas.js';
+import { calcularProlabore } from './calculos-prolabore.js';
+import { gerarPDFProlabore } from './pdf-generator.js';
+
+const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+function renderizarInterface(res, dados, periodicidade, custoTotal) {
+    const divResultado = document.getElementById('resultado-calculo');
+    const textoPeriodicidade = periodicidade == 1 ? 'Mensal' : (periodicidade == 6 ? 'Semestral' : 'Anual');
+
+    // Construção dinâmica das informações extras (só aparecem se tiverem valor)
+    let extrasHtml = `
+        <div class="sim-item"><span class="sim-label">Regime</span><span class="sim-value">${dados.regime === 'lucro' ? 'Lucro Presumido/Real' : 'Simples Nacional'}</span></div>
+    `;
+
+    if (dados.regime === 'lucro') {
+        extrasHtml += `<div class="sim-item"><span class="sim-label">INSS Patronal</span><span class="sim-value">${dados.percPatronal}%</span></div>`;
+    }
+    if (dados.filhos > 0) {
+        extrasHtml += `<div class="sim-item"><span class="sim-label">Dependentes</span><span class="sim-value">${dados.filhos}</span></div>`;
+    }
+    if (dados.outrasBases > 0) {
+        extrasHtml += `<div class="sim-item"><span class="sim-label">Outras Bases</span><span class="sim-value">R$ ${formatarMoeda(dados.outrasBases)}</span></div>`;
+    }
+    if (dados.valorJaContribuido > 0) {
+        extrasHtml += `<div class="sim-item"><span class="sim-label">INSS Contribuído</span><span class="sim-value">R$ ${formatarMoeda(dados.valorJaContribuido)}</span></div>`;
+    }
+
+    divResultado.innerHTML = `
+        <div class="sim-card" id="area-impressao">
+            <div class="sim-section">
+                <h4>Configurações da Simulação</h4>
+                <div class="sim-grid">
+                    ${extrasHtml}
+                </div>
+            </div>
+
+            <div class="sim-section">
+                <h4>Bases de Cálculo</h4>
+                <div class="sim-grid">
+                    <div class="sim-item"><span class="sim-label">Base INSS</span><span class="sim-value">R$ ${formatarMoeda(res.baseInss)}</span></div>
+                    <div class="sim-item"><span class="sim-label">Base IRRF</span><span class="sim-value">R$ ${formatarMoeda(res.baseIrrf)}</span></div>
+                </div>
+            </div>
+
+            <div class="sim-section">
+                <h4>Resumo Financeiro</h4>
+                <div class="sim-grid">
+                    <div class="sim-item"><span class="sim-label">Provento</span><span class="sim-value">R$ ${formatarMoeda(dados.salarioBruto)}</span></div>
+                    <div class="sim-item"><span class="sim-label">INSS Segurado</span><span class="sim-value">R$ ${formatarMoeda(res.inssSegurado)}</span></div>
+                    <div class="sim-item"><span class="sim-label">IRRF</span><span class="sim-value">R$ ${formatarMoeda(res.irrf)}</span></div>
+                </div>
+                <div class="total-bar">
+                    <span class="highlight-label">Líquido a Receber</span>
+                    <span class="highlight-value">R$ ${formatarMoeda(res.valorLiquido)}</span>
+                </div>
+            </div>
+
+            <div class="sim-section">
+                <h4>Custos da Empresa (${textoPeriodicidade})</h4>
+                <div class="sim-grid">
+                    <div class="sim-item"><span class="sim-label">Custo INSS Patronal</span><span class="sim-value">R$ ${formatarMoeda(res.inssPatronal * periodicidade)}</span></div>
+                    <div class="sim-item"><span class="sim-label">Custo Total</span><span class="sim-value highlight-label" style="color: #1e40af;">R$ ${formatarMoeda(custoTotal)}</span></div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button id="btn-salvar-pdf" type="button" class="btn-action">Baixar em PDF</button>
+            </div>
+        </div>
+    `;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('form-prolabore');
-    const selectRegime = document.getElementById('regime');
-    const divInssPatronal = document.getElementById('div-inss-patronal');
-    const inputInssPatronal = document.getElementById('inssPatronal');
-    
-    const inputOutrasBases = document.getElementById('outrasBases');
-    const divValorContribuido = document.getElementById('div-valor-contribuido');
-    const inputValorContribuido = document.getElementById('valorContribuido');
-    
     const resultadoSection = document.getElementById('resultado-section');
-    const divResultado = document.getElementById('resultado-calculo');
 
-    const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    // Lógica Visual
-    selectRegime.addEventListener('change', (e) => {
-        if (e.target.value === 'lucro') {
-            divInssPatronal.style.display = 'block';
-            inputInssPatronal.value = '20';
-        } else {
-            divInssPatronal.style.display = 'none';
-            inputInssPatronal.value = '';
-        }
+    // Toggles de visibilidade (já existentes)
+    document.getElementById('regime').addEventListener('change', (e) => {
+        document.getElementById('div-inss-patronal').style.display = (e.target.value === 'lucro') ? 'block' : 'none';
     });
 
-    inputOutrasBases.addEventListener('input', () => {
-        if (parseFloat(inputOutrasBases.value) > 0) {
-            divValorContribuido.style.display = 'block';
-            inputValorContribuido.required = true;
-        } else {
-            divValorContribuido.style.display = 'none';
-            inputValorContribuido.required = false;
-            inputValorContribuido.value = '';
-        }
+    document.getElementById('outrasBases').addEventListener('input', (e) => {
+        document.getElementById('div-valor-contribuido').style.display = (parseFloat(e.target.value) > 0) ? 'block' : 'none';
     });
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const formData = new FormData(form);
-        const regime = formData.get('regime');
-        const periodicidade = parseInt(formData.get('periodicidade')) || 1;
-        const salarioBruto = parseFloat(formData.get('salario')) || 0;
-        const filhos = parseInt(formData.get('filhos')) || 0;
-        const outrasBases = parseFloat(formData.get('outrasBases')) || 0;
-        const valorJaContribuido = parseFloat(formData.get('valorContribuido')) || 0;
-        const percPatronal = regime === 'lucro' ? parseFloat(formData.get('inssPatronal')) || 0 : 0;
 
-        // Cálculos
-        const baseInssCalculada = Math.min(salarioBruto + outrasBases, TETO_INSS);
-        const inssSegurado = Math.max(0, (baseInssCalculada * 0.11) - valorJaContribuido);
-        const inssPatronal = (salarioBruto * (percPatronal / 100));
+        const dados = {
+            salarioBruto: parseFloat(formData.get('salario')) || 0,
+            filhos: parseInt(formData.get('filhos')) || 0,
+            outrasBases: parseFloat(formData.get('outrasBases')) || 0,
+            valorJaContribuido: parseFloat(formData.get('valorContribuido')) || 0,
+            percPatronal: parseFloat(formData.get('inssPatronal')) || 0,
+            regime: formData.get('regime'),
+            // Captura o valor do select (retorna true se for 'sim')
+            descontarInss: formData.get('descontarInss') === 'sim'
+        };
+        const periodicidade = parseInt(formData.get('periodicidade'));
 
-        const baseIrrf = Math.max(0, salarioBruto - inssSegurado - (filhos * VALOR_DEDUCAO_DEPENDENTE));
-        let irrf = 0;
-        if (baseIrrf > 0) {
-            const faixaIrrf = TABELA_IRRF.find(f => baseIrrf <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
-            let impostoBruto = (baseIrrf * faixaIrrf.aliquota) - faixaIrrf.deducao;
-            let reducao = (salarioBruto <= TABELA_REDUCAO_MENSAL.limiteInferior) ? TABELA_REDUCAO_MENSAL.reducaoFixa : 
-                          (salarioBruto <= TABELA_REDUCAO_MENSAL.limiteSuperior ? TABELA_REDUCAO_MENSAL.formulaVariavel(salarioBruto) : 0);
-            irrf = Math.max(0, impostoBruto - reducao);
-        }
+        const res = calcularProlabore(dados);
+        const custoTotal = (dados.salarioBruto * periodicidade) + (res.inssPatronal * periodicidade);
 
-        const valorLiquido = salarioBruto - inssSegurado - (irrf > 0 ? irrf : 0);
-        
-        // Custos
-        const custoProvento = salarioBruto * periodicidade;
-        const custoEncargos = inssPatronal * periodicidade;
-        const custoTotalEmpresa = custoProvento + custoEncargos;
-        const textoPeriodicidade = periodicidade === 1 ? 'Mensal' : (periodicidade === 6 ? 'Semestral' : 'Anual');
-
-        // Renderização Final
-        divResultado.innerHTML = `
-            <div class="sim-card">
-                <div class="sim-section">
-                    <h4>Informações da Simulação</h4>
-                    <div class="sim-grid">
-                        <div class="sim-item"><span class="sim-label">Regime</span><span class="sim-value">${regime === 'lucro' ? 'Lucro Presumido/Real' : 'Simples Nacional'}</span></div>
-                        <div class="sim-item"><span class="sim-label">Periodicidade</span><span class="sim-value">${textoPeriodicidade}</span></div>
-                        ${regime === 'lucro' ? `<div class="sim-item"><span class="sim-label">Alíquota Patronal</span><span class="sim-value">${percPatronal}%</span></div>` : ''}
-                        ${filhos > 0 ? `<div class="sim-item"><span class="sim-label">Dependentes</span><span class="sim-value">${filhos}</span></div>` : ''}
-                    </div>
-                </div>
-
-                ${(outrasBases > 0 || valorJaContribuido > 0) ? `
-                <div class="sim-section">
-                    <h4>Outras Bases INSS</h4>
-                    <div class="sim-grid">
-                        ${outrasBases > 0 ? `<div class="sim-item"><span class="sim-label">Outras Bases</span><span class="sim-value">R$ ${formatarMoeda(outrasBases)}</span></div>` : ''}
-                        ${valorJaContribuido > 0 ? `<div class="sim-item"><span class="sim-label">Já Contribuído</span><span class="sim-value">R$ ${formatarMoeda(valorJaContribuido)}</span></div>` : ''}
-                    </div>
-                </div>
-                ` : ''}
-
-                <div class="sim-section">
-                    <h4>Bases de Cálculo</h4>
-                    <div class="sim-grid">
-                        <div class="sim-item"><span class="sim-label">Base INSS</span><span class="sim-value">R$ ${formatarMoeda(baseInssCalculada)}</span></div>
-                        <div class="sim-item"><span class="sim-label">Base IRRF</span><span class="sim-value">R$ ${formatarMoeda(baseIrrf)}</span></div>
-                    </div>
-                </div>
-
-                <div class="sim-section">
-                    <h4>Resumo Financeiro</h4>
-                    <div class="sim-grid">
-                        <div class="sim-item"><span class="sim-label">Provento</span><span class="sim-value">R$ ${formatarMoeda(salarioBruto)}</span></div>
-                        <div class="sim-item"><span class="sim-label">INSS Segurado</span><span class="sim-value">R$ ${formatarMoeda(inssSegurado)}</span></div>
-                        <div class="sim-item"><span class="sim-label">IRRF</span><span class="sim-value">R$ ${irrf > 0 ? formatarMoeda(irrf) : '0,00'}</span></div>
-                    </div>
-                    <div class="total-bar">
-                        <span class="highlight-label">Líquido a Receber</span>
-                        <span class="highlight-value">R$ ${formatarMoeda(valorLiquido)}</span>
-                    </div>
-                </div>
-
-                <div class="sim-section" style="border:none; margin:0;">
-                    <h4>Custos da Empresa (${textoPeriodicidade})</h4>
-                    <div class="sim-grid">
-                        <div class="sim-item"><span class="sim-label">Custo Provento</span><span class="sim-value">R$ ${formatarMoeda(custoProvento)}</span></div>
-                        <div class="sim-item"><span class="sim-label">Custo Encargos</span><span class="sim-value">R$ ${formatarMoeda(custoEncargos)}</span></div>
-                    </div>
-                    <div class="total-bar cost-total-bar">
-                        <span class="highlight-label">Custo Total da Empresa</span>
-                        <span class="cost-total-value">R$ ${formatarMoeda(custoTotalEmpresa)}</span>
-                    </div>
-                </div>
-            </div>
-        `;
+        renderizarInterface(res, dados, periodicidade, custoTotal);
         resultadoSection.style.display = 'block';
+
+        document.getElementById('btn-salvar-pdf').addEventListener('click', () => {
+            gerarPDFProlabore(res, dados, periodicidade);
+        });
     });
 });
