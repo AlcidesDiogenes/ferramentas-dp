@@ -11,6 +11,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.min.js"></script>
+
+<!-- Este deve ser o último script a ser carregado, mantendo o type="module" -->
+<script type="module" src="../js/programacao-ferias.js" defer></script>
 </head>
 <body class="preload">
 
@@ -77,6 +82,6 @@
 
     <script src="../js/motor-filtros.js" defer></script>
     <script src="../js/loader.js" defer></script>
-    <script src="../js/programacao-ferias.js" defer></script>
+    <script type="module" src="../js/programacao-ferias.js" defer></script>
 </body>
 </html>

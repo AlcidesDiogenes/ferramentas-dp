@@ -4,6 +4,8 @@
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
+import { gerarPDFFerias } from './pdf-generators/ferias-pdf.js';
+
 let analiseGlobal = [];
 const dataBaseAtual = new Date();
 
@@ -245,19 +247,15 @@ function gerarExcel() {
 }
 
 function gerarPDF() {
-    const elementoRelatorio = document.getElementById('print-area');
+    const linhasVisiveis = Array.from(corpoTabela.querySelectorAll('tr')).filter(tr => tr.children.length > 1);
+    const codigosVisiveis = linhasVisiveis.map(tr => tr.children[1].innerText);
     
-    const opcoes = {
-        margin:       [10, 10, 10, 10], // Margens [Cima, Esquerda, Baixo, Direita]
-        filename:     'Relatorio_Auditoria_Ferias.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { 
-            scale: 2, 
-            useCORS: true,
-            scrollY: 0 // COMANDO CRÍTICO: Evita a página em branco no topo
-        },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-    };
+    const dadosParaPDF = analiseGlobal.filter(d => codigosVisiveis.includes(d.codigo));
 
-    html2pdf().set(opcoes).from(elementoRelatorio).save();
+    if (dadosParaPDF.length > 0) {
+        // Adicionamos 'dataBaseAtual' como segundo argumento aqui
+        gerarPDFFerias(dadosParaPDF, dataBaseAtual);
+    } else {
+        alert("Nenhum dado visível para exportar.");
+    }
 }
