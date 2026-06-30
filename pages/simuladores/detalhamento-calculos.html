@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entenda seus Descontos - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/forms.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>if (localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <div class="main-header">
+            <h1>Entenda seus Descontos</h1>
+            <p class="subtitle">Simulador didático para cálculos de INSS e IRRF.</p>
+        </div>
+
+        <section class="module-card">
+            <h3>Configure a Simulação</h3>
+            <form id="form-calculo">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="tipo-calculo">O que você deseja calcular?</label>
+                        <select id="tipo-calculo" class="form-control">
+                            <option value="ambos">INSS e IRRF (Ambos)</option>
+                            <option value="inss">Somente INSS</option>
+                            <option value="irrf">Somente IRRF</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salario-bruto">Salário Bruto (R$)</label>
+                        <input type="number" id="salario-bruto" placeholder="0,00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="dependentes">Qtd. de Filhos/Dependentes</label>
+                        <input type="number" id="dependentes" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="outras-bases">Outras Bases INSS (R$)</label>
+                        <input type="number" id="outras-bases" placeholder="0,00" step="0.01">
+                    </div>
+                    <div class="form-group" id="wrapper-inss-contribuido" style="display: none;">
+                        <label for="inss-contribuido">INSS Já Contribuído (R$)</label>
+                        <input type="number" id="inss-contribuido" placeholder="0,00" step="0.01">
+                    </div>
+                </div>
+                <button type="submit" class="btn-action">Explicar Cálculo</button>
+            </form>
+        </section>
+
+        <section class="module-card" id="secao-explicacao" style="display: none;">
+            <h3>Como funciona o seu cálculo:</h3>
+            <div id="explicacao-conteudo"
+                style="text-align: left; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px;">
+            </div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/simuladores/detalhamento-calculos.js" defer></script>
+</body>
+
+</html>

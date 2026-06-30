@@ -29,6 +29,7 @@ export const TABELA_REDUCAO_MENSAL = {
 };
 // Valores Fixos
 export const VALOR_DEDUCAO_DEPENDENTE = 189.59;
+export const DESCONTO_SIMPLIFICADO = 607.20;
 
 // Tabela de Salário Família
 export const TABELA_SALARIO_FAMILIA = [

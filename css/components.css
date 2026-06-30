@@ -157,3 +157,7 @@
     padding: 5px 0;
     margin: 0;
 }
+
+.calculo-bloco { margin-top: 15px; padding: 10px; border-bottom: 1px solid #e2e8f0; }
+.calculo-bloco h4 { color: var(--cor-primaria); margin-bottom: 5px; }
+.calculo-bloco ul { margin: 5px 0 10px 20px; font-size: 0.9rem; }
