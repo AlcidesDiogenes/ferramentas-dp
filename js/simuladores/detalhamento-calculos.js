@@ -4,7 +4,8 @@ import {
     TABELA_IRRF, 
     TETO_INSS, 
     VALOR_DEDUCAO_DEPENDENTE, 
-    DESCONTO_SIMPLIFICADO 
+    DESCONTO_SIMPLIFICADO,
+    TABELA_REDUCAO_MENSAL
 } from './tabelas.js';
 
 const form = document.getElementById('form-calculo');
@@ -12,7 +13,6 @@ const inputOutrasBases = document.getElementById('outras-bases');
 const wrapperJaContribuido = document.getElementById('wrapper-inss-contribuido');
 const inputJaContribuido = document.getElementById('inss-contribuido');
 
-// Listener para visibilidade condicional
 inputOutrasBases.addEventListener('input', () => {
     if (parseFloat(inputOutrasBases.value) > 0) {
         wrapperJaContribuido.style.display = 'block';
@@ -55,7 +55,7 @@ function processarCalculo() {
     let html = `<h3>Detalhamento do Cálculo</h3>`;
 
     // --- 1. TABELAS DE REFERÊNCIA ---
-    html += `<div style="display: flex; gap: 10px; flex-wrap: wrap;">`;
+    html += `<div class="calc-comparison">`;
     if (tipo === 'ambos' || tipo === 'inss') html += renderizarTabela(TABELA_INSS, 'INSS');
     if (tipo === 'ambos' || tipo === 'irrf') html += renderizarTabela(TABELA_IRRF, 'IRRF');
     html += `</div><hr>`;
@@ -82,12 +82,12 @@ function processarCalculo() {
         let calculoSimplificado = (baseINSS * faixa.aliquota) - faixa.deducao;
         
         html += `<p><strong>2. Cálculo Simplificado (Conferência):</strong></p>`;
-        html += `<p style="margin-bottom: 2px;"><em>(Salário Base x Alíquota) - Dedução = Total de INSS</em></p>`;
+        html += `<p><em>(Salário Base x Alíquota) - Dedução = Total de INSS</em></p>`;
         html += `<p>(R$ ${formatarMoeda(baseINSS)} x ${(faixa.aliquota * 100).toFixed(1)}%) - R$ ${formatarMoeda(faixa.deducao)} = <strong>R$ ${formatarMoeda(calculoSimplificado)}</strong></p>`;
 
         totalINSS = Math.max(0, calculoSimplificado - jaContribuido);
         
-        html += `<p style="margin-top:10px;">`;
+        html += `<p class="calc-spacing">`;
         if (outrasBases > 0 && jaContribuido > 0) {
             html += `<em>* Valor de INSS ajustado pela contribuição já realizada (R$ ${formatarMoeda(jaContribuido)})</em><br>`;
         }
@@ -103,38 +103,52 @@ function processarCalculo() {
         const impostoSimplificado = calcularImpostoIRRF(baseSimplificada);
         
         const ehMaisFavoravelSimplificado = impostoSimplificado < impostoLegal;
-        const impostoFinal = Math.min(impostoLegal, impostoSimplificado);
+        const impostoDevidoSemReducao = Math.min(impostoLegal, impostoSimplificado);
+
+        let valorReducao = 0;
+        if (salario > TABELA_REDUCAO_MENSAL.limiteInferior && salario <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
+            valorReducao = TABELA_REDUCAO_MENSAL.formulaVariavel(salario);
+        } else if (salario <= TABELA_REDUCAO_MENSAL.limiteInferior) {
+            valorReducao = TABELA_REDUCAO_MENSAL.reducaoFixa; 
+        }
+        
+        valorReducao = Math.max(0, valorReducao);
+        const impostoFinal = Math.max(0, impostoDevidoSemReducao - valorReducao);
 
         html += `<div class="calculo-bloco"><h4>Imposto de Renda (IRRF)</h4>`;
         
-        // Comparativo Visual
-        html += `<div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 15px;">`;
-        html += `<div style="flex: 1; background: #f1f5f9; padding: 12px; border-radius: 8px;">
-            <strong>Deduções Legais</strong><br>
-            Salário: R$ ${formatarMoeda(salario)}<br>
-            (-) INSS: R$ ${formatarMoeda(totalINSS)}<br>
-            (-) Dep. (${dependentes}): R$ ${formatarMoeda(dependentes * VALOR_DEDUCAO_DEPENDENTE)}<br>
-            <strong>Base: R$ ${formatarMoeda(baseLegal)}</strong><br>
-            <span style="color: ${!ehMaisFavoravelSimplificado ? 'green' : 'inherit'};">Imposto: R$ ${formatarMoeda(impostoLegal)}</span>
+        html += `<div class="calc-comparison">
+            <div class="calc-box">
+                <strong>Deduções Legais</strong><br>
+                Salário: R$ ${formatarMoeda(salario)}<br>
+                (-) INSS: R$ ${formatarMoeda(totalINSS)}<br>
+                (-) Dep. (${dependentes}): R$ ${formatarMoeda(dependentes * VALOR_DEDUCAO_DEPENDENTE)}<br>
+                <strong>Base: R$ ${formatarMoeda(baseLegal)}</strong><br>
+                <span style="color: ${!ehMaisFavoravelSimplificado ? 'green' : 'inherit'};">Imposto: R$ ${formatarMoeda(impostoLegal)}</span>
+            </div>
+            <div class="calc-box">
+                <strong>Desconto Simplificado</strong><br>
+                Salário: R$ ${formatarMoeda(salario)}<br>
+                (-) Desc. Padrão: R$ ${formatarMoeda(DESCONTO_SIMPLIFICADO)}<br>
+                <br>
+                <strong>Base: R$ ${formatarMoeda(baseSimplificada)}</strong><br>
+                <span style="color: ${ehMaisFavoravelSimplificado ? 'green' : 'inherit'};">Imposto: R$ ${formatarMoeda(impostoSimplificado)}</span>
+            </div>
         </div>`;
-        html += `<div style="flex: 1; background: #f1f5f9; padding: 12px; border-radius: 8px;">
-            <strong>Desconto Simplificado</strong><br>
-            Salário: R$ ${formatarMoeda(salario)}<br>
-            (-) Desc. Padrão: R$ ${formatarMoeda(DESCONTO_SIMPLIFICADO)}<br>
-            <br>
-            <strong>Base: R$ ${formatarMoeda(baseSimplificada)}</strong><br>
-            <span style="color: ${ehMaisFavoravelSimplificado ? 'green' : 'inherit'};">Imposto: R$ ${formatarMoeda(impostoSimplificado)}</span>
-        </div>`;
-        html += `</div>`;
 
-        // Detalhamento do Vencedor
-        html += `<p style="padding: 10px; border-left: 4px solid green; background: #f0fdf4;">
+        if (valorReducao > 0 || salario <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
+            html += `<div class="calc-info-box calc-info-box-blue">
+                <strong>Regra de Redução 2026:</strong><br>
+                Valor Devido (sem redução): R$ ${formatarMoeda(impostoDevidoSemReducao)}<br>
+                (-) Valor da redução: R$ ${formatarMoeda(valorReducao)}<br>
+                <strong>Valor IRRF Mensal com redução: R$ ${formatarMoeda(impostoFinal)}</strong>
+            </div>`;
+        }
+
+        html += `<p class="calc-info-box">
             <strong>Modelo Selecionado:</strong> ${ehMaisFavoravelSimplificado ? 'Simplificado' : 'Deduções Legais'}.<br>
-            <strong>Imposto de Renda Devido: R$ ${formatarMoeda(impostoFinal)}</strong>
-        </p>`;
-        
-        
-        html += `</div>`;
+            <strong>Imposto de Renda Final: R$ ${formatarMoeda(impostoFinal)}</strong>
+        </p></div>`;
     }
 
     document.getElementById('explicacao-conteudo').innerHTML = html;
@@ -142,17 +156,20 @@ function processarCalculo() {
 }
 
 function renderizarTabela(tabela, tipo) {
-    let html = `<div style="flex: 1; min-width: 280px; font-size: 0.75rem; border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px;">
+    let html = `<div class="calc-box">
         <strong>Tabela ${tipo}:</strong>
-        <table style="width:100%; border-collapse: collapse; margin-top:5px;">
-            <tr style="background:#e2e8f0; text-align: left;"><th>Faixa/Base</th><th>Alíquota</th><th>Dedução</th></tr>`;
+        <table class="data-table">
+            <thead>
+                <tr><th>Faixa/Base</th><th>Alíquota</th><th>Dedução</th></tr>
+            </thead>
+            <tbody>`;
     tabela.forEach(f => {
-        html += `<tr style="border-bottom: 1px solid #f1f5f9;">
+        html += `<tr>
             <td>R$ ${formatarMoeda(f.limite || f.base)}</td>
             <td>${(f.aliquota * 100).toFixed(1)}%</td>
             <td>R$ ${formatarMoeda(f.deducao)}</td>
         </tr>`;
     });
-    html += `</table></div>`;
+    html += `</tbody></table></div>`;
     return html;
 }

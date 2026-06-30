@@ -1,0 +1,54 @@
+/* css/simulador-calculos.css */
+
+.calc-explanation {
+    text-align: left;
+    padding: 20px;
+    border: 1px solid var(--cor-borda, #e2e8f0);
+    border-radius: var(--borda-raio, 8px);
+    background-color: white;
+}
+
+.calc-comparison {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.calc-box {
+    flex: 1;
+    min-width: 260px;
+    padding: 15px;
+    border: 1px solid var(--cor-borda, #e2e8f0);
+    border-radius: 8px;
+    background-color: #f8fafc;
+}
+
+.calc-info-box {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f0fdf4;
+    border-left: 4px solid #22c55e;
+    border-radius: 4px;
+}
+
+.calc-info-box-blue {
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+}
+
+.calc-spacing { margin-top: 15px; }
+
+/* Estilização da tabela de dados */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.85rem;
+}
+
+.data-table th, .data-table td {
+    padding: 8px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
