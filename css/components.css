@@ -145,3 +145,15 @@
     /* Suaviza a barra de rolagem em navegadores modernos */
     scrollbar-width: thin; 
 }
+
+/* Remove a bolinha das listas de status de upload em todos os módulos */
+.file-status-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.file-status-list li {
+    padding: 5px 0;
+    margin: 0;
+}
