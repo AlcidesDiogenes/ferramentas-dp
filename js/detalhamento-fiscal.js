@@ -5,7 +5,7 @@
 
 "use strict";
 
-class GeradorDossieFiscal {
+export class GeradorDossieFiscal {
     
     static gerar(empresasComPendencia) {
         if (!empresasComPendencia || empresasComPendencia.length === 0) {
