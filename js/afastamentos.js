@@ -4,24 +4,44 @@
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
+// Importação do gerador modular
+import { gerarPDFAfastamento } from './pdf-generators/afastamentos-pdf.js';
+
 let analiseAfastamentosGlobal = [];
 
 // MAPEAMENTO DOM
 const inputArquivo = document.getElementById('file-input-afastamentos');
 const listaArquivos = document.getElementById('lista-arquivos-afastamentos');
-const areaStatus = document.getElementById('import-status-afastamentos');;
+const areaStatus = document.getElementById('import-status-afastamentos');
 const painelAcoes = document.getElementById('actions-panel');
 const secaoRelatorio = document.getElementById('report-section');
 const corpoTabela = document.getElementById('tabela-corpo');
 const lblPeriodo = document.getElementById('report-period');
 const inputFiltro = document.getElementById('input-filtro');
 
+// LISTENERS
 document.getElementById('btn-export-excel').addEventListener('click', gerarExcel);
-document.getElementById('btn-export-pdf').addEventListener('click', gerarPDF);
+document.getElementById('btn-export-pdf').addEventListener('click', () => {
+    const filtro = inputFiltro.value;
+    // Filtra os dados atuais antes de enviar para o gerador
+    const dadosParaPDF = MotorFiltros.filtrarMultiplo(
+        analiseAfastamentosGlobal, 
+        filtro, 
+        ['nome', 'codigo', 'motivo', 'empresa']
+    );
 
-// Inicialização Global do Filtro
+    if (dadosParaPDF.length > 0) {
+        gerarPDFAfastamento(dadosParaPDF);
+    } else {
+        alert("Nenhum dado visível para exportar.");
+    }
+});
+
+// Inicialização Global
 document.addEventListener('DOMContentLoaded', () => {
-    MotorFiltros.init('#input-filtro', "Ex: 'Israel 15 dias' ou '624 Doença'");
+    if (typeof MotorFiltros !== 'undefined') {
+        MotorFiltros.init('#input-filtro', "Ex: 'Israel 15 dias' ou '624 Doença'");
+    }
 });
 
 // GATILHO DE IMPORTAÇÃO
@@ -85,7 +105,7 @@ function parseDataParaMatematica(dataStr) {
     return new Date(ano, partes[1] - 1, partes[0]);
 }
 
-// CÉREBRO DE EXTRAÇÃO
+// CÉREBRO DE EXTRAÇÃO (Mantido conforme sua lógica validada)
 async function processarPDF(arrayBuffer, nomeArquivo) {
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     let paginasTexto = [];
@@ -118,45 +138,21 @@ async function processarPDF(arrayBuffer, nomeArquivo) {
         paginasTexto.push(linhasPagina);
     }
 
-    // EXTRAÇÃO ROBUSTA DE CABEÇALHO
-    // --- EXTRAÇÃO ROBUSTA ---
     const todasLinhas = paginasTexto.flat();
-
-    // 1. Extração da Empresa: Pega a linha e remove qualquer "Data: ..." que apareça nela
     let nomeEmpresa = "Desconhecida";
     const indexRelacao = todasLinhas.findIndex(l => l.includes("RELAÇÃO DE AFASTAMENTOS"));
     if (indexRelacao !== -1 && todasLinhas[indexRelacao + 1]) {
-        // Limpa qualquer "Data:" ou sujeira que vier grudada
         nomeEmpresa = todasLinhas[indexRelacao + 1].replace(/Data:.*$/i, '').trim();
     }
 
-    // 2. Extração do Período: Busca agressiva pelo padrão de datas DD/MM/AAAA até DD/MM/AAAA
     let periodoApuracao = "Período não identificado";
-    
-    // Junta todas as linhas para procurar o padrão de data sem se preocupar com quebras de linha
     const textoCompleto = todasLinhas.join(" ");
-    
-    // Regex que busca: Data (2/2/4 dígitos) + espaço/até + Data (2/2/4 dígitos)
     const regexDataRange = /(\d{2}\/\d{2}\/\d{4}\s+(?:até|a)\s+\d{2}\/\d{2}\/\d{4})/i;
     const match = textoCompleto.match(regexDataRange);
-
-    if (match) {
-        periodoApuracao = match[0]; // Pega o intervalo encontrado (ex: 01/04/2026 até 30/06/2026)
-    } else {
-        // Fallback: se não achar pelo padrão, tenta procurar pela palavra "Periodo" de forma flexível
-        const linhaPeriodo = todasLinhas.find(l => l.toLowerCase().includes("periodo"));
-        if (linhaPeriodo) {
-            periodoApuracao = linhaPeriodo.toLowerCase().split("periodo")[1].replace(/:/g, '').trim();
-        }
-    }
+    if (match) periodoApuracao = match[0];
     
-    // Atualiza o DOM
-    lblPeriodo.innerText = `Empresa: ${nomeEmpresa} | Período: ${periodoApuracao}`;
-    
-    // Atualiza o DOM
     lblPeriodo.innerText = `Empresa: ${nomeEmpresa} | Período: ${periodoApuracao}`;
 
-    // MÁQUINA DE ESTADO
     let codigoAtual = "";
     let nomeAtual = "";
     let inicioPendente = "";
@@ -212,7 +208,7 @@ async function processarPDF(arrayBuffer, nomeArquivo) {
     }
 }
 
-// RENDERIZAÇÃO
+// RENDERIZAÇÃO CORRIGIDA
 function renderizarTabelaAfastamentos(dados) {
     corpoTabela.innerHTML = '';
     if (dados.length === 0) {
@@ -252,7 +248,6 @@ function renderizarTabelaAfastamentos(dados) {
     });
 }
 
-// EXPORTAÇÃO
 function gerarExcel() {
     const dadosParaPlanilha = analiseAfastamentosGlobal.map(d => ({
         'Empresa': d.empresa,
@@ -268,13 +263,4 @@ function gerarExcel() {
     XLSX.utils.book_append_sheet(wb, ws, "Afastamentos");
     ws['!cols'] = [{wch: 30}, {wch: 10}, {wch: 40}, {wch: 12}, {wch: 12}, {wch: 15}, {wch: 40}];
     XLSX.writeFile(wb, "Relatorio_Afastamentos.xlsx");
-}
-
-function gerarPDF() {
-    html2pdf().set({
-        margin: [10, 10, 10, 10],
-        filename: 'Analise_Afastamentos.pdf',
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-    }).from(document.getElementById('print-area')).save();
 }

@@ -1,6 +1,6 @@
 // js/simuladores/prolabore.js
 import { calcularProlabore } from './calculos-prolabore.js';
-import { gerarPDFProlabore } from './pdf-generator.js';
+import { gerarPDFProlabore } from '../pdf-generators/prolabore-pdf.js';
 
 const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
