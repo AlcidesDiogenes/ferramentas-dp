@@ -15,11 +15,15 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
     const gerarBlocoINSS = () => {
         let inssContent = [];
 
-        if (dados.tipoContribuinte === 'prolabore') {
-            const aliquotaFixa = 0.11;
-            inssContent.push({ text: 'Cálculo para Sócio (Pró-labore):', style: 'subTitle' });
-            inssContent.push({ text: 'Alíquota fixa de 11% aplicada sobre a base de cálculo.', margin: [0, 5, 0, 5], fontSize: 11, color: '#475569' });
-            inssContent.push({ text: `Cálculo: ${formatar(detalhes.inss.baseINSS)} x 11% = ${formatar(detalhes.inss.baseINSS * aliquotaFixa)}`, fontSize: 11 });
+        if (dados.tipoContribuinte === 'prolabore' || dados.tipoContribuinte === 'individual') {
+            const isProlabore = dados.tipoContribuinte === 'prolabore';
+            const aliquotaFixa = isProlabore ? 0.11 : 0.20;
+            const nomeTipo = isProlabore ? 'Sócio (Pró-labore)' : 'Contribuinte Individual';
+            const aliquotaTexto = isProlabore ? '11%' : '20%';
+
+            inssContent.push({ text: `Cálculo para ${nomeTipo}:`, style: 'subTitle' });
+            inssContent.push({ text: `Alíquota fixa de ${aliquotaTexto} aplicada sobre a base de cálculo.`, margin: [0, 5, 0, 5], fontSize: 11, color: '#475569' });
+            inssContent.push({ text: `Cálculo: ${formatar(detalhes.inss.baseINSS)} x ${aliquotaTexto} = ${formatar(detalhes.inss.baseINSS * aliquotaFixa)}`, fontSize: 11 });
         } else {
             // 1. Cálculo Progressivo
             inssContent.push({ text: '1. Cálculo Progressivo (Faixa por Faixa):', style: 'subTitle' });
@@ -161,7 +165,7 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
                         ],
                         [
                             formatar(dados.salario),
-                            dados.tipoContribuinte === 'prolabore' ? 'Sócio (Pró-labore)' : 'Funcionário (CLT)',
+                            dados.tipoContribuinte === 'prolabore' ? 'Sócio (Pró-labore)' : (dados.tipoContribuinte === 'individual' ? 'Contribuinte Individual' : 'Funcionário (CLT)'),
                             dados.dependentes.toString()
                         ]
                     ]
@@ -188,7 +192,7 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
             },
 
             // 4. TABELAS DE REFERÊNCIA
-            { text: '4. Tabelas Progressivas Vigentes', style: 'sectionHeader'},
+            { text: '4. Tabelas Progressivas Vigentes', style: 'sectionHeader' },
             {
                 columns: [
                     {
