@@ -39,6 +39,7 @@ form.addEventListener('submit', (e) => {
 
 function processarCalculo() {
     const tipo = document.getElementById('tipo-calculo').value;
+    const tipoContribuinte = document.getElementById('tipo-contribuinte').value;
     const salario = parseFloat(document.getElementById('salario-bruto').value) || 0;
     const dependentes = parseInt(document.getElementById('dependentes').value) || 0;
     const outrasBases = parseFloat(inputOutrasBases.value) || 0;
@@ -60,33 +61,44 @@ function processarCalculo() {
     if (tipo === 'ambos' || tipo === 'irrf') html += renderizarTabela(TABELA_IRRF, 'IRRF');
     html += `</div><hr>`;
 
-    // --- 2. CÁLCULO INSS ---
-    if (tipo === 'ambos' || tipo === 'inss') {
+if (tipo === 'ambos' || tipo === 'inss') {
         html += `<div class="calculo-bloco"><h4>Previdência (INSS)</h4>`;
         
-        html += `<p><strong>1. Cálculo Progressivo (Faixa por Faixa):</strong></p><ul>`;
-        let anterior = 0;
-        let somaProgressiva = 0;
-        TABELA_INSS.forEach((f, i) => {
-            let baseFaixa = Math.min(baseINSS, f.limite) - anterior;
-            if (baseFaixa > 0) {
-                let valor = baseFaixa * f.aliquota;
-                somaProgressiva += valor;
-                html += `<li>Faixa ${i + 1}: R$ ${formatarMoeda(baseFaixa)} x ${(f.aliquota * 100).toFixed(1)}% = R$ ${formatarMoeda(valor)}</li>`;
-            }
-            anterior = f.limite;
-        });
-        html += `</ul><p>Total Acumulado: R$ ${formatarMoeda(somaProgressiva)}</p>`;
+        if (tipoContribuinte === 'prolabore') {
+            // CÁLCULO PRO-LABORE (FIXO 11%)
+            const aliquotaFixa = 0.11;
+            totalINSS = Math.max(0, (baseINSS * aliquotaFixa) - jaContribuido);
+            
+            html += `<p><strong>Cálculo para Sócio (Pró-labore):</strong></p>`;
+            html += `<p>Como se trata de um sócio (Pró-labore), aplica-se a alíquota fixa de <strong>11%</strong> sobre a base de cálculo.</p>`;
+            html += `<p>Cálculo: R$ ${formatarMoeda(baseINSS)} x 11% = <strong>R$ ${formatarMoeda(baseINSS * aliquotaFixa)}</strong></p>`;
+        } else {
+            // CÁLCULO CLT (PROGRESSIVO)
+            html += `<p><strong>1. Cálculo Progressivo (Faixa por Faixa):</strong></p><ul>`;
+            let anterior = 0;
+            let somaProgressiva = 0;
+            TABELA_INSS.forEach((f, i) => {
+                let baseFaixa = Math.min(baseINSS, f.limite) - anterior;
+                if (baseFaixa > 0) {
+                    let valor = baseFaixa * f.aliquota;
+                    somaProgressiva += valor;
+                    html += `<li>Faixa ${i + 1}: R$ ${formatarMoeda(baseFaixa)} x ${(f.aliquota * 100).toFixed(1)}% = R$ ${formatarMoeda(valor)}</li>`;
+                }
+                anterior = f.limite;
+            });
+            html += `</ul><p>Total Acumulado: R$ ${formatarMoeda(somaProgressiva)}</p>`;
 
-        const faixa = TABELA_INSS.find(f => baseINSS <= f.limite) || TABELA_INSS[TABELA_INSS.length - 1];
-        let calculoSimplificado = (baseINSS * faixa.aliquota) - faixa.deducao;
+            const faixa = TABELA_INSS.find(f => baseINSS <= f.limite) || TABELA_INSS[TABELA_INSS.length - 1];
+            let calculoSimplificado = (baseINSS * faixa.aliquota) - faixa.deducao;
+            
+            html += `<p><strong>2. Cálculo Simplificado (Conferência):</strong></p>`;
+            html += `<p><em>(Salário Base x Alíquota) - Dedução = Total de INSS</em></p>`;
+            html += `<p>(R$ ${formatarMoeda(baseINSS)} x ${(faixa.aliquota * 100).toFixed(1)}%) - R$ ${formatarMoeda(faixa.deducao)} = <strong>R$ ${formatarMoeda(calculoSimplificado)}</strong></p>`;
+            
+            totalINSS = Math.max(0, calculoSimplificado - jaContribuido);
+        }
         
-        html += `<p><strong>2. Cálculo Simplificado (Conferência):</strong></p>`;
-        html += `<p><em>(Salário Base x Alíquota) - Dedução = Total de INSS</em></p>`;
-        html += `<p>(R$ ${formatarMoeda(baseINSS)} x ${(faixa.aliquota * 100).toFixed(1)}%) - R$ ${formatarMoeda(faixa.deducao)} = <strong>R$ ${formatarMoeda(calculoSimplificado)}</strong></p>`;
-
-        totalINSS = Math.max(0, calculoSimplificado - jaContribuido);
-        
+        // ... (Exibição final do valor total mantida como estava)
         html += `<p class="calc-spacing">`;
         if (outrasBases > 0 && jaContribuido > 0) {
             html += `<em>* Valor de INSS ajustado pela contribuição já realizada (R$ ${formatarMoeda(jaContribuido)})</em><br>`;

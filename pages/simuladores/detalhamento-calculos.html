@@ -24,35 +24,57 @@
         </div>
 
         <section class="module-card">
-            <h3>Configure a Simulação</h3>
-            <form id="form-calculo">
+            <form id="form-calculo" class="simulator-form">
                 <div class="form-grid">
-                    <div class="form-group" style="grid-column: span 2;">
-                        <label for="tipo-calculo">O que você deseja calcular?</label>
-                        <select id="tipo-calculo" class="form-control">
-                            <option value="ambos">INSS e IRRF (Ambos)</option>
-                            <option value="inss">Somente INSS</option>
-                            <option value="irrf">Somente IRRF</option>
-                        </select>
+
+                    <div class="form-section">
+                        <h3>Configurações da Simulação</h3>
+
+                        <div class="form-group">
+                            <label for="tipo-calculo" class="form-label">O que você deseja calcular?</label>
+                            <select id="tipo-calculo" class="form-control">
+                                <option value="ambos">INSS e IRRF (Ambos)</option>
+                                <option value="inss">Somente INSS</option>
+                                <option value="irrf">Somente IRRF</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo-contribuinte" class="form-label">Tipo de Contribuinte</label>
+                            <select id="tipo-contribuinte" class="form-control">
+                                <option value="clt">Funcionário (CLT)</option>
+                                <option value="prolabore">Sócio (Pró-labore)</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="salario-bruto">Salário Bruto (R$)</label>
-                        <input type="number" id="salario-bruto" placeholder="0,00" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label for="dependentes">Qtd. de Filhos/Dependentes</label>
-                        <input type="number" id="dependentes" placeholder="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="outras-bases">Outras Bases INSS (R$)</label>
-                        <input type="number" id="outras-bases" placeholder="0,00" step="0.01">
-                    </div>
-                    <div class="form-group" id="wrapper-inss-contribuido" style="display: none;">
-                        <label for="inss-contribuido">INSS Já Contribuído (R$)</label>
-                        <input type="number" id="inss-contribuido" placeholder="0,00" step="0.01">
+                    <div class="form-section">
+                        <h3>Dados do Colaborador/Sócio</h3>
+
+                        <div class="form-group">
+                            <label for="salario-bruto" class="form-label">Salário Bruto (R$)</label>
+                            <input type="number" id="salario-bruto" class="form-control" placeholder="0,00" step="0.01"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dependentes" class="form-label">Qtd. de Dependentes</label>
+                            <input type="number" id="dependentes" class="form-control" placeholder="0" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="outras-bases" class="form-label">Outras Bases INSS (R$)</label>
+                            <input type="number" id="outras-bases" class="form-control" placeholder="0,00" step="0.01">
+                        </div>
+
+                        <div class="form-group" id="wrapper-inss-contribuido" style="display: none;">
+                            <label for="inss-contribuido" class="form-label">INSS Já Contribuído (R$)</label>
+                            <input type="number" id="inss-contribuido" class="form-control" placeholder="0,00"
+                                step="0.01">
+                        </div>
                     </div>
                 </div>
+
                 <button type="submit" class="btn-action">Explicar Cálculo</button>
             </form>
         </section>
