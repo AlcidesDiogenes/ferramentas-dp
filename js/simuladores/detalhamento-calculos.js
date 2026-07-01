@@ -1,9 +1,9 @@
 // js/simuladores/detalhamento-calculos.js
-import {
-    TABELA_INSS,
-    TABELA_IRRF,
-    TETO_INSS,
-    VALOR_DEDUCAO_DEPENDENTE,
+import { 
+    TABELA_INSS, 
+    TABELA_IRRF, 
+    TETO_INSS, 
+    VALOR_DEDUCAO_DEPENDENTE, 
     DESCONTO_SIMPLIFICADO,
     TABELA_REDUCAO_MENSAL
 } from './tabelas.js';
@@ -17,7 +17,6 @@ const inputOutrasBases = document.getElementById('outras-bases');
 const wrapperJaContribuido = document.getElementById('wrapper-inss-contribuido');
 const inputJaContribuido = document.getElementById('inss-contribuido');
 
-// Listener para visibilidade condicional
 inputOutrasBases.addEventListener('input', () => {
     if (parseFloat(inputOutrasBases.value) > 0) {
         wrapperJaContribuido.style.display = 'block';
@@ -37,7 +36,6 @@ function calcularImpostoIRRF(base) {
     return (base * faixa.aliquota) - faixa.deducao;
 }
 
-// Tabela de referência para a exibição no HTML
 function renderizarTabela(tabela, tipo) {
     let html = `<div class="calc-box">
         <strong>Tabela ${tipo}:</strong>
@@ -72,17 +70,17 @@ function processarCalculo() {
 
     if (outrasBases > 0 && inputJaContribuido.value === '') {
         alert("O campo 'INSS Já Contribuído' é obrigatório quando há outras bases informadas.");
-        return;
+        return; 
     }
 
-    // Inicialização segura de variáveis para o escopo da função (Evita ReferenceError)
+    // Variáveis Globais da Função
     let totalINSS = 0;
     let impostoFinal = 0;
     let modeloIRRF = 'N/A';
     let baseLegal = 0, impostoLegal = 0, baseSimplificada = 0, impostoSimplificado = 0, valorReducao = 0;
+    let faixaLegal = null, faixaSimplificada = null; // Adicionadas para a memória de cálculo
 
     const baseINSS = Math.min(salario + outrasBases, TETO_INSS);
-
     let html = `<h3>Detalhamento do Cálculo</h3>`;
 
     // --- 1. TABELAS DE REFERÊNCIA ---
@@ -94,7 +92,7 @@ function processarCalculo() {
     // --- 2. CÁLCULO INSS ---
     if (tipo === 'ambos' || tipo === 'inss') {
         html += `<div class="calculo-bloco"><h4>Previdência (INSS)</h4>`;
-
+        
         if (tipoContribuinte === 'prolabore' || tipoContribuinte === 'individual') {
             const isProlabore = tipoContribuinte === 'prolabore';
             const aliquotaFixa = isProlabore ? 0.11 : 0.20;
@@ -102,12 +100,11 @@ function processarCalculo() {
             const aliquotaTexto = isProlabore ? '11%' : '20%';
 
             totalINSS = Math.max(0, (baseINSS * aliquotaFixa) - jaContribuido);
-
+            
             html += `<p><strong>Cálculo para ${nomeTipo}:</strong></p>`;
             html += `<p>Como se trata de um ${nomeTipo.toLowerCase()}, aplica-se a alíquota fixa de <strong>${aliquotaTexto}</strong> sobre a base de cálculo.</p>`;
             html += `<p>Cálculo: R$ ${formatarMoeda(baseINSS)} x ${aliquotaTexto} = <strong>R$ ${formatarMoeda(baseINSS * aliquotaFixa)}</strong></p>`;
         } else {
-            // CÁLCULO CLT (PROGRESSIVO)
             html += `<p><strong>1. Cálculo Progressivo (Faixa por Faixa):</strong></p><ul>`;
             let anterior = 0;
             let somaProgressiva = 0;
@@ -124,14 +121,14 @@ function processarCalculo() {
 
             const faixa = TABELA_INSS.find(f => baseINSS <= f.limite) || TABELA_INSS[TABELA_INSS.length - 1];
             let calculoSimplificado = (baseINSS * faixa.aliquota) - faixa.deducao;
-
+            
             html += `<p><strong>2. Cálculo Simplificado (Conferência):</strong></p>`;
             html += `<p><em>(Salário Base x Alíquota) - Dedução = Total de INSS</em></p>`;
             html += `<p>(R$ ${formatarMoeda(baseINSS)} x ${(faixa.aliquota * 100).toFixed(1)}%) - R$ ${formatarMoeda(faixa.deducao)} = <strong>R$ ${formatarMoeda(calculoSimplificado)}</strong></p>`;
-
+            
             totalINSS = Math.max(0, calculoSimplificado - jaContribuido);
         }
-
+        
         html += `<p class="calc-spacing">`;
         if (outrasBases > 0 && jaContribuido > 0) {
             html += `<em>* Valor de INSS ajustado pela contribuição já realizada (R$ ${formatarMoeda(jaContribuido)})</em><br>`;
@@ -140,59 +137,84 @@ function processarCalculo() {
     }
 
     // --- 3. CÁLCULO IRRF ---
-
     if (tipo === 'ambos' || tipo === 'irrf') {
         baseLegal = Math.max(0, salario - totalINSS - (dependentes * VALOR_DEDUCAO_DEPENDENTE));
         baseSimplificada = Math.max(0, salario - DESCONTO_SIMPLIFICADO);
 
+        // Captura as faixas para exibir a memória de cálculo na tela
+        faixaLegal = TABELA_IRRF.find(f => baseLegal <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
+        faixaSimplificada = TABELA_IRRF.find(f => baseSimplificada <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
+
         impostoLegal = calcularImpostoIRRF(baseLegal);
         impostoSimplificado = calcularImpostoIRRF(baseSimplificada);
-
+        
         const ehMaisFavoravelSimplificado = impostoSimplificado < impostoLegal;
         const impostoDevidoSemReducao = Math.min(impostoLegal, impostoSimplificado);
 
-        // Nova Lógica de Explicação da Redução 2026
         let explicacaoReducao = '';
         if (salario <= TABELA_REDUCAO_MENSAL.limiteInferior) {
-            valorReducao = TABELA_REDUCAO_MENSAL.reducaoFixa;
+            valorReducao = TABELA_REDUCAO_MENSAL.reducaoFixa; 
             explicacaoReducao = `<em>Rendimentos até R$ ${formatarMoeda(TABELA_REDUCAO_MENSAL.limiteInferior)}: redução de até R$ ${formatarMoeda(TABELA_REDUCAO_MENSAL.reducaoFixa)} (limitado a zerar o imposto).</em>`;
         } else if (salario > TABELA_REDUCAO_MENSAL.limiteInferior && salario <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
             valorReducao = TABELA_REDUCAO_MENSAL.formulaVariavel(salario);
             explicacaoReducao = `<em>Fórmula decrescente: R$ 978,62 - (0,133145 x R$ ${formatarMoeda(salario)}) = <strong>R$ ${formatarMoeda(valorReducao)}</strong></em>`;
         }
-
+        
         valorReducao = Math.max(0, valorReducao);
-
-        // Aplicação do conceito "Até Zerar"
         let reducaoEfetiva = Math.min(impostoDevidoSemReducao, valorReducao);
         impostoFinal = Math.max(0, impostoDevidoSemReducao - reducaoEfetiva);
         modeloIRRF = ehMaisFavoravelSimplificado ? 'Simplificado' : 'Deduções Legais';
 
         html += `<div class="calculo-bloco"><h4>Imposto de Renda (IRRF)</h4>`;
-
+        
         html += `<div class="calc-comparison">
             <div class="calc-box">
                 <strong>Deduções Legais</strong><br>
                 Salário: R$ ${formatarMoeda(salario)}<br>
                 (-) INSS: R$ ${formatarMoeda(totalINSS)}<br>
                 (-) Dep. (${dependentes}): R$ ${formatarMoeda(dependentes * VALOR_DEDUCAO_DEPENDENTE)}<br>
-                <strong>Base: R$ ${formatarMoeda(baseLegal)}</strong><br>
-                <span style="color: ${!ehMaisFavoravelSimplificado ? 'green' : 'inherit'};">Imposto: R$ ${formatarMoeda(impostoLegal)}</span>
+                <strong>Base Calculada: R$ ${formatarMoeda(baseLegal)}</strong><br>
+                
+                <hr style="margin: 8px 0; border: 0; border-top: 1px dashed #cbd5e1;">
+                
+                <div style="font-size: 0.9em; color: #475569; line-height: 1.4;">
+                    <strong>Memória de Cálculo:</strong><br>
+                    Alíquota aplicada: ${(faixaLegal.aliquota * 100).toFixed(1)}%<br>
+                    Parcela a deduzir: R$ ${formatarMoeda(faixaLegal.deducao)}<br>
+                    <em>(R$ ${formatarMoeda(baseLegal)} x ${(faixaLegal.aliquota * 100).toFixed(1)}%) - R$ ${formatarMoeda(faixaLegal.deducao)}</em>
+                </div>
+                
+                <div style="margin-top: 8px; color: ${!ehMaisFavoravelSimplificado ? '#166534' : 'inherit'}; font-weight: bold;">
+                    Imposto Devido: R$ ${formatarMoeda(impostoLegal)}
+                </div>
             </div>
+            
             <div class="calc-box">
                 <strong>Desconto Simplificado</strong><br>
                 Salário: R$ ${formatarMoeda(salario)}<br>
                 (-) Desc. Padrão: R$ ${formatarMoeda(DESCONTO_SIMPLIFICADO)}<br>
                 <br>
-                <strong>Base: R$ ${formatarMoeda(baseSimplificada)}</strong><br>
-                <span style="color: ${ehMaisFavoravelSimplificado ? 'green' : 'inherit'};">Imposto: R$ ${formatarMoeda(impostoSimplificado)}</span>
+                <strong>Base Calculada: R$ ${formatarMoeda(baseSimplificada)}</strong><br>
+                
+                <hr style="margin: 8px 0; border: 0; border-top: 1px dashed #cbd5e1;">
+                
+                <div style="font-size: 0.9em; color: #475569; line-height: 1.4;">
+                    <strong>Memória de Cálculo:</strong><br>
+                    Alíquota aplicada: ${(faixaSimplificada.aliquota * 100).toFixed(1)}%<br>
+                    Parcela a deduzir: R$ ${formatarMoeda(faixaSimplificada.deducao)}<br>
+                    <em>(R$ ${formatarMoeda(baseSimplificada)} x ${(faixaSimplificada.aliquota * 100).toFixed(1)}%) - R$ ${formatarMoeda(faixaSimplificada.deducao)}</em>
+                </div>
+                
+                <div style="margin-top: 8px; color: ${ehMaisFavoravelSimplificado ? '#166534' : 'inherit'}; font-weight: bold;">
+                    Imposto Devido: R$ ${formatarMoeda(impostoSimplificado)}
+                </div>
             </div>
         </div>`;
 
         if (reducaoEfetiva > 0 || salario <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
             html += `<div class="calc-info-box calc-info-box-blue">
                 <strong>Regra de Redução:</strong><br>
-                Formula: R$ 978,62 - (0,133145 x rendimentos tributáveis sujeitos à incidência mensal) = valor a dud<br>
+                Formula: R$ 978,62 - (0,133145 x rendimentos tributáveis) = valor a deduzir<br>
                 ${explicacaoReducao}<br><br>
                 Valor Devido (sem redução): R$ ${formatarMoeda(impostoDevidoSemReducao)}<br>
                 (-) Valor da redução aplicada: R$ ${formatarMoeda(reducaoEfetiva)}<br>
@@ -204,8 +226,7 @@ function processarCalculo() {
             <strong>Modelo Selecionado:</strong> ${modeloIRRF}.<br>
             <strong>Imposto de Renda Final: R$ ${formatarMoeda(impostoFinal)}</strong>
         </p></div>`;
-
-        // Atualiza a variável para garantir que o PDF herde o valor corretamente travado no "até zerar"
+        
         valorReducao = reducaoEfetiva;
     }
 
@@ -218,12 +239,12 @@ function processarCalculo() {
     const detalhes = {
         inssTexto: tipoContribuinte === 'prolabore' ? 'Cálculo fixo 11%' : (tipoContribuinte === 'individual' ? 'Cálculo fixo 20%' : 'Cálculo Progressivo (Faixa por Faixa)'),
         inss: { baseINSS, outrasBases, jaContribuido },
-        irrf: { baseLegal, impostoLegal, baseSimplificada, impostoSimplificado, valorReducao }
+        // Enviamos as faixas descobertas para o PDF também montar a memória de cálculo
+        irrf: { baseLegal, impostoLegal, faixaLegal, baseSimplificada, impostoSimplificado, faixaSimplificada, valorReducao }
     };
 
     const btnPdf = document.getElementById('btn-export-pdf-detalhado');
-    if (btnPdf) {
-        // Usa onclick para garantir que não acumule eventos de cliques se o usuário simular várias vezes
+    if(btnPdf) {
         btnPdf.onclick = () => {
             gerarPDFDetalhamento(dadosExportacao.dados, dadosExportacao.resultados, detalhes);
         };

@@ -11,7 +11,7 @@ import {
 export function gerarPDFDetalhamento(dados, resultados, detalhes) {
     const formatar = (v) => `R$ ${Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-    // Função interna para recriar o passo a passo do INSS igual ao HTML
+    // Função interna para recriar o passo a passo do INSS no PDF
     const gerarBlocoINSS = () => {
         let inssContent = [];
 
@@ -25,7 +25,6 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
             inssContent.push({ text: `Alíquota fixa de ${aliquotaTexto} aplicada sobre a base de cálculo.`, margin: [0, 5, 0, 5], fontSize: 11, color: '#475569' });
             inssContent.push({ text: `Cálculo: ${formatar(detalhes.inss.baseINSS)} x ${aliquotaTexto} = ${formatar(detalhes.inss.baseINSS * aliquotaFixa)}`, fontSize: 11 });
         } else {
-            // 1. Cálculo Progressivo
             inssContent.push({ text: '1. Cálculo Progressivo (Faixa por Faixa):', style: 'subTitle' });
 
             let anterior = 0;
@@ -45,7 +44,6 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
             inssContent.push({ ul: progressivoItens, margin: [10, 5, 0, 10], fontSize: 11, color: '#334155' });
             inssContent.push({ text: `Total Acumulado: ${formatar(somaProgressiva)}`, bold: true, fontSize: 11, margin: [0, 0, 0, 15] });
 
-            // 2. Cálculo Simplificado
             const faixa = TABELA_INSS.find(f => detalhes.inss.baseINSS <= f.limite) || TABELA_INSS[TABELA_INSS.length - 1];
             let calculoSimplificado = (detalhes.inss.baseINSS * faixa.aliquota) - faixa.deducao;
 
@@ -61,12 +59,13 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
         return inssContent;
     };
 
-    // Função interna para recriar o detalhamento comparativo do IRRF
+    // Função interna para detalhar a memória de cálculo do IRRF no PDF
     const gerarBlocoIRRF = () => {
         let irrfContent = [];
         const impostoDevidoSemReducao = Math.min(detalhes.irrf.impostoLegal, detalhes.irrf.impostoSimplificado);
 
         irrfContent.push({ text: 'Comparativo de Modelos:', style: 'subTitle' });
+        
         irrfContent.push({
             table: {
                 widths: ['*', '*'],
@@ -80,15 +79,21 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
                             { text: `Salário: ${formatar(dados.salario)}`, margin: [0, 2] },
                             { text: `(-) INSS: ${formatar(resultados.totalINSS)}`, margin: [0, 2] },
                             { text: `(-) Dep. (${dados.dependentes}): ${formatar(dados.dependentes * VALOR_DEDUCAO_DEPENDENTE)}`, margin: [0, 2] },
-                            { text: `Base: ${formatar(detalhes.irrf.baseLegal)}`, bold: true, margin: [0, 8, 0, 2] },
-                            { text: `Imposto: ${formatar(detalhes.irrf.impostoLegal)}`, color: resultados.modeloIRRF === 'Deduções Legais' ? '#166534' : '#334155', bold: resultados.modeloIRRF === 'Deduções Legais' }
+                            { text: `Base Calculada: ${formatar(detalhes.irrf.baseLegal)}`, bold: true, margin: [0, 8, 0, 4] },
+                            { text: `Memória de Cálculo:`, fontSize: 10, bold: true, color: '#475569', margin: [0, 4, 0, 2] },
+                            { text: `Alíquota: ${(detalhes.irrf.faixaLegal.aliquota * 100).toFixed(1)}%  |  Deduzir: ${formatar(detalhes.irrf.faixaLegal.deducao)}`, fontSize: 9, color: '#475569', margin: [0, 1] },
+                            { text: `(${formatar(detalhes.irrf.baseLegal)} x ${(detalhes.irrf.faixaLegal.aliquota * 100).toFixed(1)}%) - ${formatar(detalhes.irrf.faixaLegal.deducao)}`, fontSize: 9, italics: true, color: '#64748b', margin: [0, 1, 0, 5] },
+                            { text: `Imposto Devido: ${formatar(detalhes.irrf.impostoLegal)}`, color: resultados.modeloIRRF === 'Deduções Legais' ? '#166534' : '#334155', bold: resultados.modeloIRRF === 'Deduções Legais' }
                         ],
                         [
                             { text: `Salário: ${formatar(dados.salario)}`, margin: [0, 2] },
                             { text: `(-) Desc. Padrão: ${formatar(DESCONTO_SIMPLIFICADO)}`, margin: [0, 2] },
-                            { text: `\n`, margin: [0, 2] }, // Linha vazia para manter simetria vertical com os dependentes
-                            { text: `Base: ${formatar(detalhes.irrf.baseSimplificada)}`, bold: true, margin: [0, 8, 0, 2] },
-                            { text: `Imposto: ${formatar(detalhes.irrf.impostoSimplificado)}`, color: resultados.modeloIRRF === 'Simplificado' ? '#166534' : '#334155', bold: resultados.modeloIRRF === 'Simplificado' }
+                            { text: `\n`, margin: [0, 2] }, 
+                            { text: `Base Calculada: ${formatar(detalhes.irrf.baseSimplificada)}`, bold: true, margin: [0, 8, 0, 4] },
+                            { text: `Memória de Cálculo:`, fontSize: 10, bold: true, color: '#475569', margin: [0, 4, 0, 2] },
+                            { text: `Alíquota: ${(detalhes.irrf.faixaSimplificada.aliquota * 100).toFixed(1)}%  |  Deduzir: ${formatar(detalhes.irrf.faixaSimplificada.deducao)}`, fontSize: 9, color: '#475569', margin: [0, 1] },
+                            { text: `(${formatar(detalhes.irrf.baseSimplificada)} x ${(detalhes.irrf.faixaSimplificada.aliquota * 100).toFixed(1)}%) - ${formatar(detalhes.irrf.faixaSimplificada.deducao)}`, fontSize: 9, italics: true, color: '#64748b', margin: [0, 1, 0, 5] },
+                            { text: `Imposto Devido: ${formatar(detalhes.irrf.impostoSimplificado)}`, color: resultados.modeloIRRF === 'Simplificado' ? '#166534' : '#334155', bold: resultados.modeloIRRF === 'Simplificado' }
                         ]
                     ]
                 ]
@@ -98,7 +103,6 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
             margin: [0, 5, 0, 15]
         });
 
-        // Regra de Redução 2026
         if (detalhes.irrf.valorReducao > 0 || dados.salario <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
             let explicacaoReducao = '';
             let valorCalculado = 0;
@@ -118,7 +122,7 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
                             {
                                 stack: [
                                     { text: 'Regra de Redução:', bold: true, color: '#1e40af', margin: [0, 0, 0, 5] },
-                                    { text: `Formula: R$ 978,62 - (0,133145 x rendimentos tributáveis sujeitos à incidência mensal) = valor a deduzir`, fontSize: 10, margin: [0, 2] },
+                                    { text: `Formula: R$ 978,62 - (0,133145 x rendimentos tributáveis) = valor a deduzir`, fontSize: 10, margin: [0, 2] },
                                     { text: explicacaoReducao, italics: true, fontSize: 10, color: '#475569', margin: [0, 0, 0, 10] },
                                     { text: `Valor Devido (sem redução): ${formatar(impostoDevidoSemReducao)}`, fontSize: 11, margin: [0, 2] },
                                     { text: `(-) Valor da redução aplicada: ${formatar(detalhes.irrf.valorReducao)}`, fontSize: 11, color: '#b91c1c', margin: [0, 2] },
@@ -188,7 +192,7 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
                     { text: `Modelo Mais Vantajoso Escolhido: ${resultados.modeloIRRF}`, style: 'subTitle' },
                     { text: `Imposto Final de IRRF: ${formatar(resultados.impostoFinal)}`, style: 'resultHighlight' }
                 ],
-                margin: [0, 10, 0, 20] // Margem para separar das tabelas abaixo
+                margin: [0, 10, 0, 20]
             },
 
             // 4. TABELAS DE REFERÊNCIA
