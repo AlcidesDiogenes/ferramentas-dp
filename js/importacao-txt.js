@@ -1,14 +1,12 @@
 /**
  * @module ImportacaoTXT
- * @description Processamento de arquivo com mapeamento inquebrável de posições e extração dinâmica de cálculo
+ * @description Processamento de arquivo com mapeamento inquebrável de posições, extração dinâmica de cálculo e leitura financeira imune a padrões de milhar (EUA/BR).
  */
 
 "use strict";
 
 class GeradorArquivoDominio {
-    // A função agora recebe um objeto, eliminando qualquer risco de ordem errada de parâmetros
     static formatarLinha({ codigoEmpregado, competencia, rubrica, calculo, valor, empresa }) {
-        
         // Aplicação rigorosa das posições exigidas pelo layout da Domínio
         const p1_fixo = "10"; // Pos: 01-02 (2)
         const p2_emp  = String(codigoEmpregado || '').replace(/\D/g, '').slice(-10).padStart(10, '0'); // Pos: 03-12 (10)
@@ -92,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const row = rows[i];
                 if (!row || row.length === 0) continue;
 
-                // Extração dinâmica do Tipo de Cálculo (Célula A11 em diante)
                 const calculo = String(row[0] || "").trim(); 
                 const folha = String(row[1] || "").trim();   
                 const nome = String(row[2] || "").trim();    
@@ -105,11 +102,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (valorBruto !== undefined && valorBruto !== null && String(valorBruto).trim() !== "") {
                         
-                        // Restauração integral da lógica que estava validada financeiramente
-                        const valor = parseFloat(String(valorBruto).replace(',', '.'));
+                        let valor;
+                        
+                        // LÓGICA ATUALIZADA: Tratamento super robusto para US e PT-BR
+                        if (typeof valorBruto === 'number') {
+                            valor = valorBruto;
+                        } else {
+                            let valorStr = String(valorBruto).trim();
+                            valorStr = valorStr.replace(/[R$\s]/g, ''); 
+
+                            const lastDot = valorStr.lastIndexOf('.');
+                            const lastComma = valorStr.lastIndexOf(',');
+
+                            // Avalia quem vem por último para descobrir o idioma da máscara
+                            if (lastDot > -1 && lastComma > -1) {
+                                if (lastComma > lastDot) {
+                                    // Padrão PT-BR (ex: 2.821,68) - A vírgula é decimal
+                                    valorStr = valorStr.replace(/\./g, '').replace(',', '.');
+                                } else {
+                                    // Padrão US do SheetJS (ex: 2,821.68) - O ponto é decimal
+                                    valorStr = valorStr.replace(/,/g, '');
+                                }
+                            } else if (lastComma > -1) {
+                                // Apenas vírgula (ex: 2821,68)
+                                valorStr = valorStr.replace(/,/g, '.');
+                            }
+                            
+                            valor = parseFloat(valorStr);
+                        }
                         
                         if (!isNaN(valor)) {
-                            // Uso do objeto para passagem de parâmetros: impossível inverter a ordem acidentalmente
                             linhasTxt.push(GeradorArquivoDominio.formatarLinha({
                                 codigoEmpregado: folha, 
                                 competencia: compAAAAMM, 
