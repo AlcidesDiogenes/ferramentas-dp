@@ -1,0 +1,40 @@
+/* css/consultas.css - Estilos dedicados ao módulo de Consultas e Certidões */
+
+.consultas-section {
+    margin-top: 20px;
+}
+
+/* Evita margem dupla no primeiro bloco */
+.consultas-section:first-of-type {
+    margin-top: 0; 
+}
+
+.consultas-category-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--cor-borda);
+}
+
+.consulta-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+/* Remove a borda e ajusta margem no último item de cada seção */
+.consulta-item:last-child {
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.consulta-item-title {
+    margin-bottom: 5px;
+    color: var(--cor-texto);
+}
+
+.consulta-item-desc {
+    color: var(--cor-texto-secundario);
+    font-size: 0.95em;
+    margin-bottom: 12px;
+}

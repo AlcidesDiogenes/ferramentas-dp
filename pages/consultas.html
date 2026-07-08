@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Central de Consultas</h1>
+            <p class="subtitle">Acesso rápido a portais de emissão de certidões e verificações de regularidade.</p>
+        </header>
+
+        <section class="module-card consultas-section">
+            <h3 class="consultas-category-title">Emissão de Certidões</h3>
+            
+            <div class="consulta-item">
+                <h4 class="consulta-item-title">Cartão CNPJ</h4>
+                <p class="consulta-item-desc">Emissão do Comprovante de Inscrição e de Situação Cadastral da Pessoa Jurídica junto à base de dados da Receita Federal.</p>
+                <a href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/" target="_blank" class="btn-action">Acessar Portal</a>
+            </div>
+
+            <div class="consulta-item">
+                <h4 class="consulta-item-title">Regularidade CPF</h4>
+                <p class="consulta-item-desc">Verificação da Situação Cadastral da Pessoa Física para fins de validação de dependentes e titularidades.</p>
+                <a href="https://servicos.receita.fazenda.gov.br/servicos/cpf/consultasituacao/consultapublica.asp" target="_blank" class="btn-action">Acessar Portal</a>
+            </div>
+
+            <div class="consulta-item">
+                <h4 class="consulta-item-title">Certidão Negativa de Débitos Trabalhistas (CNDT)</h4>
+                <p class="consulta-item-desc">Documento expedido pelo TST que atesta a inexistência de pendências financeiras e processos transitados em julgado na Justiça do Trabalho.</p>
+                <a href="https://cndt-certidao.tst.jus.br/inicio.faces" target="_blank" class="btn-action">Acessar Portal</a>
+            </div>
+
+            <div class="consulta-item">
+                <h4 class="consulta-item-title">Certidão de Ações Trabalhistas</h4>
+                <p class="consulta-item-desc">Consulta regionalizada para identificar a existência de processos trabalhistas em andamento contra pessoas físicas ou jurídicas no Tribunal Regional do Trabalho.</p>
+                <a href="https://ww2.trt2.jus.br/servicos/certidoes/certidao-de-acao-trabalhista" target="_blank" class="btn-action">Acessar Portal</a>
+            </div>
+
+            <div class="consulta-item">
+                <h4 class="consulta-item-title">Certidão do FGTS (Caixa Econômica Federal)</h4>
+                <p class="consulta-item-desc">Consulta de Regularidade do Empregador (CRF), obrigatória para comprovar que a empresa está em dia com os repasses do Fundo de Garantia.</p>
+                <a href="https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf" target="_blank" class="btn-action">Acessar Portal</a>
+            </div>
+        </section>
+
+        <section class="module-card consultas-section">
+            <h3 class="consultas-category-title">Consultas</h3>
+
+            <div class="consulta-item">
+                <h4 class="consulta-item-title">Conselho Regional de Medicina (CRM)</h4>
+                <p class="consulta-item-desc">Busca unificada para validar o registro de profissionais da saúde, atestando a especialidade e a regularidade do médico emissor de atestados.</p>
+                <a href="https://cremec.org.br/busca-medicos" target="_blank" class="btn-action">Acessar Portal</a>
+            </div>
+
+            <div class="consulta-item">
+                <h4 class="consulta-item-title">Simples Nacional</h4>
+                <p class="consulta-item-desc">Consulta formal para verificar a situação de enquadramento de empresas no regime tributário do Simples Nacional ou SIMEI.</p>
+                <a href="https://www8.receita.fazenda.gov.br/simplesnacional/aplicacoes.aspx?id=21" target="_blank" class="btn-action">Acessar Portal</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/loader.js" defer></script>
+</body>
+</html>
