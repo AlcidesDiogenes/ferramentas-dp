@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Jornada - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+    <link rel="stylesheet" href="../css/forms.css"> 
+    <link rel="stylesheet" href="../css/file-uploader.css"> 
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Gestão de Jornada de Trabalho</h1>
+            <p class="subtitle">Importe a planilha de ponto para apuração automática da escala, horas extras e adicional noturno.</p>
+        </header>
+
+        <section class="module-card">
+
+            <div style="margin-bottom: 10px;">
+                <a href="../assets/modelo_controle_ponto.xlsx" download class="btn-action btn-secondary">📥 Baixar Modelo de Planilha</a>
+            </div>
+
+            <div class="form-section">
+                <h3>Importação de Ponto</h3>
+                <div class="file-upload-wrapper">
+                    <!-- O CSS do file-uploader.css já gere este layout, estilos inline removidos -->
+                    <label for="ponto-upload" class="file-upload-label">
+                        <span class="upload-icon">📁</span>
+                        <span>Selecione ou arraste a planilha (.xls, .xlsx)</span>
+                        <input type="file" id="ponto-upload" accept=".xls,.xlsx" style="display: none;">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Identificação do Colaborador e Resumo da Escala Padrão -->
+            <div id="info-colaborador" class="jornada-info-card">
+                <div class="jornada-info-header">
+                    <div><strong>Colaborador:</strong> <span id="lbl-nome" class="jornada-text-secondary"></span></div>
+                    <div><strong>Competência:</strong> <span id="lbl-comp" class="jornada-text-secondary"></span></div>
+                </div>
+                <div class="jornada-carga-horaria">
+                    <strong>Carga Horária Base (Lida da Planilha):</strong> 
+                    <span id="lbl-carga-semanal" class="jornada-carga-val">00:00 Semanal</span> | 
+                    <span id="lbl-carga-mensal" class="jornada-carga-val">00:00 Mensal</span>
+                </div>
+
+                <!-- Escala Reconhecida -->
+                <div class="jornada-escala-container">
+                    <strong class="jornada-escala-title">Escala Semanal Reconhecida:</strong>
+                    <div class="tabela-ponto-wrapper">
+                        <table class="data-table tabela-escala">
+                            <thead>
+                                <tr>
+                                    <th>Dia da Semana</th>
+                                    <th>Entrada</th>
+                                    <th>Saída Int.</th>
+                                    <th>Retorno Int.</th>
+                                    <th>Saída Final</th>
+                                </tr>
+                            </thead>
+                            <tbody id="corpo-escala-reconhecida">
+                                <!-- JS injeta a escala base aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabela de Lançamentos Diários -->
+        <section class="module-card" id="secao-ponto" style="display: none; margin-top: 24px;">
+            <div class="tabela-ponto-wrapper">
+                <table class="data-table tabela-ponto" id="tabela-ponto">
+                    <thead>
+                        <tr>
+                            <th>Data / Dia</th>
+                            <th>Entrada</th>
+                            <th>Saída Int.</th>
+                            <th>Ret. Int.</th>
+                            <th>Saída Final</th>
+                            <th>Hrs Trabalhadas</th>
+                            <th>Hrs Extras</th>
+                            <th>Hrs Noturnas</th>
+                            <th>Hora Ficta</th>
+                            <th>Atrasos/Faltas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo-tabela-ponto">
+                        <!-- JS injeta os dias aqui -->
+                    </tbody>
+                    <tfoot id="rodape-tabela-ponto" class="tabela-ponto-rodape">
+                        <tr>
+                            <td colspan="5" class="tabela-ponto-totais-label">TOTAIS DO MÊS:</td>
+                            <td id="tot-trab">00:00</td>
+                            <td id="tot-extra" class="color-extra">00:00</td>
+                            <td id="tot-not" class="color-noturno">00:00</td>
+                            <td id="tot-ficta" class="color-ficta">00:00</td>
+                            <td id="tot-atraso" class="color-atraso">00:00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <div class="actions-bar" style="margin-top: 20px; justify-content: flex-end;">
+                <button id="btn-calcular-totais" class="btn-action btn-recalculo">Forçar Recálculo da Interface</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Importação do SheetJS para leitura de planilhas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="../js/loader.js" defer></script>
+    
+    <!-- Módulos de Jornada -->
+    <script type="module" src="../js/jornada-importacao.js" defer></script>
+    <script type="module" src="../js/jornada-calculos.js" defer></script>
+</body>
+</html>

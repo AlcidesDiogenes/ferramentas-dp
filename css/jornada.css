@@ -1,0 +1,107 @@
+/* css/jornada.css - Estilos dedicados ao módulo de Gestão de Jornada (Ponto) */
+
+/* =========================================
+   Cabeçalho de Identificação do Colaborador
+   ========================================= */
+.jornada-info-card {
+    display: none; /* Controlado via JS após upload */
+    margin-top: 20px;
+    padding: 15px;
+    background: #eff6ff; /* Azul muito claro */
+    border-left: 4px solid var(--cor-primaria);
+    border-radius: 4px;
+}
+
+.jornada-info-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+
+.jornada-text-secondary {
+    color: var(--cor-texto-secundario);
+}
+
+.jornada-carga-horaria {
+    font-size: 0.9em;
+    color: var(--cor-texto-secundario);
+    padding-top: 10px;
+    border-top: 1px solid #bfdbfe;
+    margin-top: 5px;
+}
+
+.jornada-carga-val {
+    margin-left: 5px;
+}
+.jornada-carga-val:first-of-type {
+    margin-right: 15px;
+}
+
+/* =========================================
+   Tabela de Escala Semanal (Compacta)
+   ========================================= */
+.jornada-escala-container {
+    margin-top: 15px;
+    border-top: 1px solid #bfdbfe;
+    padding-top: 15px;
+}
+
+.jornada-escala-title {
+    color: var(--cor-texto);
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+    font-weight: 600;
+}
+
+.tabela-escala {
+    font-size: 0.85rem;
+    background-color: var(--cor-fundo-card);
+    margin-bottom: 0;
+}
+
+.tabela-escala th, 
+.tabela-escala td {
+    padding: 8px 15px;
+}
+
+/* =========================================
+   Tabela Principal de Apuração
+   ========================================= */
+.tabela-ponto-wrapper {
+    overflow-x: auto;
+}
+
+.tabela-ponto {
+    font-size: 0.9rem;
+    min-width: 1000px;
+}
+
+.tabela-ponto-rodape {
+    background-color: var(--cor-fundo-app);
+    font-weight: 600;
+}
+
+.tabela-ponto-rodape td {
+    border-top: 2px solid var(--cor-borda);
+}
+
+.tabela-ponto-totais-label {
+    text-align: right;
+    padding-right: 15px;
+}
+
+/* Cores Semânticas de Apuração */
+.color-extra { color: var(--cor-sucesso); }
+.color-noturno { color: var(--cor-primaria); }
+.color-ficta { color: #6366f1; /* Índigo específico para diferenciar de horas noturnas normais */ }
+.color-atraso { color: var(--cor-erro); }
+
+/* =========================================
+   Botões de Ação Específicos
+   ========================================= */
+.btn-recalculo {
+    background-color: var(--cor-sucesso);
+    width: auto;
+}
