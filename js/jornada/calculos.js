@@ -5,6 +5,8 @@
 
 "use strict";
 
+import { gerarPDFJornada } from '../pdf-generators/jornada-pdf.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const btnCalcular = document.getElementById('btn-calcular-totais');
     const corpoTabela = document.getElementById('corpo-tabela-ponto');
@@ -125,6 +127,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // ORQUESTRAÇÃO DE EVENTOS DE INTERFACE
     // ==========================================
 
+    const btnExportarPdf = document.getElementById('btn-exportar-pdf');
+
+    if (btnExportarPdf) {
+        btnExportarPdf.addEventListener('click', () => {
+            // 1. Extrai Dados do Cabeçalho
+            const colab = {
+                nome: document.getElementById('lbl-nome').textContent,
+                competencia: document.getElementById('lbl-comp').textContent,
+                cargaSemanal: document.getElementById('lbl-carga-semanal').textContent,
+                cargaMensal: document.getElementById('lbl-carga-mensal').textContent
+            };
+
+            // 2. Extrai Dados da Tabela
+            const linhas = [];
+            document.querySelectorAll('.linha-ponto').forEach(linha => {
+                linhas.push({
+                    dia: linha.querySelector('td:nth-child(1)').innerText.replace(/\n/g, ' '),
+                    e1: linha.querySelector('.e1').value || '--:--',
+                    s1: linha.querySelector('.s1').value || '--:--',
+                    e2: linha.querySelector('.e2').value || '--:--',
+                    s2: linha.querySelector('.s2').value || '--:--',
+                    trab: linha.querySelector('.res-trab').textContent,
+                    extra: linha.querySelector('.res-extra').textContent,
+                    noturno: linha.querySelector('.res-noturno').textContent,
+                    ficta: linha.querySelector('.res-ficta').textContent,
+                    atraso: linha.querySelector('.res-atraso').textContent
+                });
+            });
+
+            // 3. Extrai Totais
+            const totais = {
+                trab: document.getElementById('tot-trab').textContent,
+                extra: document.getElementById('tot-extra').textContent,
+                noturno: document.getElementById('tot-not').textContent,
+                ficta: document.getElementById('tot-ficta').textContent,
+                atraso: document.getElementById('tot-atraso').textContent
+            };
+
+            // 4. Captura a Escala da Memória Global (O Ajuste Aqui!)
+            const escala = window.escalaColaborador || {};
+
+            // 5. Dispara a Geração do PDF com 4 parâmetros
+            gerarPDFJornada(colab, escala, linhas, totais);
+        });
+    }
+    
     // Escuta o módulo de importação avisar que a tabela foi desenhada
     document.addEventListener('pontoImportado', realizarApuracao);
 

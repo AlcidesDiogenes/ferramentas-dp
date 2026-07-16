@@ -4,12 +4,12 @@
    Cabeçalho de Identificação do Colaborador
    ========================================= */
 .jornada-info-card {
-    display: none; /* Controlado via JS após upload */
-    margin-top: 20px;
+    display: none; 
+    margin-bottom: 20px; /* Modificado para dar espaço antes da tabela principal */
     padding: 15px;
-    background: #eff6ff; /* Azul muito claro */
-    border-left: 4px solid var(--cor-primaria);
-    border-radius: 4px;
+    background: var(--cor-card-bg); /* Alinhado ao padrão da Importação TXT */
+    border-radius: var(--borda-raio);
+    border: 1px solid var(--cor-borda);
 }
 
 .jornada-info-header {
@@ -17,6 +17,10 @@
     flex-wrap: wrap;
     gap: 30px;
     margin-bottom: 10px;
+}
+
+.jornada-info-header p {
+    margin: 0;
 }
 
 .jornada-text-secondary {
@@ -27,7 +31,7 @@
     font-size: 0.9em;
     color: var(--cor-texto-secundario);
     padding-top: 10px;
-    border-top: 1px solid #bfdbfe;
+    border-top: 1px solid var(--cor-borda); /* Substituído o azul estático */
     margin-top: 5px;
 }
 
@@ -43,7 +47,7 @@
    ========================================= */
 .jornada-escala-container {
     margin-top: 15px;
-    border-top: 1px solid #bfdbfe;
+    border-top: 1px solid var(--cor-borda);
     padding-top: 15px;
 }
 
@@ -95,7 +99,7 @@
 /* Cores Semânticas de Apuração */
 .color-extra { color: var(--cor-sucesso); }
 .color-noturno { color: var(--cor-primaria); }
-.color-ficta { color: #6366f1; /* Índigo específico para diferenciar de horas noturnas normais */ }
+.color-ficta { color: #6366f1; }
 .color-atraso { color: var(--cor-erro); }
 
 /* =========================================
@@ -104,4 +108,18 @@
 .btn-recalculo {
     background-color: var(--cor-sucesso);
     width: auto;
+}
+
+/* =========================================
+   Destaque para Dias de Folga (Escala)
+   ========================================= */
+.linha-folga,
+.linha-folga td {
+    background-color: #eff6ff !important; /* Azul institucional suave */
+}
+
+/* Mantém os inputs brancos nas linhas de folga para manter o contraste */
+.linha-folga input.form-control {
+    background-color: #ffffff;
+    border-color: #bfdbfe;
 }

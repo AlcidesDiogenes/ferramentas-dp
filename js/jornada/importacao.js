@@ -1,6 +1,6 @@
 /**
  * @module GestaoJornada - Importação
- * @description Leitura estruturada do mapa Excel, sanitização e renderização no DOM com CSS modular.
+ * @description Leitura estruturada do mapa Excel, sanitização e destaque dinâmico dos dias de folga baseado na escala.
  */
 
 "use strict";
@@ -15,9 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const secaoPonto = document.getElementById('secao-ponto');
     const corpoTabela = document.getElementById('corpo-tabela-ponto');
-    const corpoEscala = document.getElementById('corpo-escala-reconhecida'); // Captura a nova tabela do HTML
+    const corpoEscala = document.getElementById('corpo-escala-reconhecida'); 
 
-    // Utilitário de conversão segura para horários extraídos do Excel
     function sanitizarHoraExcel(val) {
         if (val === undefined || val === null || val === "") return "";
         
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 window.escalaColaborador = escalaJornada;
 
-                // 3.5 RENDERIZA A ESCALA RECONHECIDA NA TELA (O Ajuste que faltava)
+                // 3.5 RENDERIZA A ESCALA RECONHECIDA NA TELA
                 if (corpoEscala) {
                     let htmlEscala = '';
                     const nomesDias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
@@ -110,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     corpoEscala.innerHTML = htmlEscala;
                 }
 
-                // 4. Extração da Tabela de Lançamentos
+                // 4. Extração da Tabela de Lançamentos Diários
                 let html = '';
                 for (let i = 17; i < rows.length; i++) {
                     const row = rows[i];
@@ -122,15 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dataAtual = new Date(ano, mes - 1, diaNum);
                     const diaSemanaIndex = dataAtual.getDay();
                     
-                    const isFimDeSemana = diaSemanaIndex === 0 || diaSemanaIndex === 6;
-                    const bgClass = isFimDeSemana ? 'style="background-color: var(--cor-fundo-app);"' : '';
+                    // NOVA INTELIGÊNCIA: Verifica na Escala se este dia específico é folga
+                    const escDoDia = escalaJornada[diaSemanaIndex];
+                    const isFolga = escDoDia && !escDoDia.e1 && !escDoDia.s1 && !escDoDia.e2 && !escDoDia.s2;
+                    const classeFolga = isFolga ? 'linha-folga' : '';
 
                     const e1 = sanitizarHoraExcel(row[2]);
                     const s1 = sanitizarHoraExcel(row[3]);
                     const e2 = sanitizarHoraExcel(row[4]);
                     const s2 = sanitizarHoraExcel(row[5]);
 
-                    html += `<tr ${bgClass} class="linha-ponto" data-dia-semana="${diaSemanaIndex}">
+                    html += `<tr class="linha-ponto ${classeFolga}" data-dia-semana="${diaSemanaIndex}">
                         <td style="text-align: center;">
                             <strong>${String(diaNum).padStart(2, '0')}</strong> 
                             <span class="jornada-text-secondary" style="font-size:0.85em; display:block; text-transform: capitalize;">${diaSemanaText.substring(0,3)}</span>

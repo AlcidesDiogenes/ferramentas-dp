@@ -6,10 +6,10 @@
     <title>Gestão de Jornada - Ferramentas DP</title>
     
     <link rel="stylesheet" href="../css/style.css"> 
-    <link rel="stylesheet" href="../css/forms.css"> 
-    <link rel="stylesheet" href="../css/file-uploader.css"> 
     <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.min.js"></script>
 </head>
 <body class="preload">
 
@@ -22,60 +22,56 @@
         </header>
 
         <section class="module-card">
+            <h3>Seleção de Planilha</h3>
+            <p class="subtitle">Selecione o arquivo Excel de controle de ponto para apuração.</p>
 
             <div style="margin-bottom: 10px;">
                 <a href="../assets/modelo_controle_ponto.xlsx" download class="btn-action btn-secondary">📥 Baixar Modelo de Planilha</a>
             </div>
-
-            <div class="form-section">
-                <h3>Importação de Ponto</h3>
-                <div class="file-upload-wrapper">
-                    <!-- O CSS do file-uploader.css já gere este layout, estilos inline removidos -->
-                    <label for="ponto-upload" class="file-upload-label">
-                        <span class="upload-icon">📁</span>
-                        <span>Selecione ou arraste a planilha (.xls, .xlsx)</span>
-                        <input type="file" id="ponto-upload" accept=".xls,.xlsx" style="display: none;">
-                    </label>
-                </div>
-            </div>
-
-            <!-- Identificação do Colaborador e Resumo da Escala Padrão -->
-            <div id="info-colaborador" class="jornada-info-card">
-                <div class="jornada-info-header">
-                    <div><strong>Colaborador:</strong> <span id="lbl-nome" class="jornada-text-secondary"></span></div>
-                    <div><strong>Competência:</strong> <span id="lbl-comp" class="jornada-text-secondary"></span></div>
-                </div>
-                <div class="jornada-carga-horaria">
-                    <strong>Carga Horária Base (Lida da Planilha):</strong> 
-                    <span id="lbl-carga-semanal" class="jornada-carga-val">00:00 Semanal</span> | 
-                    <span id="lbl-carga-mensal" class="jornada-carga-val">00:00 Mensal</span>
-                </div>
-
-                <!-- Escala Reconhecida -->
-                <div class="jornada-escala-container">
-                    <strong class="jornada-escala-title">Escala Semanal Reconhecida:</strong>
-                    <div class="tabela-ponto-wrapper">
-                        <table class="data-table tabela-escala">
-                            <thead>
-                                <tr>
-                                    <th>Dia da Semana</th>
-                                    <th>Entrada</th>
-                                    <th>Saída Int.</th>
-                                    <th>Retorno Int.</th>
-                                    <th>Saída Final</th>
-                                </tr>
-                            </thead>
-                            <tbody id="corpo-escala-reconhecida">
-                                <!-- JS injeta a escala base aqui -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            
+            <!-- Zona de Upload igual ao Importação TXT -->
+            <div class="upload-zone">
+                <input type="file" id="ponto-upload" accept=".xls,.xlsx" class="input-file-hidden">
+                <label for="ponto-upload" class="btn-action">📁 Selecionar Planilha</label>
             </div>
         </section>
 
+        <!-- Informação do Colaborador extraída para fora do card, funcionando como divisor -->
+        <div id="info-colaborador" class="jornada-info-card">
+            <div class="jornada-info-header">
+                <p><strong>Colaborador:</strong> <span id="lbl-nome" class="jornada-text-secondary"></span></p>
+                <p><strong>Competência:</strong> <span id="lbl-comp" class="jornada-text-secondary"></span></p>
+            </div>
+            <div class="jornada-carga-horaria">
+                <strong>Carga Horária Base (Lida da Planilha):</strong> 
+                <span id="lbl-carga-semanal" class="jornada-carga-val">00:00 Semanal</span> | 
+                <span id="lbl-carga-mensal" class="jornada-carga-val">00:00 Mensal</span>
+            </div>
+
+            <!-- Escala Reconhecida -->
+            <div class="jornada-escala-container">
+                <strong class="jornada-escala-title">Escala Semanal Reconhecida:</strong>
+                <div class="tabela-ponto-wrapper">
+                    <table class="data-table tabela-escala">
+                        <thead>
+                            <tr>
+                                <th>Dia da Semana</th>
+                                <th>Entrada</th>
+                                <th>Saída Int.</th>
+                                <th>Retorno Int.</th>
+                                <th>Saída Final</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-escala-reconhecida">
+                            <!-- JS injeta a escala base aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <!-- Tabela de Lançamentos Diários -->
-        <section class="module-card" id="secao-ponto" style="display: none; margin-top: 24px;">
+        <section class="module-card" id="secao-ponto" style="display: none;">
             <div class="tabela-ponto-wrapper">
                 <table class="data-table tabela-ponto" id="tabela-ponto">
                     <thead>
@@ -93,7 +89,7 @@
                         </tr>
                     </thead>
                     <tbody id="corpo-tabela-ponto">
-                        <!-- JS injeta os dias aqui -->
+                        <!-- JS injeta os dias dinamicamente aqui -->
                     </tbody>
                     <tfoot id="rodape-tabela-ponto" class="tabela-ponto-rodape">
                         <tr>
@@ -111,6 +107,11 @@
             <div class="actions-bar" style="margin-top: 20px; justify-content: flex-end;">
                 <button id="btn-calcular-totais" class="btn-action btn-recalculo">Forçar Recálculo da Interface</button>
             </div>
+
+            <div class="actions-bar" style="margin-top: 20px; justify-content: flex-end; gap: 15px;">
+                <button id="btn-exportar-pdf" class="btn-action btn-pdf">🔴 Baixar Relatório PDF</button>
+                <button id="btn-calcular-totais" class="btn-action btn-recalculo">Forçar Recálculo da Interface</button>
+            </div>
         </section>
     </main>
 
@@ -119,7 +120,7 @@
     <script src="../js/loader.js" defer></script>
     
     <!-- Módulos de Jornada -->
-    <script type="module" src="../js/jornada-importacao.js" defer></script>
-    <script type="module" src="../js/jornada-calculos.js" defer></script>
+    <script type="module" src="../js/jornada/importacao.js" defer></script>
+    <script type="module" src="../js/jornada/calculos.js" defer></script>
 </body>
 </html>
