@@ -1,15 +1,30 @@
 /**
  * @module GeradorPDFJornada
  * @description Módulo dedicado à construção visual do Espelho de Ponto usando pdfMake.
+ * Versão Ultra-Compacta (Page-Fit): Fontes reduzidas e padding decimal para garantir folha única.
  */
 
 export function gerarPDFJornada(colaborador, escala, linhas, totais) {
     
     // ==========================================
+    // 0. Motor de Layout Customizado (Micro-Padding)
+    // ==========================================
+    const layoutCompacto = {
+        hLineWidth: function (i, node) { return 0.5; },
+        vLineWidth: function (i, node) { return 0; },
+        hLineColor: function (i, node) { return '#cbd5e1'; },
+        paddingLeft: function(i, node) { return 2; },
+        paddingRight: function(i, node) { return 2; },
+        // O SEGREDO MÁXIMO: Redução decimal do espaço vertical
+        paddingTop: function(i, node) { return 0.5; }, 
+        paddingBottom: function(i, node) { return 0.5; } 
+    };
+
+    // ==========================================
     // 1. Constrói as Linhas da Escala Semanal
     // ==========================================
     const nomesDias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-    const ordemDias = [1, 2, 3, 4, 5, 6, 0]; // Ordem de impressão (Seg a Dom)
+    const ordemDias = [1, 2, 3, 4, 5, 6, 0]; 
     
     const bodyEscala = [
         [
@@ -67,11 +82,14 @@ export function gerarPDFJornada(colaborador, escala, linhas, totais) {
     const docDefinition = {
         pageSize: 'A4',
         pageOrientation: 'landscape',
-        pageMargins: [30, 30, 30, 30],
+        // Margens externas achatadas: [Esquerda, Cima, Direita, Baixo]
+        pageMargins: [15, 12, 15, 12], 
+        
         content: [
+            // Cabeçalho Principal (Fonte bastante reduzida)
             { text: 'ESPELHO DE PONTO - APURAÇÃO DE JORNADA', style: 'header' },
             
-            // Cabeçalho de Informações
+            // Cabeçalho de Informações do Colaborador (Forçando fonte pequena)
             {
                 table: {
                     widths: ['*', '*'],
@@ -87,24 +105,25 @@ export function gerarPDFJornada(colaborador, escala, linhas, totais) {
                     ]
                 },
                 layout: 'noBorders',
-                margin: [0, 0, 0, 15]
+                fontSize: 8, // Letra miúda para o cabeçalho info
+                margin: [0, 0, 0, 2] 
             },
 
             // Tabela da Escala Semanal
-            { text: 'Escala Semanal Base Reconhecida:', bold: true, fontSize: 10, color: '#1e293b', margin: [0, 0, 0, 5] },
+            { text: 'Escala Semanal Base Reconhecida:', bold: true, fontSize: 7.5, color: '#1e293b', margin: [0, 2, 0, 1] },
             {
                 table: {
                     headerRows: 1,
                     widths: ['*', '*', '*', '*', '*'],
                     body: bodyEscala
                 },
-                layout: 'lightHorizontalLines',
-                style: 'table',
-                margin: [0, 0, 0, 20]
+                layout: layoutCompacto, 
+                style: 'tableEscala',
+                margin: [0, 10, 10, 4] 
             },
 
             // Tabela Principal de Lançamentos
-            { text: 'Lançamentos e Apuração Diária:', bold: true, fontSize: 10, color: '#1e293b', margin: [0, 0, 0, 5] },
+            { text: 'Lançamentos e Apuração Diária:', bold: true, fontSize: 7.5, color: '#1e293b', margin: [0, 10, 10, 1] },
             {
                 table: {
                     headerRows: 1,
@@ -135,22 +154,23 @@ export function gerarPDFJornada(colaborador, escala, linhas, totais) {
                         ]
                     ]
                 },
-                layout: 'lightHorizontalLines',
-                style: 'table'
+                layout: layoutCompacto, 
+                style: 'tableMain'
             },
 
-            // Assinaturas
+            // Assinaturas - Aproximadas e menores
             {
                 columns: [
-                    { text: '___________________________________________________\nAssinatura do Colaborador', alignment: 'center', margin: [0, 40, 0, 0] },
-                    { text: '___________________________________________________\nAssinatura do Empregador', alignment: 'center', margin: [0, 40, 0, 0] }
+                    { text: '___________________________________________________\nAssinatura do Colaborador', alignment: 'center', margin: [0, 30, 0, 0], fontSize: 8 },
+                    { text: '___________________________________________________\nAssinatura do Empregador', alignment: 'center', margin: [0, 30, 0, 0], fontSize: 8 }
                 ]
             }
         ],
         styles: {
-            header: { fontSize: 16, bold: true, margin: [0, 0, 0, 15], color: '#1e293b', alignment: 'center' },
-            tableHeader: { bold: true, fontSize: 10, color: '#1e293b', fillColor: '#f1f5f9', alignment: 'center' },
-            table: { margin: [0, 0, 0, 15], fontSize: 9 }
+            header: { fontSize: 11, bold: true, margin: [0, 0, 0, 2], color: '#1e293b', alignment: 'center' },
+            tableHeader: { bold: true, fontSize: 7, color: '#1e293b', fillColor: '#f1f5f9', alignment: 'center' },
+            tableEscala: { margin: [0, 0, 0, 0], fontSize: 7.5 },
+            tableMain: { margin: [0, 0, 0, 0], fontSize: 7 } // A fonte da tabela principal desceu para 7
         },
         defaultStyle: { font: 'Roboto' }
     };

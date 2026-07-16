@@ -38,6 +38,10 @@
 
         <!-- Informação do Colaborador extraída para fora do card, funcionando como divisor -->
         <div id="info-colaborador" class="jornada-info-card">
+            <div class="actions-bar" style="margin-top: 20px; justify-content: center; gap: 10px;">
+                <button id="btn-exportar-pdf" class="btn-action btn-pdf">🔴 Baixar Relatório PDF</button>
+            </div>
+            
             <div class="jornada-info-header">
                 <p><strong>Colaborador:</strong> <span id="lbl-nome" class="jornada-text-secondary"></span></p>
                 <p><strong>Competência:</strong> <span id="lbl-comp" class="jornada-text-secondary"></span></p>
@@ -102,15 +106,6 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
-            
-            <div class="actions-bar" style="margin-top: 20px; justify-content: flex-end;">
-                <button id="btn-calcular-totais" class="btn-action btn-recalculo">Forçar Recálculo da Interface</button>
-            </div>
-
-            <div class="actions-bar" style="margin-top: 20px; justify-content: flex-end; gap: 15px;">
-                <button id="btn-exportar-pdf" class="btn-action btn-pdf">🔴 Baixar Relatório PDF</button>
-                <button id="btn-calcular-totais" class="btn-action btn-recalculo">Forçar Recálculo da Interface</button>
             </div>
         </section>
     </main>
