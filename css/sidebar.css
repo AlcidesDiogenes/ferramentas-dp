@@ -92,3 +92,29 @@ html.menu-fechado .menu-item:hover .menu-text {
     border-left-color: var(--cor-destaque) !important; 
     background-color: rgba(255, 255, 255, 0.1); 
 }
+
+/* Ajustes para dispositivos móveis (Smartphones) */
+@media (max-width: 768px) {
+    /* 1. Faz a sidebar ocupar 100% da largura ao abrir, ou recolher */
+    #sidebar-placeholder {
+        flex: 0 0 80px; /* Mantém apenas o ícone no mobile para economizar espaço */
+        transition: var(--transicao-suave);
+    }
+
+    /* 2. Ajusta o conteúdo principal para não estourar a tela */
+    .main-content {
+        width: calc(100% - 80px);
+        padding: 10px; /* Menor padding para aproveitar o espaço do celular */
+    }
+
+    /* 3. Esconde os textos da sidebar no mobile */
+    .brand-text, .menu-text {
+        display: none !important;
+    }
+
+    /* 4. Centraliza os ícones */
+    .sidebar-brand {
+        padding: 20px 0;
+        justify-content: center;
+    }
+}
