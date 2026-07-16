@@ -23,9 +23,21 @@
     font-size: 1.1rem;
 }
 
-/* Grid de módulos do index */
+Ajustado para ser fluido em mobile */
 .modules-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    /* Ajuste para 250px no minmax para permitir colunas mais estreitas em mobile */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px; /* Gap um pouco menor no mobile */
+}
+
+@media (max-width: 480px) {
+    .modules-grid {
+        /* No mobile muito pequeno, força sempre uma coluna única ocupando toda a largura */
+        grid-template-columns: 1fr;
+    }
+    
+    .module-card {
+        padding: 15px; /* Reduz o padding interno do card para ganhar espaço */
+    }
 }
