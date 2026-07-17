@@ -10,6 +10,10 @@ import {
     TABELA_REDUCAO_MENSAL
 } from './tabelas.js';
 
+import { gerarPDFCustoFuncionario } from '../pdf-generators/custo-funcionario-pdf.js';
+
+let dadosAtuaisParaPDF = null; // Variável para armazenar o último cálculo
+
 // ==========================================
 // 1. FUNÇÕES INTERNAS DE CÁLCULO DE IMPOSTO
 // ==========================================
@@ -73,6 +77,10 @@ function limparCampos() {
 
     // 4. Oculta o container de resultados
     document.getElementById('resultado-container').style.display = 'none';
+
+    // Oculta o botão de PDF e zera o estado
+    document.getElementById('btn-gerar-pdf').style.display = 'none';
+    dadosAtuaisParaPDF = null
 
     // 5. Reativa a lógica de bloqueio de regime
     atualizarRegime();
@@ -325,6 +333,25 @@ function calcularTudo() {
     const container = document.getElementById('resultado-container');
     container.innerHTML = htmlResultado;
     container.style.display = 'block';
+
+    dadosAtuaisParaPDF = {
+        regime, labelPeriodo, mult,
+        // Indicadores Base e Variáveis
+        vlrDia, vlrHora, vlrHoraExtra, insalubridade, periculosidade, totalHE, dsrHE, totalVR, totalVA, totalVT,
+        // Holerite
+        salarioBase, inssCalculado, irrfCalculado, outrosDesc, liquido, totalBeneficios, totalFuncionarioVisao,
+        // Bases
+        baseINSS, baseFGTS, baseIRRF,
+        // Encargos
+        encFGTS, encFGTS40Domestico, encINSSPatronal, encINSSTerceiros, encINSSGilrat, totalEncargos,
+        // Provisões
+        provFerias, provTerco, provDecimo, provFGTS, provFGTS40, provINSSEmpresa, totalProvisoes,
+        // Projeções Totais
+        projFuncionario, projEncargos, projProvisao, projTotalAbsoluto
+    };
+
+    // Revela o botão de Gerar PDF
+    document.getElementById('btn-gerar-pdf').style.display = 'block';
 }
 
 // ==========================================
@@ -336,3 +363,9 @@ document.getElementById('btn-calcular').addEventListener('click', calcularTudo);
 
 document.getElementById('base-salario-insalubridade').value = SALARIO_MINIMO.toFixed(2);
 atualizarRegime();
+
+document.getElementById('btn-gerar-pdf').addEventListener('click', () => {
+    if (dadosAtuaisParaPDF) {
+        gerarPDFCustoFuncionario(dadosAtuaisParaPDF);
+    }
+});

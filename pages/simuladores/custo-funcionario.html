@@ -179,6 +179,9 @@
                 <button type="button" id="btn-limpar" style="background-color: #f1f5f9; color: #475569; padding: 12px 25px; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: background-color 0.2s;">
                     Limpar Dados
                 </button>
+                <button type="button" id="btn-gerar-pdf" style="display: none; background-color: #10b981; color: white; padding: 12px 25px; border: none; border-radius: 6px; font-weight: 600; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                    Gerar PDF
+                </button>
                 <button type="button" id="btn-calcular" style="background-color: #2563eb; color: white; padding: 12px 35px; border: none; border-radius: 6px; font-weight: 600; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                     Calcular Custo
                 </button>
@@ -191,6 +194,9 @@
 
         </section>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
     <script src="../../js/loader.js" defer></script>
     <script type="module" src="../../js/simuladores/custo-funcionario.js" defer></script>
