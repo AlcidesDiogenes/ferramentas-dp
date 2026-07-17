@@ -32,26 +32,3 @@
     gap: 25px;
     padding: 20px;
 }
-
-/* 
-   Ajuste para Notebooks e Telas Médias: 
-   Garante que o comportamento de "blocos um ao lado do outro" seja mantido.
-*/
-@media (min-width: 769px) {
-    .modules-grid {
-        /* Se houver espaço, ele mantém os blocos lado a lado */
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    }
-}
-
-/* 
-   Ajuste para Celulares (Smartphone): 
-   Abaixo de 768px, ignoramos o auto-fill e forçamos 1 coluna.
-*/
-@media (max-width: 768px) {
-    .modules-grid {
-        grid-template-columns: 1fr; /* Força 1 coluna apenas */
-        gap: 15px;
-        padding: 10px;
-    }
-}
