@@ -35,3 +35,5 @@ export const DESCONTO_SIMPLIFICADO = 607.20;
 export const TABELA_SALARIO_FAMILIA = [
     { limite: 1819.26, valor: 62.04 }
 ];
+
+export const SALARIO_MINIMO = 1621.00;

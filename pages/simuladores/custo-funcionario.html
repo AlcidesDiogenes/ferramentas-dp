@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custo de Funcionário - Ferramentas DP</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/variables.css">
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/components.css">
+    
+    <!-- CSS Dedicado ao Módulo -->
+    <link rel="stylesheet" href="../../css/simulador-custo.css">
+</head>
+
+<body class="preload">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="page-header" style="margin-bottom: 15px;">
+            <h1>Simulador de Custo do Funcionário</h1>
+            <p style="font-size: 0.9rem;">Projeção detalhada de custos, encargos e proventos.</p>
+        </header>
+
+        <section id="secao-custo-funcionario" class="module-card" style="padding: 20px;">
+            
+            <div class="custo-grid-container">
+                
+                <!-- PRIMEIRA SEÇÃO: Parâmetros -->
+                <div class="custo-form-section">
+                    <h3>1. Parâmetros</h3>
+                    <div class="custo-form-row">
+                        <div class="custo-form-group">
+                            <label>Regime</label>
+                            <select id="regime-tributario" class="custo-form-control">
+                                <option value="simples">Simples Nacional</option>
+                                <option value="concomitante">Simples Concomitante</option>
+                                <option value="lucro">Lucro Presumido/Real</option>
+                                <option value="domestico">Doméstico</option>
+                            </select>
+                        </div>
+                        <div class="custo-form-group">
+                            <label>% INSS Patronal</label>
+                            <input type="number" id="inss-patronal" class="custo-form-control" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>% INSS Terceiro</label>
+                            <input type="number" id="inss-terceiros" class="custo-form-control" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>% INSS Gilrat</label>
+                            <input type="number" id="inss-gilrat" class="custo-form-control" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Dias Úteis</label>
+                            <input type="number" id="dias-uteis" class="custo-form-control" value="25">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Dias Não Úteis</label>
+                            <input type="number" id="dias-nao-uteis" class="custo-form-control" value="5">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Divisor do Mês</label>
+                            <input type="number" id="divisor-mes" class="custo-form-control" value="30">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Projeção</label>
+                            <select id="periodo-simulacao" class="custo-form-control">
+                                <option value="mensal">Mensal</option>
+                                <option value="semestral">Semestral</option>
+                                <option value="anual">Anual</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEGUNDA SEÇÃO: Dados Contratuais -->
+                <div class="custo-form-section">
+                    <h3>2. Dados Contratuais</h3>
+                    <div class="custo-form-row">
+                        <div class="custo-form-group">
+                            <label>Salário (R$)</label>
+                            <input type="number" id="salario-base" class="custo-form-control" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Base Insalubridade (R$)</label>
+                            <input type="number" id="base-salario-insalubridade" class="custo-form-control" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Horista?</label>
+                            <select id="is-horista" class="custo-form-control">
+                                <option value="nao">Não</option>
+                                <option value="sim">Sim</option>
+                            </select>
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Dependentes - IRRF</label>
+                            <input type="number" id="dependentes-irrf" class="custo-form-control" value="0" step="1">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Horas Mensais</label>
+                            <input type="number" id="horas-mensais" class="custo-form-control" value="220">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>% Hora Extra</label>
+                            <input type="number" id="perc-he" class="custo-form-control" value="50" step="1">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Insalubridade</label>
+                            <select id="insalubridade" class="custo-form-control">
+                                <option value="0">Não</option>
+                                <option value="0.10">10%</option>
+                                <option value="0.20">20%</option>
+                                <option value="0.40">40%</option>
+                            </select>
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Periculosidade</label>
+                            <select id="periculosidade" class="custo-form-control">
+                                <option value="nao">Não</option>
+                                <option value="sim">Sim (30%)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- Fim Grid de 2 Colunas -->
+
+            <!-- TERCEIRA SEÇÃO: Benefícios Auxiliares -->
+            <div class="custo-form-section" style="margin-bottom: 20px;">
+                <h3 style="text-align: center; border-bottom: none; margin-bottom: 15px;">3. Benefícios Auxiliares</h3>
+                <div class="custo-form-row" style="justify-content: center; max-width: 800px; margin: 0 auto;">
+                    <div class="custo-form-group">
+                        <label>Vale-Refeição - Dia (R$)</label>
+                        <input type="number" id="vr-dia" class="custo-form-control" step="0.01">
+                    </div>
+                    <div class="custo-form-group">
+                        <label>Vale-Alimentação - Mês (R$)</label>
+                        <input type="number" id="va-mes" class="custo-form-control" step="0.01">
+                    </div>
+                    <div class="custo-form-group">
+                        <label>Vale-Transporte - Unidade</label>
+                        <input type="number" id="vt-unidade" class="custo-form-control" step="0.01">
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUARTA SEÇÃO: Proventos e Descontos -->
+            <div class="custo-form-section" style="margin-bottom: 20px;">
+                <h3 style="text-align: center; border-bottom: none; margin-bottom: 15px;">4. Proventos e Descontos</h3>
+                <div class="custo-form-row" style="justify-content: center; max-width: 800px; margin: 0 auto;">
+                    <div class="custo-form-group">
+                        <label>Horas Extras (HH:mm)</label>
+                        <input type="time" id="horas-extras-qtd" class="custo-form-control">
+                    </div>
+                    <div class="custo-form-group">
+                        <label>Outros Proventos (R$)</label>
+                        <input type="number" id="outros-proventos" class="custo-form-control" step="0.01">
+                    </div>
+                    <div class="custo-form-group">
+                        <label>Outros Benefícios (R$)</label>
+                        <input type="number" id="outros-beneficios" class="custo-form-control" step="0.01">
+                    </div>
+                    <div class="custo-form-group">
+                        <label>Outros Descontos (R$)</label>
+                        <input type="number" id="outros-descontos" class="custo-form-control" step="0.01">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTÃO DE AÇÃO -->
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 30px;">
+                <button type="button" id="btn-limpar" style="background-color: #f1f5f9; color: #475569; padding: 12px 25px; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: background-color 0.2s;">
+                    Limpar Dados
+                </button>
+                <button type="button" id="btn-calcular" style="background-color: #2563eb; color: white; padding: 12px 35px; border: none; border-radius: 6px; font-weight: 600; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                    Calcular Custo
+                </button>
+            </div>
+
+            <!-- CONTAINER DE RESULTADOS (Oculto até clicar em calcular) -->
+            <div id="resultado-container" style="display: none; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e2e8f0;">
+                <!-- O JS irá preencher as informações geradas aqui -->
+            </div>
+
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/simuladores/custo-funcionario.js" defer></script>
+</body>
+</html>
