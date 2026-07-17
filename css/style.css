@@ -1,4 +1,7 @@
 /* style.css (O seu arquivo mestre) */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @import 'variables.css';
 @import 'reset.css';
 @import 'layout.css';
@@ -10,3 +13,4 @@
 @import url('consultas.css');
 @import url('jornada.css');
 @import url('simulador-custo.css');
+
