@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de XML S-1210 - Ferramentas DP</title>
+    
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="../../css/style.css">
+    
+    <!-- Trava de estado do menu para evitar flicker -->
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+    
+    <!-- Gerenciador Universal de Bibliotecas -->
+    <script src="../../js/head-manager.js"></script>
+</head>
+<body class="preload">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Análise de XML - eSocial</h1>
+            <p class="subtitle">Importação e validação de arquivos XML de eventos periódicos.</p>
+        </header>
+
+        <section class="module-card">
+            <h3>Selecione o Tipo de Evento</h3>
+            <p class="subtitle">Escolha o layout do XML que deseja processar.</p>
+            
+            <div class="form-group" style="max-width: 400px; margin: 0 auto 20px auto;">
+                <label for="tipo-evento-xml" class="form-label">Evento eSocial</label>
+                <select id="tipo-evento-xml" class="form-control">
+                    <option value="s1210">S-1210 - Pagamentos Envio</option>
+                    <!-- Futuras opções de XML serão adicionadas aqui -->
+                </select>
+            </div>
+
+            <div class="upload-zone">
+                <input type="file" id="file-input-xml" multiple accept=".xml" class="input-file-hidden">
+                <label for="file-input-xml" class="btn-action">Selecionar Arquivos XML</label>
+            </div>
+
+            <div class="import-status-container" id="import-status-xml" style="display: none; margin-top: 15px;">
+                <h4>Arquivos Carregados:</h4>
+                <ul id="lista-arquivos-xml" class="file-status-list"></ul>
+            </div>
+
+                    <!-- Barra de Ações e Filtro -->
+            <div class="actions-bar" id="actions-panel" style="display: none; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div class="export-buttons">
+                    <!-- Botões de exportação poderão entrar aqui em breve -->
+                </div>
+                            
+                <div class="filter-container" style="min-width: 300px;">
+                    <input type="text" id="input-filtro">
+                </div>
+            </div>
+            
+        </section>
+
+
+        
+
+        <section class="module-card" id="report-section" style="display: none;">
+            <div class="table-responsive">
+                <table class="data-table" id="tabela-resultados">
+                    <thead>
+                        <tr>
+                            <th>Arquivo</th>
+                            <th>Insc. Empregador</th>
+                            <th>Insc. Transmissor</th>
+                            <th>ID Evento</th>
+                            <th>Per. Apuração</th>
+                            <th>CPF Beneficiário</th>
+                            <th>Dt. Pagamento</th>
+                            <th>Per. Referência</th>
+                            <th>ID DM Dev</th>
+                            <th>Valor Líquido</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo">
+                        <!-- O motor JS injetará os dados extraídos do XML aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts de Sistema -->
+    <script src="../../js/loader.js" defer></script>
+    <script src="../../js/motor-filtros.js" defer></script>
+    <script type="module" src="../../js/dominioSistema/xml-s1210.js" defer></script>
+</body>
+</html>

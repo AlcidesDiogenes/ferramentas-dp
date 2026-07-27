@@ -1,0 +1,61 @@
+O que deve ter no modulo simulador de funcionário
+pode ajusta da melhor forma possível, com aparecencia de sistema proficional
+
+Se o campo regime tiver selecionado simples nacional, % INSS Patronal, % INSS Terceiro, % INSS Gilrat vai bloqueado e com o valor de 0
+Se tiver Simples Concomitante, % INSS Patronal vai ter 20 por padrão, % INSS Gilrat vai ter 1 por padrão, % INSS terceiro vai esta bloqueado com valor de 0
+Se o campo regime tiver selecionado Lucro Presumido/Real, % INSS Patronal vai ter por padrão 20, % INSS Terceiro vai ter por padrão 5,4, % INSS Gilrat vai ter por padrão 1
+Se tiver Simples Domestico, % INSS Patronal vai ter 8 por padrão, % INSS Gilrat vai ter 1 por padrão, % INSS terceiro vai esta bloqueado com valor de 0
+
+agora vamos para geração de informações
+Quando o usuário preencher o salario vai começar exibição das informações
+Primeiro o valor do dia, levando em consideração o valor o divisor do mês, então fica salario / divisor
+depois valor da hora, que vai ser salario / horas mesais
+depois Valor hora extra que sera o valor da hora mais a porcentagem que foi informada em % Hora Extra
+Se o usuário colocou que o que tem insalubridade, vai aparecer o valor da insalubridade de acordo com a porcentagem informada e com o salario base da insalubridade
+Se o usuário colocou que o que tem Periculosida, vai aparecer o valor da Periculosidade de acordo com a porcentagem informada
+Se o usuário colocou valor em Vale-Refeição - Dia (R$), vai aparecer um campo total levando em consideração o valor informado x a quantidade de Dias Úteis
+Se o usuário colocou valor em Vale-Alimentação - Mês (R$), vai apenas repetir o valor pois já é valor total
+Se o usuário colocou valor em Vale-Transporte - Unidade, vai aparecer um campo total levando em consideração o valor informado x 2 x a quantidade de Dias Úteis
+Se o usuário preencher o campo Horas Extras (HH:mm), vai calcular levando em consideração o valor da hora extra
+vai ter um campo com o valor do dsr da hora extra, vai calcular o reflexo dsr levando consideração o valor da hora extra / pelo dias uteis x o dias não uteis
+Caso tenha informando que é horista, vai calcular o dsr assim, salario x as horas mensais / dias uteis x os dias não uteis
+
+Agora vamos para as informações de base do funcionário
+Vai ter um campo Salário Base, que vai ser o salario ou salario total do horista + valor da hora extra + dsr + insalubridade(caso tenha) + periculoside(caso tenha) + outros proventos
+Vai ter o campo INSS, que vai caucular o valor do INSS 
+Vai ter o campo IRRF, que vai caucular o valor do IRRF 
+vai ter o campo outros descontos que vai repetir o valor do Outros Descontos (R$)
+Vai ter o campo liquido, que vai ser o salario base - inss - IRRf
+vai ter campo befecios, que vai ter o total dos benefícios
+vai ter o campo total funcionários que vai o liquido + os benefícios
+
+Agora vamos para informações Base de calculo
+tem um campo informando Base de Cálculo INSS:
+tem um campo informando Base de Cálculo FGTS:
+tem um campo informando Base de Cálculo IRRF:
+
+agora vamos ter um campo provisão que vai ter os seguintes dados
+Provisão Férias
+Provisão 1/3
+Provisão 13º
+Provisão FGTS
+Provisão FGTS 40%, se tive o regime domestico selecionado, não tem
+Provisão INSS empresa nesse vai levar em conta o % INSS Patronal, % INSS Terceiro, % INSS Gilrat de acordo com o regime
+
+Agora vamos para o campo encargos que vai ter o seguinte
+FGTS Mês, se tive o regime domestico selecionado, tem mais o 40% do FGTS do mes
+INSS Patronal
+INSS Terceiro
+INSS GILRAT
+
+Agora vamos ter uma campo custos totais onde vai ter 
+Custo Proventos
+Custo Benefícios
+Custo Encargos
+
+agora vai ser o total que vai seguir o total definido paramentro, se sera mensal, semestral ou anual
+Custo Funcionário, sera o custo total do funcionário
+Custo encargs, que sera o custo total dos encargos
+Custo Provisão, que sera o custo total das provisões
+Custo total, que sera o total do total
+

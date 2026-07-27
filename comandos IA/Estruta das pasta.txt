@@ -1,0 +1,76 @@
+ferramentas-dp/
+│
+├── .nojekyll
+├── .vscode/
+│   └── settings.json
+├── README.md
+│
+├── index.html
+│
+├── assets/
+│   ├── modelo_controle_ponto.xlsx
+│   └── modelo_importacao.xls
+│
+├── components/
+│   └── sidebar.html
+│
+├── css/
+│   ├── components.css
+│   ├── consultas.css
+│   ├── file-uploader.css
+│   ├── forms.css
+│   ├── jornada.css
+│   ├── layout.css
+│   ├── reset.css
+│   ├── sidebar.css
+│   ├── simulador-calculos.css
+│   ├── simulador-custo.css
+│   ├── style.css
+│   └── variables.css
+│
+├── js/
+│   ├── afastamentos.js
+│   ├── analise-fiscal.js
+│   ├── detalhamento-fiscal.js
+│   ├── head-manager.js
+│   ├── importacao-txt.js
+│   ├── loader.js
+│   ├── motor-filtros.js
+│   ├── programacao-ferias.js
+│   │
+│   ├── jornada/
+│   │   ├── calculos.js
+│   │   └── importacao.js
+│   │
+│   ├── pdf-generators/
+│   │   ├── afastamentos-pdf.js
+│   │   ├── custo-funcionario-pdf.js
+│   │   ├── detalhamento-pdf.js
+│   │   ├── ferias-pdf.js
+│   │   ├── fiscal-pdf.js
+│   │   ├── jornada-pdf.js
+│   │   └── prolabore-pdf.js
+│   │
+│   └── simuladores/
+│       ├── calculos-prolabore.js
+│       ├── custo-funcionario.js
+│       ├── detalhamento-calculos.js
+│       ├── prolabore.js
+│       └── tabelas.js
+│
+└── pages/
+    ├── analise-fiscal.html
+    ├── consultas.html
+    ├── jornada.html
+    │
+    ├── dominioSistema/
+    │   ├── afastamentos.html
+    │   ├── hub_dominio.html
+    │   ├── importacao-txt.html
+    │   └── programacao-ferias.html
+    │
+    └── simuladores/
+        ├── custo-funcionario.html
+        ├── detalhamento-calculos.html
+        ├── hub.html
+        └── prolabore.html
