@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simuladores DP - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css"> 
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Simuladores</h1>
+            <p class="subtitle">Selecione o simulador desejado para iniciar o cálculo.</p>
+        </header>
+
+        <section class="modules-grid">
+            <div class="module-card">
+                <div class="card-icon">🏥</div>
+                <h3>Análise de Afastamentos</h3>
+                <p>Módulo dedicado à conferência de atestados, incidências de absenteísmo e cruzamento de dados de afastamentos dentro de um período específico.</p>
+                <a href="afastamentos.html" class="btn-action">Acessar Simulador</a>
+            </div>
+
+            <div class="module-card">
+                <div class="card-icon">📅</div>
+                <h3>Análise de Programação de Férias</h3>
+                <p>Ferramenta de análise de períodos aquisitivos e concessivos para estruturação de cronogramas, alertas de vencimento.</p>
+                <a href="programacao-ferias.html" class="btn-action">Acessar Módulo</a>
+            </div>
+ 
+            <div class="module-card">
+                <div class="card-icon">📑</div>
+                <h3>Importação TXT (Domínio)</h3>
+                <p>Conversor de planilhas para o leiaute de importação de lançamentos da Domínio Sistemas.</p>
+                <a href="importacao-txt.html" class="btn-action">Acessar Módulo</a>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+</body>
+
+</html>
