@@ -4,6 +4,8 @@
  */
 "use strict";
 
+import { exportarExcelS1210 } from '../excel-generators/xml-s1210-excel.js';
+
 class XmlS1210Processor {
     constructor() {
         this.dadosGlobais = [];
@@ -14,7 +16,8 @@ class XmlS1210Processor {
             containerTabela: document.getElementById('report-section'),
             painelAcoes: document.getElementById('actions-panel'),
             tabelaCorpo: document.getElementById('tabela-corpo'),
-            inputFiltro: document.getElementById('input-filtro')
+            inputFiltro: document.getElementById('input-filtro'),
+            btnExportar: document.getElementById('btn-export-excel')
         };
         this.iniciar();
     }
@@ -38,6 +41,25 @@ class XmlS1210Processor {
                     ['nome_arquivo', 'nrInsc_Empregador', 'cpfBenef', 'perApur', 'perRef']
                 );
                 this.renderizarTabela(dadosFiltrados);
+            });
+        }
+
+        // Listener do botão de Excel
+        if (this.elementos.btnExportar) {
+            this.elementos.btnExportar.addEventListener('click', () => {
+                // Ao exportar, podemos considerar o filtro ativo. 
+                // Se o campo de filtro tiver texto, exportamos os visíveis, senão os globais.
+                const termoFiltro = this.elementos.inputFiltro ? this.elementos.inputFiltro.value : '';
+                
+                let dadosParaExportar = this.dadosGlobais;
+                if (termoFiltro.trim() !== '') {
+                    dadosParaExportar = MotorFiltros.filtrarMultiplo(
+                        this.dadosGlobais, 
+                        termoFiltro, 
+                        ['nome_arquivo', 'nrInsc_Empregador', 'cpfBenef', 'perApur', 'perRef']
+                    );
+                }
+                exportarExcelS1210(dadosParaExportar);
             });
         }
     }

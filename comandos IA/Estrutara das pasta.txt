@@ -84,7 +84,7 @@ ferramentas-dp/
         └── prolabore.html
 
 
-**/ Todos os arquivos serão centralizados no style.css
+**/ Todos os arquivos css serão centralizados no style.css
 
 **/ O padrão do head será o seguinte:
 <!DOCTYPE html>
