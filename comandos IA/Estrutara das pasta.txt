@@ -11,6 +11,11 @@ ferramentas-dp/
 │   ├── modelo_controle_ponto.xlsx
 │   └── modelo_importacao.xls
 │
+├── comandos IA/
+│   ├── Comando que a IA deve seguir restritamente.txt
+│   ├── Estruta das pasta.txt
+│   └── Estrutura do JS Custo do funcionario.txt
+│
 ├── components/
 │   └── sidebar.html
 │
@@ -29,14 +34,16 @@ ferramentas-dp/
 │   └── variables.css
 │
 ├── js/
-│   ├── afastamentos.js
 │   ├── analise-fiscal.js
 │   ├── detalhamento-fiscal.js
 │   ├── head-manager.js
-│   ├── importacao-txt.js
 │   ├── loader.js
 │   ├── motor-filtros.js
-│   ├── programacao-ferias.js
+│   │
+│   ├── dominioSistema/
+│   │   ├── afastamentos.js
+│   │   ├── importacao-txt.js
+│   │   └── xml-s1210.js
 │   │
 │   ├── jornada/
 │   │   ├── calculos.js
@@ -65,6 +72,7 @@ ferramentas-dp/
     │
     ├── dominioSistema/
     │   ├── afastamentos.html
+    │   ├── analise_XML.html
     │   ├── hub_dominio.html
     │   ├── importacao-txt.html
     │   └── programacao-ferias.html
@@ -74,3 +82,22 @@ ferramentas-dp/
         ├── detalhamento-calculos.html
         ├── hub.html
         └── prolabore.html
+
+
+**/ Todos os arquivos serão centralizados no style.css
+
+**/ O padrão do head será o seguinte:
+<!DOCTYPE html>
+<html lang="pt-BR">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TItulo da pagina</title>
+    
+    <link rel="stylesheet" href="../../css/style.css"> **/ campo ajustavel para mediante a localização do arquivo
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script> **/ campo ajustavel para mediante a localização do arquivo
+</head>

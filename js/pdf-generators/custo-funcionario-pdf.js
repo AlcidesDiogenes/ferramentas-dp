@@ -40,10 +40,13 @@ export function gerarPDFCustoFuncionario(dados) {
                                     ['Valor Dia', formatarMoeda(dados.vlrDia)],
                                     ['Valor Hora', formatarMoeda(dados.vlrHora)],
                                     ['Valor Hora Extra', formatarMoeda(dados.vlrHoraExtra)],
+                                    ['Valor Adic. Noturno /h', formatarMoeda(dados.vlrAdicionalNoturno)],
                                     ['Insalubridade', formatarMoeda(dados.insalubridade)],
                                     ['Periculosidade', formatarMoeda(dados.periculosidade)],
                                     ['Total Horas Extras', formatarMoeda(dados.totalHE)],
-                                    ['Reflexo DSR', formatarMoeda(dados.dsrHE)]
+                                    ['Total Adic. Noturno', formatarMoeda(dados.totalAdicionalNoturno)],
+                                    ['Total H.E. Noturna', formatarMoeda(dados.totalHENoturna)],
+                                    ['DSR (Verbas Variáveis)', formatarMoeda(dados.dsrVariaveis)]
                                 ]
                             },
                             layout: 'lightHorizontalLines',

@@ -72,6 +72,7 @@ function limparCampos() {
     document.getElementById('divisor-mes').value = '30';
     document.getElementById('horas-mensais').value = '220';
     document.getElementById('perc-he').value = '50';
+    document.getElementById('perc-adicional-noturno').value = '20';
     document.getElementById('dependentes-irrf').value = '0';
     document.getElementById('base-salario-insalubridade').value = SALARIO_MINIMO.toFixed(2);
 
@@ -80,7 +81,7 @@ function limparCampos() {
 
     // Oculta o botão de PDF e zera o estado
     document.getElementById('btn-gerar-pdf').style.display = 'none';
-    dadosAtuaisParaPDF = null
+    dadosAtuaisParaPDF = null;
 
     // 5. Reativa a lógica de bloqueio de regime
     atualizarRegime();
@@ -121,6 +122,13 @@ function formatarMoeda(valor) {
     return (valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+// Helper para converter string de horas "HH:mm" para decimal
+function converterHorasParaDecimal(valorTempo) {
+    if (!valorTempo) return 0;
+    const [hh, mm] = valorTempo.split(':').map(Number);
+    return hh + (mm / 60);
+}
+
 // ==========================================
 // 3. LÓGICA PRINCIPAL DO CUSTO (ON DEMAND)
 // ==========================================
@@ -139,6 +147,7 @@ function calcularTudo() {
     const diasUteis = parseFloat(document.getElementById('dias-uteis').value) || 0;
     const diasNaoUteis = parseFloat(document.getElementById('dias-nao-uteis').value) || 0;
     const percHE = (parseFloat(document.getElementById('perc-he').value) || 0) / 100;
+    const percAdicionalNoturno = (parseFloat(document.getElementById('perc-adicional-noturno').value) || 20) / 100;
     const depIRRF = parseInt(document.getElementById('dependentes-irrf').value) || 0;
 
     const salarioReferencia = isHorista ? (salarioInput * horasMes) : salarioInput;
@@ -147,22 +156,33 @@ function calcularTudo() {
     const vlrDia = salarioReferencia / divisor;
     const vlrHora = salarioReferencia / horasMes;
     const vlrHoraExtra = vlrHora * (1 + percHE);
+    const vlrAdicionalNoturno = vlrHora * percAdicionalNoturno;
+    const vlrHoraExtraNoturna = (vlrHora + vlrAdicionalNoturno) * (1 + percHE);
     
     // 2. Insalubridade e Periculosidade
     const baseInsal = parseFloat(document.getElementById('base-salario-insalubridade').value) || 0;
     const insalubridade = baseInsal * (parseFloat(document.getElementById('insalubridade').value) || 0);
     const periculosidade = (document.getElementById('periculosidade').value === 'sim') ? (salarioReferencia * 0.3) : 0;
 
-    // 3. Horas Extras e DSR
-    const tempoHE = document.getElementById('horas-extras-qtd').value || '00:00';
-    const [hh, mm] = tempoHE.split(':').map(Number);
-    const totalHE = (hh + (mm/60)) * vlrHoraExtra;
+    // 3. Horas e DSR (Compostos: H.E, Noturnas, H.E Noturnas)
+    const qtdHE = converterHorasParaDecimal(document.getElementById('horas-extras-qtd').value);
+    const qtdHorasNoturnas = converterHorasParaDecimal(document.getElementById('horas-noturnas-qtd').value);
+    const qtdHENoturnas = converterHorasParaDecimal(document.getElementById('horas-extras-noturnas-qtd').value);
     
-    let dsrHE = 0;
+    const totalHE = qtdHE * vlrHoraExtra;
+    const totalAdicionalNoturno = qtdHorasNoturnas * vlrAdicionalNoturno;
+    const totalHENoturna = qtdHENoturnas * vlrHoraExtraNoturna;
+    
+    // O Reflexo de DSR soma todas as horas trabalhadas (HE + Add Noturno + HE Noturna)
+    const baseDSRVerbas = totalHE + totalAdicionalNoturno + totalHENoturna;
+
+    let dsrVariaveis = 0;
     if (isHorista) {
-        dsrHE = (salarioInput * horasMes / diasUteis) * diasNaoUteis;
+        // Horista recebe o reflexo sobre todo o salário base apurado no mês + variáveis
+        dsrVariaveis = ((salarioReferencia + baseDSRVerbas) / diasUteis) * diasNaoUteis;
     } else if (diasUteis > 0) {
-        dsrHE = (totalHE / diasUteis) * diasNaoUteis; 
+        // Mensalista recebe DSR apenas sobre a soma das horas apuradas (HE, Noturno, HENoturno)
+        dsrVariaveis = (baseDSRVerbas / diasUteis) * diasNaoUteis; 
     }
 
     // 4. Benefícios Auxiliares
@@ -172,11 +192,11 @@ function calcularTudo() {
     const outrosBenef = parseFloat(document.getElementById('outros-beneficios').value) || 0;
     const totalBeneficios = totalVR + totalVA + totalVT + outrosBenef;
 
-    // 5. Salário Base e Descontos
+    // 5. Salário Base de Apuração e Descontos
     const outrosProv = parseFloat(document.getElementById('outros-proventos').value) || 0;
     const outrosDesc = parseFloat(document.getElementById('outros-descontos').value) || 0;
     
-    const salarioBase = salarioReferencia + totalHE + dsrHE + insalubridade + periculosidade + outrosProv;
+    const salarioBase = salarioReferencia + baseDSRVerbas + dsrVariaveis + insalubridade + periculosidade + outrosProv;
     
     const inssCalculado = calcularINSSInterno(salarioBase);
     const baseCalculoIRRF = Math.max(0, salarioBase - inssCalculado - (depIRRF * VALOR_DEDUCAO_DEPENDENTE));
@@ -236,6 +256,7 @@ function calcularTudo() {
                     <div><strong>Valor Dia:</strong> ${formatarMoeda(vlrDia)}</div>
                     <div><strong>Valor Hora:</strong> ${formatarMoeda(vlrHora)}</div>
                     <div><strong>Valor H.E.:</strong> ${formatarMoeda(vlrHoraExtra)}</div>
+                    <div><strong>Valor Ad. Noturno:</strong> ${formatarMoeda(vlrAdicionalNoturno)}/h</div>
                     ${insalubridade > 0 ? `<div><strong>Insalubridade:</strong> ${formatarMoeda(insalubridade)}</div>` : ''}
                     ${periculosidade > 0 ? `<div><strong>Periculosidade:</strong> ${formatarMoeda(periculosidade)}</div>` : ''}
                 </div>
@@ -245,7 +266,9 @@ function calcularTudo() {
                 <h4 style="margin-bottom: 10px; color: #334155; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; font-size: 1rem;">Variáveis do Mês</h4>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.9rem;">
                     <div><strong>Total H.E.:</strong> ${formatarMoeda(totalHE)}</div>
-                    <div><strong>DSR H.E.:</strong> ${formatarMoeda(dsrHE)}</div>
+                    <div><strong>Total Ad. Noturno:</strong> ${formatarMoeda(totalAdicionalNoturno)}</div>
+                    <div><strong>Total H.E Noturna:</strong> ${formatarMoeda(totalHENoturna)}</div>
+                    <div><strong>DSR (Verbas):</strong> ${formatarMoeda(dsrVariaveis)}</div>
                     <div><strong>Total VR:</strong> ${formatarMoeda(totalVR)}</div>
                     <div><strong>Total VT:</strong> ${formatarMoeda(totalVT)}</div>
                 </div>
@@ -337,7 +360,8 @@ function calcularTudo() {
     dadosAtuaisParaPDF = {
         regime, labelPeriodo, mult,
         // Indicadores Base e Variáveis
-        vlrDia, vlrHora, vlrHoraExtra, insalubridade, periculosidade, totalHE, dsrHE, totalVR, totalVA, totalVT,
+        vlrDia, vlrHora, vlrHoraExtra, vlrAdicionalNoturno, vlrHoraExtraNoturna,
+        insalubridade, periculosidade, totalHE, totalAdicionalNoturno, totalHENoturna, dsrVariaveis, totalVR, totalVA, totalVT,
         // Holerite
         salarioBase, inssCalculado, irrfCalculado, outrosDesc, liquido, totalBeneficios, totalFuncionarioVisao,
         // Bases
