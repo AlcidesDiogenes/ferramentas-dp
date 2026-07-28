@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custo de Funcionário - Ferramentas DP</title>
     
-    <!-- CSS Global -->
+    <!-- CSS Global Centralizado -->
     <link rel="stylesheet" href="../../css/style.css"> 
 
     <!-- Trava de estado do menu para evitar flicker -->
@@ -20,18 +20,18 @@
     <div id="sidebar-placeholder"></div>
 
     <main class="main-content">
-        <header class="page-header" style="margin-bottom: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+        <header class="page-header page-header-simulador">
             <h1>Simulador de Custo do Funcionário</h1>
-            <p style="font-size: 0.95rem; color: var(--cor-texto-secundario);">Projeção detalhada de custos, encargos patronais, provisões e repasses.</p>
+            <p class="page-header-subtitle">Projeção detalhada de custos, encargos patronais, provisões e repasses.</p>
         </header>
 
-        <section id="secao-custo-funcionario" class="module-card" style="padding: 25px;">
+        <section id="secao-custo-funcionario" class="module-card module-card-simulador">
             
-            <div class="custo-grid-container" style="display: grid; grid-template-columns: 1fr; gap: 30px;">
+            <div class="custo-grid-container">
                 
                 <!-- BLOCO 1: Parâmetros Fiscais e de Apuração -->
-                <div class="custo-form-section" style="background-color: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <h3 style="border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; margin-bottom: 15px; color: #334155;">Configurações da Empresa</h3>
+                <div class="custo-form-section highlight-section">
+                    <h3 class="custo-form-section-title">Configurações da Empresa</h3>
                     <div class="custo-form-row">
                         <div class="custo-form-group">
                             <label>Regime Tributário</label>
@@ -66,11 +66,11 @@
                 </div>
 
                 <!-- GRUPO DO MEIO: 2 Colunas para Jornada e Remuneração Fixa -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px;">
+                <div class="custo-grid-2-cols">
                     
                     <!-- BLOCO 2: Parâmetros de Jornada -->
                     <div class="custo-form-section">
-                        <h3 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 15px; color: #334155;">Jornada e Escala</h3>
+                        <h3 class="custo-form-section-title light-border">Jornada e Escala</h3>
                         <div class="custo-form-row">
                             <div class="custo-form-group">
                                 <label>Categoria</label>
@@ -100,7 +100,7 @@
 
                     <!-- BLOCO 3: Remuneração Base e Adicionais Fixos -->
                     <div class="custo-form-section">
-                        <h3 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 15px; color: #334155;">Remuneração Contratual</h3>
+                        <h3 class="custo-form-section-title light-border">Remuneração Contratual</h3>
                         <div class="custo-form-row">
                             <div class="custo-form-group">
                                 <label>Salário Base (R$)</label>
@@ -143,8 +143,8 @@
                 </div>
 
                 <!-- BLOCO 4: Variáveis do Mês (Apontamentos) -->
-                <div class="custo-form-section" style="background-color: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <h3 style="border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; margin-bottom: 15px; color: #334155;">Apontamentos do Mês (Variáveis)</h3>
+                <div class="custo-form-section highlight-section">
+                    <h3 class="custo-form-section-title">Apontamentos do Mês (Variáveis)</h3>
                     <div class="custo-form-row">
                         <div class="custo-form-group">
                             <label>Horas Extras (HH:mm)</label>
@@ -171,7 +171,7 @@
 
                 <!-- BLOCO 5: Benefícios -->
                 <div class="custo-form-section">
-                    <h3 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 15px; color: #334155;">Benefícios Auxiliares</h3>
+                    <h3 class="custo-form-section-title light-border">Benefícios Auxiliares</h3>
                     <div class="custo-form-row">
                         <div class="custo-form-group">
                             <label>Vale-Refeição / Dia (R$)</label>
@@ -195,20 +195,20 @@
             </div> <!-- Fim Grid Principal -->
 
             <!-- BARRA DE AÇÕES -->
-            <div style="display: flex; justify-content: flex-end; gap: 15px; margin-top: 35px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-                <button type="button" id="btn-limpar" style="background-color: transparent; color: #475569; padding: 12px 25px; border: 1px solid #cbd5e1; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s;">
+            <div class="custo-actions-bar">
+                <button type="button" id="btn-limpar" class="btn-limpar">
                     Limpar Dados
                 </button>
-                <button type="button" id="btn-gerar-pdf" style="display: none; background-color: #10b981; color: white; padding: 12px 25px; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                <button type="button" id="btn-gerar-pdf" class="btn-gerar-pdf" style="display: none;">
                     Baixar PDF
                 </button>
-                <button type="button" id="btn-calcular" style="background-color: #2563eb; color: white; padding: 12px 35px; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                <button type="button" id="btn-calcular" class="btn-processar">
                     Processar Cálculo
                 </button>
             </div>
 
             <!-- CONTAINER DE RESULTADOS -->
-            <div id="resultado-container" style="display: none; margin-top: 30px; padding-top: 20px;">
+            <div id="resultado-container" class="resultado-container" style="display: none;">
                 <!-- O JS injetará os resultados financeiros aqui -->
             </div>
 

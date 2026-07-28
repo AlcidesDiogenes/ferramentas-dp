@@ -1,80 +1,184 @@
-/* css/simulador-custo.css - Estilos específicos para o Custo de Funcionário */
+/* ==========================================================================
+   Módulo: Simulador de Custo de Funcionário
+   ========================================================================== */
 
+.page-header-simulador {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+    text-align: center; /* Centraliza o cabeçalho principal */
+}
+
+.page-header-subtitle {
+    font-size: 0.95rem;
+    color: var(--cor-texto-secundario, #64748b);
+}
+
+.module-card-simulador {
+    padding: 25px;
+    max-width: 1200px;
+    margin: 0 auto; /* Garante que o card inteiro fique centralizado na tela */
+}
+
+/* ---------------------------------------------------
+   Estrutura de Grids Principais
+   --------------------------------------------------- */
 .custo-grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Duas colunas em telas grandes */
-    gap: 20px;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
+.custo-grid-2-cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/* ---------------------------------------------------
+   Seções do Formulário e Títulos
+   --------------------------------------------------- */
 .custo-form-section {
-    background-color: var(--cor-fundo, #f8fafc);
-    padding: 15px;
-    border-radius: var(--borda-raio, 8px);
-    border: 1px solid var(--cor-borda, #e2e8f0);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 350px;
 }
 
-.custo-form-section h3 {
-    font-size: 1rem;
-    color: var(--cor-texto, #1e293b);
-    margin-bottom: 12px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid var(--cor-borda, #e2e8f0);
+.custo-form-section.highlight-section {
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
 }
 
+.custo-form-section-title {
+    border-bottom: 2px solid #cbd5e1;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    color: #334155;
+    font-size: 1.1rem;
+    text-align: center; /* Volta o título das seções para o centro */
+    font-weight: 600;
+}
+
+.custo-form-section-title.light-border {
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* ---------------------------------------------------
+   Alinhamento dos Campos (Form Row e Form Group)
+   --------------------------------------------------- */
 .custo-form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Agrupa os campos no centro da tela */
 }
 
 .custo-form-group {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+    text-align: left; /* Mantém a label organizada à esquerda do input */
+    flex: 1;
+    min-width: 170px;
+    max-width: 220px; /* Impede que o campo estique desproporcionalmente */
 }
 
 .custo-form-group label {
     font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--cor-texto-secundario, #475569);
+    font-weight: 600;
+    color: #475569;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* ---------------------------------------------------
+   Inputs e Selects
+   --------------------------------------------------- */
 .custo-form-control {
     width: 100%;
-    padding: 6px 10px;
-    font-size: 0.9rem;
+    padding: 9px 12px;
     border: 1px solid #cbd5e1;
-    border-radius: 4px;
-    transition: all 0.2s;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: #1e293b;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .custo-form-control:focus {
     outline: none;
-    border-color: var(--cor-primaria, #2563eb);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.custo-checkbox-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 8px;
-    padding-bottom: 4px;
+.custo-form-control:disabled {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
 }
 
-.custo-checkbox-group label {
+/* ---------------------------------------------------
+   Barra de Ações e Botões
+   --------------------------------------------------- */
+.custo-actions-bar {
     display: flex;
-    align-items: center;
-    gap: 5px;
+    justify-content: center; /* Centraliza os botões no final da página */
+    gap: 15px;
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.btn-limpar {
+    background-color: transparent;
+    color: #475569;
+    padding: 10px 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
-    font-size: 0.85rem;
+    transition: all 0.2s;
 }
 
-/* Responsividade: Volta para uma coluna no celular */
-@media (max-width: 900px) {
-    .custo-grid-container {
-        grid-template-columns: 1fr;
-    }
+.btn-limpar:hover {
+    background-color: #f1f5f9;
+}
+
+.btn-gerar-pdf {
+    background-color: #10b981;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-processar {
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-processar:hover {
+    background-color: #1d4ed8;
+}
+
+.resultado-container {
+    margin-top: 30px;
+    padding-top: 20px;
 }
