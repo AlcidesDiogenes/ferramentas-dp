@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Cota de Aprendiz - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../../css/style.css"> 
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>NÃO FINALIZADO</h1>
+            <p class="subtitle">Importe a relação de empregados para apuração automática da obrigatoriedade de contratação (Art. 429 da CLT)</p>
+        </header>
+
+        <section class="module-card">
+            <h3>Seleção de Planilha</h3>
+            <p class="subtitle">Selecione o arquivo Excel contendo a lista de funcionários. (B1: Empresa, B2: CNPJ, A5 em diante: CBOs)</p>
+
+            <div class="upload-zone">
+                <input type="file" id="upload-planilha-aprendiz" accept=".xls,.xlsx,.csv" class="input-file-hidden">
+                <label for="upload-planilha-aprendiz" class="btn-action">📁 Selecionar Planilha</label>
+            </div>
+            
+            <p id="nome-arquivo-selecionado" style="margin-top: 15px; font-weight: 600; text-align: center; color: #10b981;"></p>
+        </section>
+
+        <!-- Informação do Resultado -->
+        <div id="painel-resultados" class="jornada-info-card" style="display: none;">
+            
+            <!-- Barra de Ações: Exportação (Topo) -->
+            <div class="actions-bar" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
+                <button id="btn-exportar-planilha" class="btn-action" style="background-color: #10b981;">📊 Baixar Relatório em Planilha</button>
+                <button id="btn-exportar-pdf" class="btn-action btn-pdf">🔴 Baixar Relatório em PDF</button>
+            </div>
+
+            <div class="jornada-info-header" style="flex-direction: column; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+                <h3 style="margin: 0 0 10px 0; color: var(--cor-texto);">Resultado da Apuração</h3>
+                <p style="margin: 0; color: #64748b; font-size: 0.95rem;">
+                    <strong>Empresa:</strong> <span id="lbl-empresa">Não informada</span> | 
+                    <strong>CNPJ:</strong> <span id="lbl-cnpj">Não informado</span>
+                </p>
+            </div>
+
+            <!-- Resumo Numérico (Com a nova categoria "Não Encontrados") -->
+            <div class="jornada-carga-horaria" style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 15px; gap: 10px;">
+                <div style="text-align: center;">
+                    <strong style="display: block;">Total Analisados</strong> 
+                    <span id="res-total-funcionarios" class="jornada-carga-val">0</span>
+                </div>
+                <div style="text-align: center;">
+                    <strong style="display: block;">Base de Cálculo</strong> 
+                    <span id="res-base-calculo" class="jornada-carga-val" style="color: #0284c7;">0</span>
+                </div>
+                <div style="text-align: center;">
+                    <strong style="display: block;">Funções Excluídas</strong> 
+                    <span id="res-excluidos" class="jornada-carga-val" style="color: #f59e0b;">0</span>
+                </div>
+                <div style="text-align: center;">
+                    <strong style="display: block;">Não Encontrados</strong> 
+                    <span id="res-nao-encontrados" class="jornada-carga-val" style="color: #ef4444;">0</span>
+                </div>
+            </div>
+
+            <!-- Dimensionamento da Cota -->
+            <div class="jornada-escala-container" style="margin-top: 25px;">
+                <strong class="jornada-escala-title">Dimensionamento da Cota:</strong>
+                <div class="tabela-ponto-wrapper">
+                    <table class="data-table tabela-escala">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 50%;">Mínimo Obrigatório (5%)</th>
+                                <th style="text-align: center; width: 50%;">Limite Máximo (15%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center; font-size: 1.5rem; font-weight: bold; color: #10b981;" id="res-cota-minima">0</td>
+                                <td style="text-align: center; font-size: 1.5rem; font-weight: bold; color: #f59e0b;" id="res-cota-maxima">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Detalhamentos Expansíveis -->
+            <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px;">
+                
+                <details open style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
+                    <summary style="cursor: pointer; font-weight: bold; color: #0284c7; font-size: 1.05rem;">📋 Detalhamento: Base de Cálculo Líquida</summary>
+                    <div class="tabela-ponto-wrapper" style="max-height: 300px; overflow-y: auto; margin-top: 15px;">
+                        <table class="data-table">
+                            <thead><tr><th>CBO</th><th>Título da Função</th><th>Escolaridade Exigida</th><th style="text-align:center;">Qtd</th></tr></thead>
+                            <tbody id="tbody-base-calculo"></tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <details style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
+                    <summary style="cursor: pointer; font-weight: bold; color: #f59e0b; font-size: 1.05rem;">🛡️ Detalhamento: Funções Excluídas</summary>
+                    <div class="tabela-ponto-wrapper" style="max-height: 300px; overflow-y: auto; margin-top: 15px;">
+                        <table class="data-table">
+                            <thead><tr><th>CBO</th><th>Título da Função</th><th>Motivo / Escolaridade</th><th style="text-align:center;">Qtd</th></tr></thead>
+                            <tbody id="tbody-excluidos"></tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <details style="background: #ffffff; border: 1px solid #ef4444; border-radius: 8px; padding: 15px;">
+                    <summary style="cursor: pointer; font-weight: bold; color: #ef4444; font-size: 1.05rem;">⚠️ Detalhamento: CBOs Não Encontrados</summary>
+                    <div class="tabela-ponto-wrapper" style="max-height: 300px; overflow-y: auto; margin-top: 15px;">
+                        <table class="data-table">
+                            <thead><tr><th>CBO (Fornecido)</th><th>Aviso</th><th>Status</th><th style="text-align:center;">Qtd</th></tr></thead>
+                            <tbody id="tbody-nao-encontrados"></tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <details style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
+                    <summary style="cursor: pointer; font-weight: bold; color: #64748b; font-size: 1.05rem;">📊 Detalhamento: Total Geral Analisado</summary>
+                    <div class="tabela-ponto-wrapper" style="max-height: 300px; overflow-y: auto; margin-top: 15px;">
+                        <table class="data-table">
+                            <thead><tr><th>CBO</th><th>Título da Função</th><th>Escolaridade Exigida</th><th style="text-align:center;">Qtd</th></tr></thead>
+                            <tbody id="tbody-total-analisado"></tbody>
+                        </table>
+                    </div>
+                </details>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="../../js/loader.js" defer></script>
+    
+    <script src="../../assets/dados/cbo-dicionario.js" defer></script>
+    <script src="../../js/simuladores/calculo-aprendiz.js" defer></script>
+</body>
+</html>
