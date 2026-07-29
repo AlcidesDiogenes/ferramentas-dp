@@ -9,11 +9,15 @@ ferramentas-dp/
 │
 ├── assets/
 │   ├── modelo_controle_ponto.xlsx
-│   └── modelo_importacao.xls
+│   ├── modelo_importacao.xls
+│   └── modelos/
+│       ├── Advertencia.docx
+│       ├── Procuracao - Caixa.docx
+│       └── Suspens o disciplinar.docx
 │
 ├── comandos IA/
 │   ├── Comando que a IA deve seguir restritamente.txt
-│   ├── Estruta das pasta.txt
+│   ├── Estrutara das pasta.txt
 │   └── Estrutura do JS Custo do funcionario.txt
 │
 ├── components/
@@ -26,6 +30,7 @@ ferramentas-dp/
 │   ├── forms.css
 │   ├── jornada.css
 │   ├── layout.css
+│   ├── modelos.css
 │   ├── reset.css
 │   ├── sidebar.css
 │   ├── simulador-calculos.css
@@ -52,6 +57,9 @@ ferramentas-dp/
 │   │   ├── calculos.js
 │   │   └── importacao.js
 │   │
+│   ├── modelos/
+│   │   └── hub.js
+│   │
 │   ├── pdf-generators/
 │   │   ├── afastamentos-pdf.js
 │   │   ├── custo-funcionario-pdf.js
@@ -72,6 +80,7 @@ ferramentas-dp/
     ├── analise-fiscal.html
     ├── consultas.html
     ├── jornada.html
+    ├── modelos.html
     │
     ├── dominioSistema/
     │   ├── afastamentos.html
