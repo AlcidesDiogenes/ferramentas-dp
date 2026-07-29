@@ -1,0 +1,79 @@
+/* css/modelos.css */
+
+.docs-search-container {
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: center;
+}
+
+.docs-search-input {
+    width: 100%;
+    max-width: 600px;
+}
+
+.docs-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaço entre os blocos retangulares */
+}
+
+/* O BLOCO RETANGULAR */
+.modelo-card-retangulo {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important; /* Coluna 1 (textos) ocupa o máximo, Coluna 2 (botão) ocupa o mínimo */
+    align-items: center !important;
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 20px 25px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    gap: 20px !important; /* Distância entre o texto e o botão */
+}
+
+.modelo-card-retangulo:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08) !important;
+    border-color: #94a3b8 !important;
+}
+
+/* AGRUPADOR DE TEXTOS (Lado Esquerdo) */
+.modelo-card-textos {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important; /* Trava tudo na esquerda */
+    text-align: left !important;
+    gap: 5px !important;
+}
+
+.modelo-card-titulo {
+    color: #1e293b !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+    text-align: left !important;
+}
+
+.modelo-card-descricao {
+    margin: 0 !important;
+    font-size: 0.9rem !important;
+    color: #64748b !important;
+    text-align: left !important;
+}
+
+/* O BOTÃO (Lado Direito) */
+.modelo-btn-baixar {
+    background-color: #2563eb !important;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 10px 25px !important;
+    border-radius: 6px !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+    text-align: center !important;
+    transition: background-color 0.2s;
+}
+
+.modelo-btn-baixar:hover {
+    background-color: #1d4ed8 !important;
+}

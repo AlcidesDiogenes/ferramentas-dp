@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos de Documentos - Ferramentas DP</title>
+    
+    <link rel="stylesheet" href="../css/style.css"> 
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+    <script src="../js/head-manager.js"></script>
+</head>
+<body class="preload">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="page-header" style="text-align: center; margin-bottom: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px;">
+            <h1>Central de Documentos</h1>
+            <p style="font-size: 0.95rem; color: #64748b;">Baixe modelos padronizados para rotinas operacionais e trabalhistas</p>
+        </header>
+
+        <section class="module-card" style="padding: 25px; max-width: 1200px; margin: 0 auto;">
+            
+            <div class="docs-search-container">
+                <input type="text" id="busca-documentos" class="form-control docs-search-input" placeholder="Buscar modelo (ex: Advertência, Banco de Horas)...">
+            </div>
+
+            <!-- Lista de Blocos Retangulares -->
+            <div class="docs-list-container">
+                
+                <div class="doc-item modelo-card-retangulo">
+                    <div class="modelo-card-textos">
+                        <h3 class="modelo-card-titulo">Advertência Escrita</h3>
+                        <p class="modelo-card-descricao">Modelo padrão para formalização de faltas leves.</p>
+                    </div>
+                    <a href="../assets/modelos/Advertencia.docx" download class="modelo-btn-baixar">Baixar</a>
+                </div>
+
+                <div class="doc-item modelo-card-retangulo">
+                    <div class="modelo-card-textos">
+                        <h3 class="modelo-card-titulo">Suspensão Disciplinar</h3>
+                        <p class="modelo-card-descricao">Comunicação de suspensão com embasamento legal.</p>
+                    </div>
+                    <a href="../assets/modelos/Suspensão disciplinar.docx" download class="modelo-btn-baixar">Baixar</a>
+                </div>
+
+                <div class="doc-item modelo-card-retangulo">
+                    <div class="modelo-card-textos">
+                        <h3 class="modelo-card-titulo">Procuração - Caixa</h3>
+                        <p class="modelo-card-descricao">Modelo para procurações relacionadas a Caixa.</p>
+                    </div>
+                    <a href="../assets/modelos/Procuracao - Caixa.docx" download class="modelo-btn-baixar">Baixar</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/loader.js" defer></script>
+    <script src="../js/modelos/hub.js" defer></script>
+</body>
+</html>
