@@ -1,0 +1,79 @@
+# Documentação Técnica: Mapeamento de CBO, Processamento JS e Dimensionamento de Cotas
+
+---
+
+## 1. Tabela de Mapeamento: Classificação por Grande Grupo da CBO
+
+Regra de enquadramento do nível de competência com base nos Grandes Grupos da Classificação Brasileira de Ocupações (CBO) para fins de formação profissional e cotas de aprendizagem:
+
+| Grande Grupo | Título / Descrição do Grande Grupo | Nível de Competência Exigido |
+| :---: | :--- | :--- |
+| **0** | Forças Armadas, Policiais e Bombeiros Militares | Militar |
+| **1** | Membros superiores do poder público, dirigentes de organizações de interesse público e de empresas e gerentes | Cargos de confiança |
+| **2** | Profissionais das ciências e das artes | Formação superior |
+| **3** | Técnicos de nível médio | Formação técnica |
+| **4** | Trabalhadores de serviços administrativos | Demandam formação profissional |
+| **5** | Trabalhadores dos serviços, vendedores do comércio em lojas e mercados | Demandam formação profissional |
+| **6** | Trabalhadores agropecuários, florestais, da caça e da pesca | Demandam formação profissional |
+| **7** | Trabalhadores da produção de bens e serviços industriais (processos discretos) | Demandam formação profissional |
+| **8** | Trabalhadores da produção de bens e serviços industriais (processos contínuos) | Demandam formação profissional |
+| **9** | Trabalhadores de manutenção e reparação | Demandam formação profissional |
+
+---
+
+## 2. Especificação da Lógica de Negócio (Engine JavaScript)
+
+### 2.1. Premissas de Leitura e Sanitização do Arquivo (Importação da Planilha)
+Ao importar o arquivo Excel/CSV, o script JavaScript deve disparar o processamento automático da aba ativa com base no mapeamento a seguir:
+
+* **Célula `B1`:** Razão Social / Nome da Empresa (*Dado opcional*).
+* **Célula `B2`:** CNPJ da Empresa (*Dado opcional*).
+* **Intervalo `A6` em diante (Coluna A):** Lista dos códigos de CBO a serem analisados.
+* **Intervalo `C6` em diante (Coluna C):** Indicador de Cargo de Confiança. Se contiver o valor **"Sim"** (independente de maiúsculas/minúsculas), o registro deve ser classificado automaticamente como Cargo de Confiança e **excluído da base de cálculo da cota**.
+* **Tratamento / Sanitização do CBO:** A função JS deve aceitar e normalizar os códigos informados tanto com hífen (`"XXXX-XX"`) quanto sem hífen (`"XXXXXX"`), removendo qualquer caractere não numérico antes da consulta à base oficial.
+
+---
+
+### 2.2. Mapeamento de Métricas e Saídas do Diagnóstico
+A análise automática deve gerar e estruturar os seguintes blocos consolidadores e seus detalhamentos:
+
+1. **Total de CBOs Analisados:**
+   * Quantidade total de registros processados a partir da linha `A6`.
+   * **Detalhamento:** Código CBO, Título da Ocupação, Escolaridade/Nível de Competência exigido e quantidade de repetições (frequência de ocorrência do CBO na planilha).
+
+2. **Total de Funções Excluídas da Base de Cálculo:**
+   * Registros enquadrados nas exceções legais (ex: cargos de confiança por regra do CBO, indicação de **"Sim"** na coluna C a partir de `C6`, formação superior ou funções sem exigência de formação profissional).
+   * **Detalhamento:** Código, Título da Ocupação, Motivo da Exclusão legal (ex: "Cargo de Confiança informado na Coluna C") e quantidade de repetições.
+
+3. **CBOs Não Encontrados na Base:**
+   * Relação de CBOs presentes na planilha importada que não constam na base oficial de dados.
+   * **Detalhamento:** Código informado na planilha, frequência de ocorrência e exibição de alerta visual para correção.
+
+4. **Base de Cálculo Efetiva (Elegíveis para a Cota):**
+   * Total de funções que demandam formação profissional e compõem a base real para o cálculo do percentual da cota de aprendizagem.
+   * **Detalhamento:** Código CBO, Título da Ocupação, Escolaridade exigida e quantidade de repetições.
+
+---
+
+### 2.3. Regra de Dimensionamento da Cota de Aprendizagem
+Com base no total apurado na **Base de Cálculo Efetiva**, a engine deve calcular e exibir os seguintes limites:
+
+* **Cota Mínima Legal (5%):** Limite mínimo obrigatório exigido pela legislação trabalhista.
+* **Cota Média Recomendada (10%):** Ponto de equilíbrio sugerido para estabilidade do programa de aprendizagem.
+* **Cota Máxima Permitida (15%):** Limite máximo legalmente aceito para contratação de aprendizes.
+
+---
+
+## 3. Especificação de Interface e Arquitetura de Módulos JS
+
+### 3.1. Ações no Topo do Painel
+A interface do usuário deve disponibilizar **dois botões de ação rápida** localizados no topo da tela de relatório:
+
+* `[ Baixar Relatório em Excel ]`
+* `[ Baixar Relatório em PDF ]`
+
+### 3.2. Estrutura de Módulos JavaScript
+O desenvolvimento das rotinas de geração de relatórios será separado em dois scripts JS dedicados:
+
+* `exportExcelReport.js`: Módulo responsável pelo processamento e geração da planilha em formato Excel (`.xlsx`) com abas detalhadas de diagnóstico.
+* `exportPdfReport.js`: Módulo responsável pela renderização visual e exportação do documento em formato PDF.
