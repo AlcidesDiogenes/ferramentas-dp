@@ -250,7 +250,7 @@ function processarCotaAprendizLocal(entradas = [], infoEmpresa = {}) {
         arrTotalAnalisados.push(objetoAnalisado);
 
         if (item.cargoConfianca) {
-            objetoAnalisado.motivoExclusao = "Cargo de Confiança (Planilha)";
+            objetoAnalisado.motivoExclusao = "Exceção informada (Planilha)";
             arrExcluidos.push(objetoAnalisado);
             somaExcluidos += item.quantidade;
         } 
