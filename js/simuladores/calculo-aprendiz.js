@@ -1,15 +1,16 @@
 /**
  * Ferramentas DP - Simulador de Cota Aprendiz
- * Integração: SheetJS (XLSX) + Motor Legal (Art. 429 da CLT) e Documentação Técnica
+ * Integração: SheetJS (XLSX) + Motor Legal (Art. 429 da CLT) e Documentação Técnica Atualizada
  */
 
 let mapaCboOficial = new Map();
+let mapaFamiliasEscolaridade = new Map(); // Novo mapa para as regras de escolaridade
 window.dadosRelatorioAprendiz = {};
 
 const REGRAS_GRANDE_GRUPO = {
     0: { descricao: "Forças Armadas, Policiais e Bombeiros Militares", nivel: "Militar", excluido: true },
-    1: { descricao: "Membros superiores do poder público e dirigentes", nivel: "Cargos de confiança", excluido: true },
-    2: { descricao: "Profissionais das ciências e das artes", nivel: "Formação superior", excluido: true },
+    1: { descricao: "Membros superiores do poder público e dirigentes", nivel: "Cargos de confiança", excluido: false },
+    2: { descricao: "Profissionais das ciências e das artes", nivel: "Formação superior", excluido: false },
     3: { descricao: "Técnicos de nível médio", nivel: "Formação técnica", excluido: false },
     4: { descricao: "Trabalhadores de serviços administrativos", nivel: "Demandam formação profissional", excluido: false },
     5: { descricao: "Trabalhadores dos serviços e vendedores", nivel: "Demandam formação profissional", excluido: false },
@@ -107,12 +108,12 @@ function renderizarPainelResultados(dados) {
 }
 
 // =========================================================================
-// MOTOR DE CARREGAMENTO (DUAL-FETCH) E PROCESSAMENTO
+// MOTOR DE CARREGAMENTO E PROCESSAMENTO (3 BASES JSON)
 // =========================================================================
 
 async function carregarBaseCbo() {
     try {
-        // 1. Carrega as Regras e Grupos (cbo-dicionario.json)
+        // 1. Carrega o Dicionário Estrutural do CBO
         const resDicionario = await fetch("../../assets/dados/cbo-dicionario.json");
         if (!resDicionario.ok) throw new Error(`Erro HTTP (Dicionário): ${resDicionario.status}`);
         
@@ -124,36 +125,49 @@ async function carregarBaseCbo() {
             if (cboLimpo && !mapaCboOficial.has(cboLimpo)) {
                 mapaCboOficial.set(cboLimpo, {
                     ...item,
-                    TITULO_OCUPACAO: item.NOME_ATIVIDADE || item.NOME_GRANDE_AREA || "Sem descrição" // Fallback
+                    TITULO_OCUPACAO: item.NOME_ATIVIDADE || item.NOME_GRANDE_AREA || "Sem descrição"
                 });
             }
         });
 
-        // 2. Carrega os Títulos Reais (cbo-titulo.json) e faz a mesclagem
+        // 2. Carrega as Regras de Escolaridade por Família (cbo_familias_escolaridade.json)
+        try {
+            const resFamilias = await fetch("../../assets/dados/cbo_familias_escolaridade.json");
+            if (resFamilias.ok) {
+                const dadosFamilias = await resFamilias.json();
+                mapaFamiliasEscolaridade.clear();
+                
+                dadosFamilias.forEach(familia => {
+                    if (familia.COD_FAMILIA) {
+                        mapaFamiliasEscolaridade.set(String(familia.COD_FAMILIA).trim(), familia);
+                    }
+                });
+            }
+        } catch (e) {
+            console.warn("Aviso: Arquivo cbo_familias_escolaridade.json ausente ou inválido. O motor usará regras restritas aos Grandes Grupos.", e);
+        }
+
+        // 3. Carrega os Títulos Reais (cbo-titulo.json) para refinamento
         try {
             const resTitulos = await fetch("../../assets/dados/cbo-titulo.json");
             if (resTitulos.ok) {
                 const dadosTitulos = await resTitulos.json();
                 
-                // Trata formato Objeto: {"010105": "Oficial", "010110": "Diretor"}
                 if (!Array.isArray(dadosTitulos) && typeof dadosTitulos === 'object') {
                     for (let chave in dadosTitulos) {
-                        if (chave === 'CBO' || chave === 'cbo') continue;
-                        
+                        if (chave.toLowerCase() === 'cbo') continue;
                         const cboLimpo = sanitizarCbo(chave);
                         if (mapaCboOficial.has(cboLimpo)) {
                             mapaCboOficial.get(cboLimpo).TITULO_OCUPACAO = dadosTitulos[chave];
                         } else {
-                            // Se existir o título, mas a regra falhou, cria para evitar 404 lógico
                             mapaCboOficial.set(cboLimpo, {
                                 COD_OCUPACAO: cboLimpo,
                                 TITULO_OCUPACAO: dadosTitulos[chave],
-                                COD_GRANDE_GRUPO: cboLimpo.substring(0, 1) // Dedução pelo 1º dígito
+                                COD_GRANDE_GRUPO: cboLimpo.substring(0, 1)
                             });
                         }
                     }
                 } 
-                // Trata formato Array: [{"CBO": "010105", "TITULO": "Oficial"}]
                 else if (Array.isArray(dadosTitulos)) {
                     dadosTitulos.forEach(item => {
                         const chaveCbo = item.CBO || item.cbo || item.CODIGO || item.COD_OCUPACAO;
@@ -175,7 +189,7 @@ async function carregarBaseCbo() {
                 }
             }
         } catch (e) {
-            console.warn("Aviso: Arquivo cbo-titulo.json ausente ou inválido. Usando descrições originais.", e);
+            console.warn("Aviso: Arquivo cbo-titulo.json ausente ou inválido.", e);
         }
 
         return true;
@@ -222,6 +236,7 @@ function processarCotaAprendizLocal(entradas = [], infoEmpresa = {}) {
         const dadosOficial = mapaCboOficial.get(item.cboLimpo);
         let cboFormatado = item.cboLimpo.length === 6 ? `${item.cboLimpo.substring(0,4)}-${item.cboLimpo.substring(4,6)}` : item.cboRaw;
 
+        // Caso de não localizado nas bases
         if (!dadosOficial) {
             const naoEnc = {
                 cbo: cboFormatado,
@@ -235,13 +250,43 @@ function processarCotaAprendizLocal(entradas = [], infoEmpresa = {}) {
             return;
         }
 
-        const grupoNum = Number(dadosOficial.COD_GRANDE_GRUPO);
+        const grupoNum = Number(dadosOficial.COD_GRANDE_GRUPO || item.cboLimpo.substring(0, 1));
         const regraGrupo = REGRAS_GRANDE_GRUPO[grupoNum] || { descricao: "Desconhecido", nivel: "Não especificado", excluido: false };
+        
+        // Regra de CBO Familia via cbo_familias_escolaridade.json
+        const familiaCbo = dadosOficial.COD_FAMILIA || item.cboLimpo.substring(0, 4);
+        const infoFamilia = mapaFamiliasEscolaridade.get(familiaCbo);
+        
+        let escolaridadeFormatada = regraGrupo.nivel;
+        let elegivel = false;
+        let excluidoPorFormacao = false;
+
+        // Analisa elegibilidade da Familia se disponível no JSON
+        if (infoFamilia) {
+            escolaridadeFormatada = infoFamilia["Formação Requerida"] || escolaridadeFormatada;
+            const demandaAprendiz = (infoFamilia.DEMANDA_FORMACAO_APRENDIZ || "").trim();
+            const exigeFormacao = demandaAprendiz === "Demanda formação profissional para cálculo de aprendizes";
+            
+            const formacaoAjustada = (infoFamilia["Formação Requerida"] || "").toLowerCase();
+            const escolaridadeValida = formacaoAjustada.includes("fundamental") || 
+                                       formacaoAjustada.includes("médio") || 
+                                       formacaoAjustada.includes("medio") || 
+                                       formacaoAjustada.includes("livre");
+
+            if (exigeFormacao && escolaridadeValida) {
+                elegivel = true;
+            } else {
+                excluidoPorFormacao = true;
+            }
+        } else if (!regraGrupo.excluido) {
+            // Fallback: Se não encontrou a familia específica, usa a regra do Grande Grupo
+            elegivel = true;
+        }
 
         const objetoAnalisado = {
             cbo: cboFormatado,
             titulo: dadosOficial.TITULO_OCUPACAO || "Sem descrição",
-            escolaridade: regraGrupo.nivel,
+            escolaridade: escolaridadeFormatada,
             quantidade: item.quantidade,
             grandeGrupo: grupoNum,
             motivoExclusao: ""
@@ -249,19 +294,34 @@ function processarCotaAprendizLocal(entradas = [], infoEmpresa = {}) {
 
         arrTotalAnalisados.push(objetoAnalisado);
 
+        // Árvore de Decisão
         if (item.cargoConfianca) {
-            objetoAnalisado.motivoExclusao = "Exceção informada (Planilha)";
+            objetoAnalisado.motivoExclusao = "Cargo de Confiança (Planilha)";
             arrExcluidos.push(objetoAnalisado);
             somaExcluidos += item.quantidade;
         } 
-        else if (regraGrupo.excluido) {
+        else if (grupoNum === 0 || grupoNum === 1 || grupoNum === 2) {
+            // Exclusões de cargo diretivos/militares ou nível superior pelo Grande Grupo
             objetoAnalisado.motivoExclusao = `Exceção Legal (${regraGrupo.nivel})`;
             arrExcluidos.push(objetoAnalisado);
             somaExcluidos += item.quantidade;
-        } 
-        else {
+        }
+        else if (excluidoPorFormacao) {
+            // Exclusão detectada pelo mapeamento escolaridade da familia
+            objetoAnalisado.motivoExclusao = "Escolaridade Não Elegível para Aprendizagem";
+            arrExcluidos.push(objetoAnalisado);
+            somaExcluidos += item.quantidade;
+        }
+        else if (elegivel) {
+            // Base apta para a cota
             arrBaseCalculo.push(objetoAnalisado);
             somaBaseEfetiva += item.quantidade;
+        } 
+        else {
+            // Exceção de escape para demais casos de técnicos e restritos
+            objetoAnalisado.motivoExclusao = `Exceção Legal (${regraGrupo.nivel})`;
+            arrExcluidos.push(objetoAnalisado);
+            somaExcluidos += item.quantidade;
         }
     });
 

@@ -1,0 +1,3037 @@
+[
+  {
+    "COD_FAMILIA": "0101",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0102",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0103",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0201",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0202",
+    "Formação Requerida": "Formação militar",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0203",
+    "Formação Requerida": "Formação militar",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0211",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0212",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0301",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0302",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0303",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0311",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "0312",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1111",
+    "Formação Requerida": "Votação",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1112",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1113",
+    "Formação Requerida": "Concursado",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1114",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1115",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1130",
+    "Formação Requerida": "Lideranças internas",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1141",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1142",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1143",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1144",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1210",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1221",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1222",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1223",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1224",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1225",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1226",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1227",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1231",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1232",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1233",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1234",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1236",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1237",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1238",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1311",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1312",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1313",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1411",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1412",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1413",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1414",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1415",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1416",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1417",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1421",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1422",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1423",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1424",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1425",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "1426",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "1427",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "2002",
+    "Formação Requerida": "Outra coisa",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2006",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2011",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2012",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2021",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2030",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2031",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2032",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2033",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2034",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2035",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2041",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2111",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2112",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2122",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2123",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2124",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2131",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2132",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2133",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2134",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2140",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2141",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2142",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2143",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2144",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2145",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2146",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2147",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2148",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2149",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2151",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2152",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2153",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2211",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2212",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2221",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2222",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2231",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2232",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2233",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2234",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2235",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2236",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2237",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2238",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2239",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2241",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2311",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2312",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2313",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2321",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2331",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2332",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2341",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2342",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2343",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2344",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2345",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2346",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2347",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2348",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2349",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2392",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2394",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2410",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2412",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2413",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2422",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2423",
+    "Formação Requerida": "Concursado",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2424",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2511",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2512",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2513",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2514",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2515",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2516",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2521",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2522",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2523",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2524",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2525",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2526",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2531",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2532",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2533",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2541",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2542",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2543",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2544",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2611",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2612",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2613",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2614",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2615",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2616",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2617",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2618",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2621",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2622",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2623",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2624",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2625",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2626",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2627",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2628",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2629",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "2711",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3001",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3003",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3011",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3012",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3111",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3112",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3113",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3114",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3115",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3116",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3117",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3121",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3122",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3123",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3131",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3132",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3133",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3134",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3135",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3141",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3142",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3143",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3144",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3146",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3147",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3161",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3163",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3171",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3172",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3180",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3181",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3182",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3183",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3184",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3185",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3186",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3187",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3188",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3191",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3192",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3201",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3211",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3212",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3213",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3221",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3222",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3223",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3224",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3225",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3226",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3231",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3241",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3242",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3250",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3251",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3252",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3253",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3281",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3311",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3312",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3313",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3321",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3322",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3331",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3341",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3411",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3412",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3413",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3421",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3422",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3423",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3424",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3425",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3426",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3511",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3513",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3514",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3515",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3516",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3517",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3518",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3522",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3523",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3524",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3532",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3541",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3542",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3543",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3544",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3545",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3546",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3547",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3548",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3711",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3712",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3713",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3714",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3721",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3722",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3731",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3732",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3741",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3742",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3743",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3744",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3751",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3761",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3762",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3763",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3764",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3771",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3772",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3911",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "3912",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "3951",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "4101",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4102",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "4110",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4121",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4122",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4131",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4132",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4141",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4142",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4151",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4152",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4201",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4211",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4212",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4213",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4221",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4222",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "4223",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4231",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "4241",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5101",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5102",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5103",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5111",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5112",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5114",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5121",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5131",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5132",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5133",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5134",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5135",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5136",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5141",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5142",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5143",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5151",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5152",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5153",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5161",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5162",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5163",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5164",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5165",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5166",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5167",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "5168",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "5171",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5172",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5173",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5174",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5191",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5192",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5193",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5198",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "5199",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5201",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5211",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5231",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5241",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5242",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "5243",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6110",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6120",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6121",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6122",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6123",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "6124",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6125",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6126",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6127",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6128",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6130",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6131",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6132",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6133",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6134",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6201",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6210",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6220",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "6221",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6222",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6223",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6224",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6225",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6226",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6227",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6228",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6230",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6231",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6232",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6233",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "6234",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6301",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6310",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6311",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6312",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6313",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6314",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6320",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6321",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6322",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6323",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6324",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6325",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6326",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6410",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6420",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "6430",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7101",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7102",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7111",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7112",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7113",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7114",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7121",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7122",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7151",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7152",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7153",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7154",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7155",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7156",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7157",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7161",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7162",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7163",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7164",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7165",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7166",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "7170",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7201",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7202",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7211",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7212",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7213",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7214",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7221",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7222",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7223",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7224",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7231",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7232",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7233",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7241",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7242",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7243",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7244",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7245",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7246",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7250",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7251",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7252",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7253",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7254",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7255",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7256",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7257",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7301",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7311",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7312",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7313",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7321",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "7401",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7411",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7421",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7501",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7502",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7510",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7511",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7521",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7522",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7523",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7524",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7601",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7602",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7603",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7604",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7605",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "7606",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7610",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7611",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7612",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7613",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7614",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7618",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7620",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7621",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7622",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7623",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7630",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7631",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7632",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7633",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7640",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7641",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7642",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7643",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7650",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7651",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7652",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7653",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7654",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7661",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7662",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7663",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7664",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7681",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7682",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7683",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7686",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7687",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7701",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7711",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7721",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7731",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7732",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7733",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7734",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7735",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7741",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7751",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7764",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7771",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7772",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7801",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7811",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7813",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7817",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7821",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7822",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7823",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7824",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7825",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7826",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7827",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7828",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7831",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7832",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "7841",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "7842",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8101",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8102",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8103",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8110",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8111",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8112",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8113",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8114",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8115",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "8116",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8117",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8118",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8121",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8131",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8181",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8201",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8202",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8211",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8212",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8213",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8214",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8221",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8231",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8232",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8233",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8281",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8301",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8311",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "8321",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "8331",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8332",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8401",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8411",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8412",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8413",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8414",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8415",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8416",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8417",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8418",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8421",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8422",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8481",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8482",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8483",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8484",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8485",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8486",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8601",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8611",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "8612",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8621",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "8622",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8623",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8624",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "8625",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9101",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9102",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9109",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9111",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "9112",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "9113",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9131",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9141",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9142",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9143",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9144",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9151",
+    "Formação Requerida": "Superior",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9152",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9153",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9154",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9191",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9192",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9193",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9501",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9502",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9503",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9511",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9513",
+    "Formação Requerida": "Curso técnico",
+    "DEMANDA_FORMACAO_APRENDIZ": "Não menciona/Isento"
+  },
+  {
+    "COD_FAMILIA": "9531",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9541",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9542",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9543",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9911",
+    "Formação Requerida": "Livre",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9912",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9913",
+    "Formação Requerida": "Médio",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9921",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  },
+  {
+    "COD_FAMILIA": "9922",
+    "Formação Requerida": "Fundamental",
+    "DEMANDA_FORMACAO_APRENDIZ": "Demanda formação profissional para cálculo de aprendizes"
+  }
+]
