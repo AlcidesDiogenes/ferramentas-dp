@@ -258,3 +258,118 @@ html.menu-fechado #user-logged-out .menu-item:hover::after {
     border-left: 1px solid var(--cor-destaque, #38bdf8);
     font-weight: bold;
 }
+
+/* Estilo Padrão (Maximizado) para os botões do usuário */
+.sidebar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.sidebar-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 6px;
+    border: 1px solid #475569;
+    background-color: #334155;
+    color: #f1f5f9;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    white-space: nowrap;
+}
+
+.sidebar-action-btn:hover {
+    background-color: #475569;
+    border-color: #64748b;
+}
+
+.sidebar-action-btn.btn-danger-action {
+   
+}
+
+.sidebar-action-btn.btn-danger-action:hover {
+    background-color: #991b1b;
+}
+
+/* ==========================================
+   Comportamento com o Menu Fechado (Minimizado)
+   ========================================== */
+html.menu-fechado .sidebar-action-btn {
+    padding: 10px 0;
+    justify-content: center;
+}
+
+html.menu-fechado .sidebar-actions {
+    flex-direction: column;
+    gap: 6px;
+}
+
+html.menu-fechado .sidebar-action-btn .menu-text {
+    display: none !important;
+}
+
+html.menu-fechado .sidebar-action-btn .menu-icon {
+    margin-right: 0;
+    font-size: 1.1rem;
+}
+
+/* Tooltips flutuantes profissionais para os botões ao passar o mouse minimizado */
+html.menu-fechado #btn-atualizar-dados:hover::after {
+    content: "Atualizar Dados";
+    position: absolute;
+    left: 80px;
+    background: var(--cor-sidebar, #1e293b);
+    color: #f1f5f9;
+    padding: 10px 15px;
+    border-radius: 0 8px 8px 0;
+    z-index: 1000;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    border-left: 1px solid var(--cor-destaque, #38bdf8);
+    font-weight: bold;
+}
+
+html.menu-fechado #btn-sidebar-logout:hover::after {
+    content: "Sair do Sistema";
+    position: absolute;
+    left: 80px;
+    background: var(--cor-sidebar, #1e293b);
+    color: #f87171;
+    padding: 10px 15px;
+    border-radius: 0 8px 8px 0;
+    z-index: 1000;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    border-left: 1px solid ;
+    font-weight: bold;
+}
+
+/* Oculta totalmente o botão de Atualizar Dados quando o menu estiver minimizado */
+html.menu-fechado #btn-atualizar-dados {
+    display: none !important;
+}
+
+/* Ajusta o botão de Sair para ocupar o espaço de forma limpa quando estiver sozinho no modo minimizado */
+html.menu-fechado .sidebar-actions {
+    flex-direction: column;
+}
+
+html.menu-fechado #btn-sidebar-logout {
+    width: 100%;
+    padding: 10px 0;
+    justify-content: center;
+}
+
+html.menu-fechado #btn-sidebar-logout .menu-text {
+    display: none !important;
+}
+
+html.menu-fechado #btn-sidebar-logout .menu-icon {
+    margin-right: 0;
+    font-size: 1.2rem;
+}

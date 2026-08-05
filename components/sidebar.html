@@ -16,17 +16,23 @@
         </ul>
     </nav>
 
-    <!-- Rodapé: Visível por padrão para garantir que o Login apareça -->
+<!-- Rodapé: Visível por padrão para garantir que o Login apareça -->
     <div class="sidebar-user-section">
         <!-- Estado A: Logado (Oculto por padrão, o JS ativa se houver sessão) -->
-        <div id="user-logged-in" style="display: none; flex-direction: column; gap: 12px;">
+        <div id="user-logged-in" style="display: none; flex-direction: column; gap: 10px;">
             <div class="user-profile-info">
                 <span class="user-label">Conectado como:</span>
                 <span id="sidebar-user-email" class="user-email">Carregando...</span>
             </div>
             <div class="sidebar-actions">
-                <button id="btn-atualizar-dados" class="btn-sidebar-action" title="Atualizar dados cadastrais">Atualizar</button>
-                <button id="btn-sidebar-logout" class="btn-sidebar-action btn-danger" title="Encerrar sessão">Sair</button>
+                <button id="btn-atualizar-dados" class="sidebar-action-btn" title="Atualizar dados">
+                    <span class="menu-icon">🔄</span>
+                    <span class="menu-text">Atualizar</span>
+                </button>
+                <button id="btn-sidebar-logout" class="sidebar-action-btn btn-danger-action" title="Sair">
+                    <span class="menu-icon">🚪</span>
+                    <span class="menu-text">Sair</span>
+                </button>
             </div>
         </div>
 

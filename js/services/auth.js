@@ -41,5 +41,15 @@ export async function verificarSessaoAtiva() {
 
 export async function realizarLogout() {
     await supabase.auth.signOut();
-    window.location.href = "/pages/auth/login.html";
+    
+    // Calcula automaticamente o caminho para a página principal (index.html) na raiz
+    let prefixo = '';
+    const path = window.location.pathname;
+    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/')) {
+        prefixo = '../../';
+    } else if (path.includes('/pages/')) {
+        prefixo = '../';
+    }
+    
+    window.location.href = prefixo + 'index.html';
 }

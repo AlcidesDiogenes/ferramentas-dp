@@ -1,6 +1,7 @@
 // js/head-manager.js
 (function() {
     const bibliotecas = [
+        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', // <-- Biblioteca do Supabase adicionada aqui
         'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js',
@@ -14,9 +15,24 @@
         script.async = false; // Garante a ordem de carregamento
         document.head.appendChild(script);
     });
+
+    // Calcula automaticamente o caminho relativo para a raiz dependendo de onde a página está
+    let prefixo = '';
+    const path = window.location.pathname;
+    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/')) {
+        prefixo = '../../';
+    } else if (path.includes('/pages/')) {
+        prefixo = '../';
+    }
+
+    // Injeta automaticamente o script de autenticação do sidebar em qualquer página
+    const sidebarAuth = document.createElement('script');
+    sidebarAuth.type = 'module';
+    sidebarAuth.src = prefixo + 'js/services/sidebar-auth.js';
+    document.head.appendChild(sidebarAuth);
 })();
 
-// Dentro do head-manager.js, adicione isto para manter a alta performance
+// Otimização de performance (Preconnect)
 const preconnect = document.createElement('link');
 preconnect.rel = 'preconnect';
 preconnect.href = 'https://fonts.gstatic.com';
