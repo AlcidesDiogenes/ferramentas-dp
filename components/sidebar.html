@@ -3,6 +3,7 @@
         <h2 class="brand-text">Ferramentas DP</h2>
         <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu">☰</button>
     </div>
+    
     <nav class="sidebar-nav">
         <ul class="menu-list">
             <li><a href="index.html" class="menu-item"><span class="menu-icon">📊</span><span class="menu-text">Painel Geral</span></a></li>
@@ -14,4 +15,27 @@
             <li><a href="pages/modelos.html" class="menu-item"><span class="menu-icon">📋</span><span class="menu-text">Modelos de documentos</span></a></li>
         </ul>
     </nav>
+
+    <!-- Rodapé: Visível por padrão para garantir que o Login apareça -->
+    <div class="sidebar-user-section">
+        <!-- Estado A: Logado (Oculto por padrão, o JS ativa se houver sessão) -->
+        <div id="user-logged-in" style="display: none; flex-direction: column; gap: 12px;">
+            <div class="user-profile-info">
+                <span class="user-label">Conectado como:</span>
+                <span id="sidebar-user-email" class="user-email">Carregando...</span>
+            </div>
+            <div class="sidebar-actions">
+                <button id="btn-atualizar-dados" class="btn-sidebar-action" title="Atualizar dados cadastrais">Atualizar</button>
+                <button id="btn-sidebar-logout" class="btn-sidebar-action btn-danger" title="Encerrar sessão">Sair</button>
+            </div>
+        </div>
+
+        <!-- Estado B: Deslogado (Visível por padrão) -->
+        <div id="user-logged-out" style="display: block; width: 100%;">
+            <a href="pages/auth/login.html" class="menu-item" style="border-left: none; padding: 12px 15px; background-color: rgba(2, 132, 199, 0.2); border-radius: 6px; text-decoration: none;">
+                <span class="menu-icon">🔑</span>
+                <span class="menu-text" style="color: #38bdf8; font-weight: bold;">Fazer Login</span>
+            </a>
+        </div>
+    </div>
 </aside>

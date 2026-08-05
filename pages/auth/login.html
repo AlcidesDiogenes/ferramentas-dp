@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferramentas DP - Autenticação</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body.preload {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+        }
+        .module-card {
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4) !important;
+        }
+        .module-card h2, .module-card p.subtitle { color: #f1f5f9 !important; }
+        .module-card label { color: #e2e8f0 !important; }
+        .module-card input {
+            background-color: #334155 !important;
+            color: #f1f5f9 !important;
+            border: 1px solid #475569 !important;
+        }
+        .module-card input:focus { border-color: #38bdf8 !important; outline: none; }
+        .module-card input::placeholder { color: #94a3b8 !important; }
+        .btn-action.btn-success {
+            background-color: #0284c7 !important;
+            color: white !important;
+            border: none !important;
+        }
+        .btn-action.btn-success:hover { background-color: #0369a1 !important; }
+        .auth-link {
+            background: none; border: none; color: #7dd3fc !important;
+            cursor: pointer; font-size: 0.9rem; text-decoration: underline;
+        }
+        #msg-feedback.text-warning { color: #fbbf24 !important; }
+        #msg-feedback.text-danger { color: #f87171 !important; }
+        #msg-feedback.text-success { color: #4ade80 !important; }
+    </style>
+</head>
+<body class="preload">
+    <main class="main-content" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+        <section class="module-card" style="width: 100%; max-width: 420px; padding: 35px; border-radius: 8px;">
+            <h2 id="titulo-modo" style="margin-bottom: 5px;">Acesso ao Sistema</h2>
+            <p class="subtitle" id="sub-modo">Entre com sua conta para utilizar o robô de CCT.</p>
+            
+            <form id="form-auth" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                <div id="grupo-email">
+                    <label for="input-email">E-mail:</label>
+                    <input type="email" id="input-email" placeholder="seu@email.com" style="width: 100%; padding: 10px; border-radius: 6px;">
+                </div>
+                <div id="grupo-senha">
+                    <label for="input-senha" id="label-senha">Senha:</label>
+                    <input type="password" id="input-senha" placeholder="••••••••" style="width: 100%; padding: 10px; border-radius: 6px;">
+                </div>
+                
+                <button type="submit" id="btn-submit" class="btn-action btn-success" style="width: 100%; padding: 12px; cursor: pointer; margin-top: 5px; border-radius: 6px; font-weight: bold;">Entrar</button>
+                
+                <div id="container-links" style="display: flex; flex-direction: column; gap: 8px; text-align: center; margin-top: 10px;">
+                    <button type="button" id="link-recuperar" class="auth-link">Esqueceu sua senha?</button>
+                    <button type="button" id="alternar-modo" class="auth-link">Não tem uma conta? Cadastre-se</button>
+                </div>
+                <p id="msg-feedback" style="text-align: center; font-size: 0.9rem; margin-top: 5px; min-height: 1.2rem;"></p>
+            </form>
+        </section>
+    </main>
+
+    <script type="module">
+        import { supabase, realizarLogin, realizarCadastro, recuperarSenha, atualizarSenha } from '../../js/services/auth.js';
+
+        let estadoAtual = 'login';
+        
+        const tituloModo = document.getElementById("titulo-modo");
+        const subModo = document.getElementById("sub-modo");
+        const btnSubmit = document.getElementById("btn-submit");
+        const grupoEmail = document.getElementById("grupo-email");
+        const inputEmail = document.getElementById("input-email");
+        const grupoSenha = document.getElementById("grupo-senha");
+        const inputSenha = document.getElementById("input-senha");
+        const labelSenha = document.getElementById("label-senha");
+        const containerLinks = document.getElementById("container-links");
+        const linkAlternar = document.getElementById("alternar-modo");
+        const linkRecuperar = document.getElementById("link-recuperar");
+        const msgFeedback = document.getElementById("msg-feedback");
+
+        // Tradutor de Erros Técnicos para Mensagens Profissionais
+        function traduzirErro(error) {
+            const mensagem = error.message.toLowerCase();
+            
+            if (mensagem.includes("invalid login credentials")) {
+                return "E-mail ou senha incorretos. Por favor, verifique seus dados e tente novamente.";
+            }
+            if (mensagem.includes("user already registered")) {
+                return "Este e-mail já está cadastrado no sistema. Faça login ou recupere sua senha.";
+            }
+            if (mensagem.includes("password should be at least")) {
+                return "A senha deve ter pelo menos 6 caracteres.";
+            }
+            if (mensagem.includes("email rate limit exceeded")) {
+                return "Muitas solicitações enviadas recentemente. Por favor, aguarde alguns minutos antes de tentar novamente.";
+            }
+            
+            // Retorno padrão caso seja um erro atípico
+            return "Ocorreu um erro ao processar sua solicitação. Tente novamente.";
+        }
+
+        // Validador de Limite de Tentativas de Recuperação (Máx 2 vezes por minuto)
+        function verificarRateLimitRecuperacao() {
+            const agora = Date.now();
+            const LIMITE_TEMPO = 60 * 1000; // 1 minuto em milissegundos
+            const MAX_TENTATIVAS = 2;
+
+            let historico = JSON.parse(localStorage.getItem('tentativas_recuperacao') || '[]');
+            
+            // Remove registros antigos com mais de 1 minuto
+            historico = historico.filter(timestamp => (agora - timestamp) < LIMITE_TEMPO);
+
+            if (historico.length >= MAX_TENTATIVAS) {
+                return false; // Atingiu o limite
+            }
+
+            historico.push(agora);
+            localStorage.setItem('tentativas_recuperacao', JSON.stringify(historico));
+            return true;
+        }
+
+        supabase.auth.onAuthStateChange(async (event) => {
+            if (event === 'PASSWORD_RECOVERY') {
+                estadoAtual = 'atualizar_senha';
+                atualizarInterface();
+            }
+        });
+
+        function atualizarInterface() {
+            msgFeedback.textContent = "";
+            if (estadoAtual === 'login') {
+                tituloModo.textContent = "Acesso ao Sistema";
+                subModo.textContent = "Entre com sua conta para utilizar o robô de CCT.";
+                btnSubmit.textContent = "Entrar";
+                grupoEmail.style.display = "block";
+                inputEmail.required = true;
+                grupoSenha.style.display = "block";
+                inputSenha.required = true;
+                labelSenha.textContent = "Senha:";
+                inputSenha.placeholder = "••••••••";
+                containerLinks.style.display = "flex";
+                linkRecuperar.style.display = "inline-block";
+                linkAlternar.textContent = "Não tem uma conta? Cadastre-se";
+            } else if (estadoAtual === 'cadastro') {
+                tituloModo.textContent = "Criar Nova Conta";
+                subModo.textContent = "Cadastre-se para acessar o robô.";
+                btnSubmit.textContent = "Cadastrar";
+                grupoEmail.style.display = "block";
+                inputEmail.required = true;
+                grupoSenha.style.display = "block";
+                inputSenha.required = true;
+                labelSenha.textContent = "Senha:";
+                inputSenha.placeholder = "••••••••";
+                containerLinks.style.display = "flex";
+                linkRecuperar.style.display = "none";
+                linkAlternar.textContent = "Já tem uma conta? Faça login";
+            } else if (estadoAtual === 'recuperacao') {
+                tituloModo.textContent = "Recuperar Senha";
+                subModo.textContent = "Informe seu e-mail para receber o link de redefinição.";
+                btnSubmit.textContent = "Enviar E-mail de Recuperação";
+                grupoEmail.style.display = "block";
+                inputEmail.required = true;
+                grupoSenha.style.display = "none";
+                inputSenha.required = false;
+                containerLinks.style.display = "flex";
+                linkRecuperar.style.display = "none";
+                linkAlternar.textContent = "Lembrou a senha? Faça login";
+            } else if (estadoAtual === 'atualizar_senha') {
+                tituloModo.textContent = "Definir Nova Senha";
+                subModo.textContent = "Digite sua nova senha de acesso abaixo.";
+                btnSubmit.textContent = "Salvar Nova Senha";
+                grupoEmail.style.display = "none";
+                inputEmail.required = false;
+                grupoSenha.style.display = "block";
+                inputSenha.required = true;
+                labelSenha.textContent = "Nova Senha:";
+                inputSenha.placeholder = "Nova senha segura";
+                containerLinks.style.display = "none";
+            }
+        }
+
+        linkAlternar.addEventListener("click", () => {
+            estadoAtual = (estadoAtual === 'login') ? 'cadastro' : 'login';
+            atualizarInterface();
+        });
+
+        linkRecuperar.addEventListener("click", () => {
+            estadoAtual = 'recuperacao';
+            atualizarInterface();
+        });
+
+        document.getElementById("form-auth").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = inputEmail.value.trim();
+            const senha = inputSenha.value.trim();
+            msgFeedback.textContent = "Processando...";
+            msgFeedback.className = "text-warning";
+
+            try {
+                if (estadoAtual === 'cadastro') {
+                    const resposta = await realizarCadastro(email, senha);
+                    if (resposta.session) {
+                        msgFeedback.textContent = "Conta criada com sucesso! Entrando...";
+                        msgFeedback.className = "text-success";
+                        setTimeout(() => window.location.href = "../../index.html", 800);
+                    } else {
+                        msgFeedback.textContent = "Cadastro realizado! Verifique seu e-mail.";
+                        msgFeedback.className = "text-success";
+                    }
+                } else if (estadoAtual === 'login') {
+                    await realizarLogin(email, senha);
+                    msgFeedback.textContent = "Login bem-sucedido! Redirecionando...";
+                    msgFeedback.className = "text-success";
+                    setTimeout(() => window.location.href = "../../index.html", 800);
+                } else if (estadoAtual === 'recuperacao') {
+                    // Valida a regra de limite de 2 solicitações por minuto
+                    if (!verificarRateLimitRecuperacao()) {
+                        msgFeedback.textContent = "Muitas solicitações. Você pode solicitar a recuperação de senha no máximo 2 vezes por minuto.";
+                        msgFeedback.className = "text-danger";
+                        return;
+                    }
+
+                    await recuperarSenha(email);
+                    msgFeedback.textContent = "E-mail de recuperação enviado! Verifique sua caixa de entrada.";
+                    msgFeedback.className = "text-success";
+                } else if (estadoAtual === 'atualizar_senha') {
+                    await atualizarSenha(senha);
+                    msgFeedback.textContent = "Senha alterada com sucesso! Redirecionando...";
+                    msgFeedback.className = "text-success";
+                    setTimeout(() => window.location.href = "../../index.html", 1000);
+                }
+            } catch (error) {
+                msgFeedback.textContent = traduzirErro(error);
+                msgFeedback.className = "text-danger";
+            }
+        });
+
+        atualizarInterface();
+    </script>
+</body>
+</html>
