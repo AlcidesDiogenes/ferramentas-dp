@@ -47,7 +47,7 @@ supabase.auth.onAuthStateChange(() => {
 
 // Delegação de eventos globais para os botões do sidebar (funciona mesmo se injetados dinamicamente)
 document.addEventListener('click', async (e) => {
-    if (e.target && e.target.id === 'btn-sidebar-logout') {
+    if (e.target && e.target.id === 'btn-sidebar-logout' || e.target.closest('#btn-sidebar-logout')) {
         try {
             await realizarLogout();
         } catch (error) {
@@ -55,8 +55,14 @@ document.addEventListener('click', async (e) => {
         }
     }
 
-    if (e.target && e.target.id === 'btn-atualizar-dados') {
-        alert("Redirecionando para a central de atualização cadastral...");
-        // window.location.href = "pages/auth/atualizar-dados.html";
+    if (e.target && e.target.id === 'btn-atualizar-dados' || e.target.closest('#btn-atualizar-dados')) {
+        let prefixo = '';
+        const path = window.location.pathname;
+        if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/')) {
+            prefixo = '../../';
+        } else if (path.includes('/pages/')) {
+            prefixo = '../';
+        }
+        window.location.href = prefixo + 'pages/auth/atualizar-dados.html';
     }
 });

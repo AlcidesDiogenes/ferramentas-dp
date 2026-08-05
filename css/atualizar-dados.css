@@ -1,0 +1,168 @@
+/* Configuração Global da Página */
+body.preload { 
+    background-color: #0f172a !important; 
+    color: #f1f5f9 !important; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+.perfil-main {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Card Principal - Fundo escuro sólido sem branco */
+.perfil-card {
+    width: 100% !important; 
+    max-width: 650px !important; 
+    padding: 35px !important; 
+    border-radius: 12px !important;
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4) !important;
+    color: #f1f5f9 !important;
+}
+
+/* Títulos e Subtítulos */
+.perfil-card h2 {
+    margin: 0 0 5px 0;
+    color: #f1f5f9 !important;
+    font-size: 1.5rem;
+}
+
+.perfil-card .subtitle { 
+    color: #94a3b8 !important; 
+    font-size: 0.9rem; 
+    margin-bottom: 25px; 
+}
+
+/* Botão Voltar */
+.btn-voltar {
+    background: transparent; 
+    border: none; 
+    color: #38bdf8;
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    text-decoration: none; 
+    margin-bottom: 15px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+
+.btn-voltar:hover {
+    color: #7dd3fc;
+    text-decoration: underline;
+}
+
+/* Sistema de Abas */
+.profile-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 12px;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: #f1f5f9;
+    background-color: #334155;
+}
+
+.tab-btn.active {
+    color: #38bdf8;
+    background-color: rgba(56, 189, 248, 0.1);
+    box-shadow: inset 0 -2px 0 #38bdf8;
+}
+
+/* Formulários e Grupos */
+.perfil-form {
+    display: flex; 
+    flex-direction: column; 
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.perfil-card label { 
+    color: #cbd5e1 !important; 
+    font-size: 0.85rem; 
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    text-align: left;
+}
+
+.perfil-card input {
+    background-color: #0f172a !important;
+    color: #f1f5f9 !important;
+    border: 1px solid #475569 !important;
+    padding: 11px 14px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.perfil-card input:focus { 
+    border-color: #38bdf8 !important; 
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    outline: none; 
+}
+
+.input-disabled {
+    opacity: 0.6; 
+    cursor: not-allowed;
+    background-color: #1e293b !important;
+}
+
+/* Botão de Ação Salvar */
+#btn-salvar {
+    width: 100%; 
+    padding: 12px; 
+    cursor: pointer; 
+    margin-top: 10px; 
+    border-radius: 6px; 
+    font-weight: 600; 
+    font-size: 0.95rem;
+    background-color: #0284c7; 
+    color: white; 
+    border: none;
+    transition: background-color 0.2s;
+}
+
+#btn-salvar:hover {
+    background-color: #0369a1;
+}
+
+.msg-feedback {
+    text-align: center; 
+    font-size: 0.9rem; 
+    margin-top: 5px; 
+    min-height: 1.2rem;
+    font-weight: 500;
+}
