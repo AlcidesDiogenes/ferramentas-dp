@@ -1,4 +1,3 @@
-/* Configuração Global da Página */
 body.preload { 
     background-color: #0f172a !important; 
     color: #f1f5f9 !important; 
@@ -7,162 +6,453 @@ body.preload {
 }
 
 .perfil-main {
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh;
-    padding: 20px;
+    display: flex !important; 
+    justify-content: center !important; 
+    align-items: flex-start !important; /* Alinha no topo em vez de centralizar */
+    min-height: 100vh !important;
+    padding: 40px 20px !important; /* Folga maior em cima e embaixo */
+    background-color: #0f172a !important;
 }
 
-/* Card Principal - Fundo escuro sólido sem branco */
 .perfil-card {
     width: 100% !important; 
-    max-width: 650px !important; 
+    max-width: 1200px !important; 
     padding: 35px !important; 
     border-radius: 12px !important;
     background-color: #1e293b !important;
+    background: #1e293b !important;
     border: 1px solid #334155 !important;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4) !important;
     color: #f1f5f9 !important;
 }
 
-/* Títulos e Subtítulos */
 .perfil-card h2 {
-    margin: 0 0 5px 0;
+    margin: 0 0 5px 0 !important;
     color: #f1f5f9 !important;
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
 }
 
 .perfil-card .subtitle { 
     color: #94a3b8 !important; 
-    font-size: 0.9rem; 
-    margin-bottom: 25px; 
+    font-size: 0.9rem !important; 
+    margin-bottom: 25px !important; 
 }
 
-/* Botão Voltar */
 .btn-voltar {
-    background: transparent; 
-    border: none; 
-    color: #38bdf8;
-    cursor: pointer; 
-    font-size: 0.85rem; 
-    text-decoration: none; 
-    margin-bottom: 15px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: color 0.2s;
+    background: transparent !important; 
+    border: none !important; 
+    color: #38bdf8 !important;
+    cursor: pointer !important; 
+    font-size: 0.85rem !important; 
+    text-decoration: none !important; 
+    margin-bottom: 15px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    transition: color 0.2s !important;
 }
 
 .btn-voltar:hover {
-    color: #7dd3fc;
-    text-decoration: underline;
+    color: #7dd3fc !important;
+    text-decoration: underline !important;
 }
 
-/* Sistema de Abas */
 .profile-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #334155;
-    padding-bottom: 12px;
-    overflow-x: auto;
+    display: flex !important;
+    gap: 10px !important;
+    margin-bottom: 25px !important;
+    border-bottom: 1px solid #334155 !important;
+    padding-bottom: 12px !important;
+    overflow-x: auto !important;
 }
 
 .tab-btn {
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    background: transparent !important;
+    border: none !important;
+    color: #94a3b8 !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    cursor: pointer !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
 }
 
 .tab-btn:hover {
-    color: #f1f5f9;
-    background-color: #334155;
+    color: #f1f5f9 !important;
+    background-color: #334155 !important;
 }
 
 .tab-btn.active {
-    color: #38bdf8;
-    background-color: rgba(56, 189, 248, 0.1);
-    box-shadow: inset 0 -2px 0 #38bdf8;
+    color: #38bdf8 !important;
+    background-color: rgba(56, 189, 248, 0.1) !important;
+    box-shadow: inset 0 -2px 0 #38bdf8 !important;
+}
+
+/* Sistema de Abas e Seções */
+.form-section {
+    display: none !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    color: #f1f5f9 !important;
+}
+
+.form-section.active-section {
+    display: block !important;
+}
+
+/* Classes utilitárias estruturais */
+.section-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 15px !important;
+}
+
+.section-title {
+    font-size: 1.1rem !important;
+    color: #f1f5f9 !important;
+    margin: 0 !important;
+}
+
+.section-title.mb-15 {
+    margin-bottom: 15px !important;
+}
+
+.btn-add-sindicato {
+    padding: 6px 12px !important;
+    font-size: 0.85rem !important;
+    background: #0284c7 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+}
+
+.btn-add-sindicato:hover {
+    background: #0369a1 !important;
+}
+
+.sindicatos-lista {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+.empty-text {
+    color: #94a3b8 !important;
+    font-size: 0.9rem !important;
+    margin: 0 !important;
+}
+
+.historico-list {
+    background: #0f172a !important;
+    padding: 15px !important;
+    border-radius: 6px !important;
+    font-size: 0.85rem !important;
+    color: #94a3b8 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    border: 1px solid #334155 !important;
+}
+
+.historico-list p {
+    margin: 0 !important;
+}
+
+.pagamento-card {
+    background: #0f172a !important;
+    padding: 20px !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    border: 1px solid #334155 !important;
+}
+
+.pagamento-row {
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.pagamento-label {
+    color: #cbd5e1 !important;
+}
+
+.pagamento-status {
+    color: #4ade80 !important;
+}
+
+.pagamento-val {
+    color: #f1f5f9 !important;
+}
+
+.btn-gerenciar {
+    margin-top: 5px !important;
+    padding: 10px !important;
+    background: #334155 !important;
+    color: #fff !important;
+    border: 1px solid #475569 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    width: 100% !important;
+}
+
+.btn-gerenciar:hover {
+    background: #475569 !important;
 }
 
 /* Formulários e Grupos */
 .perfil-form {
-    display: flex; 
-    flex-direction: column; 
-    gap: 18px;
+    display: flex !important; 
+    flex-direction: column !important; 
+    gap: 18px !important;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: left !important;
 }
 
 .perfil-card label { 
-    color: #cbd5e1 !important; 
-    font-size: 0.85rem; 
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
-    text-align: left;
+    color: #f1f5f9 !important; 
+    font-size: 0.9rem !important; 
+    font-weight: 600 !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+    text-align: left !important;
 }
 
 .perfil-card input {
     background-color: #0f172a !important;
     color: #f1f5f9 !important;
     border: 1px solid #475569 !important;
-    padding: 11px 14px;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    padding: 11px 14px !important;
+    border-radius: 6px !important;
+    font-size: 0.95rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
 .perfil-card input:focus { 
     border-color: #38bdf8 !important; 
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-    outline: none; 
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
+    outline: none !important; 
 }
 
 .input-disabled {
-    opacity: 0.6; 
-    cursor: not-allowed;
+    opacity: 0.6 !important; 
+    cursor: not-allowed !important;
     background-color: #1e293b !important;
 }
 
-/* Botão de Ação Salvar */
 #btn-salvar {
-    width: 100%; 
-    padding: 12px; 
-    cursor: pointer; 
-    margin-top: 10px; 
-    border-radius: 6px; 
-    font-weight: 600; 
-    font-size: 0.95rem;
-    background-color: #0284c7; 
-    color: white; 
-    border: none;
-    transition: background-color 0.2s;
+    width: 100% !important; 
+    padding: 12px !important; 
+    cursor: pointer !important; 
+    margin-top: 10px !important; 
+    border-radius: 6px !important; 
+    font-weight: 600 !important; 
+    font-size: 0.95rem !important;
+    background-color: #0284c7 !important; 
+    color: white !important; 
+    border: none !important;
+    transition: background-color 0.2s !important;
 }
 
 #btn-salvar:hover {
-    background-color: #0369a1;
+    background-color: #0369a1 !important;
 }
 
 .msg-feedback {
-    text-align: center; 
-    font-size: 0.9rem; 
-    margin-top: 5px; 
-    min-height: 1.2rem;
-    font-weight: 500;
+    text-align: center !important; 
+    font-size: 0.9rem !important; 
+    margin-top: 5px !important; 
+    min-height: 1.2rem !important;
+    font-weight: 500 !important;
+}
+
+/* Estilos para os cards de sindicatos na listagem */
+.sindicato-card-item {
+    background: #0f172a !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+    padding: 15px 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+
+.sindicato-header-info {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.sindicato-nome {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #f1f5f9 !important;
+    margin: 0 !important;
+}
+
+.sindicato-detalhes {
+    font-size: 0.85rem !important;
+    color: #94a3b8 !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    gap: 5px 15px !important;
+    margin-top: 5px !important;
+}
+
+.tag-aditivo {
+    background: rgba(56, 189, 248, 0.15) !important;
+    color: #38bdf8 !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+    width: fit-content !important;
+}
+
+/* Estilos da Tabela de Sindicatos */
+.table-responsive {
+    width: 100% !important;
+    overflow-x: auto !important;
+    margin-top: 15px !important;
+}
+
+.custom-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    text-align: left !important;
+    font-size: 0.9rem !important;
+}
+
+.custom-table th, .custom-table td {
+    padding: 12px 15px !important;
+    border-bottom: 1px solid #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+.custom-table th {
+    background-color: #0f172a !important;
+    font-weight: 600 !important;
+    color: #38bdf8 !important;
+}
+
+.custom-table tbody tr:hover {
+    background-color: rgba(51, 65, 85, 0.3) !important;
+}
+
+/* Estilos do Pop-up Modal */
+.modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(15, 23, 42, 0.8) !important;
+    display: none; /* Mantém oculto por padrão, permitindo que o JS controle via 'flex' */
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 9999 !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
+
+.modal-content {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    max-width: 550px !important;
+    padding: 25px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+}
+
+.modal-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    border-bottom: 1px solid #334155 !important;
+    padding-bottom: 10px !important;
+}
+
+.modal-header h4 {
+    margin: 0 !important;
+    color: #38bdf8 !important;
+    font-size: 1.1rem !important;
+}
+
+.btn-fechar {
+    background: transparent !important;
+    border: none !important;
+    color: #94a3b8 !important;
+    font-size: 1.5rem !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+}
+
+.btn-fechar:hover {
+    color: #f1f5f9 !important;
+}
+
+.modal-footer {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 20px !important;
+}
+
+.btn-secondary {
+    background: #334155 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.btn-secondary:hover {
+    background: #475569 !important;
+}
+
+.checkbox-group {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 5px !important;
+}
+
+.checkbox-group input {
+    width: auto !important;
+    cursor: pointer !important;
+}
+
+.aditivo-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    background: #0f172a !important;
+    padding: 15px !important;
+    border-radius: 6px !important;
+    border: 1px solid #475569 !important;
+    margin-top: 10px !important;
+}
+
+.tag-aditivo {
+    background: rgba(56, 189, 248, 0.15) !important;
+    color: #38bdf8 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
 }
