@@ -1,20 +1,44 @@
 /* _variables.css */
 :root {
-    /* Paleta de Cores */
+    /* Paleta de Cores - Tema Claro (Padrão) */
     --cor-fundo: #f4f7fa;
     --cor-sidebar: #1e293b;
-    --cor-sidebar-hover: #1e293b;
-    --cor-texto-principal: #334155;
+    --cor-sidebar-hover: #334155;
+    --cor-texto-principal: #1e293b;
     --cor-texto-secundario: #64748b;
     --cor-texto-claro: #f8fafc;
     --cor-destaque: #2563eb;
     --cor-destaque-hover: #1d4ed8;
     --cor-card-bg: #ffffff;
     --cor-borda: #e2e8f0;
+    --cor-input-bg: #ffffff;
+    --cor-upload-bg: #f8fafc;
+    --cor-upload-borda: #cbd5e1;
+    --cor-tabela-header: #f8fafc;
+    --cor-hover-item: #f1f5f9;
 
     /* Tipografia e Espaçamentos */
     --fonte-principal: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --espacamento-padrao: 20px;
     --borda-raio: 8px;
     --transicao-suave: all 0.3s ease;
+}
+
+[data-theme="dark"] {
+    /* Paleta de Cores - Tema Escuro */
+    --cor-fundo: #0f172a;
+    --cor-sidebar: #1e293b;
+    --cor-sidebar-hover: #334155;
+    --cor-texto-principal: #f8fafc;
+    --cor-texto-secundario: #94a3b8;
+    --cor-texto-claro: #ffffff;
+    --cor-destaque: #3b82f6;
+    --cor-destaque-hover: #2563eb;
+    --cor-card-bg: #1e293b;
+    --cor-borda: #334155;
+    --cor-input-bg: #0f172a;
+    --cor-upload-bg: #0f172a;
+    --cor-upload-borda: #475569;
+    --cor-tabela-header: #0f172a;
+    --cor-hover-item: #334155;
 }

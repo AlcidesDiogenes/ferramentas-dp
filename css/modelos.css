@@ -22,8 +22,8 @@
     display: grid !important;
     grid-template-columns: 1fr auto !important; /* Coluna 1 (textos) ocupa o máximo, Coluna 2 (botão) ocupa o mínimo */
     align-items: center !important;
-    background-color: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
+    background-color: var(--cor-card-bg) !important;
+    border: 1px solid var(--cor-borda) !important;
     border-radius: 8px !important;
     padding: 20px 25px !important;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
@@ -32,7 +32,7 @@
 
 .modelo-card-retangulo:hover {
     box-shadow: 0 4px 6px rgba(0,0,0,0.08) !important;
-    border-color: #94a3b8 !important;
+    border-color: var(--cor-destaque) !important;
 }
 
 /* AGRUPADOR DE TEXTOS (Lado Esquerdo) */
@@ -45,7 +45,7 @@
 }
 
 .modelo-card-titulo {
-    color: #1e293b !important;
+    color: var(--cor-texto-principal) !important;
     font-size: 1.1rem !important;
     font-weight: 700 !important;
     margin: 0 !important;
@@ -55,7 +55,7 @@
 .modelo-card-descricao {
     margin: 0 !important;
     font-size: 0.9rem !important;
-    color: #64748b !important;
+    color: var(--cor-texto-secundario) !important;
     text-align: left !important;
 }
 
@@ -76,4 +76,19 @@
 
 .modelo-btn-baixar:hover {
     background-color: #1d4ed8 !important;
+}
+
+/* Responsividade quando a barra lateral estiver maximizada ou em telas menores */
+@media (max-width: 850px) {
+    .modelo-card-retangulo {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        padding: 18px 20px !important;
+    }
+
+    .modelo-btn-baixar {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 12px 15px !important;
+    }
 }

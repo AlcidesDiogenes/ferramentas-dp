@@ -4,23 +4,33 @@
     flex: 1;
     padding: 20px;
     overflow-y: auto;
+    overflow-x: hidden;
     height: 100vh;
+    min-width: 0;
 }
 
-.main-header {
-    margin-bottom: 40px;
-    text-align: center;
+.main-header, .page-header {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--cor-borda);
 }
 
-.main-header h1 {
-    font-size: 2rem;
+.main-header h1, .page-header h1 {
+    font-size: 1.8rem;
     color: var(--cor-texto-principal);
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    text-align: left;
 }
 
-.subtitle {
+.subtitle, .page-header p {
     color: var(--cor-texto-secundario);
-    font-size: 1.1rem;
+    font-size: 1rem;
+    text-align: left;
 }
 
 /* css/layout.css - Grid Profissional Responsivo */
@@ -28,7 +38,27 @@
 .modules-grid {
     display: grid;
     /* Desktop: Força colunas de 300px. Se couberem 3 ou 4, o grid coloca. */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
     padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        margin-bottom: 20px;
+    }
+
+    .main-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .modules-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px 0;
+    }
 }

@@ -1,6 +1,6 @@
 // js/loader.js
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function initSidebarLoader() {
     const placeholder = document.getElementById('sidebar-placeholder');
     if (!placeholder) return;
 
@@ -74,4 +74,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error("Erro no loader.js:", error);
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSidebarLoader);
+} else {
+    initSidebarLoader();
+}

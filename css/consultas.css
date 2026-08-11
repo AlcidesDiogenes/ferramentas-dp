@@ -21,6 +21,11 @@
     border-bottom: 1px solid var(--cor-borda);
 }
 
+.consulta-item.modelo-card-retangulo {
+    border-bottom: 1px solid var(--cor-borda);
+    margin-bottom: 0;
+}
+
 /* Remove a borda e ajusta margem no último item de cada seção */
 .consulta-item:last-child {
     margin-bottom: 10px;

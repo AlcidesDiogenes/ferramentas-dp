@@ -24,5 +24,3 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.reload();
     });
 });
-
-<script type="module" src="../../js/controllers/app-sync-listener.js"></script>

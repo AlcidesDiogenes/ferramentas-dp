@@ -1,5 +1,17 @@
 // js/head-manager.js
 (function() {
+    // Aplicação imediata do tema salvo (evita efeito piscar / flicker)
+    try {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+            document.documentElement.setAttribute("data-theme", "light");
+        }
+    } catch (e) {
+        console.warn("Erro ao acessar localStorage para o tema:", e);
+    }
+
     const bibliotecas = [
         'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', // <-- Biblioteca do Supabase adicionada aqui
         'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
@@ -19,11 +31,16 @@
     // Calcula automaticamente o caminho relativo para a raiz dependendo de onde a página está
     let prefixo = '';
     const path = window.location.pathname;
-    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/')) {
+    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/') || path.includes('/pages/gestao/')) {
         prefixo = '../../';
     } else if (path.includes('/pages/')) {
         prefixo = '../';
     }
+
+    // Injeta o gerenciador de tema
+    const themeToggle = document.createElement('script');
+    themeToggle.src = prefixo + 'js/theme-toggle.js';
+    document.head.appendChild(themeToggle);
 
     // Injeta automaticamente o script de autenticação do sidebar em qualquer página
     const sidebarAuth = document.createElement('script');

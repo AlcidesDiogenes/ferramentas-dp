@@ -1,0 +1,6 @@
+{
+  "name": "Ferramentas DP",
+  "description": "Plataforma para centralizar, automatizar e otimizar rotinas administrativas, fiscais e de Departamento Pessoal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

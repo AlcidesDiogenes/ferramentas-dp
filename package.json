@@ -1,0 +1,16 @@
+{
+  "name": "ferramentas-dp",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Plataforma para centralizar, automatizar e otimizar rotinas administrativas, fiscais e de Departamento Pessoal.",
+  "scripts": {
+    "dev": "node server.js",
+    "lint": "node --check server.js",
+    "build": "echo 'No build step required'",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
+    "express": "^4.19.2"
+  }
+}

@@ -25,11 +25,13 @@ class AuthGuard {
         const isAuthenticated = AuthService.isAuthenticated();
         const isPublicRoute = this.publicRoutes.some(route => currentPath.endsWith(route));
 
+        const isLoginRoute = currentPath.endsWith('/pages/auth/login.html');
+
         if (!isAuthenticated && !isPublicRoute) {
-            // Usuário não autenticado tentando acessar ferramentas de DP (Rescisões, Férias, etc.)
+            // Usuário não autenticado tentando acessar ferramentas fechadas
             this.redirectToLogin();
-        } else if (isAuthenticated && isPublicRoute) {
-            // Usuário já autenticado tentando acessar o login, redireciona para a home/dashboard
+        } else if (isAuthenticated && isLoginRoute) {
+            // Usuário já autenticado tentando acessar a tela de login
             this.redirectDashboard();
         }
     }

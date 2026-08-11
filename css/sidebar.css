@@ -200,30 +200,119 @@ html.menu-fechado .btn-sidebar-action {
 }
 
 /* ==========================================
-   Ajustes para Dispositivos Móveis
+   Ajustes para Dispositivos Móveis (Tablet / Celular)
    ========================================== */
 @media (max-width: 768px) {
     #sidebar-placeholder {
-        flex: 0 0 80px; 
+        flex: 0 0 64px; 
         transition: var(--transicao-suave, 0.3s ease);
     }
 
-    .main-content {
-        width: calc(100% - 80px);
-        padding: 10px;
+    /* Menu Maximizado no celular: Slide-over Drawer flutuante */
+    .sidebar, .app-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 260px !important;
+        z-index: 1000;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.4);
+        padding: 15px 12px;
     }
 
-    .brand-text, .menu-text, .user-profile-info {
+    .main-content {
+        width: calc(100% - 64px) !important;
+        margin-left: 64px;
+        padding: 15px 12px;
+    }
+
+    /* Quando o menu estiver MINIMIZADO/FECHADO no celular */
+    html.menu-fechado #sidebar-placeholder {
+        flex: 0 0 64px !important;
+    }
+
+    html.menu-fechado .sidebar, html.menu-fechado .app-sidebar {
+        position: relative;
+        width: 64px !important;
+        box-shadow: none;
+        padding: 15px 5px !important;
+    }
+
+    html.menu-fechado .main-content {
+        width: calc(100% - 64px) !important;
+        margin-left: 0;
+        padding: 10px 8px !important;
+    }
+
+    html.menu-fechado .brand-text, 
+    html.menu-fechado .menu-text, 
+    html.menu-fechado .user-profile-info {
         display: none !important;
     }
 
-    .sidebar-brand {
-        padding: 15px 0;
+    html.menu-fechado .sidebar-brand {
+        padding: 10px 0 15px 0;
         justify-content: center;
     }
-    
-    .sidebar-actions {
-        flex-direction: column;
+
+    html.menu-fechado .menu-item {
+        padding: 10px 0;
+        justify-content: center;
+    }
+
+    html.menu-fechado .menu-icon {
+        margin-right: 0;
+        font-size: 1.3rem;
+    }
+
+    html.menu-fechado .menu-item:hover .menu-text {
+        left: 64px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+
+    html.menu-fechado #user-logged-out .menu-item:hover::after {
+        left: 64px;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #sidebar-placeholder {
+        flex: 0 0 56px;
+    }
+
+    .sidebar, .app-sidebar {
+        width: 240px !important;
+    }
+
+    .main-content {
+        width: calc(100% - 56px) !important;
+        margin-left: 56px;
+        padding: 10px 6px;
+    }
+
+    html.menu-fechado #sidebar-placeholder {
+        flex: 0 0 56px !important;
+    }
+
+    html.menu-fechado .sidebar, html.menu-fechado .app-sidebar {
+        position: relative;
+        width: 56px !important;
+        box-shadow: none;
+        padding: 10px 4px !important;
+    }
+
+    html.menu-fechado .main-content {
+        width: calc(100% - 56px) !important;
+        margin-left: 0;
+        padding: 8px 6px !important;
+    }
+
+    html.menu-fechado .menu-item:hover .menu-text,
+    html.menu-fechado #user-logged-out .menu-item:hover::after {
+        left: 56px;
     }
 }
 

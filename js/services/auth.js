@@ -1,35 +1,18 @@
 /**
  * Módulo de Autenticação - Ferramentas DP
- * Responsável por gerenciar o estado da sessão, tokens e ciclo de vida do usuário.
+ * Responsável por gerenciar a integração com o Supabase, sessões e ciclo de vida do usuário.
  */
 
-// Variável privada em memória para dificultar extração via XSS direto no storage
-let currentToken = null;
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-// Chave utilizada para o sessionStorage (backup de persistência de aba)
+const SUPABASE_URL = window.SUPABASE_URL || 'https://xyzcompany.supabase.co';
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5emNvbXBhbnkiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTY3MDAwMDAwMCwiZXhwIjoyMDAwMDAwMDAwfQ.placeholder';
+
+export const supabase = (window.supabase && typeof window.supabase.createClient === 'function')
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const STORAGE_KEY = '@FerramentasDP:token';
-
-/**
- * Função privada para decodificar JWT e verificar expiração
- * @param {string} token 
- * @returns {boolean} Retorna true se o token for válido e não estiver expirado
- */
-const isTokenValid = (token) => {
-    if (!token) return false;
-
-    try {
-        const payloadBase64 = token.split('.')[1];
-        const decodedJson = atob(payloadBase64);
-        const decoded = JSON.parse(decodedJson);
-        
-        // Verifica se a data de expiração (exp) é maior que o momento atual
-        const currentTime = Date.now() / 1000;
-        return decoded.exp > currentTime;
-    } catch (error) {
-        console.error('Erro ao decodificar o token.', error);
-        return false;
-    }
-};
 
 /**
  * Notifica a aplicação sobre mudanças no estado de autenticação
@@ -42,103 +25,108 @@ const notifyAuthStateChange = (isAuthenticated) => {
     window.dispatchEvent(event);
 };
 
+export async function realizarLogin(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+    });
+    if (error) throw error;
+    if (data?.session?.access_token) {
+        sessionStorage.setItem(STORAGE_KEY, data.session.access_token);
+    } else {
+        sessionStorage.setItem(STORAGE_KEY, 'active_session');
+    }
+    notifyAuthStateChange(true);
+    return data;
+}
+
+export async function realizarCadastro(email, password) {
+    const { data, error } = await supabase.auth.signUp({
+        email,
+        password
+    });
+    if (error) throw error;
+    if (data?.session?.access_token) {
+        sessionStorage.setItem(STORAGE_KEY, data.session.access_token);
+    } else {
+        sessionStorage.setItem(STORAGE_KEY, 'active_session');
+    }
+    notifyAuthStateChange(true);
+    return data;
+}
+
+export async function realizarLogout(notify = true) {
+    try {
+        await supabase.auth.signOut();
+    } catch (e) {
+        console.warn('Erro ao encerrar sessão no Supabase:', e);
+    }
+    sessionStorage.removeItem(STORAGE_KEY);
+    
+    if (notify) {
+        notifyAuthStateChange(false);
+        let prefixo = '';
+        const path = window.location.pathname;
+        if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/') || path.includes('/pages/gestao/')) {
+            prefixo = '../../';
+        } else if (path.includes('/pages/')) {
+            prefixo = '../';
+        }
+        window.location.href = prefixo + 'pages/auth/login.html';
+    }
+}
+
+export async function recuperarSenha(email) {
+    const redirectTo = window.location.origin + '/pages/auth/login.html';
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo
+    });
+    if (error) throw error;
+    return data;
+}
+
+export async function atualizarSenha(newPassword) {
+    const { data, error } = await supabase.auth.updateUser({
+        password: newPassword
+    });
+    if (error) throw error;
+    return data;
+}
+
 export const AuthService = {
-    /**
-     * Tenta inicializar a sessão a partir do storage ao carregar a página
-     */
     init() {
-        const storedToken = sessionStorage.getItem(STORAGE_KEY);
-        if (storedToken && isTokenValid(storedToken)) {
-            currentToken = storedToken;
-            notifyAuthStateChange(true);
-        } else {
-            this.logout(false); // Limpa resíduos se o token estiver inválido
-        }
-    },
-
-    /**
-     * Autentica o usuário na API
-     * @param {string} username 
-     * @param {string} password 
-     * @returns {Promise<{success: boolean, message?: string}>}
-     */
-    async login(username, password) {
         try {
-            // URL fictícia - deve ser ajustada para o endpoint real do backend
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
+            supabase.auth.onAuthStateChange((event, session) => {
+                const isAuthenticated = !!session;
+                if (session?.access_token) {
+                    sessionStorage.setItem(STORAGE_KEY, session.access_token);
+                }
+                notifyAuthStateChange(isAuthenticated);
             });
-
-            if (!response.ok) {
-                // Erro genérico de credenciais para evitar enumeração de usuários
-                throw new Error('Credenciais inválidas ou sem permissão de acesso.');
-            }
-
-            const data = await response.json();
-            
-            if (!data.token) {
-                throw new Error('Token não retornado pelo servidor.');
-            }
-
-            currentToken = data.token;
-            sessionStorage.setItem(STORAGE_KEY, currentToken);
-            
-            notifyAuthStateChange(true);
-            return { success: true };
-
-        } catch (error) {
-            this.logout(false);
-            return { 
-                success: false, 
-                message: error.message || 'Erro ao processar a autenticação. Tente novamente mais tarde.' 
-            };
+        } catch (err) {
+            console.warn('Aviso na inicialização do AuthService:', err);
         }
     },
 
-    /**
-     * Encerra a sessão do usuário
-     * @param {boolean} notify UI - Define se deve notificar a aplicação
-     */
-    logout(notify = true) {
-        currentToken = null;
-        sessionStorage.removeItem(STORAGE_KEY);
-        
-        if (notify) {
-            notifyAuthStateChange(false);
-            // Redireciona para a tela de login
-            window.location.href = '/pages/auth/login.html';
-        }
+    async login(username, password) {
+        return realizarLogin(username, password);
     },
 
-    /**
-     * Retorna o token atual se for válido
-     * @returns {string|null}
-     */
+    async logout(notify = true) {
+        return realizarLogout(notify);
+    },
+
     getToken() {
-        if (!currentToken) {
-            currentToken = sessionStorage.getItem(STORAGE_KEY);
-        }
-
-        if (currentToken && isTokenValid(currentToken)) {
-            return currentToken;
-        }
-
-        this.logout(); // Força logout se tentarem pegar um token expirado
-        return null;
+        return sessionStorage.getItem(STORAGE_KEY) || null;
     },
 
-    /**
-     * Verifica o estado de autenticação atual
-     * @returns {boolean}
-     */
     isAuthenticated() {
-        return !!this.getToken();
+        const token = sessionStorage.getItem(STORAGE_KEY);
+        if (token) return true;
+        const hasSbToken = Object.keys(localStorage).some(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
+        if (hasSbToken) return true;
+        return false;
     }
 };
 
-// Auto-inicializa o serviço ao ser importado
 AuthService.init();
