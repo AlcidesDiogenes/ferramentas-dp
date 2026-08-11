@@ -1,60 +1,144 @@
 /**
- * Core Service - Autenticação Supabase
- * Inclui o método de atualização de senha pós-recuperação.
+ * Módulo de Autenticação - Ferramentas DP
+ * Responsável por gerenciar o estado da sessão, tokens e ciclo de vida do usuário.
  */
 
-const SUPABASE_URL = 'https://hydqqvczmvaadowqpmdu.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_pIkH3Ki7G0-hWwXRKmtchQ_S6l7ugql';
+// Variável privada em memória para dificultar extração via XSS direto no storage
+let currentToken = null;
 
-export const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Chave utilizada para o sessionStorage (backup de persistência de aba)
+const STORAGE_KEY = '@FerramentasDP:token';
 
-export async function realizarLogin(email, senha) {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
-    if (error) throw error;
-    return data;
-}
+/**
+ * Função privada para decodificar JWT e verificar expiração
+ * @param {string} token 
+ * @returns {boolean} Retorna true se o token for válido e não estiver expirado
+ */
+const isTokenValid = (token) => {
+    if (!token) return false;
 
-export async function realizarCadastro(email, senha) {
-    const { data, error } = await supabase.auth.signUp({ email, password: senha });
-    if (error) throw error;
-    return data;
-}
-
-export async function recuperarSenha(email) {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/pages/auth/login.html',
-    });
-    if (error) throw error;
-    return data;
-}
-
-export async function atualizarSenha(novaSenha) {
-    const { data, error } = await supabase.auth.updateUser({ password: novaSenha });
-    if (error) throw error;
-    return data;
-}
-
-export async function verificarSessaoAtiva() {
-    const { data: { session } } = await supabase.auth.getSession();
-    return session;
-}
-
-export async function realizarLogout() {
-    await supabase.auth.signOut();
-    
-    // Calcula automaticamente o caminho para a página principal (index.html) na raiz
-    let prefixo = '';
-    const path = window.location.pathname;
-    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/')) {
-        prefixo = '../../';
-    } else if (path.includes('/pages/')) {
-        prefixo = '../';
+    try {
+        const payloadBase64 = token.split('.')[1];
+        const decodedJson = atob(payloadBase64);
+        const decoded = JSON.parse(decodedJson);
+        
+        // Verifica se a data de expiração (exp) é maior que o momento atual
+        const currentTime = Date.now() / 1000;
+        return decoded.exp > currentTime;
+    } catch (error) {
+        console.error('Erro ao decodificar o token.', error);
+        return false;
     }
-    
-    window.location.href = prefixo + 'index.html';
-}
+};
 
-document.getElementById('btn-header-login')?.addEventListener('click', () => {
-    // Redireciona para a sua página de login (ajuste a rota se necessário)
-    window.location.href = '../auth/login.html'; 
-});
+/**
+ * Notifica a aplicação sobre mudanças no estado de autenticação
+ * @param {boolean} isAuthenticated 
+ */
+const notifyAuthStateChange = (isAuthenticated) => {
+    const event = new CustomEvent('authStateChanged', { 
+        detail: { isAuthenticated } 
+    });
+    window.dispatchEvent(event);
+};
+
+export const AuthService = {
+    /**
+     * Tenta inicializar a sessão a partir do storage ao carregar a página
+     */
+    init() {
+        const storedToken = sessionStorage.getItem(STORAGE_KEY);
+        if (storedToken && isTokenValid(storedToken)) {
+            currentToken = storedToken;
+            notifyAuthStateChange(true);
+        } else {
+            this.logout(false); // Limpa resíduos se o token estiver inválido
+        }
+    },
+
+    /**
+     * Autentica o usuário na API
+     * @param {string} username 
+     * @param {string} password 
+     * @returns {Promise<{success: boolean, message?: string}>}
+     */
+    async login(username, password) {
+        try {
+            // URL fictícia - deve ser ajustada para o endpoint real do backend
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (!response.ok) {
+                // Erro genérico de credenciais para evitar enumeração de usuários
+                throw new Error('Credenciais inválidas ou sem permissão de acesso.');
+            }
+
+            const data = await response.json();
+            
+            if (!data.token) {
+                throw new Error('Token não retornado pelo servidor.');
+            }
+
+            currentToken = data.token;
+            sessionStorage.setItem(STORAGE_KEY, currentToken);
+            
+            notifyAuthStateChange(true);
+            return { success: true };
+
+        } catch (error) {
+            this.logout(false);
+            return { 
+                success: false, 
+                message: error.message || 'Erro ao processar a autenticação. Tente novamente mais tarde.' 
+            };
+        }
+    },
+
+    /**
+     * Encerra a sessão do usuário
+     * @param {boolean} notify UI - Define se deve notificar a aplicação
+     */
+    logout(notify = true) {
+        currentToken = null;
+        sessionStorage.removeItem(STORAGE_KEY);
+        
+        if (notify) {
+            notifyAuthStateChange(false);
+            // Redireciona para a tela de login
+            window.location.href = '/pages/auth/login.html';
+        }
+    },
+
+    /**
+     * Retorna o token atual se for válido
+     * @returns {string|null}
+     */
+    getToken() {
+        if (!currentToken) {
+            currentToken = sessionStorage.getItem(STORAGE_KEY);
+        }
+
+        if (currentToken && isTokenValid(currentToken)) {
+            return currentToken;
+        }
+
+        this.logout(); // Força logout se tentarem pegar um token expirado
+        return null;
+    },
+
+    /**
+     * Verifica o estado de autenticação atual
+     * @returns {boolean}
+     */
+    isAuthenticated() {
+        return !!this.getToken();
+    }
+};
+
+// Auto-inicializa o serviço ao ser importado
+AuthService.init();

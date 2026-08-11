@@ -1,46 +1,55 @@
 /**
- * Core Service - Auth Guard (Proteção de Rotas)
- * Verifica se o usuário possui uma sessão ativa no Supabase antes de exibir a página.
+ * Guardião de Rotas - Ferramentas DP
+ * Protege o acesso às rotinas de Departamento Pessoal (férias, rescisões, cálculos).
+ * Deve ser carregado preferencialmente na tag <head> das páginas.
  */
 
-import { supabase } from './auth.js';
+import { AuthService } from './auth.js';
 
-async function verificarAcessoGlobal() {
-    try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+class AuthGuard {
+    constructor() {
+        this.publicRoutes = [
+            '/pages/auth/login.html',
+            '/index.html',
+            '/'
+        ];
         
-        if (error || !session) {
-            // Se não houver sessão válida, redireciona imediatamente para o login
-            executarRedirecionamentoLogin();
-            return;
-        }
+        this.verifyAccess();
+    }
 
-        // Opcional: Se houver um elemento para exibir o e-mail do usuário logado na UI
-        const userEmailEl = document.getElementById("user-email-display");
-        if (userEmailEl && session.user) {
-            userEmailEl.textContent = session.user.email;
-        }
+    /**
+     * Verifica o acesso baseado na rota atual e no estado do token
+     */
+    verifyAccess() {
+        const currentPath = window.location.pathname;
+        const isAuthenticated = AuthService.isAuthenticated();
+        const isPublicRoute = this.publicRoutes.some(route => currentPath.endsWith(route));
 
-    } catch (err) {
-        console.error("Erro crítico na validação de segurança:", err);
-        executarRedirecionamentoLogin();
+        if (!isAuthenticated && !isPublicRoute) {
+            // Usuário não autenticado tentando acessar ferramentas de DP (Rescisões, Férias, etc.)
+            this.redirectToLogin();
+        } else if (isAuthenticated && isPublicRoute) {
+            // Usuário já autenticado tentando acessar o login, redireciona para a home/dashboard
+            this.redirectDashboard();
+        }
+    }
+
+    /**
+     * Redireciona para o login sem salvar no histórico de navegação
+     */
+    redirectToLogin() {
+        console.warn('Acesso negado: Redirecionando para autenticação.');
+        // Usa replace para evitar que o botão "Voltar" do navegador burle a segurança via cache
+        window.location.replace('/pages/auth/login.html');
+    }
+
+    /**
+     * Redireciona para o painel principal
+     */
+    redirectDashboard() {
+        window.location.replace('/pages/consultas.html'); // Ajuste para a rota raiz correta pós-login
     }
 }
 
-function executarRedirecionamentoLogin() {
-    // Evita loop de redirecionamento se já estiver na página de login
-    if (!window.location.pathname.includes("login.html")) {
-        // Ajusta o caminho relativo dependendo de onde a página protegida está localizada
-        window.location.href = "../../pages/auth/login.html";
-    }
-}
-
-// Executa a verificação assim que o script é carregado na página protegida
-verificarAcessoGlobal();
-
-// Escuta em tempo real mudanças de estado (ex: expiração de token ou clique em sair)
-supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_OUT' || !session) {
-        executarRedirecionamentoLogin();
-    }
-});
+// Inicializa o guardião imediatamente
+new AuthGuard();
