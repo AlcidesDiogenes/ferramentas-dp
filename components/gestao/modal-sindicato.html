@@ -1,0 +1,99 @@
+<!-- components/gestao/modal-sindicato.html -->
+<div id="modal-cadastro-sindicato" class="modal-overlay" style="display: none;">
+    <div class="modal-content modal-lg">
+        
+        <div class="modal-header">
+            <h3>Cadastrar Sindicato / CCT</h3>
+            <button type="button" class="btn-close" id="btn-fechar-modal-sindicato">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+        
+        <div class="modal-body">
+            <form id="form-sindicato">
+                
+                <!-- BLOCO 1: IDENTIFICAÇÃO -->
+                <fieldset class="form-section">
+                    <legend class="form-section-title">Identificação Sindical</legend>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="sindicato_codigo">Cód. Sindicato *</label>
+                            <input type="text" id="sindicato_codigo" class="form-input" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="sindicato_cct">Cód. CCT *</label>
+                            <input type="text" id="sindicato_cct" class="form-input" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="sindicato_cnpj">CNPJ (Alfanumérico) *</label>
+                            <input type="text" id="sindicato_cnpj" class="form-input" maxlength="18" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="sindicato_nome">Nome da Instituição Sindical *</label>
+                            <input type="text" id="sindicato_nome" class="form-input" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- BLOCO 2: VIGÊNCIA E MÚLTIPLOS ADITIVOS -->
+                <fieldset class="form-section">
+                    <legend class="form-section-title">Vigência e Aditivos</legend>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="sindicato_data_base">Mês Data-Base *</label>
+                            <select id="sindicato_data_base" class="form-input" required>
+                                <option value="" disabled selected>Selecione...</option>
+                                <option value="01">Janeiro</option>
+                                <option value="02">Fevereiro</option>
+                                <option value="03">Março</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Maio</option>
+                                <option value="06">Junho</option>
+                                <option value="07">Julho</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="sindicato_fim_vigencia">Fim da Vigência Atual (CCT) *</label>
+                            <input type="date" id="sindicato_fim_vigencia" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <!-- Controle de Aditivos Condicionais -->
+                    <div class="form-row align-items-center" style="margin-top: 15px;">
+                        <div class="input-group checkbox-inline">
+                            <input type="checkbox" id="sindicato_tem_aditivo">
+                            <label for="sindicato_tem_aditivo">Possui Termos Aditivos vigentes?</label>
+                        </div>
+                    </div>
+
+                    <!-- Bloco Dinâmico de Múltiplos Aditivos -->
+                    <div id="bloco_dados_aditivo" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-weight: 600; font-size: 0.9rem; color: #475569;">Lista de Aditivos</span>
+                            <button type="button" id="btn-adicionar-aditivo-item" class="btn btn-secondary" style="font-size: 12px; padding: 4px 10px;">+ Adicionar Aditivo</button>
+                        </div>
+                        
+                        <!-- Container onde novos aditivos serão injetados dinamicamente -->
+                        <div id="container-lista-aditivos" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Injetado via JS -->
+                        </div>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+        
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="btn-cancelar-sindicato">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="btn-salvar-sindicato">Salvar Sindicato</button>
+        </div>
+        
+    </div>
+</div>

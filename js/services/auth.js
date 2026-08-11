@@ -53,3 +53,8 @@ export async function realizarLogout() {
     
     window.location.href = prefixo + 'index.html';
 }
+
+document.getElementById('btn-header-login')?.addEventListener('click', () => {
+    // Redireciona para a sua página de login (ajuste a rota se necessário)
+    window.location.href = '../auth/login.html'; 
+});

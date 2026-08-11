@@ -5,108 +5,96 @@ MÓDULO: GESTÃO DE DP E ADMINISTRAÇÃO (ATUALIZAÇÃO 3.0 - MVP FREE PLAN)
 
 1. ESCOPO TÉCNICO E LIMITAÇÕES ESTRATÉGICAS
 --------------------------------------------------------------------------------
-* Foco: Sistema B2B de gestão administrativa e controle de rotinas de DP.
+* Foco do Sistema: Sistema B2B de gestão administrativa e controle de rotinas de DP.
 * Armazenamento: 100% focado em dados textuais e estruturados relacionais.
-* Limitação Aplicada: O recurso de Storage (Upload de PDFs/Arquivos) foi 
-  deliberadamente removido do escopo inicial para garantir operação perpétua e 
-  segura dentro do limite de 500MB do banco relacional do plano gratuito.
-* Navegação (UI/UX): Arquitetura Master-Detail com "Context Switcher". O usuário 
-  seleciona a Equipe globalmente e "entra" na Empresa para acessar dados locais 
-  (Funcionários, Lançamentos, etc).
+* Limitação Aplicada: O recurso de Storage (Upload de PDFs/Arquivos) foi removido do escopo inicial para garantir operação perpétua e segura dentro do limite de 500MB do banco relacional do plano gratuito.
+* Navegação (UI/UX): Arquitetura Master-Detail com "Context Switcher". O usuário seleciona a Equipe globalmente e acessa os dados locais da Empresa.
 
 
 2. ESTRUTURA FINANCEIRA E GESTÃO DE ACESSOS (WORKSPACES)
 --------------------------------------------------------------------------------
 TABELA: equipes
-Descrição: O cofre de isolamento. Agrupa dados operacionais e controla o faturamento.
-COLUNA                       | TIPO   | RESTRIÇÕES / REGRAS
-id                           | uuid   | Chave Primária
-nome_equipe                  | text   | Obrigatório
-admin_financeiro_id          | uuid   | FK -> profiles(id). Dono da assinatura.
-plano_atual                  | text   | 'Gratuito', 'Pro', 'Empresarial'
-limites_base_operacional     | int4   | Qtd padrão do plano (Ex: 0 no Free, 3 no Pro)
-limites_base_visitante       | int4   | Qtd padrão do plano (Ex: 0 no Free, 3 no Pro)
-assentos_extra_operacional   | int4   | Assentos comprados avulsos (Add-ons)
-assentos_extra_visitante     | int4   | Assentos comprados avulsos (Add-ons)
-ativo                        | bool   | Padrão True (Soft Delete em inadimplência)
+Descrição: Cofre de isolamento, agrupando dados operacionais e controlando o faturamento.
+- id: uuid (Chave Primária, default gen_random_uuid())
+- nome_equipe: text (Obrigatório)
+- admin_financeiro_id: uuid (FK -> profiles(id), dono da assinatura)
+- plano_atual: text (Ex: 'Gratuito', 'Pro', 'Empresarial')
+- limites_base_operacional: int4 (Qtd padrão do plano)
+- limites_base_visitante: int4 (Qtd padrão do plano)
+- assentos_extra_operacional: int4 (Add-ons)
+- assentos_extra_visitante: int4 (Add-ons)
+- ativo: bool (Padrão True - Soft Delete em inadimplência)
 
 TABELA: equipe_membros
-Descrição: O crachá virtual. Garante o RLS (Segurança em Nível de Linha).
-COLUNA                       | TIPO   | RESTRIÇÕES / REGRAS
-equipe_id                    | uuid   | PK/FK -> equipes(id)
-user_id                      | uuid   | PK/FK -> profiles(id)
-perfil                       | text   | 'Admin', 'Operacional', 'Visitante'
+Descrição: Crachá virtual para garantia de RLS (Segurança em Nível de Linha).
+- equipe_id: uuid (PK/FK -> equipes(id))
+- user_id: uuid (PK/FK -> profiles(id))
+- perfil: text ('Admin', 'Operacional', 'Visitante')
 
 
 3. PARÂMETROS GLOBAIS DA EQUIPE
 --------------------------------------------------------------------------------
-TABELA: equipe_bases 
-Descrição: Categorização customizada criada pelo próprio escritório/equipe.
-COLUNA                       | TIPO   | RESTRIÇÕES / REGRAS
-id                           | uuid   | Chave Primária
-equipe_id                    | uuid   | FK -> equipes(id). 
-nome_base                    | text   | Obrigatório (Ex: 'Accord', 'Clientes VIP')
-*Regra: Deleção bloqueada (RESTRICT) se houver empresas vinculadas.*
+TABELA: equipe_bases
+Descrição: Categorização customizada criada pelo escritório ou equipe.
+- id: uuid (Chave Primária)
+- equipe_id: uuid (FK -> equipes(id))
+- nome_base: text (Obrigatório)
+*Regra de Integridade: Deleção restrita (RESTRICT) caso existam empresas vinculadas.
 
 
 4. CADASTROS OPERACIONAIS: O "FICHÁRIO" DE DP
 --------------------------------------------------------------------------------
-TABELA: empresa (Nível Global da Equipe)
-Descrição: Cadastro raiz. Atua como o "Fichário" que destrancará os submódulos.
-COLUNA                       | TIPO   | RESTRIÇÕES / REGRAS
-id                           | uuid   | Chave Primária
-equipe_id                    | uuid   | FK -> equipes(id). Obrigatório.
-base_id                      | uuid   | FK -> equipe_bases(id). Obrigatório.
-tem_movimento                | bool   | Obrigatório (Sim/Não)
-codigo_empresa               | text   | Obrigatório
-cnpj_cpf                     | text   | Obrigatório (Com máscara)
-apelido                      | text   | Obrigatório
-razao_social                 | text   | Obrigatório
-grupo                        | text   | Opcional
-responsavel_id               | uuid   | FK -> profiles(id). Opcional.
-contato_empresa              | text   | Opcional
-regime_tributario            | text   | Dropdown fixo eSocial (Ex: Simples, Lucro Presumido)
-classificacao_tributaria     | text   | Dropdown fixo eSocial (Ex: 01, 99)
-categorias                   | jsonb  | (Folha mensal, Pro-labore, RPA, Sem Movimento)
-qtd_funcionarios             | int4   | Opcional
-responsavel_fiscal           | text   | Opcional
-tem_adiantamento             | bool   | Obrigatório (Sim/Não)
-percentual_adiantamento      | numeric| Condicional. Visível se 'tem_adiantamento' = True
+TABELA: empresa
+Descrição: Cadastro raiz atuando como fichário para desbloqueio de submódulos.
+- id: uuid (Chave Primária)
+- equipe_id: uuid (FK -> equipes(id), Obrigatório)
+- base_id: uuid (FK -> equipe_bases(id), Obrigatório)
+- tem_movimento: bool (Obrigatório Sim/Não)
+- codigo_empresa: text (Obrigatório)
+- cnpj_cpf: text (Obrigatório, formatado com máscara)
+- apelido: text (Obrigatório)
+- razao_social: text (Obrigatório)
+- grupo: text (Opcional)
+- responsavel_id: uuid (FK -> profiles(id), Opcional)
+- contato_empresa: text (Opcional)
+- regime_tributario: text (Dropdown eSocial)
+- classificacao_tributaria: text (Dropdown eSocial)
+- categorias: jsonb (Folha mensal, Pró-labore, RPA, Sem Movimento)
+- qtd_funcionarios: int4 (Opcional)
+- responsavel_fiscal: text (Opcional)
+- tem_adiantamento: bool (Obrigatório Sim/Não)
+- percentual_adiantamento: numeric (Condicional se tem_adiantamento = True)
 
-TABELA: user_sindicatos (CCTs e Vigência)
-Descrição: Regras sindicais cadastradas pelo escritório, sem upload de arquivos.
-COLUNA                       | TIPO   | RESTRIÇÕES / REGRAS
-id                           | uuid   | Chave Primária
-equipe_id                    | uuid   | FK -> equipes(id). Obrigatório.
-codigo_sindicato             | text   | Obrigatório
-codigo_cct                   | text   | Obrigatório
-nome_sindicato               | text   | Obrigatório
-cnpj                         | text   | Opcional
-data_base                    | text   | Opcional
-fim_vigencia_cct             | date   | Data exata de vencimento
-situacao                     | text   | VIRTUAL (Generated Column). Calcula "Vencida" se data atual > fim_vigencia_cct
-ultima_verificacao           | date   | Opcional
-tem_aditivo                  | bool   | Opcional
-aditivos                     | jsonb  | Opcional
+TABELA: user_sindicatos
+Descrição: Regras sindicais (CCTs e vigência) cadastradas manualmente.
+- id: uuid (Chave Primária)
+- equipe_id: uuid (FK -> equipes(id), Obrigatório)
+- codigo_sindicato: text (Obrigatório)
+- codigo_cct: text (Obrigatório)
+- nome_sindicato: text (Obrigatório)
+- cnpj: text (Opcional)
+- data_base: text (Opcional)
+- fim_vigencia_cct: date (Data de vencimento)
+- ultima_verificacao: date (Opcional)
+- tem_aditivo: bool (Opcional)
+- aditivos: jsonb (Opcional)
 
-TABELA: empresa_sindicatos (Ligação - Pivot Table)
-Descrição: Garante, via banco, que uma empresa pode ter múltiplos sindicatos.
-COLUNA                       | TIPO   | RESTRIÇÕES / REGRAS
-empresa_id                   | uuid   | PK/FK -> empresa(id). Cascade.
-sindicato_id                 | uuid   | PK/FK -> user_sindicatos(id). Cascade.
-*Regra: O cadastro da Empresa exige transação SQL para não nascer sem vínculo.*
+TABELA: empresa_sindicatos
+Descrição: Tabela Pivot para gerenciar múltiplos sindicatos por empresa.
+- empresa_id: uuid (PK/FK -> empresa(id), Cascade)
+- sindicato_id: uuid (PK/FK -> user_sindicatos(id), Cascade)
+*Regra: O cadastro exige transação SQL para garantir integridade do vínculo.
 
 
 5. RASTREABILIDADE TRABALHISTA
 --------------------------------------------------------------------------------
-TABELA: logs_auditoria 
-Descrição: Substitui a limitação de 24h de retenção de logs do Supabase.
-COLUNA                       | TIPO   | RESTRIÇÕES / REGRAS
-id                           | uuid   | Chave Primária
-equipe_id                    | uuid   | FK -> equipes(id)
-user_id                      | uuid   | FK -> profiles(id)
-tabela_afetada               | text   | Ex: 'empresa'
-registro_id                  | uuid   | ID do dado alterado
-acao_detalhe                 | text   | Ex: 'Alteração em percentual de adiantamento'
-criado_em                    | ts_tz  | Timestamp com Fuso Horário
+TABELA: logs_auditoria
+Descrição: Mecanismo de retenção estendida de auditoria.
+- id: uuid (Chave Primária)
+- equipe_id: uuid (FK -> equipes(id))
+- user_id: uuid (FK -> profiles(id))
+- tabela_afetada: text (Ex: 'empresa')
+- registro_id: uuid (ID do registro alterado)
+- acao_detalhe: text (Descrição detalhada da ação)
+- criado_em: timestamp with time zone (Timestamp com fuso horário)
 ================================================================================

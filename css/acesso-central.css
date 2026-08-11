@@ -1,0 +1,456 @@
+/* =========================================================
+   MÓDULO: ACESSO CENTRAL E BARRA HORIZONTAL
+   ========================================================= */
+
+/* Garante que o layout base ocupe a tela toda */
+body.admin-layout {
+    background-color: var(--bg-body, #f1f5f9);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* BARRA HORIZONTAL PRINCIPAL */
+.top-bar.admin-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--primary-color, #1e293b);
+    color: #ffffff;
+    height: 60px;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+/* CONTAINER DE NAVEGAÇÃO */
+.nav-horizontal {
+    height: 100%;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* ITEM DO MENU (Pai do Dropdown) */
+.nav-item.dropdown {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* BOTÕES DO MENU PRINCIPAL */
+.btn-nav.dropdown-toggle {
+    background: transparent;
+    border: none;
+    color: #f8fafc;
+    font-size: 15px;
+    font-weight: 500;
+    height: 100%;
+    padding: 0 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover no botão principal */
+.nav-item.dropdown:hover .btn-nav.dropdown-toggle {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   SUBMENUS (DROPDOWNS)
+   ========================================================= */
+
+.dropdown-menu {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    top: 60px; /* Cola exatamenta na base da barra */
+    left: 0;
+    background-color: #ffffff;
+    min-width: 230px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 0 0 4px 4px;
+    z-index: 1010;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* A mágica do CSS: O hover no item pai faz o submenu aparecer */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: flex;
+}
+
+/* LINKS DO SUBMENU */
+.dropdown-item {
+    color: #333333;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    transition: all 0.2s ease;
+    display: block;
+}
+
+/* Efeito de destaque ao passar o mouse na opção do submenu */
+.dropdown-item:hover {
+    background-color: #f8fafc;
+    color: var(--accent-color, #2563eb);
+    padding-left: 25px; /* Leve empurrão para a direita */
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* =========================================================
+   CONTEXT SWITCHER (SELETOR DE EMPRESA)
+   ========================================================= */
+
+.context-switcher {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 6px 16px;
+    border-radius: 6px;
+}
+
+.context-switcher i {
+    color: #94a3b8;
+    font-size: 1.2rem;
+}
+
+.context-switcher .select-sm {
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.context-switcher .select-sm option {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+/* =========================================================
+   ÁREA DE TRABALHO
+   ========================================================= */
+.workspace {
+    padding: 30px;
+    flex-grow: 1;
+}
+/* =========================================================
+   ESTILIZAÇÃO DE FORMULÁRIOS E MODAL (POP-UP)
+   ========================================================= */
+
+/* Fundo escuro do modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.7); /* Azul escuro transparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* Caixa Branca do Modal */
+.modal-content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* Não deixa vazar da tela */
+}
+
+.modal-content.modal-lg {
+    max-width: 800px;
+}
+
+/* Cabeçalho do Modal */
+.modal-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #1e293b;
+}
+
+.btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #64748b;
+    transition: color 0.2s;
+}
+
+.btn-close:hover {
+    color: #ef4444; /* Fica vermelho ao passar o mouse */
+}
+
+/* Corpo do Modal (com rolagem) */
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+}
+
+/* Divisórias do Formulário (Fieldsets) */
+.form-section {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 0 0 24px 0;
+    background-color: #f8fafc;
+}
+
+.form-section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2563eb; /* Azul destaque */
+    background-color: #ffffff;
+    padding: 0 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+}
+
+/* Estrutura de Linhas e Colunas do Formulário */
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap; /* Se a tela for pequena, joga pra baixo */
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1; /* Faz os campos dividirem o espaço igualmente */
+}
+
+/* Estilo das Labels e Inputs */
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-input {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #1e293b;
+    background-color: #ffffff;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Checkboxes */
+.checkbox-inline {
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-inline input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-inline label {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.checkbox-list-scroll {
+    max-height: 140px;
+    overflow-y: auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+    background: #ffffff;
+}
+
+/* Rodapé e Botões */
+.modal-footer {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    border-radius: 0 0 8px 8px;
+}
+
+.btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+.btn-secondary:hover {
+    background-color: #cbd5e1;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+/* =========================================================
+   SUBMENUS ANINHADOS (NÍVEL 3 - Abrem para a lateral)
+   ========================================================= */
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-menu-nested {
+    display: none; /* Oculto por padrão */
+    position: absolute;
+    top: 0;
+    left: 100%; /* Posiciona exatamente ao lado direito do menu pai */
+    background-color: #ffffff;
+    min-width: 230px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 0 4px 4px 4px;
+    z-index: 1020;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    flex-direction: column;
+}
+
+/* Exibe o submenu aninhado ao passar o mouse no item pai */
+.dropdown-submenu:hover .dropdown-menu-nested {
+    display: flex;
+}
+
+/* =========================================================
+   AÇÕES DO LADO DIREITO DA BARRA SUPERIOR (LOGIN + SWITCHER)
+   ========================================================= */
+
+.header-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Estilo do Botão de Login na Header */
+.btn-header-action {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-header-action:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-header-action i {
+    font-size: 1.1rem;
+}
+/* =========================================================
+   MÓDULO: MODAL DE CADASTRO DE EMPREGADOS (EXTENSÃO)
+   ========================================================= */
+
+/* Container Ampliado para o Modal de Empregados */
+.modal-content.modal-empregado-lg {
+    max-width: 900px;
+    max-height: 90vh;
+}
+
+/* Fieldsets Semânticos por Seção de DP */
+.empregado-fieldset {
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 6px;
+    padding: 16px;
+    background: #ffffff;
+    margin-bottom: 16px;
+}
+
+/* Legendas Estilizadas */
+.empregado-legend {
+    font-weight: 600;
+    color: var(--primary-color, #0f172a);
+    padding: 0 8px;
+    font-size: 14px;
+}
+
+/* Grid Responsivo Dinâmico para os Inputs */
+.empregado-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+}
+
+/* Classes Utilitárias de Span para Grid */
+.span-col-2 {
+    grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+    .span-col-2 {
+        grid-column: span 1;
+    }
+}

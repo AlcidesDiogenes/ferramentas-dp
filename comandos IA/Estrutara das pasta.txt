@@ -1,29 +1,35 @@
 ferramentas-dp/
-│
 ├── .nojekyll
+├── index.html
+├── README.md
 ├── .vscode/
 │   └── settings.json
-├── README.md
-│
-├── index.html
-│
 ├── assets/
-│   ├── modelo_controle_ponto.xlsx
-│   ├── modelo_importacao.xls
-│   └── modelos/
-│       ├── Advertencia.docx
-│       ├── Procuracao - Caixa.docx
-│       └── Suspens o disciplinar.docx
-│
+│   ├── dados/
+│   │   ├── cbo-dicionario.json
+│   │   ├── cbo-titulo.json
+│   │   ├── cbo2002-perfilocupacional.csv
+│   │   └── cbo_familias_escolaridade.json
+│   ├── modelos/
+│   │   ├── Advertencia.docx
+│   │   ├── Procuracao - Caixa.docx
+│   │   └── Suspens o disciplinar.docx
+│   └── modelos_importacao/
+│       ├── modelo_controle_ponto.xlsx
+│       ├── modelo_importacao_cbo.xlsx
+│       └── modelo_importacao_txt.xls
 ├── comandos IA/
 │   ├── Comando que a IA deve seguir restritamente.txt
+│   ├── Documenta cnica Arquitetura Multi-tenant e Modelagem de Dados.txt
+│   ├── Documenta cnica M dulo de Central do Usu rio, Dados Cadastrais e Sindicatos.txt
+│   ├── Documenta cnica Mapeamento de CBO, Processamento JS e Dimensionamento de Cotas.txt
 │   ├── Estrutara das pasta.txt
-│   └── Estrutura do JS Custo do funcionario.txt
-│
+│   ├── Estrutura do JS Custo do funcionario.txt
+│   └── Prompt para gerar documenta o.txt
 ├── components/
 │   └── sidebar.html
-│
 ├── css/
+│   ├── atualizar-dados.css
 │   ├── components.css
 │   ├── consultas.css
 │   ├── file-uploader.css
@@ -37,64 +43,67 @@ ferramentas-dp/
 │   ├── simulador-custo.css
 │   ├── style.css
 │   └── variables.css
-│
 ├── js/
 │   ├── analise-fiscal.js
 │   ├── detalhamento-fiscal.js
 │   ├── head-manager.js
 │   ├── loader.js
 │   ├── motor-filtros.js
-│   │
+│   ├── programacao-ferias.js
+│   ├── controllers/
+│   │   └── atualizar-dados.js
 │   ├── dominioSistema/
 │   │   ├── afastamentos.js
 │   │   ├── importacao-txt.js
 │   │   └── xml-s1210.js
-│   │
 │   ├── excel-generators/
+│   │   ├── cota-aprendiz-excel.js
 │   │   └── xml-s1210-excel.js
-│   │
 │   ├── jornada/
 │   │   ├── calculos.js
 │   │   └── importacao.js
-│   │
 │   ├── modelos/
 │   │   └── hub.js
-│   │
 │   ├── pdf-generators/
 │   │   ├── afastamentos-pdf.js
+│   │   ├── cota-aprendiz-pdf.js
 │   │   ├── custo-funcionario-pdf.js
 │   │   ├── detalhamento-pdf.js
 │   │   ├── ferias-pdf.js
 │   │   ├── fiscal-pdf.js
 │   │   ├── jornada-pdf.js
 │   │   └── prolabore-pdf.js
-│   │
+│   ├── services/
+│   │   ├── auth-guard.js
+│   │   ├── auth.js
+│   │   └── sidebar-auth.js
 │   └── simuladores/
+│       ├── calculo-aprendiz.js
 │       ├── calculos-prolabore.js
 │       ├── custo-funcionario.js
 │       ├── detalhamento-calculos.js
 │       ├── prolabore.js
 │       └── tabelas.js
-│
 └── pages/
     ├── analise-fiscal.html
     ├── consultas.html
     ├── jornada.html
     ├── modelos.html
-    │
+    ├── auth/
+    │   ├── atualizar-dados.html
+    │   └── login.html
     ├── dominioSistema/
     │   ├── afastamentos.html
     │   ├── analise_XML.html
     │   ├── hub_dominio.html
     │   ├── importacao-txt.html
     │   └── programacao-ferias.html
-    │
     └── simuladores/
+        ├── cota-aprendiz.html
         ├── custo-funcionario.html
         ├── detalhamento-calculos.html
         ├── hub.html
         └── prolabore.html
-
 
 **/ Todos os arquivos css serão centralizados no style.css
 
