@@ -1,78 +1,97 @@
 /**
- * CONTROLLER: HEADER AUTH
- * Consulta a tabela de perfis priorizando a coluna 'nome_completo'.
+ * Controlador de Autenticação do Cabeçalho - Ferramentas DP
+ * Responsável por atualizar a UI do Header (exibir perfil vs. botão login)
+ * com base no evento de estado da sessão global.
  */
 
-import { supabase } from '../services/auth.js';
+import { AuthService } from '../services/auth.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const btnLoginHeader = document.getElementById('btn-header-login');
-    if (!btnLoginHeader) return;
+class HeaderAuthController {
+    constructor() {
+        // Seletores baseados em IDs semânticos que devem existir no seu HTML do cabeçalho
+        this.loginContainer = document.getElementById('login-action-container');
+        this.userProfileContainer = document.getElementById('user-profile-container');
+        this.logoutBtn = document.getElementById('btn-logout');
 
-    try {
-        // 1. Verifica a sessão ativa no Supabase
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        this.init();
+    }
 
-        if (authError || !user) {
-            btnLoginHeader.innerHTML = `<i class="ph ph-sign-in"></i> <span>Entrar</span>`;
-            btnLoginHeader.onclick = () => {
-                window.location.href = '../auth/login.html';
-            };
+    /**
+     * Inicializa o controlador, vincula os eventos e monta o estado inicial da UI
+     */
+    init() {
+        // Prevenção de quebra de script caso a página não possua o cabeçalho padrão
+        if (!this.loginContainer || !this.userProfileContainer) {
+            console.warn('HeaderAuthController: Elementos estruturais do cabeçalho não encontrados no DOM.');
             return;
         }
 
-        let nomeExibicao = null;
-
-        // 2. Consulta o perfil priorizando a coluna 'nome_completo'
-        try {
-            let { data: perfil, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', user.id)
-                .maybeSingle();
-
-            if (error || !perfil) {
-                const { data: perfilAlt } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('user_id', user.id)
-                    .maybeSingle();
-                perfil = perfilAlt;
-            }
-
-            if (perfil) {
-                // Prioriza explicitamente a coluna 'nome_completo'
-                nomeExibicao = perfil.nome_completo || perfil.nome || perfil.full_name || perfil.name;
-            }
-        } catch (err) {
-            console.warn("Aviso: Não foi possível consultar a tabela de perfis.", err);
-        }
-
-        // 3. Fallback caso não encontre na tabela
-        if (!nomeExibicao) {
-            nomeExibicao = user.user_metadata?.nome_completo || user.user_metadata?.nome;
-        }
-
-        if (!nomeExibicao && user.email) {
-            const parteEmail = user.email.split('@')[0];
-            nomeExibicao = parteEmail
-                .replace(/[._]/g, ' ')
-                .replace(/\b\w/g, l => l.toUpperCase());
-        }
-
-        // 4. Renderiza o botão com o ícone e o nome correto
-        btnLoginHeader.innerHTML = `<i class="ph ph-user-circle"></i><span>${nomeExibicao || 'Usuário'}</span>`;
-        btnLoginHeader.title = `Logado como ${user.email}. Clique para sair.`;
-
-        // 5. Ação de encerramento de sessão
-        btnLoginHeader.onclick = async () => {
-            if (confirm(`Deseja encerrar a sessão de ${nomeExibicao}?`)) {
-                await supabase.auth.signOut();
-                window.location.reload();
-            }
-        };
-
-    } catch (error) {
-        console.error("Erro ao processar autenticação na header:", error);
+        this.bindEvents();
+        
+        // Define o estado inicial da interface com a Fonte Única de Verdade (AuthService)
+        this.updateUI(AuthService.isAuthenticated());
     }
+
+    /**
+     * Vincula ouvintes de eventos da janela e interações do usuário
+     */
+    bindEvents() {
+        // Escuta a mudança de estado propagada pelo auth.js
+        window.addEventListener('authStateChanged', (event) => {
+            this.updateUI(event.detail.isAuthenticated);
+        });
+
+        // Ação de logout disparada pelo usuário no menu do cabeçalho
+        if (this.logoutBtn) {
+            this.logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleLogout();
+            });
+        }
+    }
+
+    /**
+     * Atualiza o DOM visando performance e acessibilidade (WCAG)
+     * @param {boolean} isAuthenticated 
+     */
+    updateUI(isAuthenticated) {
+        if (isAuthenticated) {
+            // Usuário LOGADO: Oculta a área de Login
+            this.loginContainer.setAttribute('hidden', 'true');
+            this.loginContainer.setAttribute('aria-hidden', 'true');
+            
+            // Exibe a área do Perfil do Usuário
+            this.userProfileContainer.removeAttribute('hidden');
+            this.userProfileContainer.setAttribute('aria-hidden', 'false');
+        } else {
+            // Usuário DESLOGADO: Oculta a área do Perfil
+            this.userProfileContainer.setAttribute('hidden', 'true');
+            this.userProfileContainer.setAttribute('aria-hidden', 'true');
+            
+            // Exibe a área de Login
+            this.loginContainer.removeAttribute('hidden');
+            this.loginContainer.setAttribute('aria-hidden', 'false');
+        }
+    }
+
+    /**
+     * Processa a solicitação de logout do usuário com fallback de segurança
+     */
+    handleLogout() {
+        try {
+            // Delega a responsabilidade lógica para o AuthService
+            AuthService.logout(true);
+        } catch (error) {
+            console.error('Erro na delegação do logout:', error);
+            
+            // Fallback: Se o serviço falhar, força a limpeza do navegador localmente
+            sessionStorage.clear();
+            window.location.replace('/pages/auth/login.html');
+        }
+    }
+}
+
+// Garante que o DOM esteja totalmente construído antes de procurar os elementos
+document.addEventListener('DOMContentLoaded', () => {
+    new HeaderAuthController();
 });
