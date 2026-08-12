@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajuda e Atalhos - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+    <script src="../js/head-manager.js"></script>
+</head>
+<body class="preload">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="page-header" style="text-align: center; margin-bottom: 25px; border-bottom: 1px solid var(--cor-borda, #e2e8f0); padding-bottom: 15px;">
+            <h1>Central de Ajuda e Atalhos</h1>
+            <p style="font-size: 0.95rem; color: var(--cor-texto-secundario, #64748b);">Guia completo de navegação por teclado, atalhos do sistema e instruções operacionais</p>
+        </header>
+
+        <div class="ajuda-container">
+            
+            <!-- Campo de Busca de Ajuda -->
+            <div class="docs-search-container ajuda-search-box">
+                <input type="text" id="busca-ajuda" class="form-control docs-search-input" placeholder="Buscar atalho ou instrução de uso (ex: Tab, Enter, Esc, Ponto, Pro-labore, eSocial)..." autocomplete="off">
+            </div>
+
+            <!-- Estado Vazio para Busca sem Resultados -->
+            <div id="empty-ajuda-state" class="empty-state" style="display: none; text-align: center; padding: 40px 20px;">
+                <div style="font-size: 2.2rem; margin-bottom: 10px;">🔍</div>
+                <p style="font-weight: 600; color: var(--cor-texto-principal); margin-bottom: 4px;">Nenhum atalho ou instrução encontrada</p>
+                <p style="font-size: 0.88rem; color: var(--cor-texto-secundario);">Tente buscar por termos diferentes como "Tab", "Enter", "Sidebar", "Consultas" ou "Simuladores".</p>
+            </div>
+
+            <div class="ajuda-grid-2col">
+                
+                <!-- BLOCO 1: ATALHOS DE TECLADO -->
+                <section class="ajuda-card">
+                    <h2 class="ajuda-section-title">
+                        <span>⌨️</span> Atalhos e Navegação por Teclado
+                    </h2>
+
+                    <div class="shortcut-item" data-keywords="ctrl k cmd k busca rapida command palette pesquisa global">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Pesquisa Rápida Global (Command Palette)</span>
+                            <span class="shortcut-subtext">Abre a barra de busca flutuante para ir a qualquer página instantaneamente.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Ctrl</kbd> + <kbd>K</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="alt m menu lateral sidebar alternar focar">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Alternar / Focar Menu Lateral</span>
+                            <span class="shortcut-subtext">Expande, recolhe ou move o foco para o menu de navegação lateral.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Alt</kbd> + <kbd>M</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="alt h home inicio painel principal voltar">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Voltar ao Painel Principal (Home)</span>
+                            <span class="shortcut-subtext">Redireciona diretamente para a tela inicial a partir de qualquer módulo.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Alt</kbd> + <kbd>H</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="alt t topo rolar subir pagina">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Rolar suavemente até o Topo</span>
+                            <span class="shortcut-subtext">Sobe a tela instantaneamente até o cabeçalho.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Alt</kbd> + <kbd>T</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="tab navegacao proximo elemento foco campo botao">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Navegar para o próximo elemento</span>
+                            <span class="shortcut-subtext">Avança o foco entre botões, cartões de módulo e formulários.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Tab</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="shift tab recuar elemento anterior foco">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Voltar para o elemento anterior</span>
+                            <span class="shortcut-subtext">Retorna o foco para o botão ou campo anterior.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Shift</kbd> + <kbd>Tab</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="enter espaco clicar ativar abrir modulo botao">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Ativar ou abrir o módulo focado</span>
+                            <span class="shortcut-subtext">Simula o clique do mouse sobre o cartão ou botão focado.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Enter</kbd> ou <kbd>Espaço</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="esc escape limpar busca fechar modal">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Limpar pesquisa ou fechar telas</span>
+                            <span class="shortcut-subtext">Limpa instantaneamente os campos de busca ativa e fecha menus flutuantes.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Esc</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="menu lateral sidebar recolher expandir alternar toggle">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Minimizar / Expandir Menu Lateral</span>
+                            <span class="shortcut-subtext">Alterna a exibição do menu lateral para ampliar a área de trabalho.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Clique em ☰</kbd>
+                        </div>
+                    </div>
+
+                    <div class="shortcut-item" data-keywords="tema escuro claro dark mode toggle">
+                        <div class="shortcut-info">
+                            <span class="shortcut-desc">Alternar Tema Claro / Escuro</span>
+                            <span class="shortcut-subtext">Muda a aparência visual para o modo noturno ou diurno.</span>
+                        </div>
+                        <div class="shortcut-keys">
+                            <kbd>Botão 🌓 no Menu</kbd>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- BLOCO 2: GUIA RÁPIDO DOS MÓDULOS -->
+                <section class="ajuda-card">
+                    <h2 class="ajuda-section-title">
+                        <span>🚀</span> Guia Rápido dos Módulos
+                    </h2>
+
+                    <div class="instruction-item" data-keywords="dominio sistema relatorio txt xml integracao">
+                        <div class="instruction-icon">🖥️</div>
+                        <div class="instruction-content">
+                            <h4>Ferramentas Domínio Sistema</h4>
+                            <p>Importe relatórios operacionais em formato TXT e XML gerados pelo Domínio para análise automatizada e validação de regras de folha de pagamento.</p>
+                            <span class="tip-badge">Dica: Suporta múltiplos arquivos simultâneos</span>
+                        </div>
+                    </div>
+
+                    <div class="instruction-item" data-keywords="analise fiscal receita federal relatorio pendencias cnd">
+                        <div class="instruction-icon">⚖️</div>
+                        <div class="instruction-content">
+                            <h4>Análise de Situação Fiscal</h4>
+                            <p>Envie os relatórios da Receita Federal em PDF para detectar ausência de declarações, débitos em aberto e irregularidades em poucos segundos.</p>
+                            <span class="tip-badge">Aglutinação inteligente por CNPJ</span>
+                        </div>
+                    </div>
+
+                    <div class="instruction-item" data-keywords="analise ponto jornada marcação horas extras espelho">
+                        <div class="instruction-icon">⏱️</div>
+                        <div class="instruction-content">
+                            <h4>Análise de Ponto (Jornada)</h4>
+                            <p>Audite os registros do espelho de ponto para identificar horas excedentes, atrasos recorrentes e faltas injustificadas.</p>
+                            <span class="tip-badge">Geração automatizada de relatórios em PDF</span>
+                        </div>
+                    </div>
+
+                    <div class="instruction-item" data-keywords="simuladores calculos pro-labore custo funcionario aprendiz rescisao">
+                        <div class="instruction-icon">🧮</div>
+                        <div class="instruction-content">
+                            <h4>Simuladores de Cálculos</h4>
+                            <p>Simule custos totais de contratação, rescisão, pró-labore e cotas de aprendizagem com detalhamento de encargos sociais (INSS, FGTS, IRRF).</p>
+                            <span class="tip-badge">Cálculos atualizados pelas tabelas vigentes</span>
+                        </div>
+                    </div>
+
+                    <div class="instruction-item" data-keywords="consultas certidoes cnpj fgts esocial cndt crm epi">
+                        <div class="instruction-icon">🔎</div>
+                        <div class="instruction-content">
+                            <h4>Central de Consultas</h4>
+                            <p>Acesse com um clique os portais oficiais de certidões e verificações de regularidade (Caixa, Receita, TST, eSocial, CBO e MTE).</p>
+                            <span class="tip-badge">Pesquisa em tempo real habilitada</span>
+                        </div>
+                    </div>
+
+                    <div class="instruction-item" data-keywords="modelos documentos advertencia suspensao procuracao docx">
+                        <div class="instruction-icon">📋</div>
+                        <div class="instruction-content">
+                            <h4>Modelos de Documentos</h4>
+                            <p>Faça o download de modelos oficiais padronizados para avisos, advertências, procurações e comunicados do departamento pessoal.</p>
+                            <span class="tip-badge">Formatos editáveis prontos para uso</span>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- BLOCO 3: DICAS DE ACESSIBILIDADE E DESEMPENHO -->
+            <section class="ajuda-card" style="margin-top: 10px;">
+                <h2 class="ajuda-section-title">
+                    <span>💡</span> Dicas de Produtividade no Atendimento
+                </h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; font-size: 0.9rem; color: var(--cor-texto-secundario, #475569);">
+                    <div style="padding: 12px; background: var(--cor-fundo, #f8fafc); border-radius: 8px; border: 1px solid var(--cor-borda, #e2e8f0);">
+                        <strong style="color: var(--cor-texto-principal); display: block; margin-bottom: 4px;">⚡ Navegação sem Mouse</strong>
+                        Você pode operar todas as rotinas do painel sem tirar as mãos do teclado utilizando as teclas <kbd>Tab</kbd> e <kbd>Enter</kbd>.
+                    </div>
+                    <div style="padding: 12px; background: var(--cor-fundo, #f8fafc); border-radius: 8px; border: 1px solid var(--cor-borda, #e2e8f0);">
+                        <strong style="color: var(--cor-texto-principal); display: block; margin-bottom: 4px;">🔍 Busca Instantânea por Tecla</strong>
+                        Pressione <kbd>Esc</kbd> em qualquer tela de busca para limpar o texto e retornar à listagem completa.
+                    </div>
+                    <div style="padding: 12px; background: var(--cor-fundo, #f8fafc); border-radius: 8px; border: 1px solid var(--cor-borda, #e2e8f0);">
+                        <strong style="color: var(--cor-texto-principal); display: block; margin-bottom: 4px;">📂 Exportação e Segurança</strong>
+                        Todos os relatórios simulados e análises fiscais são processados localmente no navegador, garantindo a privacidade dos dados.
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="../js/loader.js" defer></script>
+    <script src="../js/ajuda.js" defer></script>
+</body>
+</html>

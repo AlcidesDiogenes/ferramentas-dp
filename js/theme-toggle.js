@@ -5,6 +5,8 @@
  */
 
 (function () {
+    let isInjecting = false;
+
     // 1. Aplicação antecipada e determinação do tema
     function getStoredOrPreferredTheme() {
         const savedTheme = localStorage.getItem("theme");
@@ -50,31 +52,36 @@
 
     // 4. Injeta o interruptor de tema nos cabeçalhos (.main-header, .page-header)
     function injectThemeSwitch() {
-        const headers = document.querySelectorAll(".main-header, .page-header, header");
-        if (!headers || headers.length === 0) return;
+        if (isInjecting) return;
+        isInjecting = true;
+        try {
+            const headers = document.querySelectorAll(".main-header, .page-header, header");
+            if (!headers || headers.length === 0) return;
 
-        headers.forEach(header => {
-            // Se já tiver o interruptor, ignora
-            if (header.querySelector(".theme-toggle-wrapper")) return;
+            headers.forEach(header => {
+                if (header.querySelector(".theme-toggle-wrapper")) return;
 
-            const wrapper = document.createElement("div");
-            wrapper.className = "theme-toggle-wrapper";
+                const wrapper = document.createElement("div");
+                wrapper.className = "theme-toggle-wrapper";
 
-            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+                const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
-            wrapper.innerHTML = `
-                <button type="button" class="theme-toggle-btn" id="btn-theme-toggle" aria-label="Alternar tema">
-                    <span class="theme-icon">${isDark ? "🌙" : "☀️"}</span>
-                    <span class="theme-label">${isDark ? "Escuro" : "Claro"}</span>
-                    <span class="theme-switch-pill"></span>
-                </button>
-            `;
+                wrapper.innerHTML = `
+                    <button type="button" class="theme-toggle-btn" id="btn-theme-toggle" aria-label="Alternar tema">
+                        <span class="theme-icon">${isDark ? "🌙" : "☀️"}</span>
+                        <span class="theme-label">${isDark ? "Escuro" : "Claro"}</span>
+                        <span class="theme-switch-pill"></span>
+                    </button>
+                `;
 
-            const btn = wrapper.querySelector(".theme-toggle-btn");
-            btn.addEventListener("click", toggleTheme);
+                const btn = wrapper.querySelector(".theme-toggle-btn");
+                btn.addEventListener("click", toggleTheme);
 
-            header.appendChild(wrapper);
-        });
+                header.appendChild(wrapper);
+            });
+        } finally {
+            isInjecting = false;
+        }
     }
 
     // Executa a injeção quando o DOM estiver pronto
@@ -84,11 +91,21 @@
         injectThemeSwitch();
     }
 
-    // MutationObserver para garantir injeção em elementos dinâmicos
+    // MutationObserver seguro para garantir injeção se novos cabeçalhos forem inseridos
+    let themeTimer = null;
     const observer = new MutationObserver(() => {
-        if (!document.querySelector(".theme-toggle-wrapper")) {
+        if (isInjecting) return;
+        
+        // Só executa se houver algum cabeçalho que ainda NÃO possui a classe do tema
+        const unhandledHeader = Array.from(document.querySelectorAll(".main-header, .page-header, header"))
+            .some(h => !h.querySelector(".theme-toggle-wrapper"));
+
+        if (!unhandledHeader) return;
+
+        if (themeTimer) cancelAnimationFrame(themeTimer);
+        themeTimer = requestAnimationFrame(() => {
             injectThemeSwitch();
-        }
+        });
     });
 
     if (document.body) {

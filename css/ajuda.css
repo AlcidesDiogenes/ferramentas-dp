@@ -1,0 +1,155 @@
+/* css/ajuda.css - Estilos para a Central de Ajuda e Atalhos */
+
+.ajuda-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.ajuda-search-box {
+    margin-bottom: 10px;
+}
+
+.ajuda-grid-2col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+}
+
+.ajuda-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--cor-texto-principal, #1e293b);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ajuda-card {
+    background-color: var(--cor-card-bg, #ffffff);
+    border: 1px solid var(--cor-borda, #e2e8f0);
+    border-radius: var(--borda-raio, 12px);
+    padding: 22px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ajuda-card:hover {
+    border-color: var(--cor-destaque, #0284c7);
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--cor-borda, #e2e8f0);
+    gap: 15px;
+}
+
+.shortcut-item:last-child {
+    border-bottom: none;
+}
+
+.shortcut-desc {
+    font-weight: 500;
+    color: var(--cor-texto-principal, #334155);
+    font-size: 0.92rem;
+}
+
+.shortcut-subtext {
+    font-size: 0.82rem;
+    color: var(--cor-texto-secundario, #64748b);
+    display: block;
+    margin-top: 2px;
+}
+
+.shortcut-keys {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+/* Estilização moderna de teclas <kbd> */
+kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-fundo, #f1f5f9);
+    color: var(--cor-texto-principal, #0f172a);
+    border: 1px solid var(--cor-borda, #cbd5e1);
+    border-bottom-width: 2px;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    min-width: 28px;
+    text-align: center;
+}
+
+[data-theme="dark"] kbd {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+
+/* Guia de Instruções dos Módulos */
+.instruction-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--cor-borda, #e2e8f0);
+}
+
+.instruction-item:last-child {
+    border-bottom: none;
+}
+
+.instruction-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background-color: rgba(2, 132, 199, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.instruction-content h4 {
+    margin: 0 0 6px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cor-texto-principal, #0f172a);
+}
+
+.instruction-content p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--cor-texto-secundario, #475569);
+    line-height: 1.5;
+}
+
+.tip-badge {
+    display: inline-block;
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #059669;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+
+[data-theme="dark"] .tip-badge {
+    background-color: rgba(16, 185, 129, 0.25);
+    color: #34d399;
+}

@@ -19,27 +19,43 @@
 
     <main class="main-content">
         <header class="main-header">
-            <h1>Painel de Controle</h1>
-            <p class="subtitle">Selecione o módulo desejado para iniciar as rotinas</p>
+            <div class="main-header-info">
+                <h1>Painel de Controle</h1>
+                <p class="subtitle">Selecione o módulo desejado para iniciar as rotinas</p>
+            </div>
+            <div class="home-search-container">
+                <div class="home-search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="filtro-modulos-home" class="home-search-input" placeholder="Filtrar módulos (ou Ctrl + K)..." autocomplete="off" aria-label="Filtrar módulos da página inicial">
+                    <button id="clear-home-search" class="clear-search-btn" style="display: none;" title="Limpar busca (Esc)">✕</button>
+                    <kbd class="shortcut-badge" title="Pressione Ctrl+K para abrir a busca global em qualquer tela">Ctrl K</kbd>
+                </div>
+            </div>
         </header>
 
         <section class="modules-grid">
-            <div class="module-card">
-                <div class="card-icon">🏥</div>
+            <div class="module-card" tabindex="0" role="region" aria-label="Ferramentas Dominio Sistema"
+                 data-keywords="dominio sistema afastamentos ferias txt xml relatorios esocial inss atestado licenca doenca agendamento descanso gozo lote eventos"
+                 data-submodules='[{"name":"Análise de Afastamentos","keywords":"afastamento atestado licenca inss doenca","url":"pages/dominioSistema/afastamentos.html"},{"name":"Programação de Férias","keywords":"ferias descanso gozo agendamento","url":"pages/dominioSistema/programacao-ferias.html"},{"name":"Importação TXT","keywords":"txt arquivo relatorio dominio","url":"pages/dominioSistema/importacao-txt.html"},{"name":"Análise de XML","keywords":"xml esocial envio lote eventos","url":"pages/dominioSistema/analise_XML.html"}]'>
+                <div class="card-icon">🖥️</div>
                 <h3>Ferramentas Dominio Sistema</h3>
                 <p>Módulos especializados em rotinas e integrações com o sistema Domínio</p>
                 <a href="pages/dominioSistema/hub_dominio.html" class="btn-action">Acessar Módulo</a>
             </div>
 
 
-            <div class="module-card">
+            <div class="module-card" tabindex="0" role="region" aria-label="Análise de Situação Fiscal"
+                 data-keywords="analise fiscal receita federal cnd debito pendencia tributaria e-cac cnpj ausência declaração relatorio pdf aglutinação"
+                 data-submodules='[{"name":"Pendências na Receita Federal","keywords":"receita cnd debitos certidao pendencias pdf","url":"pages/analise-fiscal.html"},{"name":"Aglutinação por CNPJ","keywords":"cnpj matriz filial e-cac cnd ausência declaração","url":"pages/analise-fiscal.html"}]'>
                 <div class="card-icon">⚖️</div>
                 <h3>Análise de Situação Fiscal</h3>
                 <p>Monitoramento e análise de pendências em Relatórios de Situação Fiscal da Receita Federal para gestão de conformidade</p>
                 <a href="pages/analise-fiscal.html" class="btn-action">Acessar Módulo</a>
             </div>
 
-            <div class="module-card">
+            <div class="module-card" tabindex="0" role="region" aria-label="Análise de ponto"
+                 data-keywords="ponto jornada horas extras espelho marcação atraso faltas banco de horas relatorio pdf espelho de ponto cartao ponto auditoria"
+                 data-submodules='[{"name":"Auditoria do Espelho de Ponto","keywords":"espelho marcacao horas extras atraso falta cartão ponto","url":"pages/jornada.html"},{"name":"Relatório de Banco de Horas","keywords":"banco horas relatorio pdf auditoria jornada","url":"pages/jornada.html"}]'>
                 <div class="card-icon">⏱️</div>
                 <h3>Análise de ponto</h3>
                 <p>Análise detalhada dos registros de ponto para identificação de irregularidades e otimização da gestão de recursos humanos</p>
@@ -48,37 +64,53 @@
 
 
 
-            <div class="module-card">
+            <div class="module-card" tabindex="0" role="region" aria-label="Simuladores"
+                 data-keywords="simuladores calculos custo funcionario prolabore pro-labore descontos holerite cota aprendiz inss irrf fgts salario rescisao retencao mte contratacao"
+                 data-submodules='[{"name":"Simulador de Funcionário","keywords":"custo funcionario salario contratação encargos inss fgts rescisao","url":"pages/simuladores/custo-funcionario.html"},{"name":"Simulador de Pró-Labore","keywords":"prolabore socio retiradas inss irrf retencao pro-labore","url":"pages/simuladores/prolabore.html"},{"name":"Entenda os Descontos","keywords":"descontos holerite detalhamento calculos irrf inss","url":"pages/simuladores/detalhamento-calculos.html"},{"name":"Cota Aprendiz","keywords":"aprendiz jovem cota mte contratação","url":"pages/simuladores/cota-aprendiz.html"}]'>
                 <div class="card-icon">🧮</div>
                 <h3>Simuladores</h3>
                 <p>Acesse a central de simulações de cálculos</p>
                 <a href="pages/simuladores/hub.html" class="btn-action">Acessar Simuladores</a>
             </div>
 
-            <div class="module-card">
+            <div class="module-card" tabindex="0" role="region" aria-label="Consulta"
+                 data-keywords="consultas certidoes cndt fgts caixa receita federal esocial cbo mte crm epi cnpj regularidade trt tst"
+                 data-submodules='[{"name":"Certidão Negativa Trabalhista (CNDT)","keywords":"cndt trt tst trabalhista","url":"pages/consultas.html"},{"name":"Certificado de Regularidade FGTS","keywords":"fgts caixa regularidade crf","url":"pages/consultas.html"},{"name":"Consulta eSocial & CBO / MTE","keywords":"esocial cbo mte ocupação cargo","url":"pages/consultas.html"}]'>
                 <div class="card-icon">🔎</div>
                 <h3>Consulta</h3>
                 <p>Acesse a central de consultas</p>
                 <a href="pages/consultas.html" class="btn-action">Acessar Consultas</a>
             </div>
 
-            <div class="module-card">
+            <div class="module-card" tabindex="0" role="region" aria-label="Modelos de documentos"
+                 data-keywords="modelos documentos advertencia suspensao procuracao aviso previo comunicado docx pdf contratual disciplina"
+                 data-submodules='[{"name":"Modelos de Advertência e Suspensão","keywords":"advertencia suspensao disciplina justa causa","url":"pages/modelos.html"},{"name":"Procurações e Avisos Prévios","keywords":"procuracao aviso previo comunicado termo","url":"pages/modelos.html"}]'>
                 <div class="card-icon">📋</div>
                 <h3>Modelos de documentos</h3>
                 <p>Acesse a central de modelos de documentos</p>
                 <a href="pages/modelos.html" class="btn-action">Acessar Modelos</a>
             </div>
 
-            <div class="module-card">
+            <div class="module-card" tabindex="0" role="region" aria-label="Central de dados"
+                 data-keywords="central dados gestao relatorio exportar mapeamento log acesso integracao"
+                 data-submodules='[{"name":"Acesso à Central de Dados","keywords":"central dados gestao exportar mapeamentos logs","url":"pages/gestao/acesso-central.html"}]'>
                 <div class="card-icon">📋</div>
                 <h3>Central de dados</h3>
                 <p>Acesse a central de dados</p>
                 <a href="pages/gestao/acesso-central.html" class="btn-action">Acessar Central</a>
             </div>
+
+            <div class="module-card" tabindex="0" role="region" aria-label="Ajuda e Atalhos"
+                 data-keywords="ajuda atalhos manual instrucoes teclado navegacao ctrl k alt h alt m tab esc enter teclado guia suporte"
+                 data-submodules='[{"name":"Atalhos de Teclado e Navegação","keywords":"atalhos teclado ctrl+k alt+h alt+m tab esc enter","url":"pages/ajuda.html"},{"name":"Guia de Módulos e Dicas","keywords":"guia instrucoes manual suporte dicas","url":"pages/ajuda.html"}]'>
+                <div class="card-icon">❓</div>
+                <h3>Ajuda & Atalhos</h3>
+                <p>Guia de navegação por teclado, atalhos do sistema e instruções de uso</p>
+                <a href="pages/ajuda.html" class="btn-action">Acessar Ajuda</a>
+            </div>
         </section>
     </main>
 
     <script src="js/loader.js" defer></script>
-    <script type="module" src="js/services/sidebar-auth.js"></script>
 </body>
 </html>

@@ -19,12 +19,16 @@
             <p style="font-size: 0.95rem; color: #64748b;">Acesso rápido a portais de emissão de certidões e verificações de regularidade</p>
         </header>
 
-        <!-- CATEGORIA: Emissão de Certidões -->
+        <!-- BUSCA NA CENTRAL DE CONSULTAS -->
         <section class="module-card" style="padding: 25px; max-width: 1200px; margin: 0 auto 25px auto;">
             
+            <div class="docs-search-container">
+                <input type="text" id="busca-consultas" class="form-control docs-search-input" placeholder="Buscar consulta ou certidão (ex: CNPJ, FGTS, CNDT, eSocial, CPF)..." autocomplete="off">
+            </div>
+
             <div class="docs-list-container">
                 
-                <div class="consulta-item modelo-card-retangulo">
+                <div class="consulta-item modelo-card-retangulo" data-keywords="cnpj receita federal empresa cadastro inscricao">
                     <div class="modelo-card-textos">
                         <h4 class="modelo-card-titulo">Cartão CNPJ</h4>
                         <p class="modelo-card-descricao">Emissão do Comprovante de Inscrição e de Situação Cadastral da Pessoa Jurídica junto à base de dados da Receita Federal</p>
@@ -32,7 +36,7 @@
                     <a href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
                 </div>
 
-                <div class="consulta-item modelo-card-retangulo">
+                <div class="consulta-item modelo-card-retangulo" data-keywords="cpf receita federal pessoa fisica situacao cadastral">
                     <div class="modelo-card-textos">
                         <h4 class="modelo-card-titulo">Regularidade CPF</h4>
                         <p class="modelo-card-descricao">Verificação da Situação Cadastral da Pessoa Física para fins de validação de dependentes e titularidades</p>
@@ -40,7 +44,7 @@
                     <a href="https://servicos.receita.fazenda.gov.br/servicos/cpf/consultasituacao/consultapublica.asp" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
                 </div>
 
-                <div class="consulta-item modelo-card-retangulo">
+                <div class="consulta-item modelo-card-retangulo" data-keywords="cndt certidao negativa debitos trabalhistas tst justica trabalho">
                     <div class="modelo-card-textos">
                         <h4 class="modelo-card-titulo">Certidão Negativa de Débitos Trabalhistas (CNDT)</h4>
                         <p class="modelo-card-descricao">Documento expedido pelo TST que atesta a inexistência de pendências financeiras e processos transitados em julgado na Justiça do Trabalho</p>
@@ -48,15 +52,31 @@
                     <a href="https://cndt-certidao.tst.jus.br/inicio.faces" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
                 </div>
 
-                <div class="consulta-item modelo-card-retangulo">
+                <div class="consulta-item modelo-card-retangulo" data-keywords="fgts crf caixa economica federal regularidade empregador fundo garantia">
                     <div class="modelo-card-textos">
                         <h4 class="modelo-card-titulo">Certidão do FGTS (Caixa Econômica Federal)</h4>
                         <p class="modelo-card-descricao">Consulta de Regularidade do Empregador (CRF), obrigatória para comprovar que a empresa está em dia com os repasses do Fundo de Garantia</p>
                     </div>
                     <a href="https://consulta-crf.caixa.gov.br/consultacrf/pages/consultaEmpregador.jsf" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
                 </div>
+
+                <div class="consulta-item modelo-card-retangulo" data-keywords="esocial portal governo e-social eventos trabalhistas folha">
+                    <div class="modelo-card-textos">
+                        <h4 class="modelo-card-titulo">Portal eSocial</h4>
+                        <p class="modelo-card-descricao">Acesso direto ao ambiente web do eSocial para gerenciamento de vínculos, envios de eventos e consulta de recibos da folha de pagamento</p>
+                    </div>
+                    <a href="https://login.esocial.gov.br/" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
+                </div>
+
+                <div class="consulta-item modelo-card-retangulo" data-keywords="esocial qualificacao cadastral pis nis cpf nascimento">
+                    <div class="modelo-card-textos">
+                        <h4 class="modelo-card-titulo">Qualificação Cadastral eSocial</h4>
+                        <p class="modelo-card-descricao">Verificação de inconsistências cadastrais entre CPF, PIS/NIS e data de nascimento para admissão e qualificação prévia</p>
+                    </div>
+                    <a href="http://consultaqualificacao.esocial.gov.br/" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
+                </div>
                 
-                <div class="consulta-item modelo-card-retangulo">
+                <div class="consulta-item modelo-card-retangulo" data-keywords="crm medicina medico atestado saude conselho regional especialidade">
                     <div class="modelo-card-textos">
                         <h4 class="modelo-card-titulo">Conselho Regional de Medicina (CRM)</h4>
                         <p class="modelo-card-descricao">Busca unificada para validar o registro de profissionais da saúde, atestando a especialidade e a regularidade do médico emissor de atestados</p>
@@ -64,7 +84,7 @@
                     <a href="https://cremec.org.br/busca-medicos" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
                 </div>
 
-                <div class="consulta-item modelo-card-retangulo">
+                <div class="consulta-item modelo-card-retangulo" data-keywords="simples nacional simei mei tributario enquadramento opcao receita">
                     <div class="modelo-card-textos">
                         <h4 class="modelo-card-titulo">Simples Nacional</h4>
                         <p class="modelo-card-descricao">Consulta formal para verificar a situação de enquadramento de empresas no regime tributário do Simples Nacional ou SIMEI</p>
@@ -72,12 +92,20 @@
                     <a href="https://www8.receita.fazenda.gov.br/simplesnacional/aplicacoes.aspx?id=21" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
                 </div>
 
-                <div class="consulta-item modelo-card-retangulo">
+                <div class="consulta-item modelo-card-retangulo" data-keywords="cbo ocupacao mte ministerio trabalho cargo funcao">
                     <div class="modelo-card-textos">
                         <h4 class="modelo-card-titulo">CBO MTE</h4>
-                        <p class="modelo-card-descricao">Consulta para verificar o CBO (Classificação Brasileira de Ocupações)</p>
+                        <p class="modelo-card-descricao">Consulta para verificar a Classificação Brasileira de Ocupações (CBO) junto ao Ministério do Trabalho e Emprego</p>
                     </div>
                     <a href="https://cbo.mte.gov.br/cbosite/pages/pesquisas/BuscaPorCodigo.jsf" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
+                </div>
+
+                <div class="consulta-item modelo-card-retangulo" data-keywords="epi ca certificado aprovacao ministerio trabalho seguranca equipamento">
+                    <div class="modelo-card-textos">
+                        <h4 class="modelo-card-titulo">Certificado de Aprovação de EPI (CA)</h4>
+                        <p class="modelo-card-descricao">Validação da validade e autenticidade do Certificado de Aprovação de Equipamentos de Proteção Individual junto ao MTE</p>
+                    </div>
+                    <a href="https://caepi.mte.gov.br/" target="_blank" class="modelo-btn-baixar">Acessar Portal</a>
                 </div>
 
             </div>
@@ -85,5 +113,6 @@
     </main>
 
     <script src="../js/loader.js" defer></script>
+    <script src="../js/consultas.js" defer></script>
 </body>
 </html>

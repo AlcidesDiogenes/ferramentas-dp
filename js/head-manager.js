@@ -37,10 +37,35 @@
         prefixo = '../';
     }
 
+    // Injeta a configuração global de módulos e status de badges
+    const modulesConfig = document.createElement('script');
+    modulesConfig.src = prefixo + 'js/modules-config.js';
+    document.head.appendChild(modulesConfig);
+
     // Injeta o gerenciador de tema
     const themeToggle = document.createElement('script');
     themeToggle.src = prefixo + 'js/theme-toggle.js';
     document.head.appendChild(themeToggle);
+
+    // Injeta o carregador otimizado da sidebar (carregamento instantâneo)
+    const sidebarLoader = document.createElement('script');
+    sidebarLoader.src = prefixo + 'js/loader.js';
+    document.head.appendChild(sidebarLoader);
+
+    // Injeta o componente visual de loading (spinner)
+    const pageLoader = document.createElement('script');
+    pageLoader.src = prefixo + 'js/page-loader.js';
+    document.head.appendChild(pageLoader);
+
+    // Injeta o suporte global à navegação por teclado
+    const keyboardNav = document.createElement('script');
+    keyboardNav.src = prefixo + 'js/keyboard-nav.js';
+    document.head.appendChild(keyboardNav);
+
+    // Injeta a Pesquisa Rápida Global (Command Palette Ctrl+K) e Atalhos
+    const cmdPalette = document.createElement('script');
+    cmdPalette.src = prefixo + 'js/command-palette.js';
+    document.head.appendChild(cmdPalette);
 
     // Injeta automaticamente o script de autenticação do sidebar em qualquer página
     const sidebarAuth = document.createElement('script');

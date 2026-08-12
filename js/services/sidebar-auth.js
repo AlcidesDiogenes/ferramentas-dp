@@ -1,15 +1,21 @@
 import { supabase, realizarLogout } from './auth.js';
 
+let tentativasSidebar = 0;
+
 async function atualizarEstadoSidebar() {
     const divLogado = document.getElementById('user-logged-in');
     const divDeslogado = document.getElementById('user-logged-out');
     const emailSpan = document.getElementById('sidebar-user-email');
 
-    // Se o sidebar ainda não foi injetado na página, aguarda 50ms e tenta novamente
+    // Se o sidebar ainda não foi injetado na página, aguarda 50ms e tenta novamente (máximo 30 tentativas)
     if (!divLogado || !divDeslogado) {
-        setTimeout(atualizarEstadoSidebar, 50);
+        tentativasSidebar++;
+        if (tentativasSidebar < 30) {
+            setTimeout(atualizarEstadoSidebar, 50);
+        }
         return;
     }
+    tentativasSidebar = 0;
 
     try {
         // Busca a sessão ativa diretamente do armazenamento local
@@ -39,6 +45,11 @@ async function atualizarEstadoSidebar() {
 
 // Inicia a verificação assim que o script carregar
 atualizarEstadoSidebar();
+
+// Ouve o evento de renderização da sidebar para atualizar instantaneamente
+document.addEventListener('sidebarRendered', () => {
+    atualizarEstadoSidebar();
+});
 
 // Ouve mudanças de login/logout em tempo real
 supabase.auth.onAuthStateChange(() => {
