@@ -69,7 +69,7 @@ document.addEventListener('click', async (e) => {
     if (e.target && e.target.id === 'btn-atualizar-dados' || e.target.closest('#btn-atualizar-dados')) {
         let prefixo = '';
         const path = window.location.pathname;
-        if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/') || path.includes('/pages/gestao/')) {
+        if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/') || path.includes('/pages/gestao/') || path.includes('/pages/central-de-dados/')) {
             prefixo = '../../';
         } else if (path.includes('/pages/')) {
             prefixo = '../';

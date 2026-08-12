@@ -31,7 +31,7 @@
     // Calcula automaticamente o caminho relativo para a raiz dependendo de onde a página está
     let prefixo = '';
     const path = window.location.pathname;
-    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/') || path.includes('/pages/gestao/')) {
+    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/') || path.includes('/pages/gestao/') || path.includes('/pages/central-de-dados/')) {
         prefixo = '../../';
     } else if (path.includes('/pages/')) {
         prefixo = '../';
@@ -41,6 +41,11 @@
     const modulesConfig = document.createElement('script');
     modulesConfig.src = prefixo + 'js/modules-config.js';
     document.head.appendChild(modulesConfig);
+
+    // Injeta o sistema de Notificações Toast (Substituição de alert)
+    const toastScript = document.createElement('script');
+    toastScript.src = prefixo + 'js/toast.js';
+    document.head.appendChild(toastScript);
 
     // Injeta o gerenciador de tema
     const themeToggle = document.createElement('script');
@@ -66,6 +71,11 @@
     const cmdPalette = document.createElement('script');
     cmdPalette.src = prefixo + 'js/command-palette.js';
     document.head.appendChild(cmdPalette);
+
+    // Injeta o Gerenciador Universal de Uploads (Drag & Drop e pré-visualização)
+    const fileUploaderHelper = document.createElement('script');
+    fileUploaderHelper.src = prefixo + 'js/file-uploader-helper.js';
+    document.head.appendChild(fileUploaderHelper);
 
     // Injeta automaticamente o script de autenticação do sidebar em qualquer página
     const sidebarAuth = document.createElement('script');

@@ -57,7 +57,7 @@ window.MODULES_CONFIG = [
     {
         id: "central-dados",
         title: "Central de dados",
-        path: "pages/gestao/acesso-central.html",
+        path: "pages/central-de-dados/acesso-central.html",
         status: "Maintenance",
         statusLabel: "Em Manutenção",
         accessible: false,
@@ -254,7 +254,7 @@ function checkDirectPageAccess() {
         if (mod.path && currentPath.includes(mod.path)) {
             alert(mod.message || 'Este módulo não está acessível no momento.');
             let prefix = '';
-            if (currentPath.includes('/pages/gestao/')) prefix = '../../';
+            if (currentPath.includes('/pages/central-de-dados/') || currentPath.includes('/pages/gestao/')) prefix = '../../';
             else if (currentPath.includes('/pages/')) prefix = '../';
             window.location.href = prefix + 'index.html';
             break;

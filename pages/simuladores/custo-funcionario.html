@@ -138,33 +138,53 @@
                                 <label>% Hora Extra Padrão</label>
                                 <input type="number" id="perc-he" class="custo-form-control" value="50" step="1">
                             </div>
+                            <div class="custo-form-group">
+                                <label>% Hora Extra 100% / Feriados</label>
+                                <input type="number" id="perc-he-100" class="custo-form-control" value="100" step="1">
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- BLOCO 4: Variáveis do Mês (Apontamentos) -->
+                <!-- BLOCO 4: Variáveis do Mês (Apontamentos Mensais) -->
                 <div class="custo-form-section highlight-section">
-                    <h3 class="custo-form-section-title">Apontamentos do Mês (Variáveis)</h3>
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Apontamentos do Mês (Variáveis)</h3>
+                        <span class="badge-tag-azul">Acumulado Mensal Sem Limite de 24h</span>
+                    </div>
                     <div class="custo-form-row">
                         <div class="custo-form-group">
-                            <label>Horas Extras (HH:mm)</label>
-                            <input type="time" id="horas-extras-qtd" class="custo-form-control">
+                            <label>H. Extras 50% (HH:mm)</label>
+                            <input type="text" id="horas-extras-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 45:30)">
+                            <small class="form-hint">Ex: 45:30 ou 45.5</small>
                         </div>
                         <div class="custo-form-group">
-                            <label>Horas Noturnas (HH:mm)</label>
-                            <input type="time" id="horas-noturnas-qtd" class="custo-form-control">
+                            <label>H. Extras 100% (HH:mm)</label>
+                            <input type="text" id="horas-extras-100-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 12:00)">
+                            <small class="form-hint">Ex: 12:00 ou 12</small>
                         </div>
                         <div class="custo-form-group">
-                            <label>Extras Noturnas (HH:mm)</label>
-                            <input type="time" id="horas-extras-noturnas-qtd" class="custo-form-control">
+                            <label>H. Noturnas (HH:mm)</label>
+                            <input type="text" id="horas-noturnas-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 120:00)">
+                            <small class="form-hint">Ex: 120:00 ou 120</small>
+                        </div>
+                        <div class="custo-form-group">
+                            <label>H.E. Noturnas (HH:mm)</label>
+                            <input type="text" id="horas-extras-noturnas-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 30:15)">
+                            <small class="form-hint">Ex: 30:15 ou 30.25</small>
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Faltas/Atrasos (HH:mm)</label>
+                            <input type="text" id="horas-faltas-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 08:00)">
+                            <small class="form-hint">Ex: 08:00 ou 8</small>
                         </div>
                         <div class="custo-form-group">
                             <label>Outros Proventos (R$)</label>
-                            <input type="number" id="outros-proventos" class="custo-form-control" step="0.01">
+                            <input type="number" id="outros-proventos" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                         <div class="custo-form-group">
                             <label>Outros Descontos (R$)</label>
-                            <input type="number" id="outros-descontos" class="custo-form-control" step="0.01">
+                            <input type="number" id="outros-descontos" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                     </div>
                 </div>
@@ -184,6 +204,13 @@
                         <div class="custo-form-group">
                             <label>Vale-Transporte / Unit.</label>
                             <input type="number" id="vt-unidade" class="custo-form-control" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label>Desconto VT no Holerite</label>
+                            <select id="aplicar-desconto-vt" class="custo-form-control">
+                                <option value="sim">Sim (Até 6% Sal. Base)</option>
+                                <option value="nao">Não (Empresa assume 100%)</option>
+                            </select>
                         </div>
                         <div class="custo-form-group">
                             <label>Outros Benefícios (R$)</label>

@@ -7,7 +7,7 @@
     const getSystemNavigationItems = () => {
         const currentPath = window.location.pathname;
         let prefix = '';
-        if (currentPath.includes('/pages/gestao/')) prefix = '../../';
+        if (currentPath.includes('/pages/central-de-dados/') || currentPath.includes('/pages/gestao/')) prefix = '../../';
         else if (currentPath.includes('/pages/')) prefix = '../';
 
         return [
@@ -26,7 +26,7 @@
             { id: 'cota-aprendiz', title: 'Cota Aprendiz', category: 'Simuladores', path: prefix + 'pages/simuladores/cota-aprendiz.html', icon: '🎓', keywords: 'aprendiz cota jovem mte' },
             { id: 'consultas', title: 'Central de Consultas', category: 'Módulos', path: prefix + 'pages/consultas.html', icon: '🔎', keywords: 'consulta certidao cndt fgts esocial cbo' },
             { id: 'modelos', title: 'Modelos de Documentos', category: 'Módulos', path: prefix + 'pages/modelos.html', icon: '📋', keywords: 'modelo documento advertencia procuracao aviso' },
-            { id: 'central-dados', title: 'Central de Dados', category: 'Módulos', path: prefix + 'pages/gestao/acesso-central.html', icon: '📊', keywords: 'dados gestao relatorio exportar' },
+            { id: 'central-dados', title: 'Central de Dados', category: 'Módulos', path: prefix + 'pages/central-de-dados/acesso-central.html', icon: '📊', keywords: 'dados gestao relatorio exportar' },
             { id: 'ajuda', title: 'Central de Ajuda & Atalhos', category: 'Suporte', path: prefix + 'pages/ajuda.html', icon: '❓', keywords: 'ajuda atalhos manual instrucoes teclado' }
         ];
     };
@@ -359,7 +359,7 @@
             e.preventDefault();
             const currentPath = window.location.pathname;
             let prefix = '';
-            if (currentPath.includes('/pages/gestao/')) prefix = '../../';
+            if (currentPath.includes('/pages/central-de-dados/') || currentPath.includes('/pages/gestao/')) prefix = '../../';
             else if (currentPath.includes('/pages/')) prefix = '../';
             window.location.href = prefix + 'index.html';
             return;

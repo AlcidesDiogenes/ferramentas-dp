@@ -1,0 +1,114 @@
+<!-- components/modal-empresa.html -->
+<div id="modal-cadastro-empresa" class="modal-overlay">
+    <div class="modal-content modal-lg">
+
+        <div class="modal-header">
+            <h3>Cadastrar Nova Empresa</h3>
+            <button type="button" class="btn-close" id="btn-fechar-modal-empresa">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <form id="form-empresa">
+
+                <!-- BLOCO 1: DADOS PRINCIPAIS -->
+                <fieldset class="form-section">
+                    <legend class="form-section-title">Dados Principais</legend>
+                    <div class="form-row">
+                        <div class="input-group" style="flex: 1;">
+                            <label for="empresa_codigo">Código *</label>
+                            <input type="text" id="empresa_codigo" class="form-input" required>
+                        </div>
+                        <div class="input-group" style="flex: 2;">
+                            <label for="empresa_cnpj">CNPJ / CPF *</label>
+                            <input type="text" id="empresa_cnpj" class="form-input" required>
+                        </div>
+                        <div class="input-group" style="flex: 3;">
+                            <label for="empresa_apelido">Apelido (Nome Fantasia) *</label>
+                            <input type="text" id="empresa_apelido" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group" style="flex: 1;">
+                            <label for="empresa_razao">Razão Social *</label>
+                            <input type="text" id="empresa_razao" class="form-input" required>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- BLOCO 2: VÍNCULOS -->
+                <fieldset class="form-section">
+                    <legend class="form-section-title">Vínculo Sindical</legend>
+                    <div class="form-row">
+                        <div class="input-group" style="width: 100%;">
+                            <label for="empresa_sindicato_id">Sindicato / CCT Aplicável *</label>
+                            <select id="empresa_sindicato_id" class="form-input" required>
+                                <option value="" disabled selected>Carregando sindicatos...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <!-- BLOCO 3: ESOCIAL E FISCAL -->
+                <fieldset class="form-section">
+                    <legend class="form-section-title">Parâmetros Fiscais e eSocial</legend>
+                    <div class="form-row">
+                        <div class="input-group checkbox-inline">
+                            <input type="checkbox" id="empresa_movimento" checked>
+                            <label for="empresa_movimento">Empresa COM Movimento</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group" style="flex: 1;">
+                            <label for="empresa_regime">Regime Tributário</label>
+                            <select id="empresa_regime" class="form-input">
+                                <option value="">Selecione...</option>
+                                <option value="Simples Nacional">Simples Nacional</option>
+                                <option value="Lucro Presumido">Lucro Presumido</option>
+                                <option value="Lucro Real">Lucro Real</option>
+                                <option value="MEI">MEI</option>
+                                <option value="Pessoa Física">Pessoa Física (CEI/CAEPF)</option>
+                            </select>
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label for="empresa_classificacao">Classificação Tributária</label>
+                            <select id="empresa_classificacao" class="form-input">
+                                <option value="">Selecione...</option>
+                                <option value="01">01 - Simples Nacional (Sem sub.)</option>
+                                <option value="02">02 - Simples Nacional (Com sub.)</option>
+                                <option value="03">03 - Simples Nacional (Concomitante)</option>
+                                <option value="21">21 - Pessoa Física</option>
+                                <option value="99">99 - Pessoa Jurídica em Geral</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- BLOCO 4: ROTINAS DE DP -->
+                <fieldset class="form-section">
+                    <legend class="form-section-title">Rotinas de Departamento Pessoal</legend>
+                    <div class="form-row align-items-center">
+                        <div class="input-group checkbox-inline" style="flex: 1;">
+                            <input type="checkbox" id="empresa_tem_adiantamento">
+                            <label for="empresa_tem_adiantamento">Permite Adiantamento?</label>
+                        </div>
+                        <div class="input-group" id="bloco_percentual_adiantamento" style="display: none; flex: 1;">
+                            <label for="empresa_percentual_adiantamento">Percentual Padrão (%) *</label>
+                            <input type="number" id="empresa_percentual_adiantamento" class="form-input" step="0.01"
+                                min="0" max="100">
+                        </div>
+                    </div>
+                </fieldset>
+
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="btn-cancelar-empresa">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="btn-salvar-empresa">Salvar Empresa</button>
+        </div>
+
+    </div>
+</div>

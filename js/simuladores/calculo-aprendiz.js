@@ -34,7 +34,10 @@ function atualizarFeedback(mensagem, classeCss) {
 
 function sanitizarCbo(cbo) {
     if (!cbo && cbo !== 0) return "";
-    return String(cbo).replace(/\D/g, "").padStart(6, '0');
+    const num = String(cbo).replace(/\D/g, "");
+    if (num.length === 0) return "";
+    if (num.length <= 4) return num.padStart(4, '0');
+    return num.padStart(6, '0');
 }
 
 function popularTabela(idTbody, listaDados, templateRow) {
@@ -61,6 +64,18 @@ function renderizarPainelResultados(dados) {
     
     const elNaoEnc = document.getElementById("res-nao-encontrados");
     if(elNaoEnc) elNaoEnc.textContent = dados.resumoTotais.totalNaoEncontradosCount;
+
+    // Controla visibilidade do bloco e do detalhamento de "Não Encontrados"
+    const cardMetricNaoEnc = document.getElementById("card-metric-nao-encontrados");
+    const detailsNaoEnc = document.getElementById("details-nao-encontrados");
+
+    if (dados.resumoTotais.totalNaoEncontradosCount > 0) {
+        if (cardMetricNaoEnc) cardMetricNaoEnc.style.display = "";
+        if (detailsNaoEnc) detailsNaoEnc.style.display = "";
+    } else {
+        if (cardMetricNaoEnc) cardMetricNaoEnc.style.display = "none";
+        if (detailsNaoEnc) detailsNaoEnc.style.display = "none";
+    }
 
     const elMinima = document.getElementById("res-cota-minima");
     const elMedia = document.getElementById("res-cota-media"); 
@@ -111,92 +126,104 @@ function renderizarPainelResultados(dados) {
 // MOTOR DE CARREGAMENTO E PROCESSAMENTO (3 BASES JSON)
 // =========================================================================
 
-async function carregarBaseCbo() {
-    try {
-        // 1. Carrega o Dicionário Estrutural do CBO
-        const resDicionario = await fetch("../../assets/dados/cbo-dicionario.json");
-        if (!resDicionario.ok) throw new Error(`Erro HTTP (Dicionário): ${resDicionario.status}`);
-        
-        const listaCbo = await resDicionario.json();
-        mapaCboOficial.clear();
-        
-        listaCbo.forEach((item) => {
-            const cboLimpo = sanitizarCbo(item.COD_OCUPACAO);
-            if (cboLimpo && !mapaCboOficial.has(cboLimpo)) {
-                mapaCboOficial.set(cboLimpo, {
-                    ...item,
-                    TITULO_OCUPACAO: item.NOME_ATIVIDADE || item.NOME_GRANDE_AREA || "Sem descrição"
-                });
-            }
-        });
-
-        // 2. Carrega as Regras de Escolaridade por Família (cbo_familias_escolaridade.json)
+async function fetchJsonComFallback(caminho) {
+    const caminhos = [
+        caminho,
+        caminho.startsWith('/') ? caminho : '/' + caminho.replace(/^(\.\.\/)+/, ''),
+        caminho.replace(/^(\.\.\/)+/, '')
+    ];
+    for (const p of caminhos) {
         try {
-            const resFamilias = await fetch("../../assets/dados/cbo_familias_escolaridade.json");
-            if (resFamilias.ok) {
-                const dadosFamilias = await resFamilias.json();
-                mapaFamiliasEscolaridade.clear();
-                
-                dadosFamilias.forEach(familia => {
-                    if (familia.COD_FAMILIA) {
-                        mapaFamiliasEscolaridade.set(String(familia.COD_FAMILIA).trim(), familia);
-                    }
-                });
+            const res = await fetch(p);
+            if (res.ok) {
+                return await res.json();
             }
         } catch (e) {
-            console.warn("Aviso: Arquivo cbo_familias_escolaridade.json ausente ou inválido. O motor usará regras restritas aos Grandes Grupos.", e);
+            // Tenta o próximo caminho
         }
+    }
+    return null;
+}
 
-        // 3. Carrega os Títulos Reais (cbo-titulo.json) para refinamento
-        try {
-            const resTitulos = await fetch("../../assets/dados/cbo-titulo.json");
-            if (resTitulos.ok) {
-                const dadosTitulos = await resTitulos.json();
-                
-                if (!Array.isArray(dadosTitulos) && typeof dadosTitulos === 'object') {
-                    for (let chave in dadosTitulos) {
-                        if (chave.toLowerCase() === 'cbo') continue;
-                        const cboLimpo = sanitizarCbo(chave);
+async function carregarBaseCbo() {
+    // 1. Carrega o Dicionário Estrutural do CBO
+    try {
+        const listaCbo = await fetchJsonComFallback("../../assets/dados/cbo-dicionario.json");
+        if (listaCbo && Array.isArray(listaCbo)) {
+            mapaCboOficial.clear();
+            listaCbo.forEach((item) => {
+                const cboLimpo = sanitizarCbo(item.COD_OCUPACAO);
+                if (cboLimpo && !mapaCboOficial.has(cboLimpo)) {
+                    mapaCboOficial.set(cboLimpo, {
+                        ...item,
+                        TITULO_OCUPACAO: item.NOME_ATIVIDADE || item.NOME_GRANDE_AREA || "Sem descrição"
+                    });
+                }
+            });
+        }
+    } catch (e) {
+        console.warn("Aviso: Falha ao carregar cbo-dicionario.json. O motor continuará com as demais bases.", e);
+    }
+
+    // 2. Carrega as Regras de Escolaridade por Família (cbo_familias_escolaridade.json)
+    try {
+        const dadosFamilias = await fetchJsonComFallback("../../assets/dados/cbo_familias_escolaridade.json");
+        if (dadosFamilias && Array.isArray(dadosFamilias)) {
+            mapaFamiliasEscolaridade.clear();
+            dadosFamilias.forEach(familia => {
+                if (familia.COD_FAMILIA) {
+                    mapaFamiliasEscolaridade.set(String(familia.COD_FAMILIA).trim(), familia);
+                }
+            });
+        }
+    } catch (e) {
+        console.warn("Aviso: Arquivo cbo_familias_escolaridade.json ausente ou inválido. O motor usará regras restritas aos Grandes Grupos.", e);
+    }
+
+    // 3. Carrega os Títulos Reais (cbo-titulo.json) para refinamento
+    try {
+        const dadosTitulos = await fetchJsonComFallback("../../assets/dados/cbo-titulo.json");
+        if (dadosTitulos) {
+            if (!Array.isArray(dadosTitulos) && typeof dadosTitulos === 'object') {
+                for (let chave in dadosTitulos) {
+                    if (chave.toLowerCase() === 'cbo') continue;
+                    const cboLimpo = sanitizarCbo(chave);
+                    if (mapaCboOficial.has(cboLimpo)) {
+                        mapaCboOficial.get(cboLimpo).TITULO_OCUPACAO = dadosTitulos[chave];
+                    } else {
+                        mapaCboOficial.set(cboLimpo, {
+                            COD_OCUPACAO: cboLimpo,
+                            TITULO_OCUPACAO: dadosTitulos[chave],
+                            COD_GRANDE_GRUPO: cboLimpo.substring(0, 1)
+                        });
+                    }
+                }
+            } 
+            else if (Array.isArray(dadosTitulos)) {
+                dadosTitulos.forEach(item => {
+                    const chaveCbo = item.CBO || item.cbo || item.CODIGO || item.COD_OCUPACAO;
+                    const titulo = item.TITULO || item.titulo || item.NOME || item.Titulo;
+                    
+                    if (chaveCbo && titulo) {
+                        const cboLimpo = sanitizarCbo(chaveCbo);
                         if (mapaCboOficial.has(cboLimpo)) {
-                            mapaCboOficial.get(cboLimpo).TITULO_OCUPACAO = dadosTitulos[chave];
+                            mapaCboOficial.get(cboLimpo).TITULO_OCUPACAO = titulo;
                         } else {
                             mapaCboOficial.set(cboLimpo, {
                                 COD_OCUPACAO: cboLimpo,
-                                TITULO_OCUPACAO: dadosTitulos[chave],
+                                TITULO_OCUPACAO: titulo,
                                 COD_GRANDE_GRUPO: cboLimpo.substring(0, 1)
                             });
                         }
                     }
-                } 
-                else if (Array.isArray(dadosTitulos)) {
-                    dadosTitulos.forEach(item => {
-                        const chaveCbo = item.CBO || item.cbo || item.CODIGO || item.COD_OCUPACAO;
-                        const titulo = item.TITULO || item.titulo || item.NOME || item.Titulo;
-                        
-                        if (chaveCbo && titulo) {
-                            const cboLimpo = sanitizarCbo(chaveCbo);
-                            if (mapaCboOficial.has(cboLimpo)) {
-                                mapaCboOficial.get(cboLimpo).TITULO_OCUPACAO = titulo;
-                            } else {
-                                mapaCboOficial.set(cboLimpo, {
-                                    COD_OCUPACAO: cboLimpo,
-                                    TITULO_OCUPACAO: titulo,
-                                    COD_GRANDE_GRUPO: cboLimpo.substring(0, 1)
-                                });
-                            }
-                        }
-                    });
-                }
+                });
             }
-        } catch (e) {
-            console.warn("Aviso: Arquivo cbo-titulo.json ausente ou inválido.", e);
         }
-
-        return true;
-    } catch (error) {
-        console.error("Falha ao carregar bases do CBO:", error);
-        throw error;
+    } catch (e) {
+        console.warn("Aviso: Arquivo cbo-titulo.json ausente ou inválido.", e);
     }
+
+    return true;
 }
 
 function processarCotaAprendizLocal(entradas = [], infoEmpresa = {}) {
@@ -233,7 +260,31 @@ function processarCotaAprendizLocal(entradas = [], infoEmpresa = {}) {
     let somaNaoEncontrados = 0;
 
     contagemEntradas.forEach((item) => {
-        const dadosOficial = mapaCboOficial.get(item.cboLimpo);
+        let dadosOficial = mapaCboOficial.get(item.cboLimpo);
+
+        // Se não localizado diretamente, tenta buscar por Família (4 dígitos)
+        if (!dadosOficial && item.cboLimpo.length >= 4) {
+            const familiaCode = item.cboLimpo.substring(0, 4);
+            const infoFamilia = mapaFamiliasEscolaridade.get(familiaCode);
+
+            let tituloFallback = null;
+            for (let [cboChave, val] of mapaCboOficial.entries()) {
+                if (cboChave.startsWith(familiaCode) && val.TITULO_OCUPACAO) {
+                    tituloFallback = val.TITULO_OCUPACAO;
+                    break;
+                }
+            }
+
+            if (infoFamilia || tituloFallback) {
+                dadosOficial = {
+                    COD_OCUPACAO: item.cboLimpo,
+                    TITULO_OCUPACAO: tituloFallback || `Ocupação / Família CBO ${familiaCode}`,
+                    COD_GRANDE_GRUPO: item.cboLimpo.substring(0, 1),
+                    COD_FAMILIA: familiaCode
+                };
+            }
+        }
+
         let cboFormatado = item.cboLimpo.length === 6 ? `${item.cboLimpo.substring(0,4)}-${item.cboLimpo.substring(4,6)}` : item.cboRaw;
 
         // Caso de não localizado nas bases
@@ -372,19 +423,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 await carregarBaseCbo();
             }
 
+            const xlsxObj = window.XLSX || (typeof XLSX !== 'undefined' ? XLSX : null);
+            if (!xlsxObj) {
+                throw new Error("A biblioteca de leitura de planilhas (XLSX) não foi carregada. Por favor, recarregue a página.");
+            }
+
             const dataBuffer = await file.arrayBuffer();
-            const workbook = XLSX.read(dataBuffer, { type: "array" });
+            const workbook = xlsxObj.read(dataBuffer, { type: "array" });
             const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 
             const razaoSocial = worksheet['B1'] ? worksheet['B1'].v : "Não informada";
             const cnpj = worksheet['B2'] ? worksheet['B2'].v : "Não informado";
 
             const entradasCbo = [];
-            const range = XLSX.utils.decode_range(worksheet['!ref']);
+            const range = xlsxObj.utils.decode_range(worksheet['!ref']);
             
             for (let R = 5; R <= range.e.r; ++R) {
-                const cellA = worksheet[XLSX.utils.encode_cell({ c: 0, r: R })];
-                const cellC = worksheet[XLSX.utils.encode_cell({ c: 2, r: R })];
+                const cellA = worksheet[xlsxObj.utils.encode_cell({ c: 0, r: R })];
+                const cellC = worksheet[xlsxObj.utils.encode_cell({ c: 2, r: R })];
                 
                 if (cellA && cellA.v && String(cellA.v).trim() !== "") {
                     entradasCbo.push({
