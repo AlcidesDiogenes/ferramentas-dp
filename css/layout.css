@@ -15,14 +15,16 @@ body {
 /* O container principal que recebe o conteúdo */
 .main-content {
     flex: 1;
-    padding: 24px;
+    padding: 24px 24px 60px 24px;
     overflow-y: auto;
     overflow-x: hidden;
     height: 100vh;
+    height: 100dvh;
     min-width: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    -webkit-overflow-scrolling: touch;
 }
 
 .main-header, .page-header {
@@ -84,7 +86,7 @@ body {
 /* Responsividade - Tablets e Telas Médias (<= 1024px) */
 @media (max-width: 1024px) {
     .main-content {
-        padding: 20px 16px;
+        padding: 20px 16px calc(80px + env(safe-area-inset-bottom, 20px)) 16px;
     }
 
     .modules-grid {
@@ -96,7 +98,7 @@ body {
 /* Responsividade - Dispositivos Móveis (<= 768px) */
 @media (max-width: 768px) {
     .main-content {
-        padding: 16px 12px;
+        padding: 16px 12px calc(100px + env(safe-area-inset-bottom, 24px)) 12px;
     }
 
     .main-header, .page-header {
@@ -127,7 +129,7 @@ body {
 /* Responsividade - Celulares Pequenos (<= 480px) */
 @media (max-width: 480px) {
     .main-content {
-        padding: 12px 8px;
+        padding: 12px 8px calc(110px + env(safe-area-inset-bottom, 24px)) 8px;
     }
 
     .main-header h1, .page-header h1 {

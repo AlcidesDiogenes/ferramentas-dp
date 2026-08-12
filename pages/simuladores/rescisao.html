@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Rescisão - Ferramentas DP</title>
+    
+    <!-- CSS Global Centralizado -->
+    <link rel="stylesheet" href="../../css/style.css"> 
+
+    <!-- Trava de estado do menu para evitar flicker -->
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <!-- Gerenciador Universal -->
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="page-header page-header-simulador">
+            <div class="page-header-title-row">
+                <span class="header-icon-badge">📋</span>
+                <div>
+                    <h1>Simulador de Rescisão Contratual</h1>
+                    <p class="page-header-subtitle">Cálculo completo de verbas rescisórias, aviso prévio, avos de 13º e férias, FGTS e encargos patronais conforme a CLT</p>
+                </div>
+            </div>
+        </header>
+
+        <section id="secao-rescisao" class="module-card module-card-simulador">
+            
+            <div class="custo-grid-container">
+                
+                <!-- BLOCO 1: Parâmetros Fiscais e de Apuração -->
+                <div class="custo-form-section highlight-section">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>🏛️</span> Configurações da Empresa & Fiscal
+                        </h3>
+                        <span class="badge-tag-azul">Parâmetros do Empregador</span>
+                    </div>
+                    <div class="custo-form-row">
+                        <div class="custo-form-group">
+                            <label for="regime-tributario">Regime Tributário</label>
+                            <select id="regime-tributario" class="custo-form-control">
+                                <option value="simples">Simples Nacional (com isenção CPP)</option>
+                                <option value="lucro" selected>Lucro Presumido / Real</option>
+                                <option value="anexo4">Simples Nacional - Anexo IV</option>
+                                <option value="mei">MEI / Simples Isento</option>
+                                <option value="domestico">Doméstico</option>
+                            </select>
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="inss-patronal">% INSS Patronal</label>
+                            <input type="number" id="inss-patronal" class="custo-form-control" value="20.0" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="inss-terceiros">% INSS Terceiros</label>
+                            <input type="number" id="inss-terceiros" class="custo-form-control" value="5.8" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="inss-gilrat">% INSS GILRAT</label>
+                            <input type="number" id="inss-gilrat" class="custo-form-control" value="2.0" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="horas-mensais">Horas Mensais</label>
+                            <input type="number" id="horas-mensais" class="custo-form-control" value="220">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="divisor-mes">Divisor do Mês</label>
+                            <input type="number" id="divisor-mes" class="custo-form-control" value="30">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="dias-uteis">Dias Úteis do Mês</label>
+                            <input type="number" id="dias-uteis" class="custo-form-control" value="25">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="dias-nao-uteis">Dias Não Úteis (DSR)</label>
+                            <input type="number" id="dias-nao-uteis" class="custo-form-control" value="5" min="0">
+                            <small class="form-hint">Domingos e Feriados no Mês</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRUPO DO MEIO: 2 Colunas para Dados Contratuais e Modalidade de Rescisão -->
+                <div class="custo-grid-2-cols">
+                    
+                    <!-- BLOCO 2: Dados do Funcionário -->
+                    <div class="custo-form-section card-box-styled">
+                        <div class="custo-form-section-header">
+                            <h3 class="custo-form-section-title">
+                                <span>👤</span> Dados do Contrato & Salário
+                            </h3>
+                        </div>
+                        <div class="custo-form-row">
+                            <div class="custo-form-group" style="min-width: 200px;">
+                                <label for="salario-base">Salário Base (R$)</label>
+                                <input type="number" id="salario-base" class="custo-form-control input-salario-destaque" step="0.01" placeholder="0,00">
+                            </div>
+                            <div class="custo-form-group">
+                                <label for="data-admissao">Data de Admissão</label>
+                                <input type="date" id="data-admissao" class="custo-form-control">
+                            </div>
+                            <div class="custo-form-group">
+                                <label for="data-demissao">Data de Demissão</label>
+                                <input type="date" id="data-demissao" class="custo-form-control">
+                            </div>
+                            <div class="custo-form-group">
+                                <label for="dependentes-irrf">Dependentes (IRRF)</label>
+                                <input type="number" id="dependentes-irrf" class="custo-form-control" value="0" step="1" min="0">
+                            </div>
+                            <div class="custo-form-group">
+                                <label for="saldo-fgts">Saldo FGTS Acumulado (R$)</label>
+                                <input type="number" id="saldo-fgts" class="custo-form-control" step="0.01" placeholder="0,00">
+                                <small class="form-hint">Saldo na CEF para fins da multa de 40%/20%</small>
+                            </div>
+                            <div class="custo-form-group">
+                                <label for="qtd-ferias-vencidas">Férias Vencidas (Períodos)</label>
+                                <select id="qtd-ferias-vencidas" class="custo-form-control">
+                                    <option value="0">Nenhum período vencido</option>
+                                    <option value="1">1 Período Vencido</option>
+                                    <option value="2">2 Períodos Vencidos</option>
+                                    <option value="3">3 Períodos Vencidos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BLOCO 3: Modalidade e Regras da Rescisão -->
+                    <div class="custo-form-section card-box-styled">
+                        <div class="custo-form-section-header">
+                            <h3 class="custo-form-section-title">
+                                <span>⚖️</span> Modalidade da Rescisão
+                            </h3>
+                        </div>
+                        <div class="custo-form-row">
+                            <div class="custo-form-group" style="min-width: 280px; flex: 2;">
+                                <label for="tipo-rescisao">Tipo de Rescisão</label>
+                                <select id="tipo-rescisao" class="custo-form-control highlight-control">
+                                    <option value="demissao_sem_justa_causa" selected>1. Demissão sem justa causa</option>
+                                    <option value="pedido_demissao">2. Pedido de demissão</option>
+                                    <option value="antecipacao_exp_funcionario">3. Antecipação de contrato de experiência pelo funcionário</option>
+                                    <option value="antecipacao_exp_empregador">4. Antecipação de contrato de experiência pelo empregador</option>
+                                    <option value="termino_experiencia">5. Término de contrato de experiência (no prazo)</option>
+                                    <option value="demissao_com_justa_causa">6. Demissão com justa causa</option>
+                                    <option value="acordo_partes">7. Acordo entre as partes (Art. 484-A CLT)</option>
+                                </select>
+                            </div>
+
+                            <!-- Grupo Aviso Prévio -->
+                            <div id="grupo-aviso-previo" class="custo-form-group" style="min-width: 200px;">
+                                <label for="tipo-aviso">Aviso Prévio</label>
+                                <select id="tipo-aviso" class="custo-form-control">
+                                    <option value="indenizado">Indenizado pelo Empregador</option>
+                                    <option value="trabalhado">Trabalhado</option>
+                                    <option value="descontado">Descontado do Funcionário</option>
+                                    <option value="dispensado">Dispensado pelo Empregador</option>
+                                </select>
+                            </div>
+
+                            <!-- Dias de Aviso Prévio com Override Manual -->
+                            <div id="grupo-dias-aviso" class="custo-form-group">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <label for="dias-aviso">Dias de Aviso Prévio</label>
+                                    <label style="font-size: 0.72rem; cursor: pointer;" title="Marque para ajustar manualmente os dias de aviso">
+                                        <input type="checkbox" id="manual-dias-aviso"> Manual
+                                    </label>
+                                </div>
+                                <input type="number" id="dias-aviso" class="custo-form-control" value="30" min="0" max="90" disabled>
+                                <small id="hint-dias-aviso" class="form-hint">Lei 12.506/2011 (30d + 3d/ano)</small>
+                            </div>
+
+                            <!-- Campo específico: Antecipação de Experiência -->
+                            <div id="grupo-exp-dias" class="custo-form-group" style="display: none; min-width: 220px; background-color: #fef2f2; padding: 8px; border-radius: 8px; border: 1px solid #fca5a5;">
+                                <label for="dias-restantes-exp" style="color: #991b1b; font-weight: bold;">Dias Restantes do Contrato Exp.</label>
+                                <input type="number" id="dias-restantes-exp" class="custo-form-control" value="0" min="1" placeholder="Ex: 15">
+                                <small class="form-hint" style="color: #b91c1c;">Faltantes para término do contrato</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOCO 4: Ajuste Fino de Avos (Apurados Automáticos com Override) -->
+                <div class="custo-form-section highlight-section">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>📅</span> Apuração Automática de Avos (13º e Férias)
+                        </h3>
+                        <span class="badge-tag-azul">Projeção com Base nas Datas</span>
+                    </div>
+                    <div class="custo-form-row">
+                        <!-- Avos de 13º Salário -->
+                        <div class="custo-form-group" style="min-width: 240px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="avos-13">Avos de 13º Salário</label>
+                                <label style="font-size: 0.75rem; cursor: pointer;" title="Marque para alterar manualmente">
+                                    <input type="checkbox" id="manual-avos-13"> Informar Manualmente
+                                </label>
+                            </div>
+                            <input type="number" id="avos-13" class="custo-form-control" value="0" min="0" max="12" disabled>
+                            <small id="hint-avos-13" class="form-hint">Meses com ≥15 dias trabalhados no ano</small>
+                        </div>
+
+                        <!-- Avos de Férias Proporcionais -->
+                        <div class="custo-form-group" style="min-width: 240px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="avos-ferias">Avos de Férias Proporcionais</label>
+                                <label style="font-size: 0.75rem; cursor: pointer;" title="Marque para alterar manualmente">
+                                    <input type="checkbox" id="manual-avos-ferias"> Informar Manualmente
+                                </label>
+                            </div>
+                            <input type="number" id="avos-ferias" class="custo-form-control" value="0" min="0" max="12" disabled>
+                            <small id="hint-avos-ferias" class="form-hint">Frações de ≥15 dias no período aquisitivo</small>
+                        </div>
+
+                        <!-- Informações gerais sobre a apuração -->
+                        <div class="custo-form-group" style="flex: 2; min-width: 280px; justify-content: center;">
+                            <div id="info-apuracao-datas" style="font-size: 0.85rem; color: var(--cor-texto-secundario); background: var(--cor-card-bg); padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--cor-borda);">
+                                💡 Preencha <strong>Data de Admissão</strong> e <strong>Data de Demissão</strong> para o cálculo automático dos avos e do aviso prévio.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOCO 5: Lançamentos Dinâmicos Adicionais (Proventos, Descontos e Benefícios) -->
+                <div class="custo-grid-2-cols">
+                    <!-- 5.1 PROVENTOS ADICIONAIS DINÂMICOS -->
+                    <div class="custo-form-section card-box-styled" style="flex: 1; min-width: 320px;">
+                        <div class="custo-form-section-header">
+                            <h3 class="custo-form-section-title">
+                                <span>➕</span> Proventos Adicionais (Horas Extras, Comissões, Adicionais)
+                            </h3>
+                            <button type="button" id="btn-add-provento" class="btn-adicionar-item">
+                                ➕ Adicionar Provento
+                            </button>
+                        </div>
+                        <p style="font-size: 0.82rem; color: var(--cor-texto-secundario); margin-bottom: 10px;">
+                            Adicione rubricas de proventos que compõem a remuneração rescisória e as bases fiscais (INSS, FGTS e IRRF).
+                        </p>
+                        <div id="container-proventos" class="dinamico-container">
+                            <!-- Injetado via JS -->
+                        </div>
+                    </div>
+
+                    <!-- 5.2 DESCONTOS ADICIONAIS DINÂMICOS -->
+                    <div class="custo-form-section card-box-styled" style="flex: 1; min-width: 320px;">
+                        <div class="custo-form-section-header">
+                            <h3 class="custo-form-section-title">
+                                <span>➖</span> Descontos Adicionais (Adiantamentos, Faltas, Danos)
+                            </h3>
+                            <button type="button" id="btn-add-desconto" class="btn-adicionar-item">
+                                ➕ Adicionar Desconto
+                            </button>
+                        </div>
+                        <p style="font-size: 0.82rem; color: var(--cor-texto-secundario); margin-bottom: 10px;">
+                            Informe deduções específicas da rescisão (ex: adiantamentos já pagos, faltas não justificadas).
+                        </p>
+                        <div id="container-descontos" class="dinamico-container">
+                            <!-- Injetado via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5.3 BENEFÍCIOS & AJUSTES DE CUSTO EMPRESA -->
+                <div class="custo-form-section card-box-styled">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>🎁</span> Benefícios & Custeios de Saída
+                        </h3>
+                        <button type="button" id="btn-add-beneficio" class="btn-adicionar-item">
+                            ➕ Adicionar Benefício / Custeio
+                        </button>
+                    </div>
+                    <p style="font-size: 0.82rem; color: var(--cor-texto-secundario); margin-bottom: 10px;">
+                        Adicione itens referentes a Vale Transporte, Vale Refeição/Alimentação, Plano de Saúde ou custeios operacionais.
+                    </p>
+                    <div id="container-beneficios" class="dinamico-container">
+                        <!-- Injetado via JS -->
+                    </div>
+                </div>
+
+            </div> <!-- Fim Grid Principal -->
+
+            <!-- BARRA DE AÇÕES -->
+            <div class="custo-actions-bar">
+                <button type="button" id="btn-limpar" class="btn-limpar">
+                    🔄 Limpar Dados
+                </button>
+                <button type="button" id="btn-gerar-pdf" class="btn-gerar-pdf" style="display: none;">
+                    📄 Baixar Relatório PDF
+                </button>
+                <button type="button" id="btn-calcular" class="btn-processar">
+                    ⚡ Processar Cálculo Rescisório
+                </button>
+            </div>
+
+            <!-- CONTAINER DE RESULTADOS -->
+            <div id="resultado-container" class="resultado-container" style="display: none;">
+                <!-- O JS injetará os resultados financeiros e a discriminação rescisória aqui -->
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Scripts do PDFMake e Lógica do Módulo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/simuladores/rescisao.js" defer></script>
+</body>
+</html>

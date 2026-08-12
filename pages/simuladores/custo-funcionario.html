@@ -21,8 +21,13 @@
 
     <main class="main-content">
         <header class="page-header page-header-simulador">
-            <h1>Simulador de Custo do Funcionário</h1>
-            <p class="page-header-subtitle">Projeção detalhada de custos, encargos patronais, provisões e repasses</p>
+            <div class="page-header-title-row">
+                <span class="header-icon-badge">💼</span>
+                <div>
+                    <h1>Simulador de Custo do Funcionário</h1>
+                    <p class="page-header-subtitle">Projeção avançada de custos trabalhistas, encargos patronais, provisões e repasses de folha</p>
+                </div>
+            </div>
         </header>
 
         <section id="secao-custo-funcionario" class="module-card module-card-simulador">
@@ -31,10 +36,15 @@
                 
                 <!-- BLOCO 1: Parâmetros Fiscais e de Apuração -->
                 <div class="custo-form-section highlight-section">
-                    <h3 class="custo-form-section-title">Configurações da Empresa</h3>
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>🏛️</span> Configurações da Empresa & Fiscal
+                        </h3>
+                        <span class="badge-tag-azul">Parâmetros de Apuração</span>
+                    </div>
                     <div class="custo-form-row">
                         <div class="custo-form-group">
-                            <label>Regime Tributário</label>
+                            <label for="regime-tributario">Regime Tributário</label>
                             <select id="regime-tributario" class="custo-form-control">
                                 <option value="simples">Simples Nacional</option>
                                 <option value="concomitante">Simples Concomitante</option>
@@ -43,23 +53,30 @@
                             </select>
                         </div>
                         <div class="custo-form-group">
-                            <label>Período de Projeção</label>
+                            <label for="periodo-simulacao">Período de Projeção</label>
                             <select id="periodo-simulacao" class="custo-form-control">
-                                <option value="mensal">Mensal</option>
-                                <option value="semestral">Semestral</option>
-                                <option value="anual">Anual</option>
+                                <option value="mensal">Mensal (1 Mês)</option>
+                                <option value="semestral">Semestral (6 Meses)</option>
+                                <option value="anual">Anual (12 Meses)</option>
                             </select>
                         </div>
                         <div class="custo-form-group">
-                            <label>% INSS Patronal</label>
+                            <label for="calcular-provisao">Calcular Provisões?</label>
+                            <select id="calcular-provisao" class="custo-form-control highlight-control">
+                                <option value="sim">Sim (Férias, 13º e Encargos)</option>
+                                <option value="nao">Não (Desconsiderar Provisões)</option>
+                            </select>
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="inss-patronal">% INSS Patronal</label>
                             <input type="number" id="inss-patronal" class="custo-form-control" step="0.01">
                         </div>
                         <div class="custo-form-group">
-                            <label>% INSS Terceiros</label>
+                            <label for="inss-terceiros">% INSS Terceiros</label>
                             <input type="number" id="inss-terceiros" class="custo-form-control" step="0.01">
                         </div>
                         <div class="custo-form-group">
-                            <label>% INSS GILRAT</label>
+                            <label for="inss-gilrat">% INSS GILRAT</label>
                             <input type="number" id="inss-gilrat" class="custo-form-control" step="0.01">
                         </div>
                     </div>
@@ -69,49 +86,57 @@
                 <div class="custo-grid-2-cols">
                     
                     <!-- BLOCO 2: Parâmetros de Jornada -->
-                    <div class="custo-form-section">
-                        <h3 class="custo-form-section-title light-border">Jornada e Escala</h3>
+                    <div class="custo-form-section card-box-styled">
+                        <div class="custo-form-section-header">
+                            <h3 class="custo-form-section-title">
+                                <span>⏱️</span> Jornada e Escala
+                            </h3>
+                        </div>
                         <div class="custo-form-row">
                             <div class="custo-form-group">
-                                <label>Categoria</label>
+                                <label for="is-horista">Categoria</label>
                                 <select id="is-horista" class="custo-form-control">
                                     <option value="nao">Mensalista</option>
                                     <option value="sim">Horista</option>
                                 </select>
                             </div>
                             <div class="custo-form-group">
-                                <label>Horas Mensais</label>
+                                <label for="horas-mensais">Horas Mensais</label>
                                 <input type="number" id="horas-mensais" class="custo-form-control" value="220">
                             </div>
                             <div class="custo-form-group">
-                                <label>Divisor do Mês</label>
+                                <label for="divisor-mes">Divisor do Mês</label>
                                 <input type="number" id="divisor-mes" class="custo-form-control" value="30">
                             </div>
                             <div class="custo-form-group">
-                                <label>Dias Úteis</label>
+                                <label for="dias-uteis">Dias Úteis</label>
                                 <input type="number" id="dias-uteis" class="custo-form-control" value="25">
                             </div>
                             <div class="custo-form-group">
-                                <label>Dias Não Úteis</label>
+                                <label for="dias-nao-uteis">Dias DSR / Não Úteis</label>
                                 <input type="number" id="dias-nao-uteis" class="custo-form-control" value="5">
                             </div>
                         </div>
                     </div>
 
                     <!-- BLOCO 3: Remuneração Base e Adicionais Fixos -->
-                    <div class="custo-form-section">
-                        <h3 class="custo-form-section-title light-border">Remuneração Contratual</h3>
+                    <div class="custo-form-section card-box-styled">
+                        <div class="custo-form-section-header">
+                            <h3 class="custo-form-section-title">
+                                <span>💵</span> Remuneração Contratual
+                            </h3>
+                        </div>
                         <div class="custo-form-row">
                             <div class="custo-form-group">
-                                <label>Salário Base (R$)</label>
-                                <input type="number" id="salario-base" class="custo-form-control" step="0.01">
+                                <label for="salario-base">Salário Base (R$)</label>
+                                <input type="number" id="salario-base" class="custo-form-control input-salario-destaque" step="0.01" placeholder="0,00">
                             </div>
                             <div class="custo-form-group">
-                                <label>Dependentes (IRRF)</label>
+                                <label for="dependentes-irrf">Dependentes (IRRF)</label>
                                 <input type="number" id="dependentes-irrf" class="custo-form-control" value="0" step="1">
                             </div>
                             <div class="custo-form-group">
-                                <label>Insalubridade</label>
+                                <label for="insalubridade">Insalubridade</label>
                                 <select id="insalubridade" class="custo-form-control">
                                     <option value="0">Não</option>
                                     <option value="0.10">10% (Mínimo)</option>
@@ -120,26 +145,26 @@
                                 </select>
                             </div>
                             <div class="custo-form-group">
-                                <label>Base Insalubridade (R$)</label>
+                                <label for="base-salario-insalubridade">Base Insalubridade (R$)</label>
                                 <input type="number" id="base-salario-insalubridade" class="custo-form-control" step="0.01">
                             </div>
                             <div class="custo-form-group">
-                                <label>Periculosidade</label>
+                                <label for="periculosidade">Periculosidade</label>
                                 <select id="periculosidade" class="custo-form-control">
                                     <option value="nao">Não</option>
                                     <option value="sim">Sim (30%)</option>
                                 </select>
                             </div>
                             <div class="custo-form-group">
-                                <label>% Adicional Noturno</label>
+                                <label for="perc-adicional-noturno">% Adicional Noturno</label>
                                 <input type="number" id="perc-adicional-noturno" class="custo-form-control" value="20" step="1">
                             </div>
                             <div class="custo-form-group">
-                                <label>% Hora Extra Padrão</label>
+                                <label for="perc-he">% Hora Extra Padrão</label>
                                 <input type="number" id="perc-he" class="custo-form-control" value="50" step="1">
                             </div>
                             <div class="custo-form-group">
-                                <label>% Hora Extra 100% / Feriados</label>
+                                <label for="perc-he-100">% H.E. 100% / Feriados</label>
                                 <input type="number" id="perc-he-100" class="custo-form-control" value="100" step="1">
                             </div>
                         </div>
@@ -149,72 +174,77 @@
                 <!-- BLOCO 4: Variáveis do Mês (Apontamentos Mensais) -->
                 <div class="custo-form-section highlight-section">
                     <div class="custo-form-section-header">
-                        <h3 class="custo-form-section-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">Apontamentos do Mês (Variáveis)</h3>
-                        <span class="badge-tag-azul">Acumulado Mensal Sem Limite de 24h</span>
+                        <h3 class="custo-form-section-title">
+                            <span>📊</span> Apontamentos do Mês (Variáveis)
+                        </h3>
                     </div>
                     <div class="custo-form-row">
                         <div class="custo-form-group">
-                            <label>H. Extras 50% (HH:mm)</label>
+                            <label for="horas-extras-qtd">H. Extras 50% (HH:mm)</label>
                             <input type="text" id="horas-extras-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 45:30)">
                             <small class="form-hint">Ex: 45:30 ou 45.5</small>
                         </div>
                         <div class="custo-form-group">
-                            <label>H. Extras 100% (HH:mm)</label>
+                            <label for="horas-extras-100-qtd">H. Extras 100% (HH:mm)</label>
                             <input type="text" id="horas-extras-100-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 12:00)">
                             <small class="form-hint">Ex: 12:00 ou 12</small>
                         </div>
                         <div class="custo-form-group">
-                            <label>H. Noturnas (HH:mm)</label>
+                            <label for="horas-noturnas-qtd">H. Noturnas (HH:mm)</label>
                             <input type="text" id="horas-noturnas-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 120:00)">
                             <small class="form-hint">Ex: 120:00 ou 120</small>
                         </div>
                         <div class="custo-form-group">
-                            <label>H.E. Noturnas (HH:mm)</label>
+                            <label for="horas-extras-noturnas-qtd">H.E. Noturnas (HH:mm)</label>
                             <input type="text" id="horas-extras-noturnas-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 30:15)">
                             <small class="form-hint">Ex: 30:15 ou 30.25</small>
                         </div>
                         <div class="custo-form-group">
-                            <label>Faltas/Atrasos (HH:mm)</label>
+                            <label for="horas-faltas-qtd">Faltas/Atrasos (HH:mm)</label>
                             <input type="text" id="horas-faltas-qtd" class="custo-form-control mascara-horas" placeholder="00:00 (ex: 08:00)">
                             <small class="form-hint">Ex: 08:00 ou 8</small>
                         </div>
                         <div class="custo-form-group">
-                            <label>Outros Proventos (R$)</label>
+                            <label for="outros-proventos">Outros Proventos (R$)</label>
                             <input type="number" id="outros-proventos" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                         <div class="custo-form-group">
-                            <label>Outros Descontos (R$)</label>
+                            <label for="outros-descontos">Outros Descontos (R$)</label>
                             <input type="number" id="outros-descontos" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                     </div>
                 </div>
 
                 <!-- BLOCO 5: Benefícios -->
-                <div class="custo-form-section">
-                    <h3 class="custo-form-section-title light-border">Benefícios Auxiliares</h3>
+                <div class="custo-form-section card-box-styled">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>🎁</span> Benefícios Auxiliares
+                        </h3>
+                    </div>
                     <div class="custo-form-row">
                         <div class="custo-form-group">
-                            <label>Vale-Refeição / Dia (R$)</label>
-                            <input type="number" id="vr-dia" class="custo-form-control" step="0.01">
+                            <label for="vr-dia">Vale-Refeição / Dia (R$)</label>
+                            <input type="number" id="vr-dia" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                         <div class="custo-form-group">
-                            <label>Vale-Alimentação / Mês (R$)</label>
-                            <input type="number" id="va-mes" class="custo-form-control" step="0.01">
+                            <label for="va-mes">Vale-Alimentação / Mês (R$)</label>
+                            <input type="number" id="va-mes" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                         <div class="custo-form-group">
-                            <label>Vale-Transporte / Unit.</label>
-                            <input type="number" id="vt-unidade" class="custo-form-control" step="0.01">
+                            <label for="vt-unidade">Vale-Transporte / Unit.</label>
+                            <input type="number" id="vt-unidade" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                         <div class="custo-form-group">
-                            <label>Desconto VT no Holerite</label>
+                            <label for="aplicar-desconto-vt">Desconto VT no Holerite</label>
                             <select id="aplicar-desconto-vt" class="custo-form-control">
                                 <option value="sim">Sim (Até 6% Sal. Base)</option>
                                 <option value="nao">Não (Empresa assume 100%)</option>
                             </select>
                         </div>
                         <div class="custo-form-group">
-                            <label>Outros Benefícios (R$)</label>
-                            <input type="number" id="outros-beneficios" class="custo-form-control" step="0.01">
+                            <label for="outros-beneficios">Outros Benefícios (R$)</label>
+                            <input type="number" id="outros-beneficios" class="custo-form-control" step="0.01" placeholder="0,00">
                         </div>
                     </div>
                 </div>
@@ -224,13 +254,13 @@
             <!-- BARRA DE AÇÕES -->
             <div class="custo-actions-bar">
                 <button type="button" id="btn-limpar" class="btn-limpar">
-                    Limpar Dados
+                    🔄 Limpar Dados
                 </button>
                 <button type="button" id="btn-gerar-pdf" class="btn-gerar-pdf" style="display: none;">
-                    Baixar PDF
+                    📄 Baixar Relatório PDF
                 </button>
                 <button type="button" id="btn-calcular" class="btn-processar">
-                    Processar Cálculo
+                    ⚡ Processar Cálculo
                 </button>
             </div>
 

@@ -297,16 +297,26 @@ function calcularTudo() {
     const baseFGTS = salarioBase;
     const baseIRRF = baseCalculoIRRF;
 
-    // 7. Provisões
-    const provFerias = salarioBase / 12;
-    const provTerco = provFerias / 3;
-    const provDecimo = salarioBase / 12;
-    const baseProvisoes = provFerias + provTerco + provDecimo;
+    // 7. Provisões Trabalhistas
+    const calcularProvisao = document.getElementById('calcular-provisao')?.value !== 'nao';
+
+    const rawProvFerias = salarioBase / 12;
+    const rawProvTerco = rawProvFerias / 3;
+    const rawProvDecimo = salarioBase / 12;
+    const rawBaseProvisoes = rawProvFerias + rawProvTerco + rawProvDecimo;
     
-    const provFGTS = baseProvisoes * 0.08;
-    const provFGTS40 = regime === 'domestico' ? 0 : provFGTS * 0.40;
-    const provINSSEmpresa = baseProvisoes * ((percPatronal + percTerceiros + percGilrat) / 100);
-    const totalProvisoes = baseProvisoes + provFGTS + provFGTS40 + provINSSEmpresa;
+    const rawProvFGTS = rawBaseProvisoes * 0.08;
+    const rawProvFGTS40 = regime === 'domestico' ? 0 : rawProvFGTS * 0.40;
+    const rawProvINSSEmpresa = rawBaseProvisoes * ((percPatronal + percTerceiros + percGilrat) / 100);
+    const rawTotalProvisoes = rawBaseProvisoes + rawProvFGTS + rawProvFGTS40 + rawProvINSSEmpresa;
+
+    const provFerias = calcularProvisao ? rawProvFerias : 0;
+    const provTerco = calcularProvisao ? rawProvTerco : 0;
+    const provDecimo = calcularProvisao ? rawProvDecimo : 0;
+    const provFGTS = calcularProvisao ? rawProvFGTS : 0;
+    const provFGTS40 = calcularProvisao ? rawProvFGTS40 : 0;
+    const provINSSEmpresa = calcularProvisao ? rawProvINSSEmpresa : 0;
+    const totalProvisoes = calcularProvisao ? rawTotalProvisoes : 0;
 
     // 8. Encargos do Mês
     const encFGTS = baseFGTS * 0.08;
@@ -340,11 +350,39 @@ function calcularTudo() {
     const percProvBar = custoMensalEfetivoEmpresa > 0 ? ((custoProventos / custoMensalEfetivoEmpresa) * 100).toFixed(1) : 0;
     const percEncBar = custoMensalEfetivoEmpresa > 0 ? ((custoEncargos / custoMensalEfetivoEmpresa) * 100).toFixed(1) : 0;
     const percBenBar = custoMensalEfetivoEmpresa > 0 ? ((custoBeneficios / custoMensalEfetivoEmpresa) * 100).toFixed(1) : 0;
-    const percVisBar = custoMensalEfetivoEmpresa > 0 ? ((totalProvisoes / custoMensalEfetivoEmpresa) * 100).toFixed(1) : 0;
+    const percVisBar = (custoMensalEfetivoEmpresa > 0 && totalProvisoes > 0) ? ((totalProvisoes / custoMensalEfetivoEmpresa) * 100).toFixed(1) : 0;
 
     // ==========================================
     // MONTAGEM DO DASHBOARD DE RESULTADOS
     // ==========================================
+    const apontamentosHtmlItens = [];
+    if (qtdHE > 0) {
+        apontamentosHtmlItens.push(`<div><strong>H.E. 50% (${formatarDecimalParaHoras(qtdHE)}):</strong> ${formatarMoeda(totalHE)}</div>`);
+    }
+    if (qtdHE100 > 0) {
+        apontamentosHtmlItens.push(`<div><strong>H.E. 100% (${formatarDecimalParaHoras(qtdHE100)}):</strong> ${formatarMoeda(totalHE100)}</div>`);
+    }
+    if (qtdHorasNoturnas > 0) {
+        apontamentosHtmlItens.push(`<div><strong>Noturnas (${formatarDecimalParaHoras(qtdHorasNoturnas)}):</strong> ${formatarMoeda(totalAdicionalNoturno)}</div>`);
+    }
+    if (qtdHENoturnas > 0) {
+        apontamentosHtmlItens.push(`<div><strong>H.E. Not. (${formatarDecimalParaHoras(qtdHENoturnas)}):</strong> ${formatarMoeda(totalHENoturna)}</div>`);
+    }
+    if (dsrVariaveis > 0) {
+        apontamentosHtmlItens.push(`<div><strong>DSR Verbas:</strong> ${formatarMoeda(dsrVariaveis)}</div>`);
+    }
+    if (qtdFaltas > 0) {
+        apontamentosHtmlItens.push(`<div class="text-danger-semantic"><strong>Faltas (${formatarDecimalParaHoras(qtdFaltas)}):</strong> -${formatarMoeda(totalDescontoFaltas)}</div>`);
+    }
+    if (outrosProv > 0) {
+        apontamentosHtmlItens.push(`<div><strong>Outros Proventos:</strong> ${formatarMoeda(outrosProv)}</div>`);
+    }
+    if (outrosDesc > 0) {
+        apontamentosHtmlItens.push(`<div class="text-danger-semantic"><strong>Outros Descontos:</strong> -${formatarMoeda(outrosDesc)}</div>`);
+    }
+
+    const temApontamentos = apontamentosHtmlItens.length > 0;
+
     const htmlResultado = `
         <!-- KPI Card de Impacto / Razão Custo-Salário -->
         <div class="custo-kpi-card">
@@ -361,10 +399,10 @@ function calcularTudo() {
         </div>
 
         <!-- Seção 1: Indicadores e Variáveis Apuradas -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: ${temApontamentos ? 'repeat(auto-fit, minmax(300px, 1fr))' : '1fr'}; gap: 15px; margin-bottom: 20px;">
             <div class="custo-calc-box-subtle">
                 <h4 class="custo-box-header-sm">Valores Unitários da Jornada</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.9rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; font-size: 0.9rem;">
                     <div><strong>Valor Dia:</strong> ${formatarMoeda(vlrDia)}</div>
                     <div><strong>Valor Hora:</strong> ${formatarMoeda(vlrHora)}</div>
                     <div><strong>H.E. 50%:</strong> ${formatarMoeda(vlrHoraExtra)}/h</div>
@@ -376,21 +414,16 @@ function calcularTudo() {
                 </div>
             </div>
 
+            ${temApontamentos ? `
             <div class="custo-calc-box-subtle">
                 <h4 class="custo-box-header-sm">
                     Apontamentos Apurados
                 </h4>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.9rem;">
-                    <div><strong>H.E. 50% (${formatarDecimalParaHoras(qtdHE)}):</strong> ${formatarMoeda(totalHE)}</div>
-                    <div><strong>H.E. 100% (${formatarDecimalParaHoras(qtdHE100)}):</strong> ${formatarMoeda(totalHE100)}</div>
-                    <div><strong>Noturnas (${formatarDecimalParaHoras(qtdHorasNoturnas)}):</strong> ${formatarMoeda(totalAdicionalNoturno)}</div>
-                    <div><strong>H.E. Not. (${formatarDecimalParaHoras(qtdHENoturnas)}):</strong> ${formatarMoeda(totalHENoturna)}</div>
-                    <div><strong>DSR Verbas:</strong> ${formatarMoeda(dsrVariaveis)}</div>
-                    ${qtdFaltas > 0 ? `<div class="text-danger-semantic"><strong>Faltas (${formatarDecimalParaHoras(qtdFaltas)}):</strong> -${formatarMoeda(totalDescontoFaltas)}</div>` : ''}
-                    <div><strong>VT Bruto:</strong> ${formatarMoeda(totalVTBrito)}</div>
-                    <div><strong>Desc. VT 6%:</strong> -${formatarMoeda(descontoVTHolerite)}</div>
+                    ${apontamentosHtmlItens.join('')}
                 </div>
             </div>
+            ` : ''}
         </div>
 
         <!-- Seção 2 e 3: Holerite e Bases de Cálculo -->
@@ -399,12 +432,12 @@ function calcularTudo() {
                 <h4 class="custo-box-header">Holerite Resumido</h4>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Proventos Totais (Bruto):</span> <strong>${formatarMoeda(salarioBase)}</strong></div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;" class="text-danger-semantic"><span>(-) INSS Colaborador:</span> <strong>${formatarMoeda(inssCalculado)}</strong></div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;" class="text-danger-semantic"><span>(-) IRRF Colaborador:</span> <strong>${formatarMoeda(irrfCalculado)}</strong></div>
+                ${irrfCalculado > 0 ? `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;" class="text-danger-semantic"><span>(-) IRRF Colaborador:</span> <strong>${formatarMoeda(irrfCalculado)}</strong></div>` : ''}
                 ${descontoVTHolerite > 0 ? `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;" class="text-danger-semantic"><span>(-) Desconto VT (6% Cap):</span> <strong>${formatarMoeda(descontoVTHolerite)}</strong></div>` : ''}
                 ${outrosDesc > 0 ? `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;" class="text-danger-semantic"><span>(-) Outros Descontos:</span> <strong>${formatarMoeda(outrosDesc)}</strong></div>` : ''}
                 <hr class="custo-row-divider">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600;" class="text-success-semantic"><span>Líquido em Conta:</span> <span>${formatarMoeda(liquido)}</span></div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Benefícios Proporcionados:</span> <strong>${formatarMoeda(totalBeneficiosProporcionados)}</strong></div>
+                ${totalBeneficiosProporcionados > 0 ? `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Benefícios Proporcionados:</span> <strong>${formatarMoeda(totalBeneficiosProporcionados)}</strong></div>` : ''}
                 <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 1.1rem;" class="text-info-semantic"><span>Valor Percebido Colaborador:</span> <strong>${formatarMoeda(totalFuncionarioVisao)}</strong></div>
             </div>
 
@@ -414,6 +447,12 @@ function calcularTudo() {
                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Base INSS:</span> <strong>${formatarMoeda(baseINSS)}</strong></div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Base FGTS:</span> <strong>${formatarMoeda(baseFGTS)}</strong></div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Base IRRF:</span> <strong>${formatarMoeda(baseIRRF)}</strong></div>
+                    ${totalVTBrito > 0 ? `
+                        <hr class="custo-row-divider">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Vale Transporte Bruto:</span> <strong>${formatarMoeda(totalVTBrito)}</strong></div>
+                        ${descontoVTHolerite > 0 ? `<div style="display: flex; justify-content: space-between; margin-bottom: 5px;" class="text-danger-semantic"><span>(-) Desc. VT Holerite (6%):</span> <strong>${formatarMoeda(descontoVTHolerite)}</strong></div>` : ''}
+                        <div style="display: flex; justify-content: space-between; font-weight: 600;"><span>Custo Cota VT Empresa:</span> <strong>${formatarMoeda(custoLiquidoVTEmpresa)}</strong></div>
+                    ` : ''}
                 </div>
 
                 <div class="custo-calc-box">
@@ -429,8 +468,12 @@ function calcularTudo() {
         </div>
 
         <!-- Seção 4: Provisões -->
+        ${calcularProvisao ? `
         <div class="custo-calc-box" style="margin-bottom: 20px;">
-            <h4 class="custo-box-header">Provisões Trabalhistas Mensais (1/12)</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--cor-borda, #e2e8f0); padding-bottom: 8px; margin-bottom: 12px;">
+                <h4 style="margin: 0; font-size: 1.02rem; font-weight: 700; color: var(--cor-texto-principal, #0f172a);">Provisões Trabalhistas Mensais (1/12)</h4>
+                <span class="badge-tag-azul">🟢 Ativo (Férias + 13º)</span>
+            </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.95rem;">
                 <div style="display: flex; justify-content: space-between;"><span>Férias:</span> <strong>${formatarMoeda(provFerias)}</strong></div>
                 <div style="display: flex; justify-content: space-between;"><span>1/3 Férias:</span> <strong>${formatarMoeda(provTerco)}</strong></div>
@@ -441,6 +484,7 @@ function calcularTudo() {
             </div>
             <div style="text-align: right; margin-top: 15px; font-weight: 600; color: var(--cor-texto-principal);">Total Provisão Mensal: ${formatarMoeda(totalProvisoes)}</div>
         </div>
+        ` : ''}
 
         <!-- Seção de Composição Visual do Custo -->
         <div class="custo-calc-box-subtle" style="margin-bottom: 20px;">
@@ -449,19 +493,19 @@ function calcularTudo() {
                 <div style="width: ${percProvBar}%; background: #3b82f6;" title="Proventos Brutos: ${percProvBar}%"></div>
                 <div style="width: ${percEncBar}%; background: #f97316;" title="Encargos Fiscais: ${percEncBar}%"></div>
                 <div style="width: ${percBenBar}%; background: #10b981;" title="Benefícios Efetivos: ${percBenBar}%"></div>
-                <div style="width: ${percVisBar}%; background: #a855f7;" title="Provisões Trabalhistas: ${percVisBar}%"></div>
+                ${calcularProvisao ? `<div style="width: ${percVisBar}%; background: #a855f7;" title="Provisões Trabalhistas: ${percVisBar}%"></div>` : ''}
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 15px; font-size: 0.8rem; color: var(--cor-texto-secundario);">
                 <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; background: #3b82f6; border-radius: 2px;"></span> Proventos (${percProvBar}%)</span>
                 <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; background: #f97316; border-radius: 2px;"></span> Encargos Patronais (${percEncBar}%)</span>
                 <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; background: #10b981; border-radius: 2px;"></span> Benefícios Efetivos (${percBenBar}%)</span>
-                <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; background: #a855f7; border-radius: 2px;"></span> Provisões (${percVisBar}%)</span>
+                ${calcularProvisao ? `<span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; background: #a855f7; border-radius: 2px;"></span> Provisões (${percVisBar}%)</span>` : ''}
             </div>
         </div>
 
         <!-- Seção 5: Painel de Projeção Final -->
         <div class="custo-projection-card">
-            <h3 style="margin-bottom: 20px; text-align: center; font-size: 1.4rem; border-bottom: 1px solid #475569; padding-bottom: 15px;">
+            <h3 style="margin-bottom: 20px; text-align: center; font-size: 1.4rem; padding-bottom: 15px;">
                 Custo Total Projetado - Visão ${labelPeriodo}
             </h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px;">
@@ -473,10 +517,12 @@ function calcularTudo() {
                     <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px;">Custo Encargos Patronais</div>
                     <div style="font-size: 1.3rem; font-weight: bold; color: #fb923c;">${formatarMoeda(projEncargos)}</div>
                 </div>
+                ${calcularProvisao ? `
                 <div class="custo-projection-inner-box">
                     <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px;">Custo Provisões Reservadas</div>
                     <div style="font-size: 1.3rem; font-weight: bold; color: #a78bfa;">${formatarMoeda(projProvisao)}</div>
                 </div>
+                ` : ''}
             </div>
             
             <div class="custo-projection-final-box">
@@ -484,7 +530,7 @@ function calcularTudo() {
                 <div style="font-size: 2.2rem; font-weight: bold; color: #10b981;">
                     ${formatarMoeda(projTotalAbsoluto)}
                 </div>
-                <div style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">(Salário Bruto + Benefícios Efetivos + Encargos + Provisões) * Multiplicador</div>
+                <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;">(Salário Bruto + Benefícios Efetivos + Encargos${calcularProvisao ? ' + Provisões' : ''}) * Multiplicador</div>
             </div>
         </div>
     `;
@@ -494,15 +540,15 @@ function calcularTudo() {
     container.style.display = 'block';
 
     dadosAtuaisParaPDF = {
-        regime, labelPeriodo, mult,
+        regime, labelPeriodo, mult, calcularProvisao,
         vlrDia, vlrHora, vlrHoraExtra, vlrHoraExtra100, vlrAdicionalNoturno, vlrHoraExtraNoturna,
-        insalubridade, periculosidade, totalHE, totalHE100, totalAdicionalNoturno, totalHENoturna, totalDescontoFaltas, dsrVariaveis, totalVR, totalVA, totalVTBrito, descontoVTHolerite, custoLiquidoVTEmpresa,
-        salarioBase, inssCalculado, irrfCalculado, outrosDesc, liquido, totalBeneficios: totalBeneficiosEmpresa, totalFuncionarioVisao,
+        insalubridade, periculosidade, totalHE, totalHE100, totalAdicionalNoturno, totalHENoturna, totalDescontoFaltas, dsrVariaveis, outrosProv, outrosDesc, totalVR, totalVA, totalVTBrito, descontoVTHolerite, custoLiquidoVTEmpresa,
+        salarioBase, inssCalculado, irrfCalculado, liquido, totalBeneficios: totalBeneficiosEmpresa, totalBeneficiosProporcionados, totalFuncionarioVisao,
         baseINSS, baseFGTS, baseIRRF,
         encFGTS, encFGTS40Domestico, encINSSPatronal, encINSSTerceiros, encINSSGilrat, totalEncargos,
         provFerias, provTerco, provDecimo, provFGTS, provFGTS40, provINSSEmpresa, totalProvisoes,
         projFuncionario, projEncargos, projProvisao, projTotalAbsoluto, percCustoSobreSalario,
-        qtdHE, qtdHE100, qtdHorasNoturnas, qtdHENoturnas, qtdFaltas
+        qtdHE, qtdHE100, qtdHorasNoturnas, qtdHENoturnas, qtdFaltas, salarioReferencia
     };
 
     // Revela o botão de Gerar PDF

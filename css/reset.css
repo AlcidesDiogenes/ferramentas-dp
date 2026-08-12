@@ -19,6 +19,7 @@ body {
     display: flex;
     margin: 0;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     font-family: var(--fonte-principal);
     background-color: var(--cor-fundo);

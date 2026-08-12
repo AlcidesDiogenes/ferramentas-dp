@@ -127,6 +127,14 @@ window.MODULES_CONFIG = [
         status: "Updated",
         statusLabel: "Atualizado",
         accessible: true
+    },
+    {
+        id: "rescisao",
+        title: "Simulador de Rescisão",
+        path: "rescisao.html",
+        status: "New",
+        statusLabel: "Novo",
+        accessible: true
     }
 ];
 

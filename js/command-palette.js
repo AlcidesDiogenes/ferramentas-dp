@@ -24,6 +24,7 @@
             { id: 'prolabore', title: 'Simulador de Pró-Labore', category: 'Simuladores', path: prefix + 'pages/simuladores/prolabore.html', icon: '💼', keywords: 'prolabore socio inss irrf retiradas' },
             { id: 'entenda-descontos', title: 'Entenda os Descontos', category: 'Simuladores', path: prefix + 'pages/simuladores/detalhamento-calculos.html', icon: '📊', keywords: 'descontos holerite inss irrf' },
             { id: 'cota-aprendiz', title: 'Cota Aprendiz', category: 'Simuladores', path: prefix + 'pages/simuladores/cota-aprendiz.html', icon: '🎓', keywords: 'aprendiz cota jovem mte' },
+            { id: 'rescisao', title: 'Simulador de Rescisão', category: 'Simuladores', path: prefix + 'pages/simuladores/rescisao.html', icon: '📜', keywords: 'rescisao demissao aviso previo verbas avos 13 ferias fgts' },
             { id: 'consultas', title: 'Central de Consultas', category: 'Módulos', path: prefix + 'pages/consultas.html', icon: '🔎', keywords: 'consulta certidao cndt fgts esocial cbo' },
             { id: 'modelos', title: 'Modelos de Documentos', category: 'Módulos', path: prefix + 'pages/modelos.html', icon: '📋', keywords: 'modelo documento advertencia procuracao aviso' },
             { id: 'central-dados', title: 'Central de Dados', category: 'Módulos', path: prefix + 'pages/central-de-dados/acesso-central.html', icon: '📊', keywords: 'dados gestao relatorio exportar' },

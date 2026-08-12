@@ -250,6 +250,31 @@ function ativarEventosDoModal() {
                 return;
             }
 
+            // Para novos cadastros (não edições), verificar limitação geral de 1 empresa no Plano Gratuito
+            if (!editId) {
+                try {
+                    const { data: authData } = await supabase.auth.getUser();
+                    const userId = authData?.user?.id || 'guest';
+                    const localProfile = JSON.parse(localStorage.getItem(`profile_${userId}`) || '{}');
+                    const userPlan = localProfile.plano || localStorage.getItem(`user_plan_${userId}`) || 'Gratuito';
+
+                    if (userPlan === 'Gratuito') {
+                        const { data: empresasExistentes } = await supabase
+                            .from('empresa')
+                            .select('id')
+                            .eq('equipe_id', equipeIdAtiva)
+                            .eq('base_id', baseIdAtiva);
+
+                        if (empresasExistentes && empresasExistentes.length >= 1) {
+                            alert("⚠️ Limitação Geral do Plano Gratuito:\n\nSeu plano atual é GRATUITO, o qual possui o limite de 1 Empresa por Equipe/Base. Para cadastrar mais empresas, faça upgrade para o Plano Pro.");
+                            return;
+                        }
+                    }
+                } catch (planErr) {
+                    console.warn("Erro ao verificar limites do plano do usuário:", planErr);
+                }
+            }
+
             const payload = {
                 equipe_id: equipeIdAtiva,
                 base_id: baseIdAtiva,

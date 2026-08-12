@@ -12,64 +12,260 @@
 <body class="preload">
     <main class="main-content perfil-main">
         <section class="perfil-card">
-            <button type="button" id="btn-voltar" class="btn-voltar">← Voltar ao Painel</button>
-            <h2>Central do Usuário</h2>
-            <p class="subtitle">Gerencie suas informações, histórico e pagamentos.</p>
+            <button type="button" id="btn-voltar" class="btn-voltar">← Voltar ao Painel Principal</button>
             
-            <!-- Barra de Abas (Navegação Interna) -->
+            <!-- HERO BANNER DO USUÁRIO -->
+            <div class="user-hero-card">
+                <div class="user-hero-main">
+                    <div id="user-avatar" class="user-avatar">DP</div>
+                    <div class="user-hero-info">
+                        <h2>
+                            <span id="display-user-nome">Carregando Usuário...</span>
+                        </h2>
+                        <p id="display-user-email" class="user-email">usuario@exemplo.com</p>
+                        <div class="user-badges">
+                            <span class="badge badge-success">🟢 Sessão Ativa</span>
+                            <span id="display-user-role-badge" class="badge badge-info">👤 Usuário Gratuito</span>
+                            <span id="display-user-plan-badge" class="badge badge-purple">🌱 Plano Gratuito</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STATS / RESUMO RÁPIDO -->
+                <div class="hero-stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Empresa Selecionada</span>
+                        <span id="stat-empresa-nome" class="stat-val">Carregando...</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Acesso / Perfil</span>
+                        <span id="stat-nivel-acesso" class="stat-val">Administrador</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Segurança</span>
+                        <span class="stat-val" style="color: #4ade80;">100% Protegido</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BARRA DE ABAS (NAVEGAÇÃO INTERNA) -->
             <div class="profile-tabs">
-                <button type="button" class="tab-btn active" data-target="secao-cadastrais">Dados Cadastrais</button>
-                <button type="button" class="tab-btn" data-target="secao-historico">Histórico</button>
-                <button type="button" class="tab-btn" data-target="secao-pagamento">Pagamento</button>
+                <button type="button" class="tab-btn active" data-target="secao-cadastrais">👤 Dados Cadastrais</button>
+                <button type="button" class="tab-btn" data-target="secao-empresa">🏢 Empresa & Vínculo</button>
+                <button type="button" class="tab-btn" data-target="secao-seguranca">🔒 Segurança & Senha</button>
+                <button type="button" class="tab-btn" data-target="secao-historico">📜 Histórico de Auditoria</button>
+                <button type="button" class="tab-btn" data-target="secao-pagamento">💳 Plano & Faturamento</button>
+                <button type="button" class="tab-btn" data-target="secao-preferencias">⚙️ Preferências</button>
             </div>
 
             <!-- SEÇÃO 1: DADOS CADASTRAIS -->
             <div id="secao-cadastrais" class="form-section active-section">
+                <div class="section-title-wrapper">
+                    <h3 class="section-title">Informações Pessoais & Profissionais</h3>
+                    <p class="section-desc">Mantenha seus dados sempre atualizados para emissão correta de documentos e relatórios.</p>
+                </div>
+
                 <form id="form-perfil" class="perfil-form">
-                    <div class="form-group">
-                        <label>E-mail de Acesso:</label>
-                        <input type="email" id="input-email-readonly" disabled class="input-disabled">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>E-mail de Acesso (Login):</label>
+                            <input type="email" id="input-email-readonly" disabled class="input-disabled">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-nome">Nome Completo:</label>
+                            <input type="text" id="input-nome" placeholder="Digite seu nome completo">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="input-nome">Nome que deseja usar:</label>
-                        <input type="text" id="input-nome" placeholder="Seu nome">
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="input-whatsapp">WhatsApp / Celular com DDD:</label>
+                            <input type="text" id="input-whatsapp" placeholder="(00) 00000-0000" maxlength="15">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-cargo">Cargo / Função:</label>
+                            <input type="text" id="input-cargo" placeholder="Ex: Analista de DP Senior">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="input-whatsapp">WhatsApp:</label>
-                        <input type="text" id="input-whatsapp" placeholder="(00) 00000-0000">
-                    </div>
-                    <div class="form-group">
-                        <label for="input-cargo">Cargo:</label>
-                        <input type="text" id="input-cargo" placeholder="Ex: Analista de DP">
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="input-departamento">Departamento / Setor:</label>
+                            <input type="text" id="input-departamento" placeholder="Ex: Departamento Pessoal / RH">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-cpf">CPF do Profissional (Opcional):</label>
+                            <input type="text" id="input-cpf" placeholder="000.000.000-00" maxlength="14">
+                        </div>
                     </div>
                     
-                    <button type="submit" id="btn-salvar" class="btn-action btn-success">Salvar Alterações</button>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-top: 10px;">
+                        <button type="submit" id="btn-salvar" class="btn-action btn-primary">💾 Salvar Alterações de Perfil</button>
+                    </div>
                     <p id="msg-feedback" class="msg-feedback"></p>
                 </form>
             </div>
 
-            <!-- SEÇÃO 3: HISTÓRICO -->
-            <div id="secao-historico" class="form-section">
-                <h3 class="section-title mb-15">Histórico de Atividades</h3>
-                <div class="historico-list">
-                    <p>• Último login realizado com sucesso.</p>
-                    <p>• Atualização de dados cadastrais efetuada.</p>
+            <!-- SEÇÃO 2: EMPRESA & VÍNCULO -->
+            <div id="secao-empresa" class="form-section">
+                <div class="section-title-wrapper">
+                    <h3 class="section-title">Empresa e Contexto Ativo</h3>
+                    <p class="section-desc">Visualização do vínculo institucional e contexto operacional atualmente selecionado.</p>
+                </div>
+
+                <div class="card-box">
+                    <div class="info-row">
+                        <span class="info-label">Empresa Selecionada:</span>
+                        <span id="emp-razao" class="info-val">Carregando...</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">CNPJ:</span>
+                        <span id="emp-cnpj" class="info-val">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Equipe / Time Operacional:</span>
+                        <span id="emp-equipe" class="info-val">Geral</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Sindicato Patronal / Laboral:</span>
+                        <span id="emp-sindicato" class="info-val">Padrão</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a href="../central-de-dados/acesso-central.html" class="btn-action btn-secondary" style="text-decoration: none;">🏢 Gerenciar Empresas na Central de Dados</a>
                 </div>
             </div>
 
-            <!-- SEÇÃO 4: PAGAMENTO -->
+            <!-- SEÇÃO 3: SEGURANÇA & SENHA -->
+            <div id="secao-seguranca" class="form-section">
+                <div class="section-title-wrapper">
+                    <h3 class="section-title">Segurança da Conta & Alteração de Senha</h3>
+                    <p class="section-desc">Altere sua senha de acesso e verifique os detalhes da sua sessão atual no Supabase.</p>
+                </div>
+
+                <div class="card-box">
+                    <h4 style="margin: 0 0 16px 0; color: #f1f5f9;">Alterar Senha de Acesso</h4>
+                    <form id="form-alterar-senha" class="perfil-form">
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label for="input-nova-senha">Nova Senha:</label>
+                                <input type="password" id="input-nova-senha" placeholder="No mínimo 6 caracteres">
+                                <div class="password-strength-bar">
+                                    <div id="password-strength-fill" class="password-strength-fill"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-confirma-senha">Confirme a Nova Senha:</label>
+                                <input type="password" id="input-confirma-senha" placeholder="Digite novamente a nova senha">
+                            </div>
+                        </div>
+                        <button type="submit" id="btn-atualizar-senha" class="btn-action btn-primary" style="width: auto;">🔑 Atualizar Senha Agora</button>
+                        <p id="msg-senha-feedback" class="msg-feedback"></p>
+                    </form>
+                </div>
+
+                <div class="card-box">
+                    <h4 style="margin: 0 0 12px 0; color: #f1f5f9;">Sessão Atual de Autenticação</h4>
+                    <div class="info-row">
+                        <span class="info-label">Provedor de Login:</span>
+                        <span class="info-val">Supabase Auth (E-mail / Senha)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Estado da Sessão:</span>
+                        <span class="info-val" style="color: #4ade80;">Ativa & Criptografada (JWT)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Navegador Atual:</span>
+                        <span id="info-user-agent" class="info-val">Detectando...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO 4: HISTÓRICO DE AUDITORIA -->
+            <div id="secao-historico" class="form-section">
+                <div class="section-title-wrapper">
+                    <h3 class="section-title">Histórico de Atividades & Auditoria</h3>
+                    <p class="section-desc">Registro cronológico das últimas operações realizadas com a sua conta.</p>
+                </div>
+
+                <div class="card-box" style="padding: 0; overflow-x: auto;">
+                    <table class="audit-table">
+                        <thead>
+                            <tr>
+                                <th>Data / Hora</th>
+                                <th>Ação / Evento</th>
+                                <th>Módulo</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-audit-corpo">
+                            <!-- Injetado dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEÇÃO 5: PLANO & FATURAMENTO -->
             <div id="secao-pagamento" class="form-section">
-                <h3 class="section-title mb-15">Plano e Assinatura</h3>
-                <div class="pagamento-card">
-                    <div class="pagamento-row">
-                        <span class="pagamento-label">Status da Conta:</span>
-                        <strong class="pagamento-status">Ativa (Pro)</strong>
+                <div class="section-title-wrapper">
+                    <h3 class="section-title">Plano, Licença & Limites de Uso</h3>
+                    <p class="section-desc">Detalhes da sua licença e limitações gerais de uso no Ferramentas DP.</p>
+                </div>
+
+                <div class="card-box">
+                    <div class="info-row">
+                        <span class="info-label">Plano Atual:</span>
+                        <span id="plan-nome-val" class="info-val" style="color: #38bdf8; font-weight: bold;">🌱 Plano Gratuito</span>
                     </div>
-                    <div class="pagamento-row">
-                        <span class="pagamento-label">Renovação Automática:</span>
-                        <span class="pagamento-val">Ativa</span>
+                    <div class="info-row">
+                        <span class="info-label">Status da Assinatura:</span>
+                        <span id="plan-status-val" class="info-val" style="color: #4ade80;">🟢 Ativo (Plano Gratuito)</span>
                     </div>
-                    <button type="button" class="btn-action btn-gerenciar">Gerenciar Assinatura</button>
+                    <div class="info-row">
+                        <span class="info-label">Módulos Liberados:</span>
+                        <span class="info-val">Simuladores de Cálculos, CBOs e Diagnósticos de Folha</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Cotas de Consultas / Mês:</span>
+                        <span id="plan-cotas-val" class="info-val">50 Consultas de CCT / mês</span>
+                    </div>
+                </div>
+
+                <!-- CARTEIRA DE LIMITAÇÕES GERAIS -->
+                <div class="card-box" style="margin-top: 16px; border-left: 4px solid #f59e0b; background-color: rgba(245, 158, 11, 0.05);">
+                    <h4 style="margin: 0 0 12px 0; color: #f59e0b; display: flex; align-items: center; gap: 8px;">
+                        <span>⚠️</span> Limitações Gerais do Plano Gratuito
+                    </h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #cbd5e1; font-size: 0.9rem; display: flex; flex-direction: column; gap: 8px;">
+                        <li><strong>Cadastro de Empresas:</strong> Limite de 1 Empresa por Equipe/Base Operacional.</li>
+                        <li><strong>Criação de Equipes:</strong> Limite de 1 Equipe ativa por conta de usuário.</li>
+                        <li><strong>Cotas de Automação CCT:</strong> Até 50 consultas mensais do Robô de CCT.</li>
+                        <li><strong>Upload de Documentos (Storage):</strong> Funcionalidade restrita no Plano Gratuito (100% dados textuais e estruturados relacionais).</li>
+                        <li><strong>Acesso Multi-Usuário:</strong> 1 Assento Operacional Básico e 1 Assento Visitante.</li>
+                    </ul>
+                </div>
+
+                <button type="button" id="btn-upgrade-plan" class="btn-action btn-primary" style="margin-top: 16px;">
+                    🚀 Fazer Upgrade para o Plano Pro
+                </button>
+            </div>
+
+            <!-- SEÇÃO 6: PREFERÊNCIAS & SISTEMA -->
+            <div id="secao-preferencias" class="form-section">
+                <div class="section-title-wrapper">
+                    <h3 class="section-title">Preferências Locais & Cache do Sistema</h3>
+                    <p class="section-desc">Gerencie configurações da sua experiência de uso e armazenamento local.</p>
+                </div>
+
+                <div class="card-box">
+                    <h4 style="margin: 0 0 12px 0; color: #f1f5f9;">Manutenção de Armazenamento Local</h4>
+                    <p style="color: #94a3b8; font-size: 0.88rem; margin-bottom: 16px;">
+                        Caso encontre comportamentos inesperados em dados desatualizados, você pode limpar o cache local mantendo suas credenciais seguras.
+                    </p>
+                    <button type="button" id="btn-limpar-cache" class="btn-action btn-danger">
+                        🗑️ Limpar Cache e Recarregar Aplicação
+                    </button>
                 </div>
             </div>
 
