@@ -133,11 +133,13 @@ function apurarAvosEDiasAutomaticos() {
     const elAvos13 = document.getElementById('avos-13');
     const elAvosFerias = document.getElementById('avos-ferias');
     const elDiasAviso = document.getElementById('dias-aviso');
+    const elDiasSaldo = document.getElementById('dias-saldo');
     const elInfo = document.getElementById('info-apuracao-datas');
 
-    const manual13 = document.getElementById('manual-avos-13').checked;
-    const manualFerias = document.getElementById('manual-avos-ferias').checked;
-    const manualAviso = document.getElementById('manual-dias-aviso').checked;
+    const manual13 = document.getElementById('manual-avos-13')?.checked;
+    const manualFerias = document.getElementById('manual-avos-ferias')?.checked;
+    const manualAviso = document.getElementById('manual-dias-aviso')?.checked;
+    const manualSaldo = document.getElementById('manual-dias-saldo')?.checked;
 
     const tipoRescisao = elTipoRescisao.value;
 
@@ -177,6 +179,20 @@ function apurarAvosEDiasAutomaticos() {
     if (isNaN(adm.getTime()) || isNaN(dem.getTime()) || dem < adm) {
         if (elInfo) elInfo.innerHTML = '⚠️ <span style="color: #b91c1c;">Data de demissão deve ser igual ou posterior à data de admissão.</span>';
         return;
+    }
+
+    // 0. Cálculo dos Dias de Saldo de Salário (Proporcional à Admissão no Mês)
+    let diasSaldoCalc = 0;
+    if (adm.getFullYear() === dem.getFullYear() && adm.getMonth() === dem.getMonth()) {
+        // Admitido e demitido no mesmo mês e ano (ex: 10/08/2026 até 31/08/2026 => 31 - 10 + 1 = 22 dias)
+        diasSaldoCalc = Math.max(1, dem.getDate() - adm.getDate() + 1);
+    } else {
+        // Admitido em mês/ano anterior
+        diasSaldoCalc = dem.getDate();
+    }
+
+    if (elDiasSaldo && !manualSaldo) {
+        elDiasSaldo.value = diasSaldoCalc;
     }
 
     // 1. Cálculo de Dias de Aviso Prévio (Lei 12.506/2011)
@@ -269,8 +285,9 @@ function apurarAvosEDiasAutomaticos() {
 
     if (elInfo) {
         const df = (d) => d.toLocaleDateString('pt-BR');
+        const saldoExibido = elDiasSaldo ? elDiasSaldo.value : diasSaldoCalc;
         elInfo.innerHTML = `✅ <strong>Período apurado:</strong> ${df(adm)} até ${df(dem)} ${projecaoDem > dem ? `(Projeção Aviso: ${df(projecaoDem)})` : ''}<br>` +
-            `👉 <strong>Aviso:</strong> ${diasAvisoEfetivos}d | <strong>Avos 13º:</strong> ${elAvos13.value}/12 | <strong>Avos Férias:</strong> ${elAvosFerias.value}/12`;
+            `👉 <strong>Saldo:</strong> ${saldoExibido}d | <strong>Aviso:</strong> ${diasAvisoEfetivos}d | <strong>Avos 13º:</strong> ${elAvos13.value}/12 | <strong>Avos Férias:</strong> ${elAvosFerias.value}/12`;
     }
 }
 
@@ -344,9 +361,20 @@ function processarCalculoRescisao() {
     const admDate = new Date(dataAdmissaoStr + 'T00:00:00');
     const demDate = new Date(dataDemissaoStr + 'T00:00:00');
 
+    const divisorMes = parseInt(document.getElementById('divisor-mes')?.value, 10) || 30;
+    const elDiasSaldoInput = document.getElementById('dias-saldo');
+    let diasTrabalhadosMes = parseInt(elDiasSaldoInput?.value, 10);
+
+    if (isNaN(diasTrabalhadosMes)) {
+        if (admDate.getFullYear() === demDate.getFullYear() && admDate.getMonth() === demDate.getMonth()) {
+            diasTrabalhadosMes = Math.max(1, demDate.getDate() - admDate.getDate() + 1);
+        } else {
+            diasTrabalhadosMes = demDate.getDate();
+        }
+    }
+
     // 1. Saldo de Salário
-    const diasTrabalhadosMes = demDate.getDate();
-    const valorSaldoSalario = (salarioBase / 30) * diasTrabalhadosMes;
+    const valorSaldoSalario = (salarioBase / divisorMes) * diasTrabalhadosMes;
 
     // 2. Verbas de Aviso Prévio e Indenizações
     let valorAvisoPrevio = 0;
@@ -980,6 +1008,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Escuta checkboxes manuais para habilitar/desabilitar inputs
     const mapCheckboxes = [
+        { chk: 'manual-dias-saldo', input: 'dias-saldo' },
         { chk: 'manual-dias-aviso', input: 'dias-aviso' },
         { chk: 'manual-avos-13', input: 'avos-13' },
         { chk: 'manual-avos-ferias', input: 'avos-ferias' }
@@ -1024,6 +1053,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (c) c.innerHTML = '';
             });
 
+            document.getElementById('dias-saldo').disabled = true;
             document.getElementById('dias-aviso').disabled = true;
             document.getElementById('avos-13').disabled = true;
             document.getElementById('avos-ferias').disabled = true;

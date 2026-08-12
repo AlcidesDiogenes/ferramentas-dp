@@ -183,43 +183,55 @@
                     </div>
                 </div>
 
-                <!-- BLOCO 4: Ajuste Fino de Avos (Apurados Automáticos com Override) -->
+                <!-- BLOCO 4: Ajuste Fino de Dias e Avos (Apurados Automáticos com Override) -->
                 <div class="custo-form-section highlight-section">
                     <div class="custo-form-section-header">
                         <h3 class="custo-form-section-title">
-                            <span>📅</span> Apuração Automática de Avos (13º e Férias)
+                            <span>📅</span> Apuração Automática de Dias e Avos (Saldo, 13º e Férias)
                         </h3>
                         <span class="badge-tag-azul">Projeção com Base nas Datas</span>
                     </div>
                     <div class="custo-form-row">
-                        <!-- Avos de 13º Salário -->
-                        <div class="custo-form-group" style="min-width: 240px;">
+                        <!-- Dias de Saldo de Salário -->
+                        <div class="custo-form-group" style="min-width: 200px;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <label for="avos-13">Avos de 13º Salário</label>
-                                <label style="font-size: 0.75rem; cursor: pointer;" title="Marque para alterar manualmente">
-                                    <input type="checkbox" id="manual-avos-13"> Informar Manualmente
+                                <label for="dias-saldo">Dias Saldo Salário</label>
+                                <label style="font-size: 0.72rem; cursor: pointer;" title="Marque para alterar manualmente">
+                                    <input type="checkbox" id="manual-dias-saldo"> Manual
+                                </label>
+                            </div>
+                            <input type="number" id="dias-saldo" class="custo-form-control" value="0" min="0" max="31" disabled>
+                            <small id="hint-dias-saldo" class="form-hint">Dias trabalhados no mês</small>
+                        </div>
+
+                        <!-- Avos de 13º Salário -->
+                        <div class="custo-form-group" style="min-width: 200px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="avos-13">Avos 13º Salário</label>
+                                <label style="font-size: 0.72rem; cursor: pointer;" title="Marque para alterar manualmente">
+                                    <input type="checkbox" id="manual-avos-13"> Manual
                                 </label>
                             </div>
                             <input type="number" id="avos-13" class="custo-form-control" value="0" min="0" max="12" disabled>
-                            <small id="hint-avos-13" class="form-hint">Meses com ≥15 dias trabalhados no ano</small>
+                            <small id="hint-avos-13" class="form-hint">≥15 dias no ano</small>
                         </div>
 
                         <!-- Avos de Férias Proporcionais -->
-                        <div class="custo-form-group" style="min-width: 240px;">
+                        <div class="custo-form-group" style="min-width: 200px;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <label for="avos-ferias">Avos de Férias Proporcionais</label>
-                                <label style="font-size: 0.75rem; cursor: pointer;" title="Marque para alterar manualmente">
-                                    <input type="checkbox" id="manual-avos-ferias"> Informar Manualmente
+                                <label for="avos-ferias">Avos Férias Prop.</label>
+                                <label style="font-size: 0.72rem; cursor: pointer;" title="Marque para alterar manualmente">
+                                    <input type="checkbox" id="manual-avos-ferias"> Manual
                                 </label>
                             </div>
                             <input type="number" id="avos-ferias" class="custo-form-control" value="0" min="0" max="12" disabled>
-                            <small id="hint-avos-ferias" class="form-hint">Frações de ≥15 dias no período aquisitivo</small>
+                            <small id="hint-avos-ferias" class="form-hint">≥15 dias no período</small>
                         </div>
 
                         <!-- Informações gerais sobre a apuração -->
-                        <div class="custo-form-group" style="flex: 2; min-width: 280px; justify-content: center;">
+                        <div class="custo-form-group" style="flex: 2; min-width: 260px; justify-content: center;">
                             <div id="info-apuracao-datas" style="font-size: 0.85rem; color: var(--cor-texto-secundario); background: var(--cor-card-bg); padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--cor-borda);">
-                                💡 Preencha <strong>Data de Admissão</strong> e <strong>Data de Demissão</strong> para o cálculo automático dos avos e do aviso prévio.
+                                💡 Preencha <strong>Data de Admissão</strong> e <strong>Data de Demissão</strong> para o cálculo automático dos dias e avos.
                             </div>
                         </div>
                     </div>
