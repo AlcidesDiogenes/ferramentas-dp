@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
         emptyState.className = 'empty-state';
         emptyState.style.display = 'none';
         emptyState.innerHTML = `
-            <div style="font-size: 2rem; margin-bottom: 8px;">🔍</div>
+            <div style="font-size: 2rem; margin-bottom: 8px;">
+<svg class="lucide lucide-search" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /> </svg> </div>
             <p style="font-weight: 600; color: var(--cor-texto-principal); margin-bottom: 4px;">Nenhuma consulta ou certidão encontrada</p>
             <p style="font-size: 0.88rem; color: var(--cor-texto-secundario);">Tente buscar por termos diferentes como "CNPJ", "FGTS", "eSocial", "CPF" ou "Trabalhista".</p>
         `;

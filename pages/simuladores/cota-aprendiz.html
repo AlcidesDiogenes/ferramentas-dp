@@ -34,12 +34,40 @@
             <p class="subtitle">Selecione o arquivo Excel contendo a lista de funcionários</p>
 
             <div style="margin-bottom: 10px;">
-                <a href="../../assets/modelos_importacao/modelo_importacao_cbo.xlsx" download class="btn-action btn-secondary">📥 Baixar Modelo de Planilha</a>
+                <a href="../../assets/modelos_importacao/modelo_importacao_cbo.xlsx" download class="btn-action btn-secondary">
+<svg
+  class="lucide lucide-download"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg>
+ Baixar Modelo de Planilha</a>
             </div>
 
             <div class="upload-zone" data-accept=".xls,.xlsx,.csv" data-title="Importar Planilha de Funcionários (CBO)" data-desc="Arraste e solte o arquivo Excel (.xlsx, .xls, .csv) ou clique para procurar">
                 <input type="file" id="upload-planilha-aprendiz" accept=".xls,.xlsx,.csv" class="input-file-hidden">
-                <label for="upload-planilha-aprendiz" class="btn-action">📁 Selecionar Planilha</label>
+                <label for="upload-planilha-aprendiz" class="btn-action">
+<svg
+  class="lucide lucide-folder"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+</svg>
+ Selecionar Planilha</label>
             </div>
             
             <p id="nome-arquivo-selecionado" class="feedback-arquivo"></p>
@@ -50,8 +78,37 @@
             
             <!-- Barra de Ações: Exportação -->
             <div class="actions-bar">
-                <button id="btn-exportar-planilha" class="btn-action btn-success">📊 Baixar Relatório em Planilha</button>
-                <button id="btn-exportar-pdf" class="btn-action btn-pdf">🔴 Baixar Relatório em PDF</button>
+                <button id="btn-exportar-planilha" class="btn-action btn-success">
+<svg
+  class="lucide lucide-bar-chart-2"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 21v-6" />
+  <path d="M12 21V3" />
+  <path d="M19 21V9" />
+</svg>
+ Baixar Relatório em Planilha</button>
+                <button id="btn-exportar-pdf" class="btn-action btn-pdf">
+<svg
+  class="lucide lucide-circle-dot"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <circle cx="12" cy="12" r="1" />
+</svg>
+ Baixar Relatório em PDF</button>
             </div>
 
             <!-- Cabeçalho do Resultado -->
@@ -111,7 +168,21 @@
                 
                 <!-- Aba: Base de Cálculo -->
                 <details open class="detalhe-card card-info">
-                    <summary class="detalhe-summary text-info">📋 Detalhamento: Base de Cálculo Líquida</summary>
+                    <summary class="detalhe-summary text-info">
+<svg
+  class="lucide lucide-clipboard"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+</svg>
+ Detalhamento: Base de Cálculo Líquida</summary>
                     <div class="tabela-scroll-wrapper">
                         <table class="data-table table-detalhe">
                             <thead>
@@ -129,7 +200,20 @@
 
                 <!-- Aba: Excluídos -->
                 <details class="detalhe-card card-warning">
-                    <summary class="detalhe-summary text-warning">🛡️ Detalhamento: Funções Excluídas</summary>
+                    <summary class="detalhe-summary text-warning">
+<svg
+  class="lucide lucide-shield"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+</svg>
+ Detalhamento: Funções Excluídas</summary>
                     <div class="tabela-scroll-wrapper">
                         <table class="data-table table-detalhe">
                             <thead>
@@ -147,7 +231,22 @@
 
                 <!-- Aba: Não Encontrados -->
                 <details id="details-nao-encontrados" class="detalhe-card card-danger">
-                    <summary class="detalhe-summary text-danger">⚠️ Detalhamento: CBOs Não Encontrados</summary>
+                    <summary class="detalhe-summary text-danger">
+<svg
+  class="lucide lucide-alert-triangle"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+  <path d="M12 9v4" />
+  <path d="M12 17h.01" />
+</svg>
+ Detalhamento: CBOs Não Encontrados</summary>
                     <div class="tabela-scroll-wrapper">
                         <table class="data-table table-detalhe">
                             <thead>
@@ -165,7 +264,22 @@
 
                 <!-- Aba: Total Geral -->
                 <details class="detalhe-card card-neutral">
-                    <summary class="detalhe-summary text-neutral">📊 Detalhamento: Total Geral Analisado</summary>
+                    <summary class="detalhe-summary text-neutral">
+<svg
+  class="lucide lucide-bar-chart-2"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 21v-6" />
+  <path d="M12 21V3" />
+  <path d="M19 21V9" />
+</svg>
+ Detalhamento: Total Geral Analisado</summary>
                     <div class="tabela-scroll-wrapper">
                         <table class="data-table table-detalhe">
                             <thead>

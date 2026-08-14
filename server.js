@@ -15,14 +15,6 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// API config endpoint for Supabase credentials
-app.get('/api/config', (req, res) => {
-  res.json({
-    supabaseUrl: process.env.SUPABASE_URL || null,
-    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || null
-  });
-});
-
 // Serve static assets and web pages
 app.use(express.static(__dirname));
 

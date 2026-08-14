@@ -13,7 +13,6 @@
     }
 
     const bibliotecas = [
-        'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', // <-- Biblioteca do Supabase adicionada aqui
         'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js',
@@ -77,11 +76,49 @@
     fileUploaderHelper.src = prefixo + 'js/file-uploader-helper.js';
     document.head.appendChild(fileUploaderHelper);
 
-    // Injeta automaticamente o script de autenticação do sidebar em qualquer página
-    const sidebarAuth = document.createElement('script');
-    sidebarAuth.type = 'module';
-    sidebarAuth.src = prefixo + 'js/services/sidebar-auth.js';
-    document.head.appendChild(sidebarAuth);
+    // Injeta o Gerenciador de Instalação e Suporte PWA (Offline)
+    const pwaInstaller = document.createElement('script');
+    pwaInstaller.src = prefixo + 'js/pwa-installer.js';
+    document.head.appendChild(pwaInstaller);
+
+    // Injeção de Meta Tags e Manifest PWA
+    if (!document.querySelector('link[rel="manifest"]')) {
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = prefixo + 'manifest.json';
+        document.head.appendChild(manifestLink);
+    }
+
+    if (!document.querySelector('link[rel="icon"]')) {
+        const faviconLink = document.createElement('link');
+        faviconLink.rel = 'icon';
+        faviconLink.type = 'image/svg+xml';
+        faviconLink.href = prefixo + 'icons/icon.svg';
+        document.head.appendChild(faviconLink);
+
+        const appleTouch = document.createElement('link');
+        appleTouch.rel = 'apple-touch-icon';
+        appleTouch.href = prefixo + 'icons/icon-192.png';
+        document.head.appendChild(appleTouch);
+    }
+
+    // Meta tags PWA para mobile / iOS
+    const pwaMetaTags = [
+        { name: 'theme-color', content: '#1e293b' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+        { name: 'apple-mobile-web-app-title', content: 'Ferramentas DP' }
+    ];
+
+    pwaMetaTags.forEach(meta => {
+        if (!document.querySelector(`meta[name="${meta.name}"]`)) {
+            const metaEl = document.createElement('meta');
+            metaEl.name = meta.name;
+            metaEl.content = meta.content;
+            document.head.appendChild(metaEl);
+        }
+    });
 })();
 
 // Otimização de performance (Preconnect)

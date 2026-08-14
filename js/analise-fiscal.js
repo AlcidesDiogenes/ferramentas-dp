@@ -157,7 +157,7 @@ class AnaliseFiscalProcessor {
 
                             if (isCategoria) {
                                 // Limpeza avançada: remove pipes, caixas, sequência de sublinhados (_) e normaliza os espaços extras
-                                let catLimpa = linha.replace(/[\|☐_]/g, '').replace(/\s{2,}/g, ' ').trim();
+                                let catLimpa = linha.replace(/[\|☐ _]/g, "").replace(/\s{2,}/g, " ").trim();
                                 
                                 if (catLimpa.toLowerCase().startsWith('com exigibilidade')) {
                                     categoriaAtual = "Categoria " + catLimpa;
@@ -212,7 +212,7 @@ class AnaliseFiscalProcessor {
     }
 
     adicionarStatusVisual(nomeArquivo, status, idLi, tipo) {
-        const icone = tipo === 'Carregando' ? '⏳' : (tipo === 'Sucesso' ? '✅' : '❌');
+        const icone = tipo === 'Carregando' ? '⏳' : (tipo === 'Sucesso' ? '<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> ' : '<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> ');
         const cor = tipo === 'Erro' ? 'color: #e02424;' : 'color: var(--cor-texto-secundario);';
         const li = document.createElement('li');
         li.id = idLi;
@@ -223,7 +223,7 @@ class AnaliseFiscalProcessor {
     atualizarStatusVisual(idLi, status, tipo) {
         const li = document.getElementById(idLi);
         if (li) {
-            const icone = tipo === 'Sucesso' ? '✅' : '❌';
+            const icone = tipo === 'Sucesso' ? '<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> ' : '<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> ';
             const cor = tipo === 'Erro' ? 'color: #e02424;' : 'color: #107c41;';
             const nomeArquivo = li.querySelector('strong').innerText;
             li.innerHTML = `<span style="margin-right: 8px;">${icone}</span> <strong>${nomeArquivo}</strong> - <span style="font-weight: 600; ${cor}">${status}</span>`;

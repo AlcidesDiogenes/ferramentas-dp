@@ -472,7 +472,8 @@ function calcularTudo() {
         <div class="custo-calc-box" style="margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--cor-borda, #e2e8f0); padding-bottom: 8px; margin-bottom: 12px;">
                 <h4 style="margin: 0; font-size: 1.02rem; font-weight: 700; color: var(--cor-texto-principal, #0f172a);">Provisões Trabalhistas Mensais (1/12)</h4>
-                <span class="badge-tag-azul">🟢 Ativo (Férias + 13º)</span>
+                <span class="badge-tag-azul">
+<svg class="lucide lucide-check-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M21.801 10A10 10 0 1 1 17 3.335" /> <path d="m9 11 3 3L22 4" /> </svg> Ativo (Férias + 13º)</span>
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.95rem;">
                 <div style="display: flex; justify-content: space-between;"><span>Férias:</span> <strong>${formatarMoeda(provFerias)}</strong></div>

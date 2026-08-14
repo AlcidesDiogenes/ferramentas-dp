@@ -9,47 +9,22 @@
     const DEFAULT_SIDEBAR = `<aside class="sidebar">
     <div class="sidebar-brand">
         <h2 class="brand-text">Ferramentas DP</h2>
-        <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu">☰</button>
+        <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg> </button>
     </div>
     
     <nav class="sidebar-nav">
         <ul class="menu-list">
-            <li><a href="index.html" class="menu-item"><span class="menu-icon">📊</span><span class="menu-text">Painel Geral</span></a></li>
-            <li><a href="pages/dominioSistema/hub_dominio.html" class="menu-item"><span class="menu-icon">🖥️</span><span class="menu-text">Ferramentas Dominio Sistema</span></a></li>
-            <li><a href="pages/analise-fiscal.html" class="menu-item"><span class="menu-icon">⚖️</span><span class="menu-text">Análise Fiscal</span></a></li>
-            <li><a href="pages/jornada.html" class="menu-item"><span class="menu-icon">⏱️</span><span class="menu-text">Análise de ponto</span></a></li>
-            <li><a href="pages/simuladores/hub.html" class="menu-item"><span class="menu-icon">🧮</span><span class="menu-text">Simuladores</span></a></li>
-            <li><a href="pages/consultas.html" class="menu-item"><span class="menu-icon">🔎</span><span class="menu-text">Consultas</span></a></li>
-            <li><a href="pages/modelos.html" class="menu-item"><span class="menu-icon">📋</span><span class="menu-text">Modelos de documentos</span></a></li>
-            <li><a href="pages/ajuda.html" class="menu-item"><span class="menu-icon">❓</span><span class="menu-text">Ajuda & Atalhos</span></a></li>
+            <li><a href="index.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg></span><span class="menu-text">Painel Geral</span></a></li>
+            <li><a href="pages/dominioSistema/hub_dominio.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg></span><span class="menu-text">Ferramentas Dominio Sistema</span></a></li>
+            <li><a href="pages/analise-fiscal.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg></span><span class="menu-text">Análise Fiscal</span></a></li>
+            <li><a href="pages/jornada.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span><span class="menu-text">Análise de ponto</span></a></li>
+            <li><a href="pages/simuladores/hub.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16.01" y1="10" y2="10"></line><line x1="16" x2="16.01" y1="14" y2="14"></line><line x1="16" x2="16.01" y1="18" y2="18"></line><line x1="8" x2="8.01" y1="10" y2="10"></line><line x1="12" x2="12.01" y1="10" y2="10"></line><line x1="8" x2="8.01" y1="14" y2="14"></line><line x1="12" x2="12.01" y1="14" y2="14"></line><line x1="8" x2="8.01" y1="18" y2="18"></line><line x1="12" x2="12.01" y1="18" y2="18"></line></svg></span><span class="menu-text">Simuladores</span></a></li>
+            <li><a href="pages/consultas.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></span><span class="menu-text">Consultas</span></a></li>
+            <li><a href="pages/modelos.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg></span><span class="menu-text">Modelos de documentos</span></a></li>
+            <li><a href="pages/ajuda.html" class="menu-item"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></span><span class="menu-text">Ajuda & Atalhos</span></a></li>
         </ul>
     </nav>
-
-    <div class="sidebar-user-section">
-        <div id="user-logged-in" style="display: none; flex-direction: column; gap: 10px;">
-            <div class="user-profile-info">
-                <span class="user-label">Conectado como:</span>
-                <span id="sidebar-user-email" class="user-email">Carregando...</span>
-            </div>
-            <div class="sidebar-actions">
-                <button id="btn-atualizar-dados" class="sidebar-action-btn" title="Atualizar dados">
-                    <span class="menu-icon">🔄</span>
-                    <span class="menu-text">Atualizar</span>
-                </button>
-                <button id="btn-sidebar-logout" class="sidebar-action-btn btn-danger-action" title="Sair">
-                    <span class="menu-icon">🚪</span>
-                    <span class="menu-text">Sair</span>
-                </button>
-            </div>
-        </div>
-
-        <div id="user-logged-out" style="display: block; width: 100%;">
-            <a href="pages/auth/login.html" class="menu-item" style="border-left: none; padding: 12px 15px; background-color: rgba(2, 132, 199, 0.2); border-radius: 6px; text-decoration: none;">
-                <span class="menu-icon">🔑</span>
-                <span class="menu-text" style="color: #38bdf8; font-weight: bold;">Fazer Login</span>
-            </a>
-        </div>
-    </div>
 </aside>`;
 
     let isRendered = false;
@@ -93,8 +68,12 @@
             if (!toggleBtn.dataset.hasToggle) {
                 toggleBtn.dataset.hasToggle = "true";
                 toggleBtn.addEventListener('click', () => {
-                    document.documentElement.classList.toggle("menu-fechado");
-                    localStorage.setItem("menuRetraido", document.documentElement.classList.contains("menu-fechado"));
+                    if (window.toggleFocusMode) {
+                        window.toggleFocusMode(true);
+                    } else {
+                        document.documentElement.classList.toggle("menu-fechado");
+                        localStorage.setItem("menuRetraido", document.documentElement.classList.contains("menu-fechado"));
+                    }
                 });
             }
         }

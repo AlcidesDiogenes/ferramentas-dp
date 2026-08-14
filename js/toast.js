@@ -87,10 +87,9 @@
 
         const parent = getOrCreateContainer();
 
-        // Limita a 5 notificações ativas para evitar poluição visual
-        if (parent.children.length >= 5) {
-            const oldest = parent.firstElementChild;
-            if (oldest) dismissToast(oldest);
+        // Garante apenas 1 notificação ativa, removendo as anteriores imediatamente
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
         }
 
         const toast = document.createElement('div');
@@ -105,7 +104,7 @@
                 ${SVG_ICONS[type]}
             </div>
             <div class="toast-content">
-                ${toastTitle ? `<h4 class="toast-title">${escapeHtml(toastTitle)}</h4>` : ''}
+                ${toastTitle ? `<h4 class="toast-title">${toastTitle}</h4>` : ''}
                 <div class="toast-message">${formattedMsg}</div>
             </div>
             <button type="button" class="toast-close-btn" aria-label="Fechar notificação">&times;</button>

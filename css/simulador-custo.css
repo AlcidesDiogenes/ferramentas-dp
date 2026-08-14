@@ -538,3 +538,78 @@
     color: var(--cor-texto-secundario, #64748b);
 }
 
+/* ==========================================================================
+   Ajustes de Responsividade & Scroll para Mobile (Smartphones e Tablets)
+   ========================================================================== */
+
+.tabela-scroll-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+    border-radius: 8px;
+    border: 1px solid var(--cor-borda, #cbd5e1);
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .module-card-simulador {
+        padding: 16px 12px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
+    }
+
+    .custo-grid-container {
+        gap: 16px;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .custo-form-section {
+        min-width: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        padding: 14px 12px !important;
+    }
+
+    .custo-form-row {
+        gap: 12px;
+        width: 100%;
+    }
+
+    .custo-form-group {
+        min-width: 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .custo-actions-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .custo-actions-bar button {
+        width: 100% !important;
+        justify-content: center;
+    }
+
+    .custo-kpi-card {
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .grid-bases-detalhadas {
+        grid-template-columns: 1fr;
+    }
+}
+

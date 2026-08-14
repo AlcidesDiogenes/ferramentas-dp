@@ -1,0 +1,74 @@
+{
+  "name": "Ferramentas DP - Gestão e Cálculos Trabalhistas",
+  "short_name": "Ferramentas DP",
+  "description": "Plataforma completa de simuladores, cálculos trabalhistas e soluções para Departamento Pessoal.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
+  "background_color": "#0f172a",
+  "theme_color": "#1e293b",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Calculadora de Férias",
+      "short_name": "Férias",
+      "description": "Simulador completo de recibo e férias proporcionais CLT",
+      "url": "/pages/simuladores/ferias.html",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Simulador de Rescisão",
+      "short_name": "Rescisão",
+      "description": "Cálculo detalhado de verbas rescisórias",
+      "url": "/pages/simuladores/rescisao.html",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Custo de Funcionário",
+      "short_name": "Custo Func.",
+      "description": "Simulação de encargos e custo total CLT/PJ",
+      "url": "/pages/simuladores/custo-funcionario.html",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Hub de Simuladores",
+      "short_name": "Simuladores",
+      "description": "Central de simuladores e ferramentas trabalhistas",
+      "url": "/pages/simuladores/hub.html",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

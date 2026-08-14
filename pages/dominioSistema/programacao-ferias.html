@@ -28,7 +28,20 @@
             
             <div class="upload-zone" data-accept=".pdf" data-multiple="true" data-title="Importar Relatórios de Programação de Férias (PDF)" data-desc="Arraste e solte um ou múltiplos relatórios PDF de férias para análise de prazos">
                 <input type="file" id="file-input-ferias" multiple accept=".pdf" class="input-file-hidden">
-                <label for="file-input-ferias" class="btn-action">📁 Selecionar Arquivos PDF</label>
+                <label for="file-input-ferias" class="btn-action">
+<svg
+  class="lucide lucide-folder"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+</svg>
+ Selecionar Arquivos PDF</label>
             </div>
 
             <div class="import-status-container" id="import-status-ferias" style="display: none;">
@@ -39,8 +52,36 @@
 
         <div class="actions-bar" id="actions-panel" style="display: none; justify-content: space-between; align-items: center; flex-wrap: wrap;">
             <div class="export-buttons" style="display: flex; gap: 15px;">
-                <button id="btn-export-excel" class="btn-action btn-excel">🟢 Baixar em Planilha</button>
-                <button id="btn-export-pdf" class="btn-action btn-pdf">🔴 Baixar em PDF</button>
+                <button id="btn-export-excel" class="btn-action btn-excel">
+<svg
+  class="lucide lucide-check-circle"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21.801 10A10 10 0 1 1 17 3.335" />
+  <path d="m9 11 3 3L22 4" />
+</svg>
+ Baixar em Planilha</button>
+                <button id="btn-export-pdf" class="btn-action btn-pdf">
+<svg
+  class="lucide lucide-circle-dot"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <circle cx="12" cy="12" r="1" />
+</svg>
+ Baixar em PDF</button>
             </div>
             
             <div class="filter-container" style="min-width: 300px;">

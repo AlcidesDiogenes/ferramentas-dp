@@ -291,7 +291,7 @@ function processarCotaAprendizLocal(entradas = [], infoEmpresa = {}) {
         if (!dadosOficial) {
             const naoEnc = {
                 cbo: cboFormatado,
-                titulo: "⚠️ CBO Inexistente",
+                titulo: `<svg class="lucide lucide-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg> CBO Inexistente`,
                 escolaridade: "Revisão Necessária",
                 quantidade: item.quantidade
             };
@@ -457,7 +457,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const resultado = processarCotaAprendizLocal(entradasCbo, { razaoSocial, cnpj });
             renderizarPainelResultados(resultado);
 
-            atualizarFeedback(`✅ Processamento concluído: ${entradasCbo.length} registros processados.`, "text-success");
+            atualizarFeedback(`
+<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Processamento concluído: ${entradasCbo.length} registros processados.`, "text-success");
             
             if (painelResultados) {
                 painelResultados.classList.remove("hidden");
@@ -466,7 +467,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (erro) {
             console.error("Falha no processamento:", erro);
-            atualizarFeedback(`❌ Falha: ${erro.message}`, "text-danger");
+            atualizarFeedback(`
+<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> Falha: ${erro.message}`, "text-danger");
         } finally {
             fileInput.value = "";
         }

@@ -15,7 +15,8 @@
     max-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 20px;
     transition: width 0.3s ease;
     padding: 20px;
     border-right: 1px solid #334155;
@@ -80,11 +81,19 @@
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center; /* Centraliza os itens verticalmente */
+    padding-bottom: 12vh; /* Adiciona um recuo na parte inferior para deslocar levemente o menu para cima */
+}
+
 .menu-list { 
     list-style: none; 
     padding: 0;
     margin: 0;
-    flex-grow: 1;
+    /* Remover flex-grow: 1 para que não empurre tudo pro fundo se tiver coisas abaixo, e para alinhar legal com flex-start */
 }
 
 .menu-item {

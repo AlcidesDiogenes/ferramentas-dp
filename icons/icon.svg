@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="accent-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bg-grad)"/>
+
+  <!-- Outer Ring Shield -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="url(#accent-grad)" stroke-width="6" opacity="0.3"/>
+
+  <!-- Main Container Card -->
+  <g filter="url(#shadow)">
+    <rect x="80" y="80" width="352" height="352" rx="48" fill="#1e293b" stroke="#334155" stroke-width="4"/>
+  </g>
+
+  <!-- Top Accent Bar -->
+  <path d="M128 80h256c26.5 0 48 21.5 48 48v24H80v-24c0-26.5 21.5-48 48-48z" fill="url(#accent-grad)"/>
+
+  <!-- Calculator Screen / Display -->
+  <rect x="120" y="180" width="272" height="70" rx="16" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+  <text x="368" y="228" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="32" fill="#10b981" text-anchor="end">R$ 100%</text>
+
+  <!-- Calculator Grid Buttons -->
+  <!-- Row 1 -->
+  <rect x="120" y="272" width="56" height="48" rx="12" fill="#334155"/>
+  <rect x="192" y="272" width="56" height="48" rx="12" fill="#334155"/>
+  <rect x="264" y="272" width="56" height="48" rx="12" fill="#334155"/>
+  <rect x="336" y="272" width="56" height="48" rx="12" fill="url(#accent-grad)"/>
+
+  <!-- Row 2 -->
+  <rect x="120" y="336" width="56" height="48" rx="12" fill="#334155"/>
+  <rect x="192" y="336" width="56" height="48" rx="12" fill="#334155"/>
+  <rect x="264" y="336" width="56" height="48" rx="12" fill="#334155"/>
+  <rect x="336" y="336" width="56" height="92" rx="12" fill="url(#gold-grad)"/>
+
+  <!-- Row 3 -->
+  <rect x="120" y="396" width="128" height="32" rx="12" fill="#334155"/>
+  <rect x="264" y="396" width="56" height="32" rx="12" fill="#334155"/>
+
+  <!-- DP Badge Overlay -->
+  <circle cx="256" cy="120" r="32" fill="url(#gold-grad)" stroke="#1e293b" stroke-width="4"/>
+  <text x="256" y="128" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="22" fill="#ffffff" text-anchor="middle">DP</text>
+</svg>

@@ -73,7 +73,8 @@ function adicionarLinhaProvento(descricao = '', valor = '', incideINSS = true, i
             <label title="Incide na base de IRRF"><input type="checkbox" class="provento-irrf" ${incideIRRF ? 'checked' : ''}> IRRF</label>
             <label title="Calcula reflexo de DSR"><input type="checkbox" class="provento-dsr" ${calculaDSR ? 'checked' : ''}> Calc. DSR</label>
         </div>
-        <button type="button" class="btn-remover-linha" title="Excluir este provento">🗑️ Excluir</button>
+        <button type="button" class="btn-remover-linha" title="Excluir este provento">
+<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> ️ Excluir</button>
     `;
 
     row.querySelector('.btn-remover-linha').addEventListener('click', () => row.remove());
@@ -92,7 +93,8 @@ function adicionarLinhaDesconto(descricao = '', valor = '', abateBase = false) {
         <div class="dinamico-options">
             <label title="Abate da base de cálculo de INSS e IRRF (ex: Faltas/Atrasos)"><input type="checkbox" class="desconto-abate" ${abateBase ? 'checked' : ''}> Abater Bases (Falta/Atraso)</label>
         </div>
-        <button type="button" class="btn-remover-linha" title="Excluir este desconto">🗑️ Excluir</button>
+        <button type="button" class="btn-remover-linha" title="Excluir este desconto">
+<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> ️ Excluir</button>
     `;
 
     row.querySelector('.btn-remover-linha').addEventListener('click', () => row.remove());
@@ -113,7 +115,8 @@ function adicionarLinhaBeneficio(descricao = '', valor = '', natureza = 'empresa
             <option value="desconto" ${natureza === 'desconto' ? 'selected' : ''}>Desconto Colaborador</option>
             <option value="rescisao" ${natureza === 'rescisao' ? 'selected' : ''}>Pago na Rescisão</option>
         </select>
-        <button type="button" class="btn-remover-linha" title="Excluir este benefício">🗑️ Excluir</button>
+        <button type="button" class="btn-remover-linha" title="Excluir este benefício">
+<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> ️ Excluir</button>
     `;
 
     row.querySelector('.btn-remover-linha').addEventListener('click', () => row.remove());
@@ -169,7 +172,7 @@ function apurarAvosEDiasAutomaticos() {
     }
 
     if (!elAdmissao.value || !elDemissao.value) {
-        if (elInfo) elInfo.innerHTML = '💡 Informe <strong>Data de Admissão</strong> e <strong>Data de Demissão</strong> para o cálculo automático.';
+        if (elInfo) elInfo.innerHTML = '<svg class="lucide lucide-lightbulb" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /> </svg> Informe <strong>Data de Admissão</strong> e <strong>Data de Demissão</strong> para o cálculo automático.';
         return;
     }
 
@@ -177,7 +180,7 @@ function apurarAvosEDiasAutomaticos() {
     const dem = new Date(elDemissao.value + 'T00:00:00');
 
     if (isNaN(adm.getTime()) || isNaN(dem.getTime()) || dem < adm) {
-        if (elInfo) elInfo.innerHTML = '⚠️ <span style="color: #b91c1c;">Data de demissão deve ser igual ou posterior à data de admissão.</span>';
+        if (elInfo) elInfo.innerHTML = '<svg class="lucide lucide-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg> <span style="color: #b91c1c;">Data de demissão deve ser igual ou posterior à data de admissão.</span>';
         return;
     }
 
@@ -286,8 +289,10 @@ function apurarAvosEDiasAutomaticos() {
     if (elInfo) {
         const df = (d) => d.toLocaleDateString('pt-BR');
         const saldoExibido = elDiasSaldo ? elDiasSaldo.value : diasSaldoCalc;
-        elInfo.innerHTML = `✅ <strong>Período apurado:</strong> ${df(adm)} até ${df(dem)} ${projecaoDem > dem ? `(Projeção Aviso: ${df(projecaoDem)})` : ''}<br>` +
-            `👉 <strong>Saldo:</strong> ${saldoExibido}d | <strong>Aviso:</strong> ${diasAvisoEfetivos}d | <strong>Avos 13º:</strong> ${elAvos13.value}/12 | <strong>Avos Férias:</strong> ${elAvosFerias.value}/12`;
+        elInfo.innerHTML = `
+<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> <strong>Período apurado:</strong> ${df(adm)} até ${df(dem)} ${projecaoDem > dem ? `(Projeção Aviso: ${df(projecaoDem)})` : ''}<br>` +
+            `
+<svg class="lucide lucide-arrow-right" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /> </svg> <strong>Saldo:</strong> ${saldoExibido}d | <strong>Aviso:</strong> ${diasAvisoEfetivos}d | <strong>Avos 13º:</strong> ${elAvos13.value}/12 | <strong>Avos Férias:</strong> ${elAvosFerias.value}/12`;
     }
 }
 
@@ -719,13 +724,13 @@ function renderizarResultadosHTML(dados) {
 
     let notasRegime = '';
     if (dados.regime === 'simples' || dados.regime === 'mei') {
-        notasRegime = '💡 <strong>Simples Nacional / MEI:</strong> Isento do recolhimento de CPP Patronal, Terceiros e GILRAT em guia separada (incluso na alíquota unificada DAS).';
+        notasRegime = '<svg class="lucide lucide-lightbulb" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /> </svg> <strong>Simples Nacional / MEI:</strong> Isento do recolhimento de CPP Patronal, Terceiros e GILRAT em guia separada (incluso na alíquota unificada DAS).';
     } else if (dados.regime === 'anexo4') {
-        notasRegime = '⚠️ <strong>Anexo IV:</strong> Recolhe CPP (20%) e GILRAT em guia separada (GPS/DARF), porém isento de Terceiros.';
+        notasRegime = '<svg class="lucide lucide-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg> <strong>Anexo IV:</strong> Recolhe CPP (20%) e GILRAT em guia separada (GPS/DARF), porém isento de Terceiros.';
     } else if (dados.regime === 'domestico') {
-        notasRegime = '💡 <strong>Doméstico:</strong> Alíquota patronal de 8,0% + 0,8% GILRAT via DAE eSocial.';
+        notasRegime = '<svg class="lucide lucide-lightbulb" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /> </svg> <strong>Doméstico:</strong> Alíquota patronal de 8,0% + 0,8% GILRAT via DAE eSocial.';
     } else {
-        notasRegime = '🏢 <strong>Lucro Presumido / Real:</strong> Incidência integral de CPP (20%), Outras Entidades/Terceiros (5,8%) e GILRAT.';
+        notasRegime = '<svg class="lucide lucide-building" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 10h.01" /> <path d="M12 14h.01" /> <path d="M12 6h.01" /> <path d="M16 10h.01" /> <path d="M16 14h.01" /> <path d="M16 6h.01" /> <path d="M8 10h.01" /> <path d="M8 14h.01" /> <path d="M8 6h.01" /> <path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" /> <rect x="4" y="2" width="16" height="20" rx="2" /> </svg> <strong>Lucro Presumido / Real:</strong> Incidência integral de CPP (20%), Outras Entidades/Terceiros (5,8%) e GILRAT.';
     }
 
     let html = `
@@ -733,7 +738,8 @@ function renderizarResultadosHTML(dados) {
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
                 <div>
                     <h2 style="font-size: 1.3rem; font-weight: 700; color: var(--cor-texto-principal);">
-                        📊 Resultado Profissional do Cálculo Rescisório
+                        
+<svg class="lucide lucide-bar-chart-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 21v-6" /> <path d="M12 21V3" /> <path d="M19 21V9" /> </svg> Resultado Profissional do Cálculo Rescisório
                     </h2>
                     <p style="font-size: 0.88rem; color: var(--cor-texto-secundario);">
                         Modalidade: <strong>${labelsRescisao[dados.tipoRescisao]}</strong>
@@ -768,7 +774,8 @@ function renderizarResultadosHTML(dados) {
             <!-- BLOCO DETALHADO 1: TODAS AS BASES DO FUNCIONÁRIO -->
             <div style="background: var(--cor-card-bg); border: 1px solid var(--cor-borda); border-radius: 12px; padding: 20px; margin-bottom: 25px;">
                 <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 15px; color: var(--cor-texto-principal); display: flex; align-items: center; gap: 8px;">
-                    <span>📐</span> Detalhamento Completo das Bases de Cálculo do Funcionário
+                    <span>
+<svg class="lucide lucide-ruler" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z" /> <path d="m14.5 12.5 2-2" /> <path d="m11.5 9.5 2-2" /> <path d="m8.5 6.5 2-2" /> <path d="m17.5 15.5 2-2" /> </svg> </span> Detalhamento Completo das Bases de Cálculo do Funcionário
                 </h3>
                 <div class="grid-bases-detalhadas">
                     <div class="card-base-item">
@@ -818,7 +825,8 @@ function renderizarResultadosHTML(dados) {
             <!-- BLOCO DETALHADO 2: DETALHAMENTO DOS ENCARGOS DO INSS REFERENTES À EMPRESA -->
             <div style="background: var(--cor-card-bg); border: 1px solid var(--cor-borda); border-radius: 12px; padding: 20px; margin-bottom: 25px;">
                 <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 12px; color: var(--cor-texto-principal); display: flex; align-items: center; gap: 8px;">
-                    <span>🏛️</span> Detalhamento dos Encargos Sociais e INSS Patronal da Empresa
+                    <span>
+<svg class="lucide lucide-landmark" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 18v-7" /> <path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z" /> <path d="M14 18v-7" /> <path d="M18 18v-7" /> <path d="M3 22h18" /> <path d="M6 18v-7" /> </svg> ️</span> Detalhamento dos Encargos Sociais e INSS Patronal da Empresa
                 </h3>
                 <p style="font-size: 0.85rem; color: var(--cor-texto-secundario); margin-bottom: 15px;">
                     ${notasRegime}
@@ -891,7 +899,8 @@ function renderizarResultadosHTML(dados) {
             <!-- Tabela Discriminada de Verbas (Holerite) -->
             <div style="background: var(--cor-card-bg); border: 1px solid var(--cor-borda); border-radius: 12px; padding: 20px; margin-bottom: 25px;">
                 <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 15px; color: var(--cor-texto-principal); display: flex; align-items: center; gap: 8px;">
-                    <span>🧾</span> Discriminação das Verbas Rescisórias (Holerite do Funcionário)
+                    <span>
+<svg class="lucide lucide-receipt" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 17V7" /> <path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8" /> <path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z" /> </svg> </span> Discriminação das Verbas Rescisórias (Holerite do Funcionário)
                 </h3>
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
@@ -933,7 +942,8 @@ function renderizarResultadosHTML(dados) {
             <!-- Painel de Movimentação do FGTS -->
             <div style="background: var(--cor-card-bg); border: 1px solid var(--cor-borda); border-radius: 12px; padding: 20px;">
                 <h3 style="font-size: 1rem; font-weight: 700; color: var(--cor-texto-principal); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                    <span>🏦</span> Resumo do FGTS e Projeção de Saque
+                    <span>
+<svg class="lucide lucide-building-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 12h4" /> <path d="M10 8h4" /> <path d="M14 21v-3a2 2 0 0 0-4 0v3" /> <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2" /> <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" /> </svg> </span> Resumo do FGTS e Projeção de Saque
                 </h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; font-size: 0.88rem;">
                     <div style="background: var(--cor-card-subtle-bg); padding: 12px 16px; border-radius: 8px;">
@@ -1079,6 +1089,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    const irParaComparador = (e) => {
+        if (e) e.preventDefault();
+        const salarioBase = document.getElementById('salario-base')?.value || '';
+        const regime = document.getElementById('regime-tributario')?.value || 'lucro';
+        const admissao = document.getElementById('data-admissao')?.value || '';
+        const demissao = document.getElementById('data-demissao')?.value || '';
+        const saldoFGTS = document.getElementById('saldo-fgts')?.value || '0';
+        const dependentes = document.getElementById('dependentes')?.value || '0';
+
+        const url = `comparador-rescisao.html?salarioBase=${encodeURIComponent(salarioBase)}&regime=${encodeURIComponent(regime)}&admissao=${encodeURIComponent(admissao)}&demissao=${encodeURIComponent(demissao)}&saldoFGTS=${encodeURIComponent(saldoFGTS)}&dependentes=${encodeURIComponent(dependentes)}`;
+        window.location.href = url;
+    };
+
+    const btnComparar = document.getElementById('btn-comparar-cenarios');
+    if (btnComparar) btnComparar.addEventListener('click', irParaComparador);
+
+    const btnLinkComparadorHeader = document.getElementById('btn-link-comparador-header');
+    if (btnLinkComparadorHeader) btnLinkComparadorHeader.addEventListener('click', irParaComparador);
 
     // Inicialização padrão
     atualizarAliquotasPatronais();

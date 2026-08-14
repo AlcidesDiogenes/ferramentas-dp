@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador Multicenários de Demissão - Ferramentas DP</title>
+    
+    <!-- CSS Global Centralizado -->
+    <link rel="stylesheet" href="../../css/style.css"> 
+
+    <!-- Trava de estado do menu para evitar flicker -->
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <!-- Gerenciador Universal -->
+    <script src="../../js/head-manager.js"></script>
+
+    <!-- cdn pdfmake & pdfmake fonts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <style>
+        /* Estilos específicos de responsividade para o Comparador */
+        .comp-cenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .comp-scenario-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            background: var(--cor-card-bg);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--cor-borda);
+            font-size: 0.9rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .comp-scenario-label:hover {
+            border-color: var(--cor-destaque);
+            background-color: var(--cor-hover-item);
+        }
+
+        .comp-actions-row {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .comp-scroll-hint {
+            display: none;
+            font-size: 0.78rem;
+            color: var(--cor-texto-secundario);
+            margin-bottom: 8px;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .page-header-title-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .comp-cenarios-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comp-actions-row {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .comp-actions-row button {
+                width: 100% !important;
+                justify-content: center;
+                padding: 12px 16px !important;
+                font-size: 0.95rem !important;
+            }
+
+            .comp-scroll-hint {
+                display: block;
+            }
+
+            .custo-form-row {
+                flex-direction: column;
+            }
+
+            .metric-card {
+                padding: 14px !important;
+            }
+
+            #secao-cards-destaque > div {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="preload">
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="page-header page-header-simulador">
+            <div class="page-header-title-row">
+                <span class="header-icon-badge">
+<svg
+  class="lucide lucide-zap"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" />
+</svg>
+</span>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <h1 style="margin: 0; font-size: 1.5rem;">Comparador Multicenários de Demissão</h1>
+                        <span class="status-badge status-badge-beta">Beta</span>
+                    </div>
+                    <p class="page-header-subtitle">Análise comparativa lado a lado entre Demissão sem Justa Causa, Pedido de Demissão, Acordo Mútuo (Art. 484-A) e Justa Causa</p>
+                </div>
+            </div>
+            <div class="page-header-actions" style="margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="rescisao.html" class="btn-action-outline">
+                    ⬅️ Ir para Simulador Individual de Rescisão
+                </a>
+            </div>
+        </header>
+
+        <section id="secao-comparador" class="module-card module-card-simulador">
+            
+            <div class="custo-grid-container">
+                
+                <!-- BLOCO 1: Parâmetros Base do Contrato -->
+                <div class="custo-form-section highlight-section">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>
+<svg
+  class="lucide lucide-edit"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+  <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+</svg>
+</span> Dados do Contrato & Parâmetros Base
+                        </h3>
+                        <span class="badge-tag-azul">Parâmetros de Entrada Compartilhados</span>
+                    </div>
+                    <div class="custo-form-row">
+                        <div class="custo-form-group">
+                            <label for="comp-salario-base">Salário Base (R$)</label>
+                            <input type="number" id="comp-salario-base" class="custo-form-control" placeholder="R$ 0,00" value="3500.00" step="0.01">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="comp-regime-tributario">Regime Tributário</label>
+                            <select id="comp-regime-tributario" class="custo-form-control">
+                                <option value="simples">Simples Nacional (com isenção CPP)</option>
+                                <option value="lucro" selected>Lucro Presumido / Real</option>
+                                <option value="anexo4">Simples Nacional - Anexo IV</option>
+                                <option value="mei">MEI / Simples Isento</option>
+                                <option value="domestico">Doméstico</option>
+                            </select>
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="comp-data-admissao">Data de Admissão</label>
+                            <input type="date" id="comp-data-admissao" class="custo-form-control">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="comp-data-demissao">Data de Demissão</label>
+                            <input type="date" id="comp-data-demissao" class="custo-form-control">
+                        </div>
+                    </div>
+
+                    <div class="custo-form-row" style="margin-top: 12px;">
+                        <div class="custo-form-group">
+                            <label for="comp-saldo-fgts">Saldo de FGTS Acumulado (R$)</label>
+                            <input type="number" id="comp-saldo-fgts" class="custo-form-control" placeholder="R$ 0,00" value="0.00" step="0.01">
+                            <small class="form-hint">Saldo na conta vinculada do FGTS</small>
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="comp-dependentes">Num. Dependentes (IRRF)</label>
+                            <input type="number" id="comp-dependentes" class="custo-form-control" value="0" min="0">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="comp-ferias-vencidas">Períodos de Férias Vencidas</label>
+                            <input type="number" id="comp-ferias-vencidas" class="custo-form-control" value="0" min="0" max="5">
+                        </div>
+                        <div class="custo-form-group">
+                            <label for="comp-proventos-extras">Proventos Adicionais/Média (R$)</label>
+                            <input type="number" id="comp-proventos-extras" class="custo-form-control" value="0.00" step="0.01" placeholder="Ex: Horas Extras">
+                            <small class="form-hint">Variáveis ou comissões adicionais</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOCO 2: Seleção de Cenários para Comparação -->
+                <div class="custo-form-section">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>
+<svg
+  class="lucide lucide-settings"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+  <circle cx="12" cy="12" r="3" />
+</svg>
+</span> Cenários de Demissão para Comparar
+                        </h3>
+                        <span class="badge-tag-cinza">Selecione as Modalidades</span>
+                    </div>
+
+                    <div class="comp-cenarios-grid">
+                        <label class="comp-scenario-label">
+                            <input type="checkbox" id="chk-sem-justa-indenizado" checked>
+                            <span>1. Demissão s/ Justa Causa (Indenizado)</span>
+                        </label>
+                        <label class="comp-scenario-label">
+                            <input type="checkbox" id="chk-sem-justa-trabalhado" checked>
+                            <span>2. Demissão s/ Justa Causa (Trabalhado)</span>
+                        </label>
+                        <label class="comp-scenario-label">
+                            <input type="checkbox" id="chk-pedido-cumprido" checked>
+                            <span>3. Pedido de Demissão (Cumprido)</span>
+                        </label>
+                        <label class="comp-scenario-label">
+                            <input type="checkbox" id="chk-pedido-descontado" checked>
+                            <span>4. Pedido de Demissão (Descontado)</span>
+                        </label>
+                        <label class="comp-scenario-label">
+                            <input type="checkbox" id="chk-acordo-partes" checked>
+                            <span>5. Acordo entre as Partes (Art. 484-A)</span>
+                        </label>
+                        <label class="comp-scenario-label">
+                            <input type="checkbox" id="chk-com-justa-causa" checked>
+                            <span>6. Demissão c/ Justa Causa</span>
+                        </label>
+                    </div>
+
+                    <!-- Botões de Ação Principais -->
+                    <div class="comp-actions-row">
+                        <button type="button" id="btn-calcular-comparador" class="btn-action-primary" style="padding: 12px 24px; font-size: 1rem; font-weight: 600;">
+                            
+<svg
+  class="lucide lucide-zap"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" />
+</svg>
+ Calcular & Comparar Cenários
+                        </button>
+                        <button type="button" id="btn-exportar-pdf-comp" class="btn-action-secondary" disabled title="Calcule primeiro para gerar o PDF">
+                            
+<svg
+  class="lucide lucide-file-text"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg>
+ Baixar Relatório Comparativo (PDF)
+                        </button>
+                        <button type="button" id="btn-copiar-resumo-texto" class="btn-action-outline" disabled title="Copiar resumo textual para WhatsApp ou E-mail">
+                            
+<svg
+  class="lucide lucide-clipboard"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+</svg>
+ Copiar Resumo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BLOCO 3: Destaques & Métricas Estratégicas -->
+                <div id="secao-cards-destaque" class="custo-form-section" style="display: none; background: transparent; padding: 0; border: none;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                        
+                        <div class="metric-card" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 0.8rem; color: #166534; font-weight: 700; text-transform: uppercase;">
+<svg
+  class="lucide lucide-dollar-sign"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <line x1="12" x2="12" y1="2" y2="22" />
+  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+</svg>
+ Maior Valor para o Trabalhador</div>
+                            <div id="card-maior-liquido-valor" style="font-size: 1.5rem; font-weight: 800; color: #15803d; margin: 4px 0;">R$ 0,00</div>
+                            <div id="card-maior-liquido-nome" style="font-size: 0.85rem; color: #166534; font-weight: 600;">-</div>
+                            <small id="card-maior-liquido-sub" style="font-size: 0.75rem; color: #15803d;">Inclui verbas rescisórias líquidas</small>
+                        </div>
+
+                        <div class="metric-card" style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 0.8rem; color: #1e40af; font-weight: 700; text-transform: uppercase;">
+<svg
+  class="lucide lucide-trophy"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2" />
+  <path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2" />
+  <path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3" />
+  <path d="M4 22h16" />
+  <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
+  <path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3" />
+</svg>
+ Menor Custo para a Empresa</div>
+                            <div id="card-menor-custo-valor" style="font-size: 1.5rem; font-weight: 800; color: #1d4ed8; margin: 4px 0;">R$ 0,00</div>
+                            <div id="card-menor-custo-nome" style="font-size: 0.85rem; color: #1e40af; font-weight: 600;">-</div>
+                            <small style="font-size: 0.75rem; color: #2563eb;">Economia na rescisão e encargos</small>
+                        </div>
+
+                        <div class="metric-card" style="background: #fefce8; border: 1px solid #fef08a; border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 0.8rem; color: #854d0e; font-weight: 700; text-transform: uppercase;">
+<svg
+  class="lucide lucide-handshake"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+  <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+  <path d="m21 3 1 11h-2" />
+  <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+  <path d="M3 4h8" />
+</svg>
+ Melhor Equilíbrio / Acordo Mútuo</div>
+                            <div id="card-acordo-partes-valor" style="font-size: 1.5rem; font-weight: 800; color: #a16207; margin: 4px 0;">R$ 0,00</div>
+                            <div id="card-acordo-partes-nome" style="font-size: 0.85rem; color: #854d0e; font-weight: 600;">Art. 484-A da CLT</div>
+                            <small style="font-size: 0.75rem; color: #ca8a04;">Aviso 50% + Multa 20% + Saque 80%</small>
+                        </div>
+
+                        <div class="metric-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;">
+                            <div style="font-size: 0.8rem; color: #475569; font-weight: 700; text-transform: uppercase;">
+<svg
+  class="lucide lucide-building-2"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 12h4" />
+  <path d="M10 8h4" />
+  <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
+  <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2" />
+  <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" />
+</svg>
+ Maior Saque Efetivo de FGTS</div>
+                            <div id="card-maior-saque-fgts" style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 4px 0;">R$ 0,00</div>
+                            <div id="card-maior-saque-nome" style="font-size: 0.85rem; color: #475569; font-weight: 600;">-</div>
+                            <small style="font-size: 0.75rem; color: #64748b;">Saldo acumulado + Multa rescisória</small>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- BLOCO 4: Quadro Comparativo Side-by-Side (Tabela Consolidada) -->
+                <div id="secao-tabela-comparativa" class="custo-form-section" style="display: none;">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>
+<svg
+  class="lucide lucide-bar-chart-2"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 21v-6" />
+  <path d="M12 21V3" />
+  <path d="M19 21V9" />
+</svg>
+</span> Tabela Comparativa Consolidada Side-by-Side
+                        </h3>
+                        <span class="badge-tag-azul">Valores em R$</span>
+                    </div>
+
+                    <div class="comp-scroll-hint">
+<svg
+  class="lucide lucide-arrow-left"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg>
+ Deslize horizontalmente para ver todos os cenários 
+<svg
+  class="lucide lucide-arrow-right"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+  <path d="m12 5 7 7-7 7" />
+</svg>
+</div>
+                    <div class="tabela-scroll-container">
+                        <table id="tabela-matriz-comparativa" class="custo-resultado-tabela" style="width: 100%; border-collapse: collapse; min-width: 750px;">
+                            <thead>
+                                <tr id="header-matriz-comparativa">
+                                    <th style="width: 220px; text-align: left; background: #1e293b; color: white;">Verba / Indicador</th>
+                                    <!-- Colunas dinâmicas serão injetadas via JS -->
+                                </tr>
+                            </thead>
+                            <tbody id="body-matriz-comparativa">
+                                <!-- Conteúdo gerado via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- BLOCO 5: Gráfico Comparativo Visual de Barras -->
+                <div id="secao-grafico-comparativo" class="custo-form-section" style="display: none;">
+                    <div class="custo-form-section-header">
+                        <h3 class="custo-form-section-title">
+                            <span>
+<svg
+  class="lucide lucide-trending-up"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 7h6v6" />
+  <path d="m22 7-8.5 8.5-5-5L2 17" />
+</svg>
+</span> Visualização Gráfica Comparativa
+                        </h3>
+                        <span class="badge-tag-cinza">Custo Empresa vs. Líquido Trabalhador</span>
+                    </div>
+
+                    <div id="container-barras-grafico" style="display: flex; flex-direction: column; gap: 16px; margin-top: 15px;">
+                        <!-- Barras comparativas serão injetadas via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Modal ou Toast de Confirmação -->
+    <div id="toast-notificacao" style="position: fixed; bottom: 20px; right: 20px; background: #0f172a; color: white; padding: 12px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; display: none; z-index: 9999; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);">
+        
+<svg
+  class="lucide lucide-check-circle-2"
+  xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="m9 12 2 2 4-4" />
+</svg>
+ Resumo copiado para a área de transferência!
+    </div>
+
+    <!-- Script do Simulador Comparador -->
+    <script type="module" src="../../js/simuladores/comparador-rescisao.js"></script>
+    <script src="../../js/loader.js" defer></script>
+</body>
+
+</html>

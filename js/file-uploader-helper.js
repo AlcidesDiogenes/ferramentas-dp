@@ -39,15 +39,15 @@ class FileUploaderHelper {
     getFileIcon(filename) {
         const ext = filename.split('.').pop().toLowerCase();
         if (['xlsx', 'xls', 'csv'].includes(ext)) {
-            return { icon: '📊', color: '#16a34a', bg: '#dcfce7', label: 'Planilha Excel' };
+            return { icon: '<svg class="lucide lucide-bar-chart-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 21v-6" /> <path d="M12 21V3" /> <path d="M19 21V9" /> </svg> ', color: '#16a34a', bg: '#dcfce7', label: 'Planilha Excel' };
         }
         if (ext === 'pdf') {
-            return { icon: '🔴', color: '#dc2626', bg: '#fee2e2', label: 'Documento PDF' };
+            return { icon: '<svg class="lucide lucide-circle-dot" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <circle cx="12" cy="12" r="1" /> </svg> ', color: '#dc2626', bg: '#fee2e2', label: 'Documento PDF' };
         }
         if (ext === 'xml') {
-            return { icon: '⚡', color: '#0284c7', bg: '#e0f2fe', label: 'Arquivo XML' };
+            return { icon: '<svg class="lucide lucide-zap" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /> </svg> ', color: '#0284c7', bg: '#e0f2fe', label: 'Arquivo XML' };
         }
-        return { icon: '📄', color: '#475569', bg: '#f1f5f9', label: 'Arquivo' };
+        return { icon: '<svg class="lucide lucide-file-text" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /> </svg> ', color: '#475569', bg: '#f1f5f9', label: 'Arquivo' };
     }
 
     /**
@@ -166,10 +166,10 @@ class FileUploaderHelper {
         const titleText = zone.getAttribute('data-title') || (isMultiple ? 'Arraste e solte seus arquivos aqui' : 'Arraste e solte seu arquivo aqui');
         const descText = zone.getAttribute('data-desc') || (isMultiple ? 'Suporta múltiplos arquivos simultâneos para processamento em lote' : 'Ou selecione do seu computador para iniciar o processamento');
         
-        let iconSymbol = '☁️';
-        if (acceptedExts.some(e => e.includes('pdf'))) iconSymbol = '🔴';
-        else if (acceptedExts.some(e => e.includes('xls') || e.includes('csv'))) iconSymbol = '📊';
-        else if (acceptedExts.some(e => e.includes('xml'))) iconSymbol = '⚡';
+        let iconSymbol = '<svg class="lucide lucide-cloud" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" /> </svg> ';
+        if (acceptedExts.some(e => e.includes('pdf'))) iconSymbol = '<svg class="lucide lucide-circle-dot" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <circle cx="12" cy="12" r="1" /> </svg> ';
+        else if (acceptedExts.some(e => e.includes('xls') || e.includes('csv'))) iconSymbol = '<svg class="lucide lucide-bar-chart-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 21v-6" /> <path d="M12 21V3" /> <path d="M19 21V9" /> </svg> ';
+        else if (acceptedExts.some(e => e.includes('xml'))) iconSymbol = '<svg class="lucide lucide-zap" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /> </svg> ';
 
         const badgesHtml = acceptedExts.length > 0 
             ? `<div class="uploader-badges">${acceptedExts.map(ext => `<span class="uploader-badge">${ext.toUpperCase().replace('.', '')}</span>`).join('')}</div>` 
@@ -183,7 +183,8 @@ class FileUploaderHelper {
             <p class="uploader-title">${titleText}</p>
             <p class="uploader-subtitle">${descText}</p>
             ${badgesHtml}
-            <label for="${input.id}" class="uploader-btn-trigger">📁 Escolher Arquivo${isMultiple ? 's' : ''}</label>
+            <label for="${input.id}" class="uploader-btn-trigger">
+<svg class="lucide lucide-folder" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /> </svg> Escolher Arquivo${isMultiple ? 's' : ''}</label>
         `;
 
         Array.from(zone.children).forEach(child => {
@@ -260,12 +261,14 @@ class FileUploaderHelper {
                         <div class="uploader-file-name" title="${firstFile.name}">${firstFile.name}</div>
                         <div class="uploader-file-meta">
                             <span>${this.formatBytes(firstFile.size)}</span> • 
-                            <span class="uploader-status-pill success">✅ Pronto para Processamento</span>
+                            <span class="uploader-status-pill success">
+<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Pronto para Processamento</span>
                         </div>
                     </div>
                     <div class="uploader-file-actions">
                         <button type="button" class="uploader-btn-remove" title="Remover e escolher outro arquivo">
-                            🗑️ Alterar
+                            
+<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> ️ Alterar
                         </button>
                     </div>
                 </div>
@@ -273,7 +276,8 @@ class FileUploaderHelper {
         } else {
             const multiListItems = files.map(f => `
                 <div class="uploader-multi-item">
-                    <span class="uploader-multi-item-name" title="${f.name}">📄 ${f.name}</span>
+                    <span class="uploader-multi-item-name" title="${f.name}">
+<svg class="lucide lucide-file-text" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /> </svg> ${f.name}</span>
                     <span class="uploader-multi-item-size">${this.formatBytes(f.size)}</span>
                 </div>
             `).join('');
@@ -285,12 +289,14 @@ class FileUploaderHelper {
                         <div class="uploader-file-name">${files.length} Arquivos Selecionados</div>
                         <div class="uploader-file-meta">
                             <span>Total: ${this.formatBytes(totalSize)}</span> • 
-                            <span class="uploader-status-pill success">✅ Carregados</span>
+                            <span class="uploader-status-pill success">
+<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Carregados</span>
                         </div>
                     </div>
                     <div class="uploader-file-actions">
                         <button type="button" class="uploader-btn-remove" title="Remover arquivos">
-                            🗑️ Limpar Todos
+                            
+<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> ️ Limpar Todos
                         </button>
                     </div>
                 </div>

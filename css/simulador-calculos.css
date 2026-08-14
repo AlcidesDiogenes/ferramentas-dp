@@ -66,6 +66,156 @@
 }
 
 /* ==========================================================================
+   HOLERITE / RECIBO (RECIBO DE PAGAMENTO)
+   ========================================================================== */
+.holerite-container {
+    background-color: var(--cor-card-bg, #ffffff);
+    border: 1px solid var(--cor-borda, #cbd5e1);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-top: 25px;
+    color: var(--cor-texto-principal, #1e293b);
+}
+
+.holerite-header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #ffffff;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+[data-theme="dark"] .holerite-header {
+    background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+    border-bottom: 1px solid #334155;
+}
+
+.holerite-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.holerite-info {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.holerite-info span {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.holerite-table-wrapper {
+    overflow-x: auto;
+}
+
+.holerite-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.holerite-table th, .holerite-table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--cor-borda, #e2e8f0);
+    text-align: left;
+}
+
+.holerite-table th {
+    background-color: var(--cor-card-subtle-bg, #f8fafc);
+    font-weight: 600;
+    color: var(--cor-texto-secundario, #475569);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.holerite-table td.col-ref {
+    color: var(--cor-texto-secundario, #64748b);
+    font-size: 0.85rem;
+}
+
+.holerite-table td.col-value, .holerite-table th.col-value {
+    text-align: right;
+    font-family: monospace;
+    font-size: 1.05rem;
+}
+
+.holerite-table td.col-provento {
+    color: var(--cor-text-success, #10b981);
+    font-weight: 500;
+}
+
+.holerite-table td.col-desconto {
+    color: var(--cor-text-danger, #ef4444);
+    font-weight: 500;
+}
+
+.holerite-tfoot td {
+    background-color: var(--cor-card-subtle-bg, #f8fafc);
+    font-weight: 700;
+    border-bottom: none;
+    border-top: 2px solid var(--cor-borda, #cbd5e1);
+}
+
+.holerite-summary {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--cor-card-bg, #ffffff);
+    padding: 15px 25px;
+    border-top: 1px solid var(--cor-borda, #e2e8f0);
+    font-size: 0.85rem;
+    color: var(--cor-texto-secundario, #64748b);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.summary-item strong {
+    color: var(--cor-texto-principal, #1e293b);
+    display: block;
+    margin-top: 2px;
+    font-size: 0.95rem;
+}
+
+.holerite-net {
+    background: var(--cor-card-subtle-bg, #f0fdf4);
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed #22c55e;
+}
+
+[data-theme="dark"] .holerite-net {
+    background: rgba(34, 197, 94, 0.05);
+    border-top: 1px dashed rgba(34, 197, 94, 0.3);
+}
+
+.net-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--cor-texto-principal, #1e293b);
+}
+
+.net-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #16a34a;
+}
+
+[data-theme="dark"] .net-value {
+    color: #22c55e;
+}
+
+/* ==========================================================================
    SIMULADOR COTA APRENDIZ - ESTILOS COMPLEMENTARES
    ========================================================================== */
 

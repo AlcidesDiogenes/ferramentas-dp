@@ -64,11 +64,13 @@ inputArquivo.addEventListener('change', async (event) => {
         try {
             const arrayBuffer = await lerArquivo(arquivo);
             await processarPDF(arrayBuffer, arquivo.name);
-            li.innerText = `${arquivo.name} - ✅ Sucesso`;
+            li.innerText = `${arquivo.name} - 
+<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Sucesso`;
             li.style.color = "green";
         } catch (error) {
             console.error(error);
-            li.innerText = `${arquivo.name} - ❌ Falha na Leitura`;
+            li.innerText = `${arquivo.name} - 
+<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> Falha na Leitura`;
             li.style.color = "red";
         }
     }
@@ -231,7 +233,8 @@ function renderizarTabelaAfastamentos(dados) {
         
         if (m.includes("doença") || dado.motivo.includes("18-") || dado.motivo.includes("12-")) {
             const total = somaDoencas[dado.codigo];
-            if (total >= 15) alertaAcumulo = `<br><span style="font-size: 0.75rem; color: #b91c1c; font-weight: bold;">⚠️ Risco INSS: Acumulou ${total} dias</span>`;
+            if (total >= 15) alertaAcumulo = `<br><span style="font-size: 0.75rem; color: #b91c1c; font-weight: bold;">
+<svg class="lucide lucide-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg> Risco INSS: Acumulou ${total} dias</span>`;
         }
 
         const tr = document.createElement('tr');
