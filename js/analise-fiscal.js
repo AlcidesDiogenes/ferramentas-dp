@@ -11,7 +11,10 @@ import { gerarPDFFiscal } from './pdf-generators/fiscal-pdf.js';
 
 class AnaliseFiscalProcessor {
     constructor() {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const lib = window.pdfjsLib || (typeof pdfjsLib !== 'undefined' ? pdfjsLib : null);
+        if (lib) {
+            lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
         this.dadosGlobais = [];
 
         this.elementos = {
@@ -106,7 +109,12 @@ class AnaliseFiscalProcessor {
             leitor.onload = async () => {
                 try {
                     const dadosBinarios = new Uint8Array(leitor.result);
-                    const pdf = await pdfjsLib.getDocument(dadosBinarios).promise;
+                    const lib = window.pdfjsLib || (typeof pdfjsLib !== 'undefined' ? pdfjsLib : null);
+                    if (!lib) {
+                        throw new Error("A biblioteca de leitura de PDF (PDF.js) ainda não foi carregada pelo navegador. Aguarde alguns segundos.");
+                    }
+                    lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                    const pdf = await lib.getDocument(dadosBinarios).promise;
                     
                     let nomeEmpresa = "Não identificado";
                     let identificador = "Não encontrado";

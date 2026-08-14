@@ -1,6 +1,6 @@
 // sw.js - Service Worker para Ferramentas DP (PWA Offline)
-const CACHE_NAME = 'ferramentas-dp-v1.0.4';
-const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.4';
+const CACHE_NAME = 'ferramentas-dp-v1.0.7';
+const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.7';
 
 const PRECACHE_ASSETS = [
   '/',

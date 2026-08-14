@@ -115,6 +115,13 @@ class FileUploaderHelper {
             // Se o clique veio do botão de remover/alterar, ignora
             if (e.target.closest('.uploader-btn-remove')) return;
 
+            // Se o clique veio de um label associado ao input ou de dentro dele, o próprio navegador já vai disparar o clique no input.
+            // Para evitar clique duplo, não chamamos input.click() se o clique veio do label associado.
+            const label = e.target.closest('label');
+            if (label && (label.getAttribute('for') === input.id || label.contains(input))) {
+                return;
+            }
+
             // Abre janela de seleção de arquivos do sistema
             input.click();
         }, false);

@@ -2,8 +2,6 @@
  * MOTOR ANALÍTICO - PROGRAMAÇÃO DE FÉRIAS (V2 - Com Validação e Filtros)
  */
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
 import { gerarPDFFerias } from './pdf-generators/ferias-pdf.js';
 
 let analiseGlobal = [];
@@ -49,12 +47,12 @@ inputArquivo.addEventListener('change', async (event) => {
         try {
             const arrayBuffer = await lerArquivo(arquivo);
             await processarConteudoPDF(arrayBuffer, arquivo.name);
-            li.innerText = `${arquivo.name} - 
+            li.innerHTML = `${arquivo.name} - 
 <svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Sucesso`;
             li.style.color = "green";
         } catch (error) {
             console.error("Erro:", error);
-            li.innerText = `${arquivo.name} - 
+            li.innerHTML = `${arquivo.name} - 
 <svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> Recusado (${error.message})`;
             li.style.color = "red";
             alert(`ATENÇÃO: O arquivo "${arquivo.name}" foi recusado.\nMotivo: ${error.message}`);
@@ -93,7 +91,13 @@ function parseDataBR(dataStr) {
 
 // CÉREBRO: EXTRAÇÃO E VALIDAÇÃO
 async function processarConteudoPDF(arrayBuffer, nomeDoArquivo) {
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const lib = window.pdfjsLib || (typeof pdfjsLib !== 'undefined' ? pdfjsLib : null);
+    if (!lib) {
+        throw new Error("A biblioteca de leitura de PDF (PDF.js) ainda não foi completamente carregada pelo navegador. Aguarde 3 segundos e tente novamente.");
+    }
+    lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    const pdf = await lib.getDocument({ data: arrayBuffer }).promise;
     let paginasTexto = [];
 
     for (let i = 1; i <= pdf.numPages; i++) {

@@ -345,3 +345,9 @@
     color: var(--cor-texto-secundario, #64748b);
     font-size: 0.75rem;
 }
+
+/* Oculta a listagem redundante de arquivos processados abaixo da caixa de upload,
+   pois o FileUploaderHelper já exibe a listagem interativa integrada dentro do box de drag & drop. */
+.import-status-container {
+    display: none !important;
+}
