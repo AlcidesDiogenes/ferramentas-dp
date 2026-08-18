@@ -336,6 +336,10 @@ function processarCalculoRescisao() {
     const percGilrat = parseFloat(document.getElementById('inss-gilrat').value) || 0;
 
     const salarioBase = parseFloat(document.getElementById('salario-base').value) || 0;
+    if (salarioBase <= 0) {
+        alert('Informe um salário base válido (maior que zero) antes de calcular.');
+        return;
+    }
     const dataAdmissaoStr = document.getElementById('data-admissao').value;
     const dataDemissaoStr = document.getElementById('data-demissao').value;
     const dependentes = parseInt(document.getElementById('dependentes-irrf').value, 10) || 0;
@@ -752,12 +756,12 @@ function renderizarResultadosHTML(dados) {
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 25px;">
                 <div style="background: var(--cor-card-subtle-bg, #f8fafc); border: 1px solid var(--cor-borda, #e2e8f0); border-radius: 12px; padding: 16px; text-align: center;">
                     <span style="font-size: 0.8rem; color: var(--cor-texto-secundario); font-weight: 600; text-transform: uppercase;">Total Proventos Brutos</span>
-                    <div style="font-size: 1.3rem; font-weight: 800; color: #047857; margin-top: 4px;">${formatarMoeda(dados.totalProventos)}</div>
+                    <div style="font-size: 1.3rem; font-weight: 800; color: var(--cor-text-success, #047857); margin-top: 4px;">${formatarMoeda(dados.totalProventos)}</div>
                 </div>
 
                 <div style="background: var(--cor-card-subtle-bg, #f8fafc); border: 1px solid var(--cor-borda, #e2e8f0); border-radius: 12px; padding: 16px; text-align: center;">
                     <span style="font-size: 0.8rem; color: var(--cor-texto-secundario); font-weight: 600; text-transform: uppercase;">Total Descontos</span>
-                    <div style="font-size: 1.3rem; font-weight: 800; color: #b91c1c; margin-top: 4px;">-${formatarMoeda(dados.totalDescontos)}</div>
+                    <div style="font-size: 1.3rem; font-weight: 800; color: var(--cor-text-danger, #b91c1c); margin-top: 4px;">-${formatarMoeda(dados.totalDescontos)}</div>
                 </div>
 
                 <div style="background: linear-gradient(135deg, #1e3a8a, #2563eb); border-radius: 12px; padding: 16px; text-align: center; color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);">
@@ -956,11 +960,11 @@ function renderizarResultadosHTML(dados) {
                     </div>
                     <div style="background: var(--cor-card-subtle-bg); padding: 12px 16px; border-radius: 8px;">
                         <span>Multa Rescisória do FGTS (${dados.percentualMultaFGTS}%):</span><br>
-                        <strong style="font-size: 1.1rem; color: #1e3a8a;">${formatarMoeda(dados.valorMultaFGTS)}</strong>
+                        <strong style="font-size: 1.1rem; color: var(--cor-text-info, #1e3a8a);">${formatarMoeda(dados.valorMultaFGTS)}</strong>
                     </div>
-                    <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px 16px; border-radius: 8px; color: #047857;">
+                    <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); padding: 12px 16px; border-radius: 8px; color: var(--cor-text-success, #047857);">
                         <span>Estimativa Liberada para Saque CEF:</span><br>
-                        <strong style="font-size: 1.15rem; color: #047857;">${formatarMoeda(dados.valorSaqueFGTS)}</strong>
+                        <strong style="font-size: 1.15rem; color: var(--cor-text-success, #047857);">${formatarMoeda(dados.valorSaqueFGTS)}</strong>
                     </div>
                 </div>
             </div>

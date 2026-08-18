@@ -115,11 +115,11 @@
    ========================================= */
 .linha-folga,
 .linha-folga td {
-    background-color: #eff6ff !important; /* Azul institucional suave */
+    background-color: var(--cor-tag-bg, #eff6ff) !important;
 }
 
-/* Mantém os inputs brancos nas linhas de folga para manter o contraste */
+/* Mantém os inputs com o fundo do tema nas linhas de folga para manter o contraste */
 .linha-folga input.form-control {
-    background-color: #ffffff;
-    border-color: #bfdbfe;
+    background-color: var(--cor-input-bg, #ffffff);
+    border-color: var(--cor-borda, #bfdbfe);
 }

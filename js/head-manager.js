@@ -12,29 +12,40 @@
         console.warn("Erro ao acessar localStorage para o tema:", e);
     }
 
-    const bibliotecas = [
+    // Bibliotecas sem dependência de ordem entre si: carregam em paralelo e executam assim
+    // que prontas, sem bloquear a execução das demais (cada página só de fato usa a que precisa).
+    const bibliotecasIndependentes = [
         'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+    ];
+    bibliotecasIndependentes.forEach(url => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.async = true;
+        document.head.appendChild(script);
+    });
+
+    // pdfmake precisa carregar antes de vfs_fonts (que registra fontes no objeto pdfMake) —
+    // essas duas mantêm ordem garantida entre si.
+    const bibliotecasOrdenadas = [
         'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.min.js'
     ];
-
-    bibliotecas.forEach(url => {
+    bibliotecasOrdenadas.forEach(url => {
         const script = document.createElement('script');
         script.src = url;
-        script.async = false; // Garante a ordem de carregamento
+        script.async = false;
         document.head.appendChild(script);
     });
 
     // Calcula automaticamente o caminho relativo para a raiz dependendo de onde a página está
-    let prefixo = '';
-    const path = window.location.pathname;
-    if (path.includes('/pages/simuladores/') || path.includes('/pages/dominioSistema/') || path.includes('/pages/auth/') || path.includes('/pages/gestao/') || path.includes('/pages/central-de-dados/')) {
-        prefixo = '../../';
-    } else if (path.includes('/pages/')) {
-        prefixo = '../';
-    }
+    // (mesmo algoritmo de js/loader.js e js/command-palette.js — funciona para qualquer
+    // profundidade de subpasta, não só as conhecidas hoje)
+    const pathParts = window.location.pathname.split('/').filter(p => p.length > 0);
+    const pagesIndex = pathParts.indexOf('pages');
+    const depth = pagesIndex === -1 ? 0 : (pathParts.length - pagesIndex - 1);
+    const prefixo = depth === 0 ? '' : '../'.repeat(depth);
 
     // Injeta a configuração global de módulos e status de badges
     const modulesConfig = document.createElement('script');

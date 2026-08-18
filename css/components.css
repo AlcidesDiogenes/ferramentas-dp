@@ -285,7 +285,7 @@
 
 /* Botão de Instalação PWA */
 .pwa-install-btn {
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: 6px;
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);

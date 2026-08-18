@@ -1,0 +1,9 @@
+# Garante que arquivos binários nunca passem por conversão de fim de linha (CRLF/LF)
+# ou detecção incorreta de encoding no checkout/commit — isso já corrompeu os ícones do PWA
+# (icons/icon-*.png) transformando bytes binários em sequências UTF-8 de substituição.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.xlsx binary
+*.pdf binary

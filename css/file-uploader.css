@@ -241,6 +241,11 @@
     color: #0369a1;
 }
 
+.uploader-status-pill.error {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
 [data-theme="dark"] .uploader-status-pill.success {
     background: #14532d;
     color: #86efac;
@@ -249,6 +254,11 @@
 [data-theme="dark"] .uploader-status-pill.loading {
     background: #075985;
     color: #7dd3fc;
+}
+
+[data-theme="dark"] .uploader-status-pill.error {
+    background: #7f1d1d;
+    color: #fca5a5;
 }
 
 /* Ações do Card de Arquivo */
@@ -346,8 +356,117 @@
     font-size: 0.75rem;
 }
 
+.uploader-multi-item-end {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.uploader-multi-item-status {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.uploader-multi-item-status.loading {
+    color: #0369a1;
+}
+
+.uploader-multi-item-status.success {
+    color: #16a34a;
+}
+
+.uploader-multi-item-status.error {
+    color: #dc2626;
+}
+
+[data-theme="dark"] .uploader-multi-item-status.loading {
+    color: #7dd3fc;
+}
+
+[data-theme="dark"] .uploader-multi-item-status.success {
+    color: #86efac;
+}
+
+[data-theme="dark"] .uploader-multi-item-status.error {
+    color: #fca5a5;
+}
+
 /* Oculta a listagem redundante de arquivos processados abaixo da caixa de upload,
    pois o FileUploaderHelper já exibe a listagem interativa integrada dentro do box de drag & drop. */
 .import-status-container {
     display: none !important;
 }
+
+/* Efeitos Visuais de Processamento Premium para Multi-upload */
+.upload-zone {
+    position: relative;
+}
+
+.uploader-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    z-index: 50;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+    gap: 12px;
+}
+
+[data-theme="dark"] .uploader-loading-overlay {
+    background-color: rgba(15, 23, 42, 0.85);
+}
+
+.uploader-loading-spinner-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.uploader-spinner {
+    animation: uploader-spin 1s linear infinite;
+    color: var(--cor-primaria, #107c41);
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+@keyframes uploader-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.uploader-loading-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cor-texto, #1e293b);
+}
+
+/* Pulsação animada da barra de progresso durante leitura de múltiplos arquivos */
+.uploader-progress-bar-fill.processing {
+    background: linear-gradient(90deg, var(--cor-primaria, #107c41) 0%, #22c55e 50%, var(--cor-primaria, #107c41) 100%);
+    background-size: 200% 100%;
+    animation: uploader-pulse 1.5s infinite;
+}
+
+@keyframes uploader-pulse {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+.uploader-progress-bar-fill.error {
+    background: linear-gradient(90deg, #dc2626, #ef4444);
+}
+

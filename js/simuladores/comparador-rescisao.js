@@ -313,6 +313,11 @@ function executarComparacao() {
     const qtdFeriasVencidas = parseInt(document.getElementById('comp-ferias-vencidas').value, 10) || 0;
     const proventosExtras = parseFloat(document.getElementById('comp-proventos-extras').value) || 0;
 
+    if (salarioBase <= 0) {
+        alert('Informe um salário base válido (maior que zero) antes de comparar.');
+        return;
+    }
+
     if (!dataAdmissaoStr || !dataDemissaoStr) {
         alert('Por favor, selecione a Data de Admissão e a Data de Demissão.');
         return;
@@ -534,28 +539,28 @@ function renderizarGraficoBarras(cenarios) {
             <div style="background: var(--cor-card-bg); padding: 14px; border-radius: 10px; border: 1px solid var(--cor-borda);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                     <strong style="font-size: 0.95rem; color: var(--cor-texto-principal);">${c.titulo}</strong>
-                    <span style="font-size: 0.85rem; font-weight: 700; color: #1e3a8a;">Líquido: ${formatarMoeda(c.liquidoReceber)} | Custo Empresa: ${formatarMoeda(c.custoTotalEmpresa)}</span>
+                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--cor-text-info, #1e3a8a);">Líquido: ${formatarMoeda(c.liquidoReceber)} | Custo Empresa: ${formatarMoeda(c.custoTotalEmpresa)}</span>
                 </div>
-                
+
                 <!-- Barra Custo Empresa -->
                 <div style="margin-bottom: 6px;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--cor-texto-secundario, #64748b); margin-bottom: 2px;">
                         <span>Custo Total Empregador</span>
                         <span>${pctCusto}%</span>
                     </div>
-                    <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
-                        <div style="width: ${pctCusto}%; height: 100%; background: #0f172a; transition: width 0.5s ease;"></div>
+                    <div style="width: 100%; height: 12px; background: var(--cor-borda, #e2e8f0); border-radius: 6px; overflow: hidden;">
+                        <div style="width: ${pctCusto}%; height: 100%; background: var(--cor-texto-principal, #0f172a); transition: width 0.5s ease;"></div>
                     </div>
                 </div>
 
                 <!-- Barra Líquido Trabalhador -->
                 <div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; margin-bottom: 2px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--cor-texto-secundario, #64748b); margin-bottom: 2px;">
                         <span>Líquido a Receber pelo Trabalhador</span>
                         <span>${pctLiquido}%</span>
                     </div>
-                    <div style="width: 100%; height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden;">
-                        <div style="width: ${pctLiquido}%; height: 100%; background: #2563eb; transition: width 0.5s ease;"></div>
+                    <div style="width: 100%; height: 12px; background: var(--cor-borda, #e2e8f0); border-radius: 6px; overflow: hidden;">
+                        <div style="width: ${pctLiquido}%; height: 100%; background: var(--cor-destaque, #2563eb); transition: width 0.5s ease;"></div>
                     </div>
                 </div>
             </div>

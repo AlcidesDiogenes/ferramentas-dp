@@ -153,8 +153,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputUpload.value = '';
 
                 document.dispatchEvent(new Event('pontoImportado'));
+                document.dispatchEvent(new CustomEvent('uploader:complete', { detail: { input: inputUpload } }));
             };
-            
+
+            reader.onerror = () => {
+                document.dispatchEvent(new CustomEvent('uploader:complete', { detail: { input: inputUpload, error: true } }));
+            };
+
             reader.readAsArrayBuffer(file);
         });
     }

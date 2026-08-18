@@ -4,11 +4,18 @@
  */
 (function () {
     // Lista completa de destinos do sistema para o Command Palette (Ctrl+K)
+    // Calcula quantos níveis de diretório separam a página atual da raiz do site (ex:
+    // pages/simuladores/rescisao.html está 2 níveis abaixo da raiz, não 1) — mesmo algoritmo
+    // usado em js/loader.js, para não gerar links quebrados como ../pages/pages/....
+    const getPathPrefix = () => {
+        const pathParts = window.location.pathname.split('/').filter(p => p.length > 0);
+        const pagesIndex = pathParts.indexOf('pages');
+        const depth = pagesIndex === -1 ? 0 : (pathParts.length - pagesIndex - 1);
+        return depth === 0 ? '' : '../'.repeat(depth);
+    };
+
     const getSystemNavigationItems = () => {
-        const currentPath = window.location.pathname;
-        let prefix = '';
-        if (currentPath.includes('/pages/central-de-dados/') || currentPath.includes('/pages/gestao/')) prefix = '../../';
-        else if (currentPath.includes('/pages/')) prefix = '../';
+        const prefix = getPathPrefix();
 
         return [
             { id: 'home', title: 'Painel Principal (Início)', category: 'Navegação', path: prefix + 'index.html', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>', keywords: 'home inicio painel controle dashboard' },
@@ -98,6 +105,11 @@
                     activeIndex = (activeIndex - 1 + filteredItems.length) % filteredItems.length;
                     updateActiveCommandItem();
                 }
+            } else if (e.key === 'Tab') {
+                // A navegação entre resultados é feita por ↑/↓, não por Tab. Bloquear o Tab
+                // aqui prende o foco no campo de busca em vez de deixá-lo escapar para o
+                // conteúdo da página por trás do overlay (WCAG 2.4.3 — sem armadilha de foco).
+                e.preventDefault();
             } else if (e.key === 'Enter') {
                 e.preventDefault();
                 if (filteredItems.length > 0 && filteredItems[activeIndex]) {
@@ -403,11 +415,7 @@
         // Alt + H -> Ir para o Painel Principal (Home)
         if (e.altKey && (e.key === 'h' || e.key === 'H')) {
             e.preventDefault();
-            const currentPath = window.location.pathname;
-            let prefix = '';
-            if (currentPath.includes('/pages/central-de-dados/') || currentPath.includes('/pages/gestao/')) prefix = '../../';
-            else if (currentPath.includes('/pages/')) prefix = '../';
-            window.location.href = prefix + 'index.html';
+            window.location.href = getPathPrefix() + 'index.html';
             return;
         }
 

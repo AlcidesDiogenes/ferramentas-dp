@@ -53,7 +53,8 @@
     border-radius: var(--borda-raio);
     font-family: var(--fonte-principal);
     font-size: 0.95rem;
-    background-color: #fff;
+    background-color: var(--cor-input-bg, #fff);
+    color: var(--cor-texto-principal);
     transition: var(--transicao-suave);
 }
 
@@ -67,7 +68,7 @@
 
 /* 3. Resultado da Simulação (Sim Card) */
 .sim-card {
-    background: #ffffff;
+    background: var(--cor-card-bg, #ffffff);
     border: 1px solid var(--cor-borda);
     border-radius: 12px;
     padding: 30px;
@@ -105,10 +106,10 @@
 }
 
 .sim-item {
-    background: #f8fafc;
+    background: var(--cor-card-subtle-bg, #f8fafc);
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--cor-borda, #f1f5f9);
 }
 
 .sim-label {
@@ -126,28 +127,28 @@
 }
 
 .total-bar {
-    background: #eff6ff; /* Azul muito claro */
+    background: var(--cor-tag-bg, #eff6ff);
     padding: 20px;
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #dbeafe;
+    border: 1px solid var(--cor-borda, #dbeafe);
 }
 
-.highlight-label { font-weight: 600; color: #1e3a8a; }
-.highlight-value { font-size: 1.5rem; font-weight: 800; color: #1e40af; }
+.highlight-label { font-weight: 600; color: var(--cor-tag-texto, #1e3a8a); }
+.highlight-value { font-size: 1.5rem; font-weight: 800; color: var(--cor-tag-texto, #1e40af); }
 
 
 /* Estilo para Custo Total da Empresa */
 .cost-total-bar {
-    background-color: #eff6ff !important;
-    border: 1px solid #bfdbfe !important;
+    background-color: var(--cor-tag-bg, #eff6ff) !important;
+    border: 1px solid var(--cor-borda, #bfdbfe) !important;
     margin-top: 15px;
 }
 
 .cost-total-value {
-    color: #1e40af;
+    color: var(--cor-tag-texto, #1e40af);
     font-size: 1.4rem;
     font-weight: 800;
 }

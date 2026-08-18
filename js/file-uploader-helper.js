@@ -19,6 +19,31 @@ class FileUploaderHelper {
     initGlobalEvents() {
         window.addEventListener("dragover", (e) => e.preventDefault(), false);
         window.addEventListener("drop", (e) => e.preventDefault(), false);
+
+        // Permite que páginas sem #report-section/.file-status-list (ex: jornada.html,
+        // cota-aprendiz.html) informem explicitamente quando o processamento terminou,
+        // em vez de depender apenas do timeout de segurança de 15s.
+        document.addEventListener('uploader:complete', (e) => {
+            const targetInput = e.detail && e.detail.input;
+            if (!targetInput) return;
+            const zone = targetInput.closest('.upload-zone');
+            if (zone) this.stopProcessingUI(zone, targetInput, !!(e.detail && e.detail.error));
+        });
+    }
+
+    /**
+     * Escapa caracteres HTML especiais para uso seguro dentro de innerHTML/atributos.
+     * Necessário porque nomes de arquivo (definidos pelo usuário/sistema de origem, não
+     * controlados por este app) são interpolados diretamente em template strings de HTML.
+     */
+    escapeHtml(text) {
+        return String(text ?? '').replace(/[&<>"']/g, (ch) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[ch]));
     }
 
     /**
@@ -235,6 +260,8 @@ class FileUploaderHelper {
             }
         }
 
+        this.startProcessingUI(zone, input, finalFiles.length);
+
         this.renderFileCardUI(zone, input, finalFiles, isMultiple, acceptedExts);
 
         if (updateInput) {
@@ -255,6 +282,7 @@ class FileUploaderHelper {
         const totalSize = files.reduce((acc, f) => acc + f.size, 0);
         const firstFile = files[0];
         const iconInfo = this.getFileIcon(firstFile.name);
+        const firstFileNameSafe = this.escapeHtml(firstFile.name);
 
         const card = document.createElement('div');
         card.className = 'uploader-file-card';
@@ -265,29 +293,34 @@ class FileUploaderHelper {
                 <div class="uploader-file-header">
                     <div class="uploader-file-icon" style="background-color: ${iconInfo.bg};">${iconInfo.icon}</div>
                     <div class="uploader-file-details">
-                        <div class="uploader-file-name" title="${firstFile.name}">${firstFile.name}</div>
+                        <div class="uploader-file-name" title="${firstFileNameSafe}">${firstFileNameSafe}</div>
                         <div class="uploader-file-meta">
-                            <span>${this.formatBytes(firstFile.size)}</span> • 
-                            <span class="uploader-status-pill success">
-<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Pronto para Processamento</span>
+                            <span>${this.formatBytes(firstFile.size)}</span> •
+                            <span class="uploader-status-pill loading">⏳ Processando...</span>
                         </div>
                     </div>
                     <div class="uploader-file-actions">
                         <button type="button" class="uploader-btn-remove" title="Remover e escolher outro arquivo">
                             
-<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> ️ Alterar
+<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> Alterar
                         </button>
                     </div>
                 </div>
             `;
         } else {
-            const multiListItems = files.map(f => `
-                <div class="uploader-multi-item">
-                    <span class="uploader-multi-item-name" title="${f.name}">
-<svg class="lucide lucide-file-text" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /> </svg> ${f.name}</span>
-                    <span class="uploader-multi-item-size">${this.formatBytes(f.size)}</span>
+            const multiListItems = files.map(f => {
+                const nameSafe = this.escapeHtml(f.name);
+                return `
+                <div class="uploader-multi-item" data-file-name="${nameSafe}">
+                    <span class="uploader-multi-item-name" title="${nameSafe}">
+<svg class="lucide lucide-file-text" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /> </svg> ${nameSafe}</span>
+                    <div class="uploader-multi-item-end">
+                        <span class="uploader-multi-item-size">${this.formatBytes(f.size)}</span>
+                        <span class="uploader-multi-item-status loading">⏳ Processando...</span>
+                    </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
 
             filesDetailHtml = `
                 <div class="uploader-file-header">
@@ -295,15 +328,14 @@ class FileUploaderHelper {
                     <div class="uploader-file-details">
                         <div class="uploader-file-name">${files.length} Arquivos Selecionados</div>
                         <div class="uploader-file-meta">
-                            <span>Total: ${this.formatBytes(totalSize)}</span> • 
-                            <span class="uploader-status-pill success">
-<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Carregados</span>
+                            <span>Total: ${this.formatBytes(totalSize)}</span> •
+                            <span class="uploader-status-pill loading">⏳ Processando...</span>
                         </div>
                     </div>
                     <div class="uploader-file-actions">
                         <button type="button" class="uploader-btn-remove" title="Remover arquivos">
-                            
-<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> ️ Limpar Todos
+
+<svg class="lucide lucide-trash-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M10 11v6" /> <path d="M14 11v6" /> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /> <path d="M3 6h18" /> <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /> </svg> Limpar Todos
                         </button>
                     </div>
                 </div>
@@ -315,7 +347,7 @@ class FileUploaderHelper {
 
         const progressBarHtml = `
             <div class="uploader-progress-bar-bg">
-                <div class="uploader-progress-bar-fill" style="width: 100%;"></div>
+                <div class="uploader-progress-bar-fill processing" style="width: 100%;"></div>
             </div>
         `;
 
@@ -340,6 +372,10 @@ class FileUploaderHelper {
      * Reseta a zona para o estado inicial
      */
     resetZoneUI(zone, input, acceptedExts, isMultiple, triggerChangeEvent = true) {
+        this.clearZoneTimers(zone);
+        this.toggleOverlay(zone, false);
+        zone.classList.remove('uploader-processing');
+
         input.value = '';
         
         const card = zone.querySelector('.uploader-file-card');
@@ -354,6 +390,216 @@ class FileUploaderHelper {
 
         if (triggerChangeEvent) {
             input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+
+    /**
+     * Ícones SVG compartilhados pelos estados de sucesso/erro (evita duplicar o markup em cada método)
+     */
+    getSuccessIconSvg(size = '1.2em') {
+        return `<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="vertical-align: middle; margin-right: 4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg>`;
+    }
+
+    getErrorIconSvg(size = '1.2em') {
+        return `<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" style="vertical-align: middle; margin-right: 4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg>`;
+    }
+
+    /**
+     * Limpa todos os timers/observers pendentes de uma zona (evita vazamento e reentrância)
+     */
+    clearZoneTimers(zone) {
+        if (zone.safetyTimeout) {
+            clearTimeout(zone.safetyTimeout);
+            zone.safetyTimeout = null;
+        }
+        if (zone.minDurationTimeout) {
+            clearTimeout(zone.minDurationTimeout);
+            zone.minDurationTimeout = null;
+        }
+        if (zone.reportObserver) {
+            zone.reportObserver.disconnect();
+            zone.reportObserver = null;
+        }
+        if (zone.statusObserver) {
+            zone.statusObserver.disconnect();
+            zone.statusObserver = null;
+        }
+    }
+
+    /**
+     * Inicia a visualização de processamento de forma premium
+     */
+    startProcessingUI(zone, input, expectedFileCount = 1) {
+        zone.classList.add('uploader-processing');
+        this.toggleOverlay(zone, true);
+        zone.processingStartTime = Date.now();
+        zone.expectedFileCount = expectedFileCount;
+
+        this.clearZoneTimers(zone);
+
+        // Esconde o painel de ações antigo (nome do id varia por página: actions-panel, actions-panel-fiscal, ...)
+        const actionsPanel = document.querySelector('#actions-panel, [id^="actions-panel"]');
+        if (actionsPanel) actionsPanel.style.display = 'none';
+
+        // Sinal preferencial: lista de status por arquivo (.file-status-list), presente em todas as páginas
+        // com importação em lote. É mais confiável que observar #report-section, pois algumas páginas
+        // exibem a seção de relatório antes de todos os arquivos terminarem de processar (renderização progressiva).
+        const statusList = document.querySelector('.file-status-list');
+        if (statusList) {
+            const statusObserver = new MutationObserver(() => this.checkStatusCompletion(zone, input, statusList));
+            statusObserver.observe(statusList, { childList: true, subtree: true, characterData: true });
+            zone.statusObserver = statusObserver;
+            this.checkStatusCompletion(zone, input, statusList); // primeira checagem imediata
+        } else {
+            // Fallback para páginas sem lista de status: observa a seção de relatório ficar visível.
+            const reportSec = document.getElementById('report-section');
+            if (reportSec) {
+                reportSec.style.display = 'none';
+                const reportObserver = new MutationObserver(() => {
+                    if (reportSec.style.display !== 'none') {
+                        this.stopProcessingUI(zone, input);
+                    }
+                });
+                reportObserver.observe(reportSec, { attributes: true, attributeFilter: ['style'] });
+                zone.reportObserver = reportObserver;
+            }
+            // Páginas sem nenhum dos dois sinais (ex: jornada.html, cota-aprendiz.html) dependem do
+            // evento 'uploader:complete' disparado pela própria página, ou do timeout de segurança abaixo.
+        }
+
+        // Timeout de segurança caso nada mais sinalize o fim do processamento
+        zone.safetyTimeout = setTimeout(() => {
+            this.stopProcessingUI(zone, input);
+        }, 15000);
+    }
+
+    /**
+     * Verifica se todos os arquivos da lista de status já saíram do estado "processando"
+     * e, em caso positivo, encerra a UI de carregamento. Usa setTimeout (não
+     * requestAnimationFrame) para o debounce: rAF fica pausado em abas fora do foco/ocultas,
+     * o que travaria a detecção de conclusão caso o usuário troque de aba durante o upload.
+     */
+    checkStatusCompletion(zone, input, statusList) {
+        if (zone.statusCheckScheduled) return;
+        zone.statusCheckScheduled = true;
+        setTimeout(() => {
+            zone.statusCheckScheduled = false;
+            const lis = Array.from(statusList.querySelectorAll('li'));
+            this.syncFileStates(zone, lis);
+
+            const expected = zone.expectedFileCount || 1;
+            if (lis.length === 0 || lis.length < expected) return;
+
+            const stillProcessing = lis.some(li => this.getLiStatus(li) === 'loading');
+            if (stillProcessing) return;
+
+            const hasError = lis.some(li => this.getLiStatus(li) === 'error');
+            this.stopProcessingUI(zone, input, hasError);
+        }, 30);
+    }
+
+    /**
+     * Deriva o estado (loading/success/error) de um item <li> da lista de status oculta
+     */
+    getLiStatus(li) {
+        const text = (li.innerText || li.textContent || '').toLowerCase();
+        if (li.querySelector('.lucide-x-circle') || text.includes('erro') || text.includes('falha') || text.includes('recusado')) {
+            return 'error';
+        }
+        if (li.querySelector('.lucide-check-circle-2') || text.includes('sucesso') || text.includes('concluído') || text.includes('pronto')) {
+            return 'success';
+        }
+        return 'loading';
+    }
+
+    /**
+     * Finaliza o estado de carregamento e atualiza elementos visuais para sucesso ou erro
+     */
+    stopProcessingUI(zone, input, hasError = false) {
+        this.clearZoneTimers(zone);
+
+        const elapsed = Date.now() - (zone.processingStartTime || 0);
+        const minDuration = 800; // tempo mínimo de exibição para evitar flicker
+        const delay = Math.max(0, minDuration - elapsed);
+
+        zone.minDurationTimeout = setTimeout(() => {
+            zone.minDurationTimeout = null;
+            zone.classList.remove('uploader-processing');
+            this.toggleOverlay(zone, false);
+
+            // Atualiza o card de arquivo único / múltiplos para o estado final
+            const statusPill = zone.querySelector('.uploader-status-pill');
+            if (statusPill) {
+                if (hasError) {
+                    statusPill.className = 'uploader-status-pill error';
+                    statusPill.innerHTML = `${this.getErrorIconSvg()} Falha no Processamento`;
+                } else {
+                    statusPill.className = 'uploader-status-pill success';
+                    statusPill.innerHTML = `${this.getSuccessIconSvg()} Processado com Sucesso`;
+                }
+            }
+
+            const fillBar = zone.querySelector('.uploader-progress-bar-fill');
+            if (fillBar) {
+                fillBar.className = hasError ? 'uploader-progress-bar-fill error' : 'uploader-progress-bar-fill';
+                fillBar.style.width = '100%';
+            }
+        }, delay);
+    }
+
+    /**
+     * Sincroniza o status de cada item da lista oculta (.file-status-list) com o respectivo
+     * card visual, por correspondência posicional (mesma ordem de renderização em ambas as
+     * listas) — evita falsos positivos de correspondência por substring de nome de arquivo.
+     */
+    syncFileStates(zone, lis) {
+        if (!lis || lis.length === 0) return;
+
+        const multiItems = zone.querySelectorAll('.uploader-multi-item');
+        if (multiItems.length === 0 || multiItems.length !== lis.length) return;
+
+        lis.forEach((li, idx) => {
+            const statusSpan = multiItems[idx].querySelector('.uploader-multi-item-status');
+            if (!statusSpan) return;
+
+            const status = this.getLiStatus(li);
+            if (status === 'success') {
+                statusSpan.className = 'uploader-multi-item-status success';
+                statusSpan.innerHTML = `${this.getSuccessIconSvg('1.1em')} Sucesso`;
+            } else if (status === 'error') {
+                statusSpan.className = 'uploader-multi-item-status error';
+                statusSpan.innerHTML = `${this.getErrorIconSvg('1.1em')} Falha`;
+            } else {
+                statusSpan.className = 'uploader-multi-item-status loading';
+                statusSpan.innerHTML = `⏳ Processando...`;
+            }
+        });
+    }
+
+    /**
+     * Alterna a exibição do overlay de processamento na zona de upload
+     */
+    toggleOverlay(zone, show) {
+        let overlay = zone.querySelector('.uploader-loading-overlay');
+        if (show) {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'uploader-loading-overlay';
+                overlay.innerHTML = `
+                    <div class="uploader-loading-spinner-box">
+                        <svg class="uploader-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" style="opacity: 0.25;"></circle>
+                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" style="opacity: 0.75;"></path>
+                        </svg>
+                        <span class="uploader-loading-text">Processando arquivos...</span>
+                    </div>
+                `;
+                zone.appendChild(overlay);
+            }
+        } else {
+            if (overlay) {
+                overlay.remove();
+            }
         }
     }
 }

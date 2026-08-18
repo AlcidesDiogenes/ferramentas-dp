@@ -1,15 +1,23 @@
 // js/loader.js
 /**
- * Loader Otimizado para Sidebar (Zero Delay / Cache Instantâneo)
- * Carrega a barra lateral instantaneamente utilizando cache e fallback estático,
- * e atualiza em segundo plano via fetch assíncrono.
+ * Loader da Sidebar (Zero Delay)
+ * Renderiza a barra lateral instantaneamente a partir de uma string estática embutida neste
+ * arquivo — não busca components/sidebar.html em tempo de execução. Servidores de arquivo
+ * estático com live-reload (ex: a extensão Live Server do VS Code) injetam um script antes de
+ * `</body>` em toda resposta .html; como components/sidebar.html é só um fragmento sem
+ * <html>/<body>, essa injeção corrompe/trunca o arquivo no meio da lista de itens. Buscar o
+ * fragmento por fetch() ficava vulnerável a esse problema; a string abaixo não sofre com isso
+ * porque é servida como .js, não como .html.
+ *
+ * Ao alterar os itens do menu, edite a string SIDEBAR_HTML aqui E o arquivo
+ * components/sidebar.html (mantido só como referência/documentação) para os dois ficarem iguais.
  */
 
 (function () {
-    const DEFAULT_SIDEBAR = `<aside class="sidebar">
+    const SIDEBAR_HTML = `<aside class="sidebar">
     <div class="sidebar-brand">
         <h2 class="brand-text">Ferramentas DP</h2>
-        <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu">
+        <button id="toggle-sidebar" class="toggle-btn" title="Minimizar Menu" aria-label="Recolher ou expandir menu lateral">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg> </button>
     </div>
     
@@ -26,8 +34,6 @@
         </ul>
     </nav>
 </aside>`;
-
-    let isRendered = false;
 
     function getBasePath() {
         const pathParts = window.location.pathname.split('/').filter(p => p.length > 0);
@@ -83,48 +89,14 @@
             document.body.classList.remove('preload');
         }
 
-        isRendered = true;
         document.dispatchEvent(new CustomEvent('sidebarRendered'));
     }
 
-    async function initSidebarLoader() {
+    function initSidebarLoader() {
         const placeholder = document.getElementById('sidebar-placeholder');
         if (!placeholder) return;
-
-        // 1. Renderiza instantaneamente do cache ou fallback estático
-        let cachedHtml = DEFAULT_SIDEBAR;
-        try {
-            const stored = localStorage.getItem('sidebar_cache');
-            if (stored && stored.length > 50) {
-                cachedHtml = stored;
-            }
-        } catch (e) {
-            // localStorage inacessível ou erro
-        }
-
-        if (!placeholder.children.length || !isRendered) {
-            renderSidebar(placeholder, cachedHtml);
-        }
-
-        // 2. Atualização assíncrona em segundo plano
-        try {
-            const basePath = getBasePath();
-            const response = await fetch(`${basePath}components/sidebar.html`);
-            if (response.ok) {
-                const freshHtml = await response.text();
-                if (freshHtml && freshHtml.length > 50) {
-                    try {
-                        localStorage.setItem('sidebar_cache', freshHtml);
-                    } catch (e) {}
-
-                    // Atualiza o DOM caso o HTML do servidor seja diferente
-                    if (freshHtml !== cachedHtml) {
-                        renderSidebar(placeholder, freshHtml);
-                    }
-                }
-            }
-        } catch (err) {
-            // Se falhar o fetch, a sidebar já foi renderizada
+        if (!placeholder.children.length) {
+            renderSidebar(placeholder, SIDEBAR_HTML);
         }
     }
 

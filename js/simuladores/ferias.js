@@ -1,63 +1,50 @@
+import {
+    TABELA_INSS,
+    TABELA_IRRF,
+    TETO_INSS,
+    VALOR_DEDUCAO_DEPENDENTE,
+    DESCONTO_SIMPLIFICADO
+} from './tabelas.js';
+
 function formatarMoeda(valor) {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
 }
 
-// Tabelas 2024 para simplificação
-function calcularINSS(salarioBruto) {
-    let inss = 0;
-    
-    if (salarioBruto <= 1412.00) {
-        inss = salarioBruto * 0.075;
-    } else if (salarioBruto <= 2666.68) {
-        inss = (1412.00 * 0.075) + ((salarioBruto - 1412.00) * 0.09);
-    } else if (salarioBruto <= 4000.03) {
-        inss = (1412.00 * 0.075) + ((2666.68 - 1412.00) * 0.09) + ((salarioBruto - 2666.68) * 0.12);
-    } else if (salarioBruto <= 7786.02) {
-        inss = (1412.00 * 0.075) + ((2666.68 - 1412.00) * 0.09) + ((4000.03 - 2666.68) * 0.12) + ((salarioBruto - 4000.03) * 0.14);
-    } else {
-        inss = 908.85; // Teto INSS 2024
-    }
+// Usa a mesma tabela progressiva de INSS/IRRF compartilhada com os demais simuladores
+// (js/simuladores/tabelas.js), para que o mesmo salário gere o mesmo resultado em qualquer
+// ferramenta do sistema.
+function calcularINSS(baseCalculo) {
+    const base = Math.min(Math.max(0, baseCalculo), TETO_INSS);
+    let anterior = 0;
+    let soma = 0;
 
-    return inss;
+    for (const f of TABELA_INSS) {
+        const baseFaixa = Math.min(base, f.limite) - anterior;
+        if (baseFaixa > 0) {
+            soma += baseFaixa * f.aliquota;
+        }
+        anterior = f.limite;
+    }
+    return Math.max(0, soma);
 }
 
-function calcularIRRF(baseCalculo) {
-    let irrf = 0;
-
-    // Desconto simplificado de 528.00 ou dedução legal - usar dedução legal para simulação exata
-    // Vamos usar a tabela progressiva padrão 2024
-    if (baseCalculo <= 2259.20) {
-        irrf = 0;
-    } else if (baseCalculo <= 2826.65) {
-        irrf = (baseCalculo * 0.075) - 169.44;
-    } else if (baseCalculo <= 3751.05) {
-        irrf = (baseCalculo * 0.15) - 381.44;
-    } else if (baseCalculo <= 4664.68) {
-        irrf = (baseCalculo * 0.225) - 662.77;
-    } else {
-        irrf = (baseCalculo * 0.275) - 896.00;
-    }
-
-    // Compara com desconto simplificado de 528 (Lei 14.663/2023)
-    let baseCalculoSimplificada = baseCalculo + (calcularDeducao(baseCalculo)) - 528.00;
-    let irrfSimplificado = 0;
-    if (baseCalculoSimplificada <= 2259.20) {
-        irrfSimplificado = 0;
-    } else if (baseCalculoSimplificada <= 2826.65) {
-        irrfSimplificado = (baseCalculoSimplificada * 0.075) - 169.44;
-    } else if (baseCalculoSimplificada <= 3751.05) {
-        irrfSimplificado = (baseCalculoSimplificada * 0.15) - 381.44;
-    } else if (baseCalculoSimplificada <= 4664.68) {
-        irrfSimplificado = (baseCalculoSimplificada * 0.225) - 662.77;
-    } else {
-        irrfSimplificado = (baseCalculoSimplificada * 0.275) - 896.00;
-    }
-
-    return Math.max(0, Math.min(irrf, irrfSimplificado));
+function calcularIRRFTabela(baseCalculo) {
+    if (baseCalculo <= 0) return 0;
+    const faixa = TABELA_IRRF.find(f => baseCalculo <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
+    const imposto = (baseCalculo * faixa.aliquota) - faixa.deducao;
+    return Math.max(0, imposto);
 }
 
-function calcularDeducao(base) {
-   return 0; // Dummy
+// A lei permite usar a dedução legal (INSS + dependentes) ou o desconto simplificado
+// (Lei 14.663/2023), o que for mais benéfico ao trabalhador.
+function calcularIRRF(baseProventos, descontoINSS, deducaoDependentes) {
+    const baseTradicional = baseProventos - descontoINSS - deducaoDependentes;
+    const baseSimplificada = baseProventos - DESCONTO_SIMPLIFICADO;
+
+    const irrfTradicional = calcularIRRFTabela(baseTradicional);
+    const irrfSimplificado = calcularIRRFTabela(baseSimplificada);
+
+    return Math.min(irrfTradicional, irrfSimplificado);
 }
 
 
@@ -115,6 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const venderFerias = inputAbono.value === 'sim';
 
         // Validação básica
+        if (salario <= 0) {
+            alert('Informe um salário válido (maior que zero) antes de calcular.');
+            return;
+        }
+
         const diasDireito = calcularDireitoFerias(faltas, avos);
         if (diasDireito === 0) {
             alert('Com esta quantidade de faltas (>32), o colaborador perde o direito a férias.');
@@ -153,30 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Descontos incidem apenas sobre férias normais
         const descontoINSS = calcularINSS(totalProventosSemAbono);
-        
-        // IRRF 
-        const deducaoDependentes = dependentes * 189.59;
-        
-        // Vamos aplicar a regra simples ou progressiva no IRRF (usando a tabela progressiva com opção do desconto simplificado de R$528,00)
+
+        // IRRF
+        const deducaoDependentes = dependentes * VALOR_DEDUCAO_DEPENDENTE;
         const baseIRRF = totalProventosSemAbono - descontoINSS - deducaoDependentes;
-        const baseIRRFSimplificada = totalProventosSemAbono - 528.00; // Desconto simplificado legal 
-        
-        let valorIRRF_Tradicional = 0;
-        if (baseIRRF > 2259.20 && baseIRRF <= 2826.65) valorIRRF_Tradicional = (baseIRRF * 0.075) - 169.44;
-        else if (baseIRRF > 2826.65 && baseIRRF <= 3751.05) valorIRRF_Tradicional = (baseIRRF * 0.15) - 381.44;
-        else if (baseIRRF > 3751.05 && baseIRRF <= 4664.68) valorIRRF_Tradicional = (baseIRRF * 0.225) - 662.77;
-        else if (baseIRRF > 4664.68) valorIRRF_Tradicional = (baseIRRF * 0.275) - 896.00;
-        valorIRRF_Tradicional = Math.max(0, valorIRRF_Tradicional);
-
-        let valorIRRF_Simplificado = 0;
-        if (baseIRRFSimplificada > 2259.20 && baseIRRFSimplificada <= 2826.65) valorIRRF_Simplificado = (baseIRRFSimplificada * 0.075) - 169.44;
-        else if (baseIRRFSimplificada > 2826.65 && baseIRRFSimplificada <= 3751.05) valorIRRF_Simplificado = (baseIRRFSimplificada * 0.15) - 381.44;
-        else if (baseIRRFSimplificada > 3751.05 && baseIRRFSimplificada <= 4664.68) valorIRRF_Simplificado = (baseIRRFSimplificada * 0.225) - 662.77;
-        else if (baseIRRFSimplificada > 4664.68) valorIRRF_Simplificado = (baseIRRFSimplificada * 0.275) - 896.00;
-        valorIRRF_Simplificado = Math.max(0, valorIRRF_Simplificado);
-
-        // A lei diz que o sistema deve usar a dedução que for mais benéfica
-        const descontoIRRF = Math.min(valorIRRF_Tradicional, valorIRRF_Simplificado);
+        const descontoIRRF = calcularIRRF(totalProventosSemAbono, descontoINSS, deducaoDependentes);
 
         const totalDescontos = descontoINSS + descontoIRRF;
         const valorLiquido = totalProventos - totalDescontos;
@@ -191,35 +164,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return val.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
         }
 
-        // Cálculo das Referências (Alíquotas) para o Holerite
+        // Cálculo das Referências (Alíquotas) para o Holerite — derivadas da tabela compartilhada
         let refINSS = 'Isento';
         if (descontoINSS > 0 && totalProventosSemAbono > 0) {
-            if (totalProventosSemAbono <= 1412.00) {
-                refINSS = '7,50%';
-            } else if (totalProventosSemAbono <= 2666.68) {
-                refINSS = '9,00%';
-            } else if (totalProventosSemAbono <= 4000.03) {
-                refINSS = '12,00%';
-            } else if (totalProventosSemAbono <= 7786.02) {
-                refINSS = '14,00%';
-            } else {
-                refINSS = 'Teto (14,00%)';
-            }
+            const baseInssLimitada = Math.min(totalProventosSemAbono, TETO_INSS);
+            const faixaInss = TABELA_INSS.find(f => baseInssLimitada <= f.limite) || TABELA_INSS[TABELA_INSS.length - 1];
+            const percInss = (faixaInss.aliquota * 100).toFixed(2).replace('.', ',');
+            refINSS = totalProventosSemAbono >= TETO_INSS ? `Teto (${percInss}%)` : `${percInss}%`;
         }
 
         let refIRRF = 'Isento';
         if (descontoIRRF > 0) {
-            let aliqFaixa = 0;
-            const baseUsada = (valorIRRF_Simplificado < valorIRRF_Tradicional && valorIRRF_Simplificado > 0) 
-                ? baseIRRFSimplificada 
-                : baseIRRF;
-
-            if (baseUsada > 4664.68) aliqFaixa = 27.5;
-            else if (baseUsada > 3751.05) aliqFaixa = 22.5;
-            else if (baseUsada > 2826.65) aliqFaixa = 15.0;
-            else if (baseUsada > 2259.20) aliqFaixa = 7.5;
-
-            refIRRF = `${aliqFaixa.toFixed(2).replace('.', ',')}%`;
+            const baseIRRFSimplificada = totalProventosSemAbono - DESCONTO_SIMPLIFICADO;
+            const usouSimplificado = calcularIRRFTabela(baseIRRFSimplificada) < calcularIRRFTabela(baseIRRF);
+            const baseUsada = usouSimplificado ? baseIRRFSimplificada : baseIRRF;
+            const faixaIrrf = TABELA_IRRF.find(f => baseUsada <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
+            refIRRF = `${(faixaIrrf.aliquota * 100).toFixed(2).replace('.', ',')}%`;
         }
 
         resultDiv.innerHTML = `

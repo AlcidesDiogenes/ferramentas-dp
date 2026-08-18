@@ -5,6 +5,22 @@
 "use strict";
 
 import { exportarExcelS1210 } from '../excel-generators/xml-s1210-excel.js';
+import { iconeSucesso, iconeErro } from '../icons.js';
+
+/**
+ * Escapa caracteres HTML especiais. Necessário porque os valores exibidos vêm do conteúdo
+ * de arquivos XML (nome do arquivo e campos do eSocial), que podem ser de origem externa
+ * (ex: um XML recebido de um contador/sistema terceiro) e não são confiáveis.
+ */
+function escapeHtml(text) {
+    return String(text ?? '').replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[ch]));
+}
 
 class XmlS1210Processor {
     constructor() {
@@ -183,21 +199,21 @@ class XmlS1210Processor {
     }
 
     adicionarStatusVisual(nomeArquivo, status, idLi, tipo) {
-        const icone = tipo === 'Carregando' ? '⏳' : (tipo === 'Sucesso' ? '<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> ' : '<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> ');
+        const icone = tipo === 'Carregando' ? '⏳' : (tipo === 'Sucesso' ? iconeSucesso() : iconeErro());
         const cor = tipo === 'Erro' ? 'color: #e02424;' : 'color: var(--cor-texto-secundario);';
         const li = document.createElement('li');
         li.id = idLi;
-        li.innerHTML = `<span style="margin-right: 8px;">${icone}</span> <strong>${nomeArquivo}</strong> - <span style="${cor}">${status}</span>`;
+        li.innerHTML = `<span style="margin-right: 8px;">${icone}</span> <strong>${escapeHtml(nomeArquivo)}</strong> - <span style="${cor}">${escapeHtml(status)}</span>`;
         this.elementos.listaStatus.appendChild(li);
     }
 
     atualizarStatusVisual(idLi, status, tipo) {
         const li = document.getElementById(idLi);
         if (li) {
-            const icone = tipo === 'Sucesso' ? '<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> ' : '<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> ';
+            const icone = tipo === 'Sucesso' ? iconeSucesso() : iconeErro();
             const cor = tipo === 'Erro' ? 'color: #e02424;' : 'color: #107c41;';
             const nomeArquivo = li.querySelector('strong').innerText;
-            li.innerHTML = `<span style="margin-right: 8px;">${icone}</span> <strong>${nomeArquivo}</strong> - <span style="font-weight: 600; ${cor}">${status}</span>`;
+            li.innerHTML = `<span style="margin-right: 8px;">${icone}</span> <strong>${escapeHtml(nomeArquivo)}</strong> - <span style="font-weight: 600; ${cor}">${escapeHtml(status)}</span>`;
         }
     }
 
@@ -213,15 +229,15 @@ class XmlS1210Processor {
             const valorFormatado = dado.vrLiq !== null ? dado.vrLiq.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '-';
             
             tr.innerHTML = `
-                <td style="font-size: 0.75rem;">${dado.nome_arquivo || '-'}</td>
-                <td style="font-size: 0.8rem;">${dado.nrInsc_Empregador || '-'}</td>
-                <td style="font-size: 0.8rem;">${dado.nrInsc_Transmissor || '-'}</td>
-                <td style="font-size: 0.75rem;">${dado.evento_Id || '-'}</td>
-                <td>${dado.perApur || '-'}</td>
-                <td><strong>${dado.cpfBenef || '-'}</strong></td>
-                <td>${dado.dtPgto || '-'}</td>
-                <td>${dado.perRef || '-'}</td>
-                <td style="font-size: 0.75rem;">${dado.ideDmDev || '-'}</td>
+                <td style="font-size: 0.75rem;">${escapeHtml(dado.nome_arquivo) || '-'}</td>
+                <td style="font-size: 0.8rem;">${escapeHtml(dado.nrInsc_Empregador) || '-'}</td>
+                <td style="font-size: 0.8rem;">${escapeHtml(dado.nrInsc_Transmissor) || '-'}</td>
+                <td style="font-size: 0.75rem;">${escapeHtml(dado.evento_Id) || '-'}</td>
+                <td>${escapeHtml(dado.perApur) || '-'}</td>
+                <td><strong>${escapeHtml(dado.cpfBenef) || '-'}</strong></td>
+                <td>${escapeHtml(dado.dtPgto) || '-'}</td>
+                <td>${escapeHtml(dado.perRef) || '-'}</td>
+                <td style="font-size: 0.75rem;">${escapeHtml(dado.ideDmDev) || '-'}</td>
                 <td style="font-weight: 600; color: #107c41;">${valorFormatado}</td>
             `;
             this.elementos.tabelaCorpo.appendChild(tr);

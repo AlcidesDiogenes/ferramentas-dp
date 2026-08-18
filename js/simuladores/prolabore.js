@@ -100,6 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const periodicidade = parseInt(formData.get('periodicidade'));
 
+        if (dados.salarioBruto <= 0 && dados.outrasBases <= 0) {
+            alert('Informe um valor de pró-labore válido (maior que zero) antes de calcular.');
+            return;
+        }
+
         const res = calcularProlabore(dados);
         const custoTotal = (dados.salarioBruto * periodicidade) + (res.inssPatronal * periodicidade);
 

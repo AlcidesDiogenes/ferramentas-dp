@@ -68,9 +68,14 @@ function processarCalculo() {
     const outrasBases = parseFloat(inputOutrasBases.value) || 0;
     const jaContribuido = parseFloat(inputJaContribuido.value) || 0;
 
+    if (salario <= 0 && outrasBases <= 0) {
+        alert('Informe um salário bruto válido (maior que zero) antes de calcular.');
+        return;
+    }
+
     if (outrasBases > 0 && inputJaContribuido.value === '') {
         alert("O campo 'INSS Já Contribuído' é obrigatório quando há outras bases informadas.");
-        return; 
+        return;
     }
 
     // Variáveis Globais da Função

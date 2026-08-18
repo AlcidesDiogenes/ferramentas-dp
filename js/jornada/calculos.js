@@ -65,20 +65,41 @@ document.addEventListener('DOMContentLoaded', () => {
         return t1.trab + t2.trab;
     }
 
+    // Guarda as referências das células de cada linha na própria linha (uma única vez),
+    // evitando repetir 9 querySelector por linha a cada recálculo (o mês inteiro é
+    // recalculado a cada edição de horário, já que os totais dependem de todas as linhas).
+    function obterCelulas(linha) {
+        if (!linha._celulas) {
+            linha._celulas = {
+                e1: linha.querySelector('.e1'),
+                s1: linha.querySelector('.s1'),
+                e2: linha.querySelector('.e2'),
+                s2: linha.querySelector('.s2'),
+                resTrab: linha.querySelector('.res-trab'),
+                resExtra: linha.querySelector('.res-extra'),
+                resNoturno: linha.querySelector('.res-noturno'),
+                resFicta: linha.querySelector('.res-ficta'),
+                resAtraso: linha.querySelector('.res-atraso')
+            };
+        }
+        return linha._celulas;
+    }
+
     // Motor Central de Apuração
     function realizarApuracao() {
         const linhas = document.querySelectorAll('.linha-ponto');
         if (linhas.length === 0) return;
-        
+
         let somas = { trab: 0, extra: 0, noturno: 0, ficta: 0, atraso: 0 };
 
         linhas.forEach(linha => {
             const diaSemanaIndex = linha.getAttribute('data-dia-semana');
-            
-            const e1 = linha.querySelector('.e1').value;
-            const s1 = linha.querySelector('.s1').value;
-            const e2 = linha.querySelector('.e2').value;
-            const s2 = linha.querySelector('.s2').value;
+            const cel = obterCelulas(linha);
+
+            const e1 = cel.e1.value;
+            const s1 = cel.s1.value;
+            const e2 = cel.e2.value;
+            const s2 = cel.s2.value;
 
             // 1. Apuração do Tempo Realizado no dia
             const turno1 = apurarBatida(e1, s1);
@@ -86,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const diaTrab = turno1.trab + turno2.trab;
             const diaNoturnoReal = turno1.noturno + turno2.noturno;
-            const diaFicta = diaNoturnoReal * FATOR_NOTURNO; 
+            const diaFicta = diaNoturnoReal * FATOR_NOTURNO;
 
             // 2. Apuração da Escala Esperada para gerar Extas ou Atrasos
             const diaEscala = calcularEscala(diaSemanaIndex);
-            
+
             let diaExtra = 0;
             let diaAtraso = 0;
 
@@ -108,11 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
             somas.atraso += diaAtraso;
 
             // 4. Escreve os resultados na Linha (DOM)
-            linha.querySelector('.res-trab').textContent = minutosParaTime(diaTrab);
-            linha.querySelector('.res-extra').textContent = minutosParaTime(diaExtra);
-            linha.querySelector('.res-noturno').textContent = minutosParaTime(diaNoturnoReal);
-            linha.querySelector('.res-ficta').textContent = minutosParaTime(diaFicta);
-            linha.querySelector('.res-atraso').textContent = minutosParaTime(diaAtraso);
+            cel.resTrab.textContent = minutosParaTime(diaTrab);
+            cel.resExtra.textContent = minutosParaTime(diaExtra);
+            cel.resNoturno.textContent = minutosParaTime(diaNoturnoReal);
+            cel.resFicta.textContent = minutosParaTime(diaFicta);
+            cel.resAtraso.textContent = minutosParaTime(diaAtraso);
         });
 
         // 5. Atualiza o Rodapé Consolidado

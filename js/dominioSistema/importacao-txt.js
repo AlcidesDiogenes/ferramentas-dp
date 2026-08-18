@@ -5,6 +5,21 @@
 
 "use strict";
 
+/**
+ * Escapa caracteres HTML especiais. Necessário porque o nome do arquivo e as células da
+ * planilha importada (que pode vir de um sistema/cliente externo) são exibidos via
+ * innerHTML sem passar por um parser confiável.
+ */
+function escapeHtml(text) {
+    return String(text ?? '').replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[ch]));
+}
+
 class GeradorArquivoDominio {
     static formatarLinha({ codigoEmpregado, competencia, rubrica, calculo, valor, empresa }) {
         // Aplicação rigorosa das posições exigidas pelo layout da Domínio
@@ -45,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetInterface();
 
         const file = e.target.files[0];
-        listaArquivos.innerHTML = `<li>${file.name} - 
+        listaArquivos.innerHTML = `<li>${escapeHtml(file.name)} -
 <svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> Processado com Sucesso</li>`;
         statusContainer.style.display = 'block';
 
@@ -142,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 empresa: empresa
                             }));
                             
-                            htmlRows.push(`<tr><td>${calculo}</td><td>${folha}</td><td>${nome}</td><td>${rubrica}</td><td>${valor.toFixed(2)}</td></tr>`);
+                            htmlRows.push(`<tr><td>${escapeHtml(calculo)}</td><td>${escapeHtml(folha)}</td><td>${escapeHtml(nome)}</td><td>${escapeHtml(rubrica)}</td><td>${valor.toFixed(2)}</td></tr>`);
                         }
                     }
                 });

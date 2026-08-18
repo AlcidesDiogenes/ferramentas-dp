@@ -1,6 +1,8 @@
 // sw.js - Service Worker para Ferramentas DP (PWA Offline)
-const CACHE_NAME = 'ferramentas-dp-v1.0.7';
-const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.7';
+// Versão incrementada: força o descarte do cache antigo, que tinha os ícones do PWA
+// corrompidos (ver correção em generate-png-icons.js / icons/icon-*.png).
+const CACHE_NAME = 'ferramentas-dp-v1.0.8';
+const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.8';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -10,23 +12,42 @@ const PRECACHE_ASSETS = [
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/icon-maskable-512.png',
+  // css/style.css @importa todos estes em toda página do site — precisam estar todos em
+  // cache, senão o modo offline mostra páginas sem estilo.
   '/css/style.css',
+  '/css/variables.css',
+  '/css/reset.css',
   '/css/layout.css',
   '/css/sidebar.css',
   '/css/components.css',
+  '/css/file-uploader.css',
   '/css/forms.css',
   '/css/simulador-calculos.css',
+  '/css/consultas.css',
+  '/css/jornada.css',
   '/css/simulador-custo.css',
+  '/css/modelos.css',
+  '/css/ajuda.css',
+  '/css/command-palette.css',
+  // js/head-manager.js injeta estes em toda página do site
   '/js/head-manager.js',
   '/js/loader.js',
   '/js/toast.js',
   '/js/theme-toggle.js',
-  '/js/command-palette.js',
+  '/js/modules-config.js',
+  '/js/page-loader.js',
   '/js/keyboard-nav.js',
+  '/js/command-palette.js',
   '/js/file-uploader-helper.js',
   '/js/pwa-installer.js',
   '/js/simuladores/ferias.js',
   '/js/simuladores/rescisao.js',
+  '/js/consultas.js',
+  '/js/ajuda.js',
+  '/js/analise-fiscal.js',
+  '/js/detalhamento-fiscal.js',
+  '/js/programacao-ferias.js',
+  '/js/motor-filtros.js',
   '/pages/simuladores/ferias.html',
   '/pages/simuladores/rescisao.html',
   '/pages/simuladores/hub.html',
@@ -159,6 +180,10 @@ self.addEventListener('fetch', (event) => {
 
   // Apenas intercepta requisições GET do mesmo protocolo ou CDNs
   if (req.method !== 'GET') return;
+
+  // Ignora esquemas que a Cache API não suporta (ex: chrome-extension://, injetado por
+  // extensões do navegador) — tentar cache.put nessas requisições sempre lança TypeError.
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
 
   // 1. Estratégia para Páginas de Navegação (HTML) -> Network First com Fallback para Cache
   if (req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html')) {

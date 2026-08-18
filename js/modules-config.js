@@ -609,9 +609,10 @@ function checkDirectPageAccess() {
             const accessInfo = getModuleAccessibility(mod);
             if (!accessInfo.accessible) {
                 alert(accessInfo.reason);
-                let prefix = '';
-                if (currentPath.includes('/pages/central-de-dados/') || currentPath.includes('/pages/gestao/')) prefix = '../../';
-                else if (currentPath.includes('/pages/')) prefix = '../';
+                const pathParts = currentPath.split('/').filter(p => p.length > 0);
+                const pagesIndex = pathParts.indexOf('pages');
+                const depth = pagesIndex === -1 ? 0 : (pathParts.length - pagesIndex - 1);
+                const prefix = depth === 0 ? '' : '../'.repeat(depth);
                 window.location.href = prefix + 'index.html';
                 break;
             }

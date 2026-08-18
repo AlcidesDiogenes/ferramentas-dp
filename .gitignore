@@ -1,0 +1,22 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente (nunca versionar segredos reais — use .env.example como modelo)
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+*.log
+
+# Sistema operacional / editor
+.DS_Store
+Thumbs.db
+
+# Anotações e prompts pessoais de desenvolvimento (não fazem parte da aplicação)
+comandos IA/
+
+# Scripts avulsos de uso único, não referenciados pelo app nem pelo package.json
+fix_quotes.cjs
+test_browser2.mjs
