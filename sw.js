@@ -1,8 +1,7 @@
 // sw.js - Service Worker para Ferramentas DP (PWA Offline)
-// Versão incrementada: força o descarte do cache antigo, que tinha os ícones do PWA
-// corrompidos (ver correção em generate-png-icons.js / icons/icon-*.png).
-const CACHE_NAME = 'ferramentas-dp-v1.0.8';
-const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.8';
+// Versão incrementada: "Valor por Extenso" renomeado para "Número por Extenso" (novo caminho).
+const CACHE_NAME = 'ferramentas-dp-v1.0.11';
+const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.11';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -48,6 +47,15 @@ const PRECACHE_ASSETS = [
   '/js/detalhamento-fiscal.js',
   '/js/programacao-ferias.js',
   '/js/motor-filtros.js',
+  '/js/utilidades/conversor-horas.js',
+  '/js/utilidades/ajuste-texto.js',
+  '/js/utilidades/tempo-de-casa.js',
+  '/js/utilidades/dias-uteis.js',
+  '/js/utilidades/aviso-previo.js',
+  '/js/utilidades/calculadora-avos.js',
+  '/js/utilidades/conversor-salario.js',
+  '/js/utilidades/vale-transporte.js',
+  '/js/utilidades/numero-por-extenso.js',
   '/pages/simuladores/ferias.html',
   '/pages/simuladores/rescisao.html',
   '/pages/simuladores/hub.html',
@@ -55,7 +63,17 @@ const PRECACHE_ASSETS = [
   '/pages/consultas.html',
   '/pages/modelos.html',
   '/pages/jornada.html',
-  '/pages/ajuda.html'
+  '/pages/ajuda.html',
+  '/pages/utilidades/hub.html',
+  '/pages/utilidades/conversor-horas.html',
+  '/pages/utilidades/ajuste-texto.html',
+  '/pages/utilidades/tempo-de-casa.html',
+  '/pages/utilidades/dias-uteis.html',
+  '/pages/utilidades/aviso-previo.html',
+  '/pages/utilidades/calculadora-avos.html',
+  '/pages/utilidades/conversor-salario.html',
+  '/pages/utilidades/vale-transporte.html',
+  '/pages/utilidades/numero-por-extenso.html'
 ];
 
 // Offline HTML Template Fallback

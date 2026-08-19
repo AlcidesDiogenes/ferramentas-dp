@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Número por Extenso - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Número por Extenso</h1>
+            <p class="subtitle">Converte um número para o texto por extenso, como valor em reais ou como número simples</p>
+        </header>
+
+        <section class="module-card">
+            <div class="form-grid">
+                <div class="form-section">
+                    <h3>Número</h3>
+                    <div class="form-group">
+                        <label for="tipo-extenso" class="form-label">Tipo de Conversão</label>
+                        <select id="tipo-extenso" class="form-control">
+                            <option value="valor">Valor por Extenso (em reais)</option>
+                            <option value="numero">Número por Extenso (sem moeda)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="valor-numerico" class="form-label" id="label-valor-numerico">Valor em Reais</label>
+                        <input type="number" step="0.01" min="0" id="valor-numerico" class="form-control" placeholder="0,00">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Resultado</h3>
+                    <div class="sim-card">
+                        <p id="valor-extenso" style="font-size: 1.05rem; font-weight: 600; text-align: center; color: var(--cor-texto-principal);">Zero reais</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/utilidades/numero-por-extenso.js" defer></script>
+</body>
+
+</html>

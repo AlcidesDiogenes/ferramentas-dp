@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviso Prévio Proporcional - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Aviso Prévio Proporcional</h1>
+            <p class="subtitle">Dias de aviso prévio devidos conforme o tempo de casa (Lei 12.506/2011)</p>
+        </header>
+
+        <section class="module-card">
+            <form id="form-aviso-previo" class="simulator-form">
+                <div style="max-width: 480px; margin: 0 auto;">
+                    <div class="form-section">
+                        <h3>Datas</h3>
+                        <div class="form-group">
+                            <label for="data-admissao" class="form-label">Data de Admissão</label>
+                            <input type="date" id="data-admissao" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data-demissao" class="form-label">Data de Demissão (ou referência)</label>
+                            <input type="date" id="data-demissao" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-action" style="display: flex; margin: 20px auto 0;">Calcular</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="resultado-section" style="display: none;">
+            <div id="resultado-calculo"></div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/utilidades/aviso-previo.js" defer></script>
+</body>
+
+</html>

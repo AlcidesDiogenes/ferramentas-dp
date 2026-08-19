@@ -12,8 +12,6 @@ window.MODULES_CONFIG = [
         id: "dominio-sistema",
         title: "Ferramentas Dominio Sistema",
         path: "pages/dominioSistema/hub_dominio.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -30,8 +28,6 @@ window.MODULES_CONFIG = [
         id: "analise-ponto",
         title: "Análise de ponto",
         path: "pages/jornada.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -39,8 +35,13 @@ window.MODULES_CONFIG = [
         id: "simuladores",
         title: "Simuladores",
         path: "pages/simuladores/hub.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
+        accessible: true,
+        roleRequired: "public"
+    },
+    {
+        id: "utilidades",
+        title: "Utilidades",
+        path: "pages/utilidades/hub.html",
         accessible: true,
         roleRequired: "public"
     },
@@ -48,8 +49,6 @@ window.MODULES_CONFIG = [
         id: "consultas",
         title: "Consulta",
         path: "pages/consultas.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -57,8 +56,6 @@ window.MODULES_CONFIG = [
         id: "modelos",
         title: "Modelos de documentos",
         path: "pages/modelos.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -67,8 +64,6 @@ window.MODULES_CONFIG = [
         id: "afastamentos",
         title: "Análise de Afastamentos",
         path: "afastamentos.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -76,8 +71,6 @@ window.MODULES_CONFIG = [
         id: "programacao-ferias",
         title: "Análise de Programação de Férias",
         path: "programacao-ferias.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -103,8 +96,6 @@ window.MODULES_CONFIG = [
         id: "custo-funcionario",
         title: "Simulador de Funcionário",
         path: "custo-funcionario.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -112,8 +103,6 @@ window.MODULES_CONFIG = [
         id: "prolabore",
         title: "Simulador de Pró-labore",
         path: "prolabore.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -121,8 +110,6 @@ window.MODULES_CONFIG = [
         id: "entenda-descontos",
         title: "Entenda os Descontos",
         path: "detalhamento-calculos.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -130,8 +117,6 @@ window.MODULES_CONFIG = [
         id: "cota-aprendiz",
         title: "Cota aprendiz",
         path: "cota-aprendiz.html",
-        status: "Updated",
-        statusLabel: "Atualizado",
         accessible: true,
         roleRequired: "public"
     },
@@ -157,8 +142,6 @@ window.MODULES_CONFIG = [
         id: "calculadora-ferias",
         title: "Calculadora de Férias",
         path: "ferias.html",
-        status: "Novo",
-        statusLabel: "Novo",
         accessible: true,
         roleRequired: "public"
     }

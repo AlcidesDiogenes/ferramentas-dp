@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Horas - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Conversor de Horas</h1>
+            <p class="subtitle">Converte horas entre formato decimal e HH:MM, nos dois sentidos</p>
+        </header>
+
+        <section class="module-card">
+            <div class="form-grid">
+                <div class="form-section">
+                    <h3>Decimal → Horas (HH:MM)</h3>
+                    <div class="form-group">
+                        <label for="dec-input" class="form-label">Horas em formato decimal</label>
+                        <input type="number" step="0.01" min="0" id="dec-input" class="form-control" placeholder="Ex: 7,5">
+                    </div>
+                    <div class="sim-card" style="margin-top: 15px;">
+                        <div class="sim-item">
+                            <span class="sim-label">Resultado em HH:MM</span>
+                            <span class="sim-value" id="dec-output">00:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Horas (HH:MM) → Decimal</h3>
+                    <div class="form-group">
+                        <label for="hora-input" class="form-label">Horas no formato HH:MM</label>
+                        <input type="text" id="hora-input" class="form-control" placeholder="Ex: 07:30" inputmode="numeric">
+                        <small id="hora-erro" style="color: var(--cor-text-danger); display: none;">Use o formato HH:MM, com minutos entre 00 e 59.</small>
+                    </div>
+                    <div class="sim-card" style="margin-top: 15px;">
+                        <div class="sim-item">
+                            <span class="sim-label">Resultado decimal</span>
+                            <span class="sim-value" id="hora-output">0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/utilidades/conversor-horas.js" defer></script>
+</body>
+
+</html>

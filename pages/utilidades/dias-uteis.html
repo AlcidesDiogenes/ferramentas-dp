@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dias Úteis Entre Datas - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Dias Úteis Entre Datas</h1>
+            <p class="subtitle">Conta dias úteis entre duas datas, descontando fins de semana e feriados nacionais</p>
+        </header>
+
+        <section class="module-card">
+            <form id="form-dias-uteis" class="simulator-form">
+                <div style="max-width: 480px; margin: 0 auto;">
+                    <div class="form-section">
+                        <h3>Período</h3>
+                        <div class="form-group">
+                            <label for="data-inicio" class="form-label">Data de Início</label>
+                            <input type="date" id="data-inicio" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data-fim" class="form-label">Data de Fim</label>
+                            <input type="date" id="data-fim" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="considerar-feriados" class="form-label">Descontar feriados nacionais</label>
+                            <select id="considerar-feriados" class="form-control">
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não (só fins de semana)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="considerar-sabado" class="form-label">Sábado</label>
+                            <select id="considerar-sabado" class="form-control">
+                                <option value="nao">Não contar como dia útil</option>
+                                <option value="sim">Contar como dia útil</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-action" style="display: flex; margin: 20px auto 0;">Calcular</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="resultado-section" style="display: none;">
+            <div id="resultado-calculo"></div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/utilidades/dias-uteis.js" defer></script>
+</body>
+
+</html>

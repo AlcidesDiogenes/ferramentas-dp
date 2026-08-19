@@ -500,6 +500,12 @@
     border: 1px solid #fca5a5;
 }
 
+.status-badge-soon {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
 [data-theme="dark"] .status-badge-pro {
     background-color: rgba(168, 85, 247, 0.2);
     color: #c084fc;
@@ -534,6 +540,12 @@
     background-color: rgba(239, 68, 68, 0.2);
     color: #f87171;
     border-color: rgba(239, 68, 68, 0.4);
+}
+
+[data-theme="dark"] .status-badge-soon {
+    background-color: rgba(148, 163, 184, 0.2);
+    color: #cbd5e1;
+    border-color: rgba(148, 163, 184, 0.4);
 }
 
 .module-card.module-disabled {

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Salário - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Conversor de Salário</h1>
+            <p class="subtitle">Converte o salário entre valor mensal, diário e por hora, com divisor configurável</p>
+        </header>
+
+        <section class="module-card">
+            <div class="form-grid">
+                <div class="form-section">
+                    <h3>Dados Base</h3>
+                    <div class="form-group">
+                        <label for="salario-mensal" class="form-label">Salário Mensal</label>
+                        <input type="number" step="0.01" min="0" id="salario-mensal" class="form-control" placeholder="0,00">
+                    </div>
+                    <div class="form-group">
+                        <label for="divisor-dias" class="form-label">Divisor de Dias (mês)</label>
+                        <input type="number" step="1" min="1" id="divisor-dias" class="form-control" value="30">
+                    </div>
+                    <div class="form-group">
+                        <label for="horas-mensais" class="form-label">Horas Mensais</label>
+                        <select id="horas-mensais" class="form-control">
+                            <option value="220">220h (jornada 44h/semana)</option>
+                            <option value="200">200h (jornada 40h/semana)</option>
+                            <option value="180">180h (jornada 36h/semana)</option>
+                            <option value="120">120h (jornada 24h/semana)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Resultado</h3>
+                    <div class="sim-card">
+                        <div class="sim-grid">
+                            <div class="sim-item">
+                                <span class="sim-label">Valor Diário</span>
+                                <span class="sim-value" id="valor-diario">R$ 0,00</span>
+                            </div>
+                            <div class="sim-item">
+                                <span class="sim-label">Valor Hora</span>
+                                <span class="sim-value" id="valor-hora">R$ 0,00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/utilidades/conversor-salario.js" defer></script>
+</body>
+
+</html>

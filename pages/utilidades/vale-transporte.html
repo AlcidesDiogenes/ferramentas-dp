@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Vale-Transporte - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Calculadora de Vale-Transporte</h1>
+            <p class="subtitle">Compara o desconto legal de 6% do salário com o custo real do transporte</p>
+        </header>
+
+        <section class="module-card">
+            <form id="form-vale-transporte" class="simulator-form">
+                <div style="max-width: 480px; margin: 0 auto;">
+                    <div class="form-section">
+                        <h3>Dados</h3>
+                        <div class="form-group">
+                            <label for="salario-base" class="form-label">Salário Base</label>
+                            <input type="number" step="0.01" min="0" id="salario-base" class="form-control" placeholder="0,00" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="custo-diario" class="form-label">Custo Diário do Transporte (ida + volta)</label>
+                            <input type="number" step="0.01" min="0" id="custo-diario" class="form-control" placeholder="0,00" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dias-trabalhados" class="form-label">Dias Trabalhados no Mês</label>
+                            <input type="number" step="1" min="0" id="dias-trabalhados" class="form-control" value="22">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-action" style="display: flex; margin: 20px auto 0;">Calcular</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="resultado-section" style="display: none;">
+            <div id="resultado-calculo"></div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/utilidades/vale-transporte.js" defer></script>
+</body>
+
+</html>

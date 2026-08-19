@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Avos - Ferramentas DP</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <script>if(localStorage.getItem("menuRetraido") === "true") document.documentElement.classList.add("menu-fechado");</script>
+
+    <script src="../../js/head-manager.js"></script>
+</head>
+
+<body class="preload">
+
+    <div id="sidebar-placeholder"></div>
+
+    <main class="main-content">
+        <header class="main-header">
+            <h1>Calculadora de Avos</h1>
+            <p class="subtitle">Avos proporcionais de 13º salário e férias a partir de datas de admissão/demissão</p>
+        </header>
+
+        <section class="module-card">
+            <form id="form-avos" class="simulator-form">
+                <div style="max-width: 480px; margin: 0 auto;">
+                    <div class="form-section">
+                        <h3>Datas</h3>
+                        <div class="form-group">
+                            <label for="data-admissao" class="form-label">Data de Admissão</label>
+                            <input type="date" id="data-admissao" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="data-demissao" class="form-label">Data de Demissão (ou referência)</label>
+                            <input type="date" id="data-demissao" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-action" style="display: flex; margin: 20px auto 0;">Calcular</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="resultado-section" style="display: none;">
+            <div id="resultado-calculo"></div>
+        </section>
+    </main>
+
+    <script src="../../js/loader.js" defer></script>
+    <script type="module" src="../../js/utilidades/calculadora-avos.js" defer></script>
+</body>
+
+</html>
