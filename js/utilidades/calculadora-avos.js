@@ -13,6 +13,11 @@ function parseDataLocal(str) {
 }
 
 function calcularAvos13(admissao, demissao) {
+    // Regra: cada mês completo, ou fração igual/superior a 15 dias, conta como 1 avo (1/12).
+    // dataInicio13 sempre cai no mesmo ano de "demissao" (é 1º de janeiro do ano da demissão,
+    // ou a própria admissão quando esta ocorre dentro desse mesmo ano) — por isso o cálculo usa
+    // sempre os dias reais do calendário, nunca um mês "fixo" de 30 dias, que gerava avos errados
+    // sempre que a admissão caía em fevereiro (28/29 dias) ou em meses de 31 dias.
     let avos13 = 0;
     const anoDem = demissao.getFullYear();
     const inicioAno = new Date(anoDem, 0, 1);
@@ -21,20 +26,27 @@ function calcularAvos13(admissao, demissao) {
     const mInicio = dataInicio13.getMonth();
     const mFim = demissao.getMonth();
 
-    if (dataInicio13.getFullYear() === demissao.getFullYear()) {
-        let diasPrimeiroMes = 30 - dataInicio13.getDate() + 1;
-        if (dataInicio13.getDate() === 1) diasPrimeiroMes = 30;
+    if (mInicio === mFim) {
+        // Início e fim do período dentro do mesmo mês: conta os dias realmente trabalhados,
+        // não os dias até o fim do mês (o funcionário pode ter sido desligado bem antes disso).
+        const diasTrabalhadosNoMes = demissao.getDate() - dataInicio13.getDate() + 1;
+        if (diasTrabalhadosNoMes >= 15) avos13 = 1;
+    } else {
+        // Primeiro mês: dias restantes até o fim do mês, usando o nº real de dias do mês
+        // (28/29 em fevereiro, 30 ou 31 nos demais), não um valor fixo.
+        const diasNoMesInicio = new Date(dataInicio13.getFullYear(), mInicio + 1, 0).getDate();
+        const diasPrimeiroMes = diasNoMesInicio - dataInicio13.getDate() + 1;
         if (diasPrimeiroMes >= 15) avos13++;
 
+        // Meses completos entre o início e o fim
         for (let m = mInicio + 1; m < mFim; m++) {
             avos13++;
         }
 
-        if (mFim > mInicio && demissao.getDate() >= 15) {
+        // Último mês (mês da demissão)
+        if (demissao.getDate() >= 15) {
             avos13++;
         }
-    } else {
-        avos13 = demissao.getMonth() + (demissao.getDate() >= 15 ? 1 : 0);
     }
 
     return Math.min(12, Math.max(0, avos13));

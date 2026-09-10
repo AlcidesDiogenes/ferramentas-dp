@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputDiasGozo = document.getElementById('diasGozo');
     const msgDiasDireito = document.getElementById('diasDireitoMsg');
     const inputAbono = document.getElementById('abono');
+    const inputDobro = document.getElementById('dobro');
     
     function atualizarDireito() {
         const faltas = parseInt(inputFaltas.value) || 0;
@@ -100,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let diasGozo = parseFloat(inputDiasGozo.value) || 0;
         const dependentes = parseInt(document.getElementById('dependentes').value) || 0;
         const venderFerias = inputAbono.value === 'sim';
+        const feriasEmDobro = inputDobro.value === 'sim';
 
         // Validação básica
         if (salario <= 0) {
@@ -131,8 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // CÁLCULOS
         const baseCalculoDia = (salario + medias) / 30;
-        
-        const valorFerias = baseCalculoDia * diasGozo;
+
+        // Art. 137 da CLT / Súmula 450 do TST: férias concedidas fora do período concessivo
+        // são pagas em dobro. A dobra incide sobre a remuneração das férias gozadas
+        // (principal + 1/3), mas não sobre o abono pecuniário (venda de férias).
+        const multiplicadorDobro = feriasEmDobro ? 2 : 1;
+        const valorFerias = baseCalculoDia * diasGozo * multiplicadorDobro;
         const valorTercoFerias = valorFerias / 3;
         
         const valorAbono = baseCalculoDia * abonoDias;
@@ -191,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span><strong>Direito:</strong> ${diasDireito} dias</span>
                         <span><strong>Gozo:</strong> ${diasGozo} dias</span>
                         ${venderFerias ? `<span><strong>Abono:</strong> ${abonoDias} dias</span>` : ''}
+                        ${feriasEmDobro ? `<span style="color: var(--cor-text-danger, #b91c1c); font-weight: 700;">Pagamento em Dobro (Art. 137 CLT)</span>` : ''}
                     </div>
                 </div>
                 
@@ -206,13 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Férias Normais</td>
-                                <td class="col-ref">${diasGozo} dias</td>
+                                <td>Férias Normais${feriasEmDobro ? ' (em dobro)' : ''}</td>
+                                <td class="col-ref">${diasGozo} dias${feriasEmDobro ? ' x2' : ''}</td>
                                 <td class="col-value col-provento">${formatarMoeda(valorFerias)}</td>
                                 <td class="col-value">-</td>
                             </tr>
                             <tr>
-                                <td>1/3 Constitucional (Férias)</td>
+                                <td>1/3 Constitucional (Férias)${feriasEmDobro ? ' (em dobro)' : ''}</td>
                                 <td class="col-ref">33,33%</td>
                                 <td class="col-value col-provento">${formatarMoeda(valorTercoFerias)}</td>
                                 <td class="col-value">-</td>

@@ -223,31 +223,43 @@ function apurarAvosEDiasAutomaticos() {
     }
 
     // 2. Apuração dos Avos de 13º Salário
+    // Regra: cada mês completo, ou fração igual/superior a 15 dias, conta como 1 avo (1/12).
+    // dataInicio13 sempre cai no mesmo ano de projecaoDem (é 1º de janeiro do ano da demissão,
+    // ou a própria admissão quando esta ocorre dentro desse mesmo ano) — por isso o cálculo usa
+    // sempre os dias reais do calendário, nunca um mês "fixo" de 30 dias, que gerava avos errados
+    // sempre que a admissão caía em fevereiro (28/29 dias) ou em meses de 31 dias.
     let avos13Calc = 0;
     if (tipoRescisao !== 'demissao_com_justa_causa') {
         const anoDem = projecaoDem.getFullYear();
         const inicioAno = new Date(anoDem, 0, 1);
         const dataInicio13 = adm > inicioAno ? adm : inicioAno;
 
-        let mInicio = dataInicio13.getMonth();
-        let mFim = projecaoDem.getMonth();
-        if (dataInicio13.getFullYear() === projecaoDem.getFullYear()) {
-            let diasPrimeiroMes = 30 - dataInicio13.getDate() + 1;
-            if (dataInicio13.getDate() === 1) diasPrimeiroMes = 30;
+        const mInicio = dataInicio13.getMonth();
+        const mFim = projecaoDem.getMonth();
+
+        if (mInicio === mFim) {
+            // Início e fim do período dentro do mesmo mês: conta os dias realmente trabalhados,
+            // não os dias até o fim do mês (o funcionário pode ter sido desligado bem antes disso).
+            const diasTrabalhadosNoMes = projecaoDem.getDate() - dataInicio13.getDate() + 1;
+            if (diasTrabalhadosNoMes >= 15) avos13Calc = 1;
+        } else {
+            // Primeiro mês: dias restantes até o fim do mês, usando o nº real de dias do mês
+            // (28/29 em fevereiro, 30 ou 31 nos demais), não um valor fixo.
+            const diasNoMesInicio = new Date(dataInicio13.getFullYear(), mInicio + 1, 0).getDate();
+            const diasPrimeiroMes = diasNoMesInicio - dataInicio13.getDate() + 1;
             if (diasPrimeiroMes >= 15) avos13Calc++;
 
+            // Meses completos entre o início e o fim
             for (let m = mInicio + 1; m < mFim; m++) {
                 avos13Calc++;
             }
 
-            if (mFim > mInicio) {
-                if (projecaoDem.getDate() >= 15) {
-                    avos13Calc++;
-                }
+            // Último mês (mês da demissão)
+            if (projecaoDem.getDate() >= 15) {
+                avos13Calc++;
             }
-        } else {
-            avos13Calc = projecaoDem.getMonth() + (projecaoDem.getDate() >= 15 ? 1 : 0);
         }
+
         avos13Calc = Math.min(12, Math.max(0, avos13Calc));
     }
 
@@ -788,11 +800,13 @@ function renderizarResultadosHTML(dados) {
                         <span class="base-desc">INSS Devido: ${formatarMoeda(dados.inssMensal)}</span>
                     </div>
 
+                    ${dados.avos13 > 0 ? `
                     <div class="card-base-item">
                         <span class="base-label">Base INSS 13º Salário</span>
                         <span class="base-val">${formatarMoeda(dados.baseINSS13)}</span>
                         <span class="base-desc">INSS 13º Devido: ${formatarMoeda(dados.inss13)}</span>
                     </div>
+                    ` : ''}
 
                     <div class="card-base-item">
                         <span class="base-label">Base IRRF Mensal</span>
@@ -800,11 +814,13 @@ function renderizarResultadosHTML(dados) {
                         <span class="base-desc">IRRF Devido: ${formatarMoeda(dados.irrfMensal)}</span>
                     </div>
 
+                    ${dados.avos13 > 0 ? `
                     <div class="card-base-item">
                         <span class="base-label">Base IRRF 13º Salário</span>
                         <span class="base-val">${formatarMoeda(dados.baseIRRF13)}</span>
                         <span class="base-desc">IRRF 13º Devido: ${formatarMoeda(dados.irrf13)}</span>
                     </div>
+                    ` : ''}
 
                     <div class="card-base-item">
                         <span class="base-label">Base FGTS Rescisão (Folha/Aviso/13º)</span>
@@ -812,11 +828,13 @@ function renderizarResultadosHTML(dados) {
                         <span class="base-desc">FGTS 8%: ${formatarMoeda(dados.fgtsRescisao)}</span>
                     </div>
 
+                    ${dados.percentualMultaFGTS > 0 ? `
                     <div class="card-base-item">
                         <span class="base-label">Base para Multa FGTS (CEF + Mês)</span>
                         <span class="base-val">${formatarMoeda(dados.baseFGTSMulta)}</span>
                         <span class="base-desc">Multa ${dados.percentualMultaFGTS}%: ${formatarMoeda(dados.valorMultaFGTS)}</span>
                     </div>
+                    ` : ''}
 
                     <div class="card-base-item" style="grid-column: 1 / -1; background: var(--cor-card-subtle-bg);">
                         <span class="base-label">Total de Verbas Isentas / Indenizatórias (Não Tributáveis)</span>
@@ -875,12 +893,14 @@ function renderizarResultadosHTML(dados) {
                                 <td style="padding: 10px 12px; text-align: right;">${formatarMoeda(dados.baseFGTSRescisao)}</td>
                                 <td style="padding: 10px 12px; text-align: right; font-weight: 700;">${formatarMoeda(dados.fgtsRescisao)}</td>
                             </tr>
+                            ${dados.percentualMultaFGTS > 0 ? `
                             <tr style="border-bottom: 1px solid var(--cor-borda, #e2e8f0);">
                                 <td style="padding: 10px 12px; font-weight: 600;">Multa Rescisória do FGTS</td>
                                 <td style="padding: 10px 12px; text-align: center;">${dados.percentualMultaFGTS}.00%</td>
                                 <td style="padding: 10px 12px; text-align: right;">${formatarMoeda(dados.baseFGTSMulta)}</td>
                                 <td style="padding: 10px 12px; text-align: right; font-weight: 700;">${formatarMoeda(dados.valorMultaFGTS)}</td>
                             </tr>
+                            ` : ''}
                             ${dados.custoBeneficiosEmpresa > 0 ? `
                             <tr style="border-bottom: 1px solid var(--cor-borda, #e2e8f0);">
                                 <td style="padding: 10px 12px; font-weight: 600;">Custeio de Benefícios pela Empresa</td>
@@ -958,14 +978,18 @@ function renderizarResultadosHTML(dados) {
                         <span>Base de Cálculo da Multa Rescisória:</span><br>
                         <strong style="font-size: 1.1rem;">${formatarMoeda(dados.baseFGTSMulta)}</strong>
                     </div>
+                    ${dados.percentualMultaFGTS > 0 ? `
                     <div style="background: var(--cor-card-subtle-bg); padding: 12px 16px; border-radius: 8px;">
                         <span>Multa Rescisória do FGTS (${dados.percentualMultaFGTS}%):</span><br>
                         <strong style="font-size: 1.1rem; color: var(--cor-text-info, #1e3a8a);">${formatarMoeda(dados.valorMultaFGTS)}</strong>
                     </div>
+                    ` : ''}
+                    ${dados.valorSaqueFGTS > 0 ? `
                     <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); padding: 12px 16px; border-radius: 8px; color: var(--cor-text-success, #047857);">
                         <span>Estimativa Liberada para Saque CEF:</span><br>
                         <strong style="font-size: 1.15rem; color: var(--cor-text-success, #047857);">${formatarMoeda(dados.valorSaqueFGTS)}</strong>
                     </div>
+                    ` : ''}
                 </div>
             </div>
         </div>

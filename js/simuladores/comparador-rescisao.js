@@ -51,6 +51,61 @@ function calcularAnosCompletos(dataInicio, dataFim) {
     return Math.max(0, anos);
 }
 
+// Avos de 13º salário e férias proporcionais — mesma lógica (calendário real, não meses fixos
+// de 30 dias) usada em js/simuladores/rescisao.js e js/utilidades/calculadora-avos.js, para que
+// os três lugares do sistema deem o mesmo resultado para a mesma admissão/demissão.
+function calcularAvos13(adm, dataRef) {
+    let avos13 = 0;
+    const anoRef = dataRef.getFullYear();
+    const inicioAno = new Date(anoRef, 0, 1);
+    const dataInicio13 = adm > inicioAno ? adm : inicioAno;
+
+    const mInicio = dataInicio13.getMonth();
+    const mFim = dataRef.getMonth();
+
+    if (mInicio === mFim) {
+        const diasTrabalhadosNoMes = dataRef.getDate() - dataInicio13.getDate() + 1;
+        if (diasTrabalhadosNoMes >= 15) avos13 = 1;
+    } else {
+        const diasNoMesInicio = new Date(dataInicio13.getFullYear(), mInicio + 1, 0).getDate();
+        const diasPrimeiroMes = diasNoMesInicio - dataInicio13.getDate() + 1;
+        if (diasPrimeiroMes >= 15) avos13++;
+
+        for (let m = mInicio + 1; m < mFim; m++) {
+            avos13++;
+        }
+
+        if (dataRef.getDate() >= 15) avos13++;
+    }
+
+    return Math.min(12, Math.max(0, avos13));
+}
+
+function calcularAvosFerias(adm, dataRef) {
+    let ultimoAniversario = new Date(dataRef.getFullYear(), adm.getMonth(), adm.getDate());
+    if (ultimoAniversario > dataRef) {
+        ultimoAniversario = new Date(dataRef.getFullYear() - 1, adm.getMonth(), adm.getDate());
+    }
+
+    let diffMeses = (dataRef.getFullYear() - ultimoAniversario.getFullYear()) * 12 + (dataRef.getMonth() - ultimoAniversario.getMonth());
+
+    const diaInic = ultimoAniversario.getDate();
+    const diaFim = dataRef.getDate();
+
+    if (diaFim < diaInic) {
+        diffMeses--;
+        const ultimoDiaMesAnterior = new Date(dataRef.getFullYear(), dataRef.getMonth(), 0).getDate();
+        const diasRestantesFracao = (ultimoDiaMesAnterior - diaInic + 1) + diaFim;
+        if (diasRestantesFracao >= 15) {
+            diffMeses++;
+        }
+    } else if (diaFim - diaInic >= 15) {
+        diffMeses++;
+    }
+
+    return Math.min(12, Math.max(0, diffMeses));
+}
+
 function obterAliquotaINSSPatronal(regime) {
     switch (regime) {
         case 'simples':
@@ -95,22 +150,19 @@ function calcularCenario(codigoCenario, params) {
     }
     const valorSaldoSalario = (salarioBase / 30) * diasTrabalhadosMes;
 
-    // Avos Base
-    let avos13Base = 0;
-    if (diasTrabalhadosMes >= 15) {
-        avos13Base = dem.getMonth() + 1;
-    } else {
-        avos13Base = dem.getMonth();
-    }
-    avos13Base = Math.min(12, Math.max(0, avos13Base));
+    // Avos Base (calculados sobre a data real de demissão; cenários com aviso indenizado
+    // projetam a data antes de recalcular — ver projetarData() abaixo)
+    const avos13Base = calcularAvos13(adm, dem);
+    const avosFeriasBase = calcularAvosFerias(adm, dem);
 
-    // Avos Férias Base
-    let mesesCompletos = (dem.getFullYear() - adm.getFullYear()) * 12 + (dem.getMonth() - adm.getMonth());
-    if (dem.getDate() < adm.getDate()) {
-        mesesCompletos--;
+    // Data projetada para fins de avos quando o aviso prévio é indenizado (não trabalhado):
+    // o aviso indenizado integra o tempo de serviço para todos os efeitos legais (Súmula 305
+    // TST / OJ 82 SDI-1), então a contagem de avos usa a data de demissão + dias de aviso.
+    function projetarData(dias) {
+        const projetada = new Date(dem);
+        projetada.setDate(projetada.getDate() + dias);
+        return projetada;
     }
-    let avosFeriasBase = (mesesCompletos % 12) + 1;
-    avosFeriasBase = Math.min(12, Math.max(0, avosFeriasBase));
 
     // B. Mapeamento de Regras do Cenário
     let titulo = '';
@@ -132,8 +184,8 @@ function calcularCenario(codigoCenario, params) {
             diasAviso = diasAvisoIntegral;
             valorAvisoPrevio = (salarioBase / 30) * diasAvisoIntegral;
             descontoAviso = 0;
-            avos13 = Math.min(12, avos13Base + Math.floor(diasAvisoIntegral / 30));
-            avosFerias = Math.min(12, avosFeriasBase + Math.floor(diasAvisoIntegral / 30));
+            avos13 = calcularAvos13(adm, projetarData(diasAvisoIntegral));
+            avosFerias = calcularAvosFerias(adm, projetarData(diasAvisoIntegral));
             multaFGTSPerc = 40;
             permiteSaqueFGTS = true;
             permiteSeguroDesemprego = true;
@@ -146,8 +198,8 @@ function calcularCenario(codigoCenario, params) {
             diasAviso = diasAvisoIntegral;
             valorAvisoPrevio = 0; // trabalhado já pago no mês
             descontoAviso = 0;
-            avos13 = Math.min(12, avos13Base + Math.floor(diasAvisoIntegral / 30));
-            avosFerias = Math.min(12, avosFeriasBase + Math.floor(diasAvisoIntegral / 30));
+            // Aviso trabalhado: a data de demissão informada já reflete o período de aviso
+            // cumprido, então os avos usam avos13Base/avosFeriasBase diretamente (sem projeção).
             multaFGTSPerc = 40;
             permiteSaqueFGTS = true;
             permiteSeguroDesemprego = true;
@@ -188,8 +240,8 @@ function calcularCenario(codigoCenario, params) {
             diasAviso = Math.round(diasAvisoIntegral / 2);
             valorAvisoPrevio = ((salarioBase / 30) * diasAvisoIntegral) / 2;
             descontoAviso = 0;
-            avos13 = Math.min(12, avos13Base + Math.floor((diasAvisoIntegral / 2) / 30));
-            avosFerias = Math.min(12, avosFeriasBase + Math.floor((diasAvisoIntegral / 2) / 30));
+            avos13 = calcularAvos13(adm, projetarData(Math.round(diasAvisoIntegral / 2)));
+            avosFerias = calcularAvosFerias(adm, projetarData(Math.round(diasAvisoIntegral / 2)));
             multaFGTSPerc = 20;
             permiteSaqueFGTS = true;
             permiteSeguroDesemprego = false;
