@@ -443,11 +443,13 @@
 
 /* Status Badges nos Módulos e Cards */
 .module-card-badge-container {
+    position: absolute;
+    top: 16px;
+    right: 16px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
-    margin-bottom: 8px;
+    z-index: 1;
 }
 
 .status-badge {
