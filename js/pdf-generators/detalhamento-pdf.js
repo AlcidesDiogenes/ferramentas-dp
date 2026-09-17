@@ -150,14 +150,18 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
         return irrfContent;
     };
 
+    const mostrarINSS = dados.tipo === 'ambos' || dados.tipo === 'inss';
+    const mostrarIRRF = dados.tipo === 'ambos' || dados.tipo === 'irrf';
+    let numSecao = 1;
+
     const docDefinition = {
         pageSize: 'A4',
         pageMargins: [40, 40, 40, 40],
         content: [
             { text: 'RELATÓRIO DETALHADO DE DESCONTOS', style: 'header' },
 
-            // 1. DADOS DA SIMULAÇÃO
-            { text: '1. Parâmetros da Simulação', style: 'sectionHeader' },
+            // DADOS DA SIMULAÇÃO
+            { text: `${numSecao++}. Parâmetros da Simulação`, style: 'sectionHeader' },
             {
                 table: {
                     widths: ['*', '*', '*'],
@@ -178,29 +182,29 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
                 style: 'table'
             },
 
-            // 2. DETALHAMENTO DO INSS
-            { text: '2. Detalhamento da Previdência (INSS)', style: 'sectionHeader' },
-            ...gerarBlocoINSS(),
-            { text: `Total de INSS Devido: ${formatar(resultados.totalINSS)}`, style: 'resultHighlight' },
+            // DETALHAMENTO DO INSS
+            mostrarINSS ? { text: `${numSecao++}. Detalhamento da Previdência (INSS)`, style: 'sectionHeader' } : null,
+            ...(mostrarINSS ? gerarBlocoINSS() : []),
+            mostrarINSS ? { text: `Total de INSS Devido: ${formatar(resultados.totalINSS)}`, style: 'resultHighlight' } : null,
 
-            // 3. DETALHAMENTO DO IRRF
-            { text: '3. Detalhamento do Imposto de Renda (IRRF)', style: 'sectionHeader' },
-            ...gerarBlocoIRRF(),
+            // DETALHAMENTO DO IRRF
+            mostrarIRRF ? { text: `${numSecao++}. Detalhamento do Imposto de Renda (IRRF)`, style: 'sectionHeader' } : null,
+            ...(mostrarIRRF ? gerarBlocoIRRF() : []),
 
-            {
+            mostrarIRRF ? {
                 stack: [
                     { text: `Modelo Mais Vantajoso Escolhido: ${resultados.modeloIRRF}`, style: 'subTitle' },
                     { text: `Imposto Final de IRRF: ${formatar(resultados.impostoFinal)}`, style: 'resultHighlight' }
                 ],
                 margin: [0, 10, 0, 20]
-            },
+            } : null,
 
-            // 4. TABELAS DE REFERÊNCIA
-            { text: '4. Tabelas Progressivas Vigentes', style: 'sectionHeader' },
+            // TABELAS DE REFERÊNCIA
+            { text: `${numSecao++}. Tabela${mostrarINSS && mostrarIRRF ? 's' : ''} Progressiva${mostrarINSS && mostrarIRRF ? 's' : ''} Vigente${mostrarINSS && mostrarIRRF ? 's' : ''}`, style: 'sectionHeader' },
             {
                 columns: [
-                    {
-                        width: '48%',
+                    mostrarINSS ? {
+                        width: mostrarIRRF ? '48%' : '100%',
                         stack: [
                             { text: 'Tabela INSS', style: 'subTitle' },
                             {
@@ -216,10 +220,10 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
                                 style: 'tableSmall'
                             }
                         ]
-                    },
-                    { width: '4%', text: '' },
-                    {
-                        width: '48%',
+                    } : null,
+                    (mostrarINSS && mostrarIRRF) ? { width: '4%', text: '' } : null,
+                    mostrarIRRF ? {
+                        width: mostrarINSS ? '48%' : '100%',
                         stack: [
                             { text: 'Tabela IRRF', style: 'subTitle' },
                             {
@@ -235,8 +239,8 @@ export function gerarPDFDetalhamento(dados, resultados, detalhes) {
                                 style: 'tableSmall'
                             }
                         ]
-                    }
-                ]
+                    } : null
+                ].filter(Boolean)
             }
         ].filter(Boolean),
 

@@ -838,7 +838,7 @@ function renderizarResultadosHTML(dados) {
 
                     <div class="card-base-item" style="grid-column: 1 / -1; background: var(--cor-card-subtle-bg);">
                         <span class="base-label">Total de Verbas Isentas / Indenizatórias (Não Tributáveis)</span>
-                        <span class="base-val" style="color: #0284c7;">${formatarMoeda(dados.totalVerbasIsentas)}</span>
+                        <span class="base-val" style="color: var(--cor-destaque, #0284c7);">${formatarMoeda(dados.totalVerbasIsentas)}</span>
                         <span class="base-desc">Inclui Férias Vencidas e Proporcionais + 1/3, Multa Rescisória e Indenizações</span>
                     </div>
                 </div>
@@ -885,7 +885,7 @@ function renderizarResultadosHTML(dados) {
                             </tr>
                             <tr style="border-bottom: 2px solid var(--cor-borda, #cbd5e1); background: var(--cor-card-subtle-bg, #f8fafc);">
                                 <td colspan="3" style="padding: 10px 12px; font-weight: bold;">SUBTOTAL INSS PATRONAL EMPRESA</td>
-                                <td style="padding: 10px 12px; text-align: right; font-weight: 800; color: #1e3a8a;">${formatarMoeda(dados.totalINSSPatronalEmpresa)}</td>
+                                <td style="padding: 10px 12px; text-align: right; font-weight: 800; color: var(--cor-text-info, #1e3a8a);">${formatarMoeda(dados.totalINSSPatronalEmpresa)}</td>
                             </tr>
                             <tr style="border-bottom: 1px solid var(--cor-borda, #e2e8f0);">
                                 <td style="padding: 10px 12px; font-weight: 600;">FGTS Mês da Rescisão / Aviso</td>
@@ -940,13 +940,13 @@ function renderizarResultadosHTML(dados) {
                                 const isDesc = item.tipo === 'Desconto';
                                 return `
                                     <tr style="border-bottom: 1px solid var(--cor-borda, #e2e8f0);">
-                                        <td style="padding: 10px 12px; font-weight: 500; color: ${isDesc ? '#b91c1c' : 'var(--cor-texto-principal)'};">${item.descricao}</td>
+                                        <td style="padding: 10px 12px; font-weight: 500; color: ${isDesc ? 'var(--cor-text-danger, #b91c1c)' : 'var(--cor-texto-principal)'};">${item.descricao}</td>
                                         <td style="padding: 10px 12px; text-align: center;">
                                             <span style="font-size: 0.75rem; font-weight: bold; padding: 3px 8px; border-radius: 4px; background: ${isDesc ? '#fef2f2' : '#ecfdf5'}; color: ${isDesc ? '#991b1b' : '#047857'};">
                                                 ${item.tipo}
                                             </span>
                                         </td>
-                                        <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: ${isDesc ? '#b91c1c' : '#047857'};">
+                                        <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: ${isDesc ? 'var(--cor-text-danger, #b91c1c)' : 'var(--cor-text-success, #047857)'};">
                                             ${isDesc ? '-' : ''}${formatarMoeda(item.valor)}
                                         </td>
                                     </tr>
@@ -955,8 +955,8 @@ function renderizarResultadosHTML(dados) {
                         </tbody>
                         <tfoot>
                             <tr style="background: var(--cor-card-subtle-bg, #f8fafc); font-weight: bold; border-top: 2px solid var(--cor-borda, #cbd5e1);">
-                                <td colspan="2" style="padding: 12px; color: #1e3a8a;">LÍQUIDO A RECEBER EM CONTA PELO TRABALHADOR</td>
-                                <td style="padding: 12px; text-align: right; color: #1e3a8a; font-size: 1.05rem;">${formatarMoeda(dados.liquidoReceber)}</td>
+                                <td colspan="2" style="padding: 12px; color: var(--cor-text-info, #1e3a8a);">LÍQUIDO A RECEBER EM CONTA PELO TRABALHADOR</td>
+                                <td style="padding: 12px; text-align: right; color: var(--cor-text-info, #1e3a8a); font-size: 1.05rem;">${formatarMoeda(dados.liquidoReceber)}</td>
                             </tr>
                         </tfoot>
                     </table>

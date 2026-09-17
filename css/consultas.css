@@ -35,7 +35,7 @@
 
 .consulta-item-title {
     margin-bottom: 5px;
-    color: var(--cor-texto);
+    color: var(--cor-texto-principal, #1e293b);
 }
 
 .consulta-item-desc {

@@ -501,9 +501,9 @@ function renderizarTabelaMatriz(cenarios) {
     elSecao.style.display = 'block';
 
     // Header
-    let headerHTML = `<th style="width: 200px; text-align: left; background: #1e293b; color: white;">Métrica / Indicador</th>`;
+    let headerHTML = `<th style="width: 200px; text-align: left; background: var(--cor-sidebar, #1e293b); color: white;">Métrica / Indicador</th>`;
     cenarios.forEach(c => {
-        headerHTML += `<th style="text-align: right; background: #1e293b; color: white; padding: 10px;">${c.titulo}</th>`;
+        headerHTML += `<th style="text-align: right; background: var(--cor-sidebar, #1e293b); color: white; padding: 10px;">${c.titulo}</th>`;
     });
     elHeader.innerHTML = headerHTML;
 
@@ -511,12 +511,13 @@ function renderizarTabelaMatriz(cenarios) {
     const criarLinha = (label, propriedade, options = {}) => {
         const { bold = false, isCurrency = true, color = '', isHeaderRow = false, bg = '' } = options;
         let rowStyle = bg ? `background: ${bg};` : '';
+        let labelColorStyle = bg ? 'color: var(--cor-texto-principal);' : '';
         let html = `<tr style="${rowStyle}">`;
-        
+
         let labelStyle = bold ? 'font-weight: 700;' : '';
         if (isHeaderRow) labelStyle += 'font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;';
 
-        html += `<td style="text-align: left; padding: 8px 12px; ${labelStyle}">${label}</td>`;
+        html += `<td style="text-align: left; padding: 8px 12px; ${labelStyle} ${labelColorStyle}">${label}</td>`;
 
         cenarios.forEach(c => {
             let val = c[propriedade];
@@ -524,6 +525,7 @@ function renderizarTabelaMatriz(cenarios) {
 
             let cellStyle = bold ? 'font-weight: 700;' : '';
             if (color) cellStyle += `color: ${color};`;
+            else if (bg) cellStyle += 'color: var(--cor-texto-principal);';
 
             html += `<td style="text-align: right; padding: 8px 12px; ${cellStyle}">${display}</td>`;
         });
@@ -536,34 +538,34 @@ function renderizarTabelaMatriz(cenarios) {
 
     // Proventos
     bodyHTML += criarLinha('Saldo de Salário', 'valorSaldoSalario');
-    bodyHTML += `<tr style="background: #f8fafc;"><td style="text-align: left; padding: 8px 12px;">Aviso Prévio (Provento/Desc.)</td>`;
+    bodyHTML += `<tr style="background: var(--cor-card-subtle-bg, #f8fafc);"><td style="text-align: left; padding: 8px 12px; color: var(--cor-texto-principal);">Aviso Prévio (Provento/Desc.)</td>`;
     cenarios.forEach(c => {
         const val = c.valorAvisoPrevio - c.descontoAviso;
-        const color = val < 0 ? '#b91c1c' : (val > 0 ? '#047857' : '#475569');
+        const color = val < 0 ? 'var(--cor-text-danger, #b91c1c)' : (val > 0 ? 'var(--cor-text-success, #047857)' : 'var(--cor-texto-secundario, #475569)');
         bodyHTML += `<td style="text-align: right; padding: 8px 12px; font-weight: 600; color: ${color};">${formatarMoeda(val)} (${c.tipoAviso})</td>`;
     });
     bodyHTML += `</tr>`;
 
     bodyHTML += criarLinha('13º Salário Rescisório', 'valor13Prop');
     bodyHTML += criarLinha('Férias Totais (+ 1/3)', 'totalFerias');
-    bodyHTML += criarLinha('Total Proventos Brutos', 'totalProventos', { bold: true, bg: '#f1f5f9', color: '#047857' });
+    bodyHTML += criarLinha('Total Proventos Brutos', 'totalProventos', { bold: true, bg: 'rgba(4, 120, 87, 0.1)', color: 'var(--cor-text-success, #047857)' });
 
     // Descontos & Líquido
-    bodyHTML += criarLinha('Total Descontos (INSS/IRRF/Outros)', 'totalDescontos', { color: '#b91c1c' });
+    bodyHTML += criarLinha('Total Descontos (INSS/IRRF/Outros)', 'totalDescontos', { color: 'var(--cor-text-danger, #b91c1c)' });
     bodyHTML += criarLinha('LÍQUIDO A RECEBER (TRABALHADOR)', 'liquidoReceber', { bold: true, bg: '#1e3a8a', color: '#ffffff', isHeaderRow: true });
 
     // FGTS & Encargos Empresa
-    bodyHTML += criarLinha('Multa Rescisória do FGTS', 'valorMultaFGTS', { bold: true, color: '#0284c7' });
+    bodyHTML += criarLinha('Multa Rescisória do FGTS', 'valorMultaFGTS', { bold: true, color: 'var(--cor-destaque, #0284c7)' });
     bodyHTML += criarLinha('FGTS Mês / Aviso Indenizado', 'fgtsRescisao');
-    bodyHTML += criarLinha('Est. Saque FGTS Liberado', 'valorSaqueFGTS', { bold: true, color: '#047857', bg: '#f0fdf4' });
+    bodyHTML += criarLinha('Est. Saque FGTS Liberado', 'valorSaqueFGTS', { bold: true, color: 'var(--cor-text-success, #047857)', bg: 'rgba(16, 185, 129, 0.1)' });
     bodyHTML += criarLinha('Encargos INSS Patronal Empresa', 'totalINSSPatronalEmpresa');
     bodyHTML += criarLinha('CUSTO TOTAL DA EMPRESA', 'custoTotalEmpresa', { bold: true, bg: '#0f172a', color: '#10b981', isHeaderRow: true });
 
     // Direitos Legais
-    bodyHTML += `<tr style="background: #f8fafc;"><td style="text-align: left; padding: 8px 12px; font-weight: 600;">Direito a Seguro-Desemprego</td>`;
+    bodyHTML += `<tr style="background: var(--cor-card-subtle-bg, #f8fafc);"><td style="text-align: left; padding: 8px 12px; font-weight: 600; color: var(--cor-texto-principal);">Direito a Seguro-Desemprego</td>`;
     cenarios.forEach(c => {
         const txt = c.permiteSeguroDesemprego ? '<svg class="lucide lucide-check-circle-2" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /> </svg> SIM' : '<svg class="lucide lucide-x-circle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /> </svg> NÃO';
-        const clr = c.permiteSeguroDesemprego ? '#047857' : '#b91c1c';
+        const clr = c.permiteSeguroDesemprego ? 'var(--cor-text-success, #047857)' : 'var(--cor-text-danger, #b91c1c)';
         bodyHTML += `<td style="text-align: right; padding: 8px 12px; font-weight: 700; color: ${clr};">${txt}</td>`;
     });
     bodyHTML += `</tr>`;

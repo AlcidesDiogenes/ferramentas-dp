@@ -52,7 +52,7 @@
 }
 
 .jornada-escala-title {
-    color: var(--cor-texto);
+    color: var(--cor-texto-principal, #1e293b);
     display: block;
     margin-bottom: 10px;
     font-size: 0.95em;
@@ -61,7 +61,7 @@
 
 .tabela-escala {
     font-size: 0.85rem;
-    background-color: var(--cor-fundo-card);
+    background-color: var(--cor-card-bg, #ffffff);
     margin-bottom: 0;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .tabela-ponto-rodape {
-    background-color: var(--cor-fundo-app);
+    background-color: var(--cor-fundo, #f4f7fa);
     font-weight: 600;
 }
 
@@ -97,16 +97,16 @@
 }
 
 /* Cores Semânticas de Apuração */
-.color-extra { color: var(--cor-sucesso); }
-.color-noturno { color: var(--cor-primaria); }
+.color-extra { color: var(--cor-text-success, #047857); }
+.color-noturno { color: var(--cor-destaque, #2563eb); }
 .color-ficta { color: #6366f1; }
-.color-atraso { color: var(--cor-erro); }
+.color-atraso { color: var(--cor-text-danger, #b91c1c); }
 
 /* =========================================
    Botões de Ação Específicos
    ========================================= */
 .btn-recalculo {
-    background-color: var(--cor-sucesso);
+    background-color: var(--cor-text-success, #047857);
     width: auto;
 }
 

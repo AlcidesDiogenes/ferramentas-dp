@@ -438,7 +438,7 @@
 
 .uploader-spinner {
     animation: uploader-spin 1s linear infinite;
-    color: var(--cor-primaria, #107c41);
+    color: #107c41; /* Verde do Excel — fixo de propósito nos dois temas, remete ao ícone do arquivo */
     width: 2.5rem;
     height: 2.5rem;
 }
@@ -451,12 +451,12 @@
 .uploader-loading-text {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--cor-texto, #1e293b);
+    color: var(--cor-texto-principal, #1e293b);
 }
 
 /* Pulsação animada da barra de progresso durante leitura de múltiplos arquivos */
 .uploader-progress-bar-fill.processing {
-    background: linear-gradient(90deg, var(--cor-primaria, #107c41) 0%, #22c55e 50%, var(--cor-primaria, #107c41) 100%);
+    background: linear-gradient(90deg, #107c41 0%, #22c55e 50%, #107c41 100%);
     background-size: 200% 100%;
     animation: uploader-pulse 1.5s infinite;
 }

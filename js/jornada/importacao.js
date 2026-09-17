@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (isFolga) {
                                 htmlEscala += `<tr>
                                     <td><strong>${nomesDias[diaIndex]}</strong></td>
-                                    <td colspan="4" class="jornada-text-secondary" style="text-align: center; background-color: var(--cor-fundo-app);">Folga / Sem Escala</td>
+                                    <td colspan="4" class="jornada-text-secondary" style="text-align: center; background-color: var(--cor-fundo, #f4f7fa);">Folga / Sem Escala</td>
                                 </tr>`;
                             } else {
                                 htmlEscala += `<tr>
