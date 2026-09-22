@@ -180,7 +180,19 @@ function apurarAvosEDiasAutomaticos() {
     const dem = new Date(elDemissao.value + 'T00:00:00');
 
     if (isNaN(adm.getTime()) || isNaN(dem.getTime()) || dem < adm) {
-        if (elInfo) elInfo.innerHTML = '<svg class="lucide lucide-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg> <span style="color: #b91c1c;">Data de demissão deve ser igual ou posterior à data de admissão.</span>';
+        if (elInfo) elInfo.innerHTML = '<svg class="lucide lucide-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg> <span style="color: var(--cor-text-danger, #b91c1c);">Data de demissão deve ser igual ou posterior à data de admissão.</span>';
+        return;
+    }
+
+    // Sanidade do ano: o <input type="date"> nativo aceita um ano com menos de 4 dígitos
+    // digitados (ex: "26" em vez de "2026") sem avisar, o que resulta num ano tipo 0026 e
+    // quebra silenciosamente os cálculos de avos (a contagem de meses passa a considerar
+    // o ano inteiro em vez do período real de admissão). Aqui bloqueamos esse cenário cedo.
+    const anoMinimoValido = 1950;
+    const anoMaximoValido = new Date().getFullYear() + 5;
+    if (adm.getFullYear() < anoMinimoValido || adm.getFullYear() > anoMaximoValido ||
+        dem.getFullYear() < anoMinimoValido || dem.getFullYear() > anoMaximoValido) {
+        if (elInfo) elInfo.innerHTML = '<svg class="lucide lucide-alert-triangle" xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg> <span style="color: var(--cor-text-danger, #b91c1c);">Ano de admissão ou demissão parece incorreto (confira se digitou o ano completo, ex: 2026 e não 26). O cálculo de avos foi interrompido até a correção.</span>';
         return;
     }
 
@@ -381,6 +393,17 @@ function processarCalculoRescisao() {
 
     const admDate = new Date(dataAdmissaoStr + 'T00:00:00');
     const demDate = new Date(dataDemissaoStr + 'T00:00:00');
+
+    // Mesma sanidade de ano aplicada em apurarAvosEDiasAutomaticos: um <input type="date">
+    // com o ano digitado incompleto (ex: "26") gera um ano tipo 0026 sem nenhum aviso do
+    // navegador, o que quebra silenciosamente o cálculo de avos de 13º/férias.
+    const anoMinimoValidoCalc = 1950;
+    const anoMaximoValidoCalc = new Date().getFullYear() + 5;
+    if (admDate.getFullYear() < anoMinimoValidoCalc || admDate.getFullYear() > anoMaximoValidoCalc ||
+        demDate.getFullYear() < anoMinimoValidoCalc || demDate.getFullYear() > anoMaximoValidoCalc) {
+        alert('Ano de admissão ou demissão parece incorreto (confira se digitou o ano completo, ex: 2026 e não 26).');
+        return;
+    }
 
     const divisorMes = parseInt(document.getElementById('divisor-mes')?.value, 10) || 30;
     const elDiasSaldoInput = document.getElementById('dias-saldo');
