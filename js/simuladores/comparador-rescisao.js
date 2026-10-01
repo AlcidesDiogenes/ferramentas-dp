@@ -1,11 +1,10 @@
 // js/simuladores/comparador-rescisao.js
 
 import {
-    TABELA_IRRF,
     VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
 
-import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias, calcularINSS } from './calculos-folha.js';
+import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias, calcularINSS, calcularIRRF } from './calculos-folha.js';
 
 import { gerarPDFComparativo } from '../pdf-generators/comparador-rescisao-pdf.js';
 
@@ -18,13 +17,6 @@ let ultimosDadosComparativos = null;
 function formatarMoeda(valor) {
     const v = Number(valor) || 0;
     return `R$ ${v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
-function calcularIRRF(baseCalculo) {
-    if (baseCalculo <= 0) return 0;
-    const faixa = TABELA_IRRF.find(f => baseCalculo <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
-    const imposto = (baseCalculo * faixa.aliquota) - faixa.deducao;
-    return Math.max(0, imposto);
 }
 
 function obterAliquotaINSSPatronal(regime) {
@@ -205,10 +197,10 @@ function calcularCenario(codigoCenario, params) {
     const deducaoDep = dependentes * VALOR_DEDUCAO_DEPENDENTE;
 
     const baseIRRFMensal = Math.max(0, baseINSSMensal - inssMensal - deducaoDep);
-    const irrfMensal = calcularIRRF(baseIRRFMensal);
+    const irrfMensal = calcularIRRF(baseINSSMensal, inssMensal, dependentes);
 
     const baseIRRF13 = Math.max(0, baseINSS13 - inss13 - deducaoDep);
-    const irrf13 = calcularIRRF(baseIRRF13);
+    const irrf13 = calcularIRRF(baseINSS13, inss13, dependentes);
 
     const totalDescontosOficiais = inssMensal + inss13 + irrfMensal + irrf13;
     const totalDescontos = totalDescontosOficiais + descontoAviso;

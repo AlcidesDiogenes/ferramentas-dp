@@ -8,7 +8,7 @@ import {
     TABELA_REDUCAO_MENSAL
 } from './tabelas.js';
 
-import { calcularINSS } from './calculos-folha.js';
+import { calcularINSS, calcularIRRFCompleto } from './calculos-folha.js';
 
 import { gerarPDFDetalhamento } from '../pdf-generators/detalhamento-pdf.js';
 
@@ -30,12 +30,6 @@ inputOutrasBases.addEventListener('input', () => {
 
 function formatarMoeda(valor) {
     return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
-
-function calcularImpostoIRRF(base) {
-    if (base <= 0) return 0;
-    const faixa = TABELA_IRRF.find(f => base <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
-    return (base * faixa.aliquota) - faixa.deducao;
 }
 
 function renderizarTabela(tabela, tipo) {
@@ -174,32 +168,30 @@ function processarCalculo() {
 
     // --- 3. CÁLCULO IRRF ---
     if (tipo === 'ambos' || tipo === 'irrf') {
-        baseLegal = Math.max(0, salario - totalINSS - (dependentes * VALOR_DEDUCAO_DEPENDENTE));
-        baseSimplificada = Math.max(0, salario - DESCONTO_SIMPLIFICADO);
+        // Dedução legal vs. desconto simplificado + redução mensal — ver calculos-folha.js
+        const resultadoIRRF = calcularIRRFCompleto(salario, totalINSS, dependentes);
+        baseLegal = resultadoIRRF.baseLegal;
+        faixaLegal = resultadoIRRF.faixaLegal;
+        impostoLegal = resultadoIRRF.impostoLegal;
+        baseSimplificada = resultadoIRRF.baseSimplificada;
+        faixaSimplificada = resultadoIRRF.faixaSimplificada;
+        impostoSimplificado = resultadoIRRF.impostoSimplificado;
+        valorReducao = resultadoIRRF.valorReducao;
+        impostoFinal = resultadoIRRF.impostoFinal;
+        modeloIRRF = resultadoIRRF.modeloVencedor;
 
-        // Captura as faixas para exibir a memória de cálculo na tela
-        faixaLegal = TABELA_IRRF.find(f => baseLegal <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
-        faixaSimplificada = TABELA_IRRF.find(f => baseSimplificada <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
+        const ehMaisFavoravelSimplificado = resultadoIRRF.simplificadoMaisVantajoso;
+        const impostoDevidoSemReducao = resultadoIRRF.impostoDevidoSemReducao;
+        const reducaoEfetiva = resultadoIRRF.reducaoEfetiva;
 
-        impostoLegal = calcularImpostoIRRF(baseLegal);
-        impostoSimplificado = calcularImpostoIRRF(baseSimplificada);
-        
-        const ehMaisFavoravelSimplificado = impostoSimplificado < impostoLegal;
-        const impostoDevidoSemReducao = Math.min(impostoLegal, impostoSimplificado);
-
+        // Texto explicativo de qual regra de redução se aplica (só exibição — o valor
+        // numérico já vem pronto de resultadoIRRF.valorReducao).
         let explicacaoReducao = '';
         if (salario <= TABELA_REDUCAO_MENSAL.limiteInferior) {
-            valorReducao = TABELA_REDUCAO_MENSAL.reducaoFixa; 
             explicacaoReducao = `<em>Rendimentos até R$ ${formatarMoeda(TABELA_REDUCAO_MENSAL.limiteInferior)}: redução de até R$ ${formatarMoeda(TABELA_REDUCAO_MENSAL.reducaoFixa)} (limitado a zerar o imposto).</em>`;
-        } else if (salario > TABELA_REDUCAO_MENSAL.limiteInferior && salario <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
-            valorReducao = TABELA_REDUCAO_MENSAL.formulaVariavel(salario);
+        } else if (salario <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
             explicacaoReducao = `<em>Fórmula decrescente: R$ 978,62 - (0,133145 x R$ ${formatarMoeda(salario)}) = <strong>R$ ${formatarMoeda(valorReducao)}</strong></em>`;
         }
-        
-        valorReducao = Math.max(0, valorReducao);
-        let reducaoEfetiva = Math.min(impostoDevidoSemReducao, valorReducao);
-        impostoFinal = Math.max(0, impostoDevidoSemReducao - reducaoEfetiva);
-        modeloIRRF = ehMaisFavoravelSimplificado ? 'Simplificado' : 'Deduções Legais';
 
         html += `<div class="calculo-bloco"><h4><svg class="lucide lucide-receipt-text" xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" style="vertical-align: middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg> Imposto de Renda (IRRF)</h4>`;
 

@@ -1,34 +1,12 @@
 import {
     TABELA_INSS,
-    TABELA_IRRF,
-    TETO_INSS,
-    VALOR_DEDUCAO_DEPENDENTE,
-    DESCONTO_SIMPLIFICADO
+    TETO_INSS
 } from './tabelas.js';
 
-import { calcularINSS } from './calculos-folha.js';
+import { calcularINSS, calcularIRRFCompleto } from './calculos-folha.js';
 
 function formatarMoeda(valor) {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-}
-
-function calcularIRRFTabela(baseCalculo) {
-    if (baseCalculo <= 0) return 0;
-    const faixa = TABELA_IRRF.find(f => baseCalculo <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
-    const imposto = (baseCalculo * faixa.aliquota) - faixa.deducao;
-    return Math.max(0, imposto);
-}
-
-// A lei permite usar a dedução legal (INSS + dependentes) ou o desconto simplificado
-// (Lei 14.663/2023), o que for mais benéfico ao trabalhador.
-function calcularIRRF(baseProventos, descontoINSS, deducaoDependentes) {
-    const baseTradicional = baseProventos - descontoINSS - deducaoDependentes;
-    const baseSimplificada = baseProventos - DESCONTO_SIMPLIFICADO;
-
-    const irrfTradicional = calcularIRRFTabela(baseTradicional);
-    const irrfSimplificado = calcularIRRFTabela(baseSimplificada);
-
-    return Math.min(irrfTradicional, irrfSimplificado);
 }
 
 
@@ -136,10 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Descontos incidem apenas sobre férias normais
         const descontoINSS = calcularINSS(totalProventosSemAbono);
 
-        // IRRF
-        const deducaoDependentes = dependentes * VALOR_DEDUCAO_DEPENDENTE;
-        const baseIRRF = totalProventosSemAbono - descontoINSS - deducaoDependentes;
-        const descontoIRRF = calcularIRRF(totalProventosSemAbono, descontoINSS, deducaoDependentes);
+        // IRRF (dedução legal vs. desconto simplificado + redução mensal — ver calculos-folha.js)
+        const resultadoIRRF = calcularIRRFCompleto(totalProventosSemAbono, descontoINSS, dependentes);
+        const baseIRRF = resultadoIRRF.baseLegal;
+        const descontoIRRF = resultadoIRRF.impostoFinal;
 
         const totalDescontos = descontoINSS + descontoIRRF;
         const valorLiquido = totalProventos - totalDescontos;
@@ -164,11 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let refIRRF = 'Isento';
-        if (descontoIRRF > 0) {
-            const baseIRRFSimplificada = totalProventosSemAbono - DESCONTO_SIMPLIFICADO;
-            const usouSimplificado = calcularIRRFTabela(baseIRRFSimplificada) < calcularIRRFTabela(baseIRRF);
-            const baseUsada = usouSimplificado ? baseIRRFSimplificada : baseIRRF;
-            const faixaIrrf = TABELA_IRRF.find(f => baseUsada <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
+        if (resultadoIRRF.impostoDevidoSemReducao > 0) {
+            const faixaIrrf = resultadoIRRF.simplificadoMaisVantajoso ? resultadoIRRF.faixaSimplificada : resultadoIRRF.faixaLegal;
             refIRRF = `${(faixaIrrf.aliquota * 100).toFixed(2).replace('.', ',')}%`;
         }
 

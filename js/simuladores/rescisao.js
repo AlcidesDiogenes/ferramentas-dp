@@ -1,11 +1,10 @@
 // js/simuladores/rescisao.js
 
 import {
-    TABELA_IRRF,
     VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
 
-import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias, calcularINSS } from './calculos-folha.js';
+import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias, calcularINSS, calcularIRRF } from './calculos-folha.js';
 
 import { gerarPDFRescisao } from '../pdf-generators/rescisao-pdf.js';
 
@@ -18,13 +17,6 @@ let dadosAtuaisParaPDF = null;
 function formatarMoeda(valor) {
     const v = Number(valor) || 0;
     return `R$ ${v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
-function calcularIRRF(baseCalculo) {
-    if (baseCalculo <= 0) return 0;
-    const faixa = TABELA_IRRF.find(f => baseCalculo <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
-    const imposto = (baseCalculo * faixa.aliquota) - faixa.deducao;
-    return Math.max(0, imposto);
 }
 
 // ==========================================
@@ -500,17 +492,18 @@ function processarCalculoRescisao() {
         itensVerbas.push({ descricao: '(-) INSS sobre 13º Salário Proporcional', tipo: 'Desconto', valor: inss13 });
     }
 
-    // Base IRRF Mensal
+    // Base IRRF Mensal (dedução legal, exibida como referência; o valor de IRRF devido
+    // compara com o desconto simplificado e aplica a redução mensal — ver calculos-folha.js)
     const deducaoDep = dependentes * VALOR_DEDUCAO_DEPENDENTE;
     let baseIRRFMensal = Math.max(0, baseINSSMensal - inssMensal - deducaoDep);
-    const irrfMensal = calcularIRRF(baseIRRFMensal);
+    const irrfMensal = calcularIRRF(baseINSSMensal, inssMensal, dependentes);
     if (irrfMensal > 0) {
         itensVerbas.push({ descricao: '(-) IRRF sobre Saldo de Salário e Variáveis', tipo: 'Desconto', valor: irrfMensal });
     }
 
-    // Base IRRF 13º Salário
+    // Base IRRF 13º Salário (mesma lógica, base própria do 13º)
     let baseIRRF13 = Math.max(0, baseINSS13 - inss13 - deducaoDep);
-    const irrf13 = calcularIRRF(baseIRRF13);
+    const irrf13 = calcularIRRF(baseINSS13, inss13, dependentes);
     if (irrf13 > 0) {
         itensVerbas.push({ descricao: '(-) IRRF sobre 13º Salário Proporcional', tipo: 'Desconto', valor: irrf13 });
     }

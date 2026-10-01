@@ -2,13 +2,10 @@
 
 import {
     SALARIO_MINIMO,
-    TABELA_IRRF,
-    VALOR_DEDUCAO_DEPENDENTE,
-    DESCONTO_SIMPLIFICADO,
-    TABELA_REDUCAO_MENSAL
+    VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
 
-import { calcularINSS } from './calculos-folha.js';
+import { calcularINSS, calcularIRRF } from './calculos-folha.js';
 
 import { gerarPDFCustoFuncionario } from '../pdf-generators/custo-funcionario-pdf.js';
 
@@ -76,30 +73,6 @@ function formatarDecimalParaHoras(decimalVal) {
 // ==========================================
 // 2. FUNÇÕES INTERNAS DE CÁLCULO DE IMPOSTO
 // ==========================================
-
-function calcularImpostoIRRF(base) {
-    if (base <= 0) return 0;
-    const faixa = TABELA_IRRF.find(f => base <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
-    return (base * faixa.aliquota) - faixa.deducao;
-}
-
-function calcularIRRFInterno(salarioBase, valorINSS, dependentes) {
-    const baseLegal = Math.max(0, salarioBase - valorINSS - (dependentes * VALOR_DEDUCAO_DEPENDENTE));
-    const baseSimplificada = Math.max(0, salarioBase - DESCONTO_SIMPLIFICADO);
-    const impostoLegal = calcularImpostoIRRF(baseLegal);
-    const impostoSimplificado = calcularImpostoIRRF(baseSimplificada);
-    const impostoDevidoSemReducao = Math.min(impostoLegal, impostoSimplificado);
-
-    let valorReducao = 0;
-    if (salarioBase <= TABELA_REDUCAO_MENSAL.limiteInferior) {
-        valorReducao = TABELA_REDUCAO_MENSAL.reducaoFixa; 
-    } else if (salarioBase > TABELA_REDUCAO_MENSAL.limiteInferior && salarioBase <= TABELA_REDUCAO_MENSAL.limiteSuperior) {
-        valorReducao = TABELA_REDUCAO_MENSAL.formulaVariavel(salarioBase);
-    }
-    
-    let reducaoEfetiva = Math.min(impostoDevidoSemReducao, Math.max(0, valorReducao));
-    return Math.max(0, impostoDevidoSemReducao - reducaoEfetiva);
-}
 
 // Função para limpar e resetar o simulador
 function limparCampos() {
@@ -272,7 +245,7 @@ function calcularTudo() {
     
     const inssCalculado = calcularINSS(salarioBase);
     const baseCalculoIRRF = Math.max(0, salarioBase - inssCalculado - (depIRRF * VALOR_DEDUCAO_DEPENDENTE));
-    const irrfCalculado = calcularIRRFInterno(salarioBase, inssCalculado, depIRRF);
+    const irrfCalculado = calcularIRRF(salarioBase, inssCalculado, depIRRF);
     
     const totalDescontosHolerite = inssCalculado + irrfCalculado + outrosDesc + descontoVTHolerite;
     const liquido = Math.max(0, salarioBase - totalDescontosHolerite);
