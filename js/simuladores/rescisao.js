@@ -1,13 +1,11 @@
 // js/simuladores/rescisao.js
 
 import {
-    TABELA_INSS,
     TABELA_IRRF,
-    TETO_INSS,
     VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
 
-import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias } from './calculos-folha.js';
+import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias, calcularINSS } from './calculos-folha.js';
 
 import { gerarPDFRescisao } from '../pdf-generators/rescisao-pdf.js';
 
@@ -20,21 +18,6 @@ let dadosAtuaisParaPDF = null;
 function formatarMoeda(valor) {
     const v = Number(valor) || 0;
     return `R$ ${v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
-function calcularINSS(baseCalculo) {
-    const base = Math.min(Math.max(0, baseCalculo), TETO_INSS);
-    let anterior = 0;
-    let soma = 0;
-
-    for (const f of TABELA_INSS) {
-        const baseFaixa = Math.min(base, f.limite) - anterior;
-        if (baseFaixa > 0) {
-            soma += baseFaixa * f.aliquota;
-        }
-        anterior = f.limite;
-    }
-    return Math.max(0, soma);
 }
 
 function calcularIRRF(baseCalculo) {

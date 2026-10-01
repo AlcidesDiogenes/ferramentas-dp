@@ -8,6 +8,8 @@ import {
     TABELA_REDUCAO_MENSAL
 } from './tabelas.js';
 
+import { calcularINSS } from './calculos-folha.js';
+
 import { gerarPDFDetalhamento } from '../pdf-generators/detalhamento-pdf.js';
 
 let dadosExportacao = { dados: null, resultados: null };
@@ -156,7 +158,10 @@ function processarCalculo() {
                 </div>
             </div>`;
 
-            totalINSS = Math.max(0, calculoSimplificado - jaContribuido);
+            // O valor realmente usado vem da função compartilhada (fonte única de verdade);
+            // somaProgressiva/calculoSimplificado acima são só para a memória de cálculo didática
+            // exibida na tela e devem bater com este número por construção da tabela.
+            totalINSS = Math.max(0, calcularINSS(baseINSS) - jaContribuido);
         }
         
         if (outrasBases > 0 && jaContribuido > 0) {

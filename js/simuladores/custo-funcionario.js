@@ -1,14 +1,14 @@
 // js/simuladores/custo-funcionario.js
 
-import { 
-    SALARIO_MINIMO, 
-    TABELA_INSS, 
-    TABELA_IRRF, 
-    TETO_INSS, 
-    VALOR_DEDUCAO_DEPENDENTE, 
+import {
+    SALARIO_MINIMO,
+    TABELA_IRRF,
+    VALOR_DEDUCAO_DEPENDENTE,
     DESCONTO_SIMPLIFICADO,
     TABELA_REDUCAO_MENSAL
 } from './tabelas.js';
+
+import { calcularINSS } from './calculos-folha.js';
 
 import { gerarPDFCustoFuncionario } from '../pdf-generators/custo-funcionario-pdf.js';
 
@@ -76,20 +76,6 @@ function formatarDecimalParaHoras(decimalVal) {
 // ==========================================
 // 2. FUNÇÕES INTERNAS DE CÁLCULO DE IMPOSTO
 // ==========================================
-
-function calcularINSSInterno(baseCalculo) {
-    const baseINSS = Math.min(baseCalculo, TETO_INSS);
-    let anterior = 0;
-    let somaProgressiva = 0;
-    
-    TABELA_INSS.forEach(f => {
-        let baseFaixa = Math.min(baseINSS, f.limite) - anterior;
-        if (baseFaixa > 0) somaProgressiva += baseFaixa * f.aliquota;
-        anterior = f.limite;
-    });
-    
-    return Math.max(0, somaProgressiva);
-}
 
 function calcularImpostoIRRF(base) {
     if (base <= 0) return 0;
@@ -284,7 +270,7 @@ function calcularTudo() {
     // Salário Bruto de Apuração (Base tributável INSS/FGTS/IRRF)
     const salarioBase = Math.max(0, salarioReferencia + baseDSRVerbas + dsrVariaveis + insalubridade + periculosidade + outrosProv - totalDescontoFaltas - dsrPerdidoFaltas);
     
-    const inssCalculado = calcularINSSInterno(salarioBase);
+    const inssCalculado = calcularINSS(salarioBase);
     const baseCalculoIRRF = Math.max(0, salarioBase - inssCalculado - (depIRRF * VALOR_DEDUCAO_DEPENDENTE));
     const irrfCalculado = calcularIRRFInterno(salarioBase, inssCalculado, depIRRF);
     

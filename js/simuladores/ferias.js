@@ -6,26 +6,10 @@ import {
     DESCONTO_SIMPLIFICADO
 } from './tabelas.js';
 
+import { calcularINSS } from './calculos-folha.js';
+
 function formatarMoeda(valor) {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
-}
-
-// Usa a mesma tabela progressiva de INSS/IRRF compartilhada com os demais simuladores
-// (js/simuladores/tabelas.js), para que o mesmo salário gere o mesmo resultado em qualquer
-// ferramenta do sistema.
-function calcularINSS(baseCalculo) {
-    const base = Math.min(Math.max(0, baseCalculo), TETO_INSS);
-    let anterior = 0;
-    let soma = 0;
-
-    for (const f of TABELA_INSS) {
-        const baseFaixa = Math.min(base, f.limite) - anterior;
-        if (baseFaixa > 0) {
-            soma += baseFaixa * f.aliquota;
-        }
-        anterior = f.limite;
-    }
-    return Math.max(0, soma);
 }
 
 function calcularIRRFTabela(baseCalculo) {
