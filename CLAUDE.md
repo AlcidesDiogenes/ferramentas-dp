@@ -1,6 +1,18 @@
 # Ferramentas DP
 
-App HTML/CSS/JS vanilla (sem bundler/framework), PWA. Para rodar localmente: `node server.js` e acessar `http://localhost:3000`.
+App HTML/CSS/JS vanilla (sem bundler/framework), PWA. Para rodar localmente: `node server.js` e acessar `http://localhost:3000`. Para rodar os testes: `npm test`.
+
+## Cálculo de folha (INSS/IRRF/avos/aviso prévio) — não reimplemente, importe
+
+Toda a lógica de cálculo de folha de pagamento (avos de 13º/férias proporcionais, INSS progressivo, IRRF — dedução legal vs. desconto simplificado + redução mensal —, aviso prévio proporcional, validação de ano de data) vive em **`js/simuladores/calculos-folha.js`**. São funções puras (sem acesso a DOM), testadas em `tests/calculos-folha.test.js`.
+
+**Regra:** antes de calcular qualquer uma dessas coisas num simulador/utilidade novo ou existente, importe de `calculos-folha.js`. Não copie/reimplemente a fórmula — essa duplicação já causou bugs reais e divergentes entre simuladores nesta mesma base de código (ex: `rescisao.js` e `comparador-rescisao.js` calculavam IRRF sem aplicar a redução mensal nem comparar com o desconto simplificado, superestimando o imposto, enquanto `custo-funcionario.js` já fazia certo — só foi descoberto porque os dois existiam em paralelo).
+
+Se um simulador precisa exibir a memória de cálculo passo a passo (ex: qual faixa foi aplicada, qual modelo venceu), use `calcularIRRFCompleto(...)` em vez de `calcularIRRF(...)` — ele devolve o objeto completo (bases, faixas, modelo vencedor) além do valor final, para alimentar a UI sem recalcular nada à parte.
+
+Qualquer `<input type="date">` cujo valor alimente cálculo deve validar o ano com `anoDataValido(data)` antes de usar (ver exemplos em `rescisao.js`, `dias-uteis.js` etc.) — um ano digitado incompleto (ex: "26" em vez de "2026") é aceito silenciosamente pelo navegador e já causou avos errados e, em `dias-uteis.js`, um loop que iteraria ~730 mil dias.
+
+Ao editar `calculos-folha.js`, rode `npm test` antes de dar como concluído — e ao migrar um arquivo para importar dele, confirme ao vivo no navegador (não só `node --check`): remover uma função local pode deixar um import agora não usado de `tabelas.js` que outro trecho do mesmo arquivo ainda referencia, o que só aparece como erro em tempo de execução, não na checagem de sintaxe.
 
 ## Regra de Theming (Claro/Escuro) — leia antes de mexer em cores
 
