@@ -7,7 +7,7 @@ import {
     VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
 
-import { calcularAvisoPrevioProporcional } from './calculos-folha.js';
+import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias } from './calculos-folha.js';
 
 import { gerarPDFComparativo } from '../pdf-generators/comparador-rescisao-pdf.js';
 
@@ -42,61 +42,6 @@ function calcularIRRF(baseCalculo) {
     const faixa = TABELA_IRRF.find(f => baseCalculo <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
     const imposto = (baseCalculo * faixa.aliquota) - faixa.deducao;
     return Math.max(0, imposto);
-}
-
-// Avos de 13º salário e férias proporcionais — mesma lógica (calendário real, não meses fixos
-// de 30 dias) usada em js/simuladores/rescisao.js e js/utilidades/calculadora-avos.js, para que
-// os três lugares do sistema deem o mesmo resultado para a mesma admissão/demissão.
-function calcularAvos13(adm, dataRef) {
-    let avos13 = 0;
-    const anoRef = dataRef.getFullYear();
-    const inicioAno = new Date(anoRef, 0, 1);
-    const dataInicio13 = adm > inicioAno ? adm : inicioAno;
-
-    const mInicio = dataInicio13.getMonth();
-    const mFim = dataRef.getMonth();
-
-    if (mInicio === mFim) {
-        const diasTrabalhadosNoMes = dataRef.getDate() - dataInicio13.getDate() + 1;
-        if (diasTrabalhadosNoMes >= 15) avos13 = 1;
-    } else {
-        const diasNoMesInicio = new Date(dataInicio13.getFullYear(), mInicio + 1, 0).getDate();
-        const diasPrimeiroMes = diasNoMesInicio - dataInicio13.getDate() + 1;
-        if (diasPrimeiroMes >= 15) avos13++;
-
-        for (let m = mInicio + 1; m < mFim; m++) {
-            avos13++;
-        }
-
-        if (dataRef.getDate() >= 15) avos13++;
-    }
-
-    return Math.min(12, Math.max(0, avos13));
-}
-
-function calcularAvosFerias(adm, dataRef) {
-    let ultimoAniversario = new Date(dataRef.getFullYear(), adm.getMonth(), adm.getDate());
-    if (ultimoAniversario > dataRef) {
-        ultimoAniversario = new Date(dataRef.getFullYear() - 1, adm.getMonth(), adm.getDate());
-    }
-
-    let diffMeses = (dataRef.getFullYear() - ultimoAniversario.getFullYear()) * 12 + (dataRef.getMonth() - ultimoAniversario.getMonth());
-
-    const diaInic = ultimoAniversario.getDate();
-    const diaFim = dataRef.getDate();
-
-    if (diaFim < diaInic) {
-        diffMeses--;
-        const ultimoDiaMesAnterior = new Date(dataRef.getFullYear(), dataRef.getMonth(), 0).getDate();
-        const diasRestantesFracao = (ultimoDiaMesAnterior - diaInic + 1) + diaFim;
-        if (diasRestantesFracao >= 15) {
-            diffMeses++;
-        }
-    } else if (diaFim - diaInic >= 15) {
-        diffMeses++;
-    }
-
-    return Math.min(12, Math.max(0, diffMeses));
 }
 
 function obterAliquotaINSSPatronal(regime) {

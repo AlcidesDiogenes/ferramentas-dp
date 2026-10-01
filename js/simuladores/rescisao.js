@@ -7,7 +7,7 @@ import {
     VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
 
-import { calcularAvisoPrevioProporcional } from './calculos-folha.js';
+import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias } from './calculos-folha.js';
 
 import { gerarPDFRescisao } from '../pdf-generators/rescisao-pdf.js';
 
@@ -223,77 +223,19 @@ function apurarAvosEDiasAutomaticos() {
         projecaoDem.setDate(projecaoDem.getDate() + diasProj);
     }
 
-    // 2. Apuração dos Avos de 13º Salário
-    // Regra: cada mês completo, ou fração igual/superior a 15 dias, conta como 1 avo (1/12).
-    // dataInicio13 sempre cai no mesmo ano de projecaoDem (é 1º de janeiro do ano da demissão,
-    // ou a própria admissão quando esta ocorre dentro desse mesmo ano) — por isso o cálculo usa
-    // sempre os dias reais do calendário, nunca um mês "fixo" de 30 dias, que gerava avos errados
-    // sempre que a admissão caía em fevereiro (28/29 dias) ou em meses de 31 dias.
-    let avos13Calc = 0;
-    if (tipoRescisao !== 'demissao_com_justa_causa') {
-        const anoDem = projecaoDem.getFullYear();
-        const inicioAno = new Date(anoDem, 0, 1);
-        const dataInicio13 = adm > inicioAno ? adm : inicioAno;
-
-        const mInicio = dataInicio13.getMonth();
-        const mFim = projecaoDem.getMonth();
-
-        if (mInicio === mFim) {
-            // Início e fim do período dentro do mesmo mês: conta os dias realmente trabalhados,
-            // não os dias até o fim do mês (o funcionário pode ter sido desligado bem antes disso).
-            const diasTrabalhadosNoMes = projecaoDem.getDate() - dataInicio13.getDate() + 1;
-            if (diasTrabalhadosNoMes >= 15) avos13Calc = 1;
-        } else {
-            // Primeiro mês: dias restantes até o fim do mês, usando o nº real de dias do mês
-            // (28/29 em fevereiro, 30 ou 31 nos demais), não um valor fixo.
-            const diasNoMesInicio = new Date(dataInicio13.getFullYear(), mInicio + 1, 0).getDate();
-            const diasPrimeiroMes = diasNoMesInicio - dataInicio13.getDate() + 1;
-            if (diasPrimeiroMes >= 15) avos13Calc++;
-
-            // Meses completos entre o início e o fim
-            for (let m = mInicio + 1; m < mFim; m++) {
-                avos13Calc++;
-            }
-
-            // Último mês (mês da demissão)
-            if (projecaoDem.getDate() >= 15) {
-                avos13Calc++;
-            }
-        }
-
-        avos13Calc = Math.min(12, Math.max(0, avos13Calc));
-    }
+    // 2. Apuração dos Avos de 13º Salário (regra dos 15 dias — ver calculos-folha.js)
+    const avos13Calc = tipoRescisao !== 'demissao_com_justa_causa'
+        ? calcularAvos13(adm, projecaoDem)
+        : 0;
 
     if (!manual13) {
         elAvos13.value = avos13Calc;
     }
 
-    // 3. Apuração dos Avos de Férias Proporcionais
-    let avosFeriasCalc = 0;
-    if (tipoRescisao !== 'demissao_com_justa_causa') {
-        let ultimoAniversario = new Date(projecaoDem.getFullYear(), adm.getMonth(), adm.getDate());
-        if (ultimoAniversario > projecaoDem) {
-            ultimoAniversario = new Date(projecaoDem.getFullYear() - 1, adm.getMonth(), adm.getDate());
-        }
-
-        let diffMeses = (projecaoDem.getFullYear() - ultimoAniversario.getFullYear()) * 12 + (projecaoDem.getMonth() - ultimoAniversario.getMonth());
-        
-        let diaInic = ultimoAniversario.getDate();
-        let diaFim = projecaoDem.getDate();
-
-        if (diaFim < diaInic) {
-            diffMeses--;
-            const ultimoDiaMesAnterior = new Date(projecaoDem.getFullYear(), projecaoDem.getMonth(), 0).getDate();
-            const diasRestantesFracao = (ultimoDiaMesAnterior - diaInic + 1) + diaFim;
-            if (diasRestantesFracao >= 15) {
-                diffMeses++;
-            }
-        } else if (diaFim - diaInic >= 15) {
-            diffMeses++;
-        }
-
-        avosFeriasCalc = Math.min(12, Math.max(0, diffMeses));
-    }
+    // 3. Apuração dos Avos de Férias Proporcionais (regra dos 15 dias — ver calculos-folha.js)
+    const avosFeriasCalc = tipoRescisao !== 'demissao_com_justa_causa'
+        ? calcularAvosFerias(adm, projecaoDem)
+        : 0;
 
     if (!manualFerias) {
         elAvosFerias.value = avosFeriasCalc;
