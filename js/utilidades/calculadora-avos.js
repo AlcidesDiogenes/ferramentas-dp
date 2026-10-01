@@ -8,7 +8,7 @@
 
 "use strict";
 
-import { calcularAvos13, calcularAvosFerias } from '../simuladores/calculos-folha.js';
+import { calcularAvos13, calcularAvosFerias, anoDataValido } from '../simuladores/calculos-folha.js';
 
 function parseDataLocal(str) {
     return new Date(str + 'T00:00:00');
@@ -29,6 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (demissao < admissao) {
             resultDiv.innerHTML = `<div class="sim-card"><p style="color: var(--cor-text-danger); text-align: center;">A data de demissão não pode ser anterior à data de admissão.</p></div>`;
+            resultSection.style.display = 'block';
+            return;
+        }
+
+        if (!anoDataValido(admissao) || !anoDataValido(demissao)) {
+            resultDiv.innerHTML = `<div class="sim-card"><p style="color: var(--cor-text-danger); text-align: center;">Ano de admissão ou demissão parece incorreto (confira se digitou o ano completo, ex: 2026 e não 26).</p></div>`;
             resultSection.style.display = 'block';
             return;
         }

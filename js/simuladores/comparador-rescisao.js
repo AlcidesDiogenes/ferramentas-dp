@@ -4,7 +4,7 @@ import {
     VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
 
-import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias, calcularINSS, calcularIRRF } from './calculos-folha.js';
+import { calcularAvisoPrevioProporcional, calcularAvos13, calcularAvosFerias, calcularINSS, calcularIRRF, anoDataValido } from './calculos-folha.js';
 
 import { gerarPDFComparativo } from '../pdf-generators/comparador-rescisao-pdf.js';
 
@@ -292,6 +292,11 @@ function executarComparacao() {
 
     if (dem < adm) {
         alert('A Data de Demissão não pode ser anterior à Data de Admissão.');
+        return;
+    }
+
+    if (!anoDataValido(adm) || !anoDataValido(dem)) {
+        alert('Ano de admissão ou demissão parece incorreto (confira se digitou o ano completo, ex: 2026 e não 26).');
         return;
     }
 

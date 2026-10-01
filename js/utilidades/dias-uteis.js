@@ -5,6 +5,8 @@
 
 "use strict";
 
+import { anoDataValido } from '../simuladores/calculos-folha.js';
+
 function parseDataLocal(str) {
     return new Date(str + 'T00:00:00');
 }
@@ -112,6 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (fim < inicio) {
             resultDiv.innerHTML = `<div class="sim-card"><p style="color: var(--cor-text-danger); text-align: center;">A data de fim não pode ser anterior à data de início.</p></div>`;
+            resultSection.style.display = 'block';
+            return;
+        }
+
+        if (!anoDataValido(inicio) || !anoDataValido(fim)) {
+            resultDiv.innerHTML = `<div class="sim-card"><p style="color: var(--cor-text-danger); text-align: center;">Ano de início ou fim parece incorreto (confira se digitou o ano completo, ex: 2026 e não 26).</p></div>`;
             resultSection.style.display = 'block';
             return;
         }
