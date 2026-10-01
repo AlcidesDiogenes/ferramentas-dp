@@ -345,7 +345,7 @@ function atualizarAliquotasPatronais() {
     } else { // Lucro Presumido / Real
         inssPatronal.value = 20.0;
         inssTerceiros.value = 5.8;
-        inssGilrat.value = 2.0;
+        inssGilrat.value = 1.0;
     }
 }
 

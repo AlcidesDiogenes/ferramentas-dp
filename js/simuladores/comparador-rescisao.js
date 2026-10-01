@@ -117,7 +117,7 @@ function obterAliquotaINSSPatronal(regime) {
             return { percPatronal: 8.0, percTerceiros: 0, percGilrat: 0.8, total: 8.8 };
         case 'lucro':
         default:
-            return { percPatronal: 20.0, percTerceiros: 5.8, percGilrat: 2.0, total: 27.8 };
+            return { percPatronal: 20.0, percTerceiros: 5.8, percGilrat: 1.0, total: 26.8 };
     }
 }
 

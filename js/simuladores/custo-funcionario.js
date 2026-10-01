@@ -172,7 +172,7 @@ function atualizarRegime() {
             patronal.value = 20; gilrat.value = 1; terceiro.value = 0; terceiro.disabled = true;
             break;
         case 'lucro':
-            patronal.value = 20; terceiro.value = 5.4; gilrat.value = 1;
+            patronal.value = 20; terceiro.value = 5.8; gilrat.value = 1;
             break;
         case 'domestico':
             patronal.value = 8; gilrat.value = 1; terceiro.value = 0; terceiro.disabled = true;
