@@ -6,17 +6,10 @@
 
 "use strict";
 
+import { calcularAnosCompletos } from '../simuladores/calculos-folha.js';
+
 function parseDataLocal(str) {
     return new Date(str + 'T00:00:00');
-}
-
-function calcularAnosCompletos(dataInicio, dataFim) {
-    let anos = dataFim.getFullYear() - dataInicio.getFullYear();
-    const m = dataFim.getMonth() - dataInicio.getMonth();
-    if (m < 0 || (m === 0 && dataFim.getDate() < dataInicio.getDate())) {
-        anos--;
-    }
-    return Math.max(0, anos);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

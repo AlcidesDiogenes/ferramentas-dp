@@ -1,11 +1,13 @@
 // js/simuladores/comparador-rescisao.js
 
-import { 
-    TABELA_INSS, 
-    TABELA_IRRF, 
-    TETO_INSS, 
-    VALOR_DEDUCAO_DEPENDENTE 
+import {
+    TABELA_INSS,
+    TABELA_IRRF,
+    TETO_INSS,
+    VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
+
+import { calcularAvisoPrevioProporcional } from './calculos-folha.js';
 
 import { gerarPDFComparativo } from '../pdf-generators/comparador-rescisao-pdf.js';
 
@@ -40,15 +42,6 @@ function calcularIRRF(baseCalculo) {
     const faixa = TABELA_IRRF.find(f => baseCalculo <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
     const imposto = (baseCalculo * faixa.aliquota) - faixa.deducao;
     return Math.max(0, imposto);
-}
-
-function calcularAnosCompletos(dataInicio, dataFim) {
-    let anos = dataFim.getFullYear() - dataInicio.getFullYear();
-    const m = dataFim.getMonth() - dataInicio.getMonth();
-    if (m < 0 || (m === 0 && dataFim.getDate() < dataInicio.getDate())) {
-        anos--;
-    }
-    return Math.max(0, anos);
 }
 
 // Avos de 13º salário e férias proporcionais — mesma lógica (calendário real, não meses fixos
@@ -138,8 +131,7 @@ function calcularCenario(codigoCenario, params) {
     } = params;
 
     // A. Apuração de Tempo
-    const anosServico = calcularAnosCompletos(adm, dem);
-    const diasAvisoIntegral = 30 + Math.min(60, anosServico * 3); // Lei 12.506/2011
+    const diasAvisoIntegral = calcularAvisoPrevioProporcional(adm, dem); // Lei 12.506/2011
 
     // Saldo de Salário
     let diasTrabalhadosMes = 0;

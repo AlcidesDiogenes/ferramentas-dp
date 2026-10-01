@@ -1,11 +1,13 @@
 // js/simuladores/rescisao.js
 
-import { 
-    TABELA_INSS, 
-    TABELA_IRRF, 
-    TETO_INSS, 
-    VALOR_DEDUCAO_DEPENDENTE 
+import {
+    TABELA_INSS,
+    TABELA_IRRF,
+    TETO_INSS,
+    VALOR_DEDUCAO_DEPENDENTE
 } from './tabelas.js';
+
+import { calcularAvisoPrevioProporcional } from './calculos-folha.js';
 
 import { gerarPDFRescisao } from '../pdf-generators/rescisao-pdf.js';
 
@@ -40,18 +42,6 @@ function calcularIRRF(baseCalculo) {
     const faixa = TABELA_IRRF.find(f => baseCalculo <= f.base) || TABELA_IRRF[TABELA_IRRF.length - 1];
     const imposto = (baseCalculo * faixa.aliquota) - faixa.deducao;
     return Math.max(0, imposto);
-}
-
-/**
- * Calcula anos completos entre duas datas
- */
-function calcularAnosCompletos(dataInicio, dataFim) {
-    let anos = dataFim.getFullYear() - dataInicio.getFullYear();
-    const m = dataFim.getMonth() - dataInicio.getMonth();
-    if (m < 0 || (m === 0 && dataFim.getDate() < dataInicio.getDate())) {
-        anos--;
-    }
-    return Math.max(0, anos);
 }
 
 // ==========================================
@@ -213,8 +203,7 @@ function apurarAvosEDiasAutomaticos() {
     // 1. Cálculo de Dias de Aviso Prévio (Lei 12.506/2011)
     let diasAvisoCalc = 30;
     if (['demissao_sem_justa_causa', 'acordo_partes'].includes(tipoRescisao)) {
-        const anos = calcularAnosCompletos(adm, dem);
-        diasAvisoCalc = Math.min(90, 30 + (anos * 3));
+        diasAvisoCalc = calcularAvisoPrevioProporcional(adm, dem);
     } else if (tipoRescisao === 'pedido_demissao') {
         diasAvisoCalc = 30;
     } else {
