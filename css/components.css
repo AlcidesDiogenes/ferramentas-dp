@@ -776,3 +776,324 @@
 .toast-info .toast-icon-wrapper { color: #0284c7; }
 .toast-info .toast-progress-bar { background-color: #0284c7; }
 
+/* ==========================================
+   Abas Segmentadas (Tabs) & Controles Modernos
+   ========================================== */
+.tabs-nav {
+    display: flex;
+    gap: 8px;
+    background-color: var(--cor-card-subtle-bg, #f8fafc);
+    border: 1px solid var(--cor-borda, #e2e8f0);
+    padding: 6px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.tab-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--cor-texto-secundario, #64748b);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicao-suave);
+    font-family: var(--fonte-principal);
+}
+
+.tab-btn:hover {
+    color: var(--cor-texto-principal, #1e293b);
+    background-color: var(--cor-hover-item, #f1f5f9);
+}
+
+.tab-btn.active {
+    background-color: var(--cor-card-bg, #ffffff);
+    color: var(--cor-destaque, #2563eb);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .tab-btn.active {
+    background-color: var(--cor-card-bg, #1e293b);
+    color: var(--cor-destaque, #3b82f6);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* ==========================================
+   Chips de Atalhos Rápidos & Seletores
+   ========================================== */
+.chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.chip-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--cor-borda, #cbd5e1);
+    background-color: var(--cor-card-subtle-bg, #f8fafc);
+    color: var(--cor-texto-principal, #1e293b);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transicao-suave);
+    font-family: var(--fonte-principal);
+}
+
+.chip-btn:hover {
+    background-color: var(--cor-tag-bg, #e0f2fe);
+    color: var(--cor-tag-texto, #0369a1);
+    border-color: var(--cor-destaque, #2563eb);
+}
+
+[data-theme="dark"] .chip-btn {
+    background-color: var(--cor-card-subtle-bg, #111827);
+    border-color: var(--cor-card-subtle-borda, #374151);
+    color: var(--cor-texto-principal, #f8fafc);
+}
+
+[data-theme="dark"] .chip-btn:hover {
+    background-color: var(--cor-tag-bg, rgba(3, 105, 161, 0.35));
+    color: var(--cor-tag-texto, #38bdf8);
+    border-color: var(--cor-destaque, #3b82f6);
+}
+
+/* ==========================================
+   Input com Ação Acoplada (Ex: Botão Hoje)
+   ========================================== */
+.input-with-action {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.input-with-action .form-control {
+    flex: 1;
+}
+
+.btn-input-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    height: 42px;
+    border: 1px solid var(--cor-borda, #e2e8f0);
+    border-radius: var(--borda-raio, 8px);
+    background-color: var(--cor-card-subtle-bg, #f8fafc);
+    color: var(--cor-texto-principal, #1e293b);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transicao-suave);
+    font-family: var(--fonte-principal);
+}
+
+.btn-input-action:hover {
+    border-color: var(--cor-destaque, #2563eb);
+    color: var(--cor-destaque, #2563eb);
+    background-color: var(--cor-tag-bg, #e0f2fe);
+}
+
+[data-theme="dark"] .btn-input-action {
+    background-color: var(--cor-card-subtle-bg, #111827);
+    border-color: var(--cor-borda, #334155);
+    color: var(--cor-texto-principal, #f8fafc);
+}
+
+[data-theme="dark"] .btn-input-action:hover {
+    border-color: var(--cor-destaque, #3b82f6);
+    color: var(--cor-destaque, #3b82f6);
+    background-color: var(--cor-tag-bg, rgba(3, 105, 161, 0.35));
+}
+
+/* ==========================================
+   Seletor Segmentado de Operação (+ / -)
+   ========================================== */
+.segmented-control {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.segmented-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--cor-borda, #e2e8f0);
+    border-radius: var(--borda-raio, 8px);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--cor-texto-secundario, #64748b);
+    background-color: var(--cor-card-subtle-bg, #f8fafc);
+    transition: var(--transicao-suave);
+    user-select: none;
+}
+
+.segmented-option input[type="radio"] {
+    margin: 0;
+    accent-color: var(--cor-destaque, #2563eb);
+}
+
+.segmented-option.active {
+    border-color: var(--cor-destaque, #2563eb);
+    background-color: var(--cor-tag-bg, #e0f2fe);
+    color: var(--cor-tag-texto, #0369a1);
+}
+
+[data-theme="dark"] .segmented-option {
+    background-color: var(--cor-card-subtle-bg, #111827);
+    border-color: var(--cor-borda, #334155);
+    color: var(--cor-texto-secundario, #94a3b8);
+}
+
+[data-theme="dark"] .segmented-option.active {
+    border-color: var(--cor-destaque, #3b82f6);
+    background-color: var(--cor-tag-bg, rgba(3, 105, 161, 0.35));
+    color: var(--cor-tag-texto, #38bdf8);
+}
+
+/* ==========================================
+   Botão Secundário Padrão
+   ========================================== */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 20px;
+    height: 42px;
+    border-radius: var(--borda-raio, 8px);
+    border: 1px solid var(--cor-borda, #cbd5e1);
+    background-color: var(--cor-card-subtle-bg, #f8fafc);
+    color: var(--cor-texto-principal, #1e293b);
+    font-family: var(--fonte-principal);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicao-suave);
+}
+
+.btn-secondary:hover {
+    background-color: var(--cor-hover-item, #f1f5f9);
+    border-color: var(--cor-texto-secundario, #64748b);
+}
+
+[data-theme="dark"] .btn-secondary {
+    background-color: var(--cor-card-subtle-bg, #111827);
+    border-color: var(--cor-borda, #334155);
+    color: var(--cor-texto-principal, #f8fafc);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background-color: var(--cor-hover-item, #334155);
+}
+
+/* ==========================================
+   Badges de Status do Calendário
+   ========================================== */
+.badge-calendar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.badge-calendar-util {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+[data-theme="dark"] .badge-calendar-util {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.4);
+}
+
+.badge-calendar-aviso {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+[data-theme="dark"] .badge-calendar-aviso {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* ==========================================
+   Hero Result Card (Destaque Principal)
+   ========================================== */
+.calc-hero-card {
+    background-color: var(--cor-tag-bg, #eff6ff);
+    border: 1px solid var(--cor-borda, #bfdbfe);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+[data-theme="dark"] .calc-hero-card {
+    background-color: var(--cor-tag-bg, rgba(3, 105, 161, 0.2));
+    border-color: var(--cor-card-subtle-borda, #374151);
+}
+
+.calc-hero-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--cor-tag-texto, #1e40af);
+    margin-bottom: 8px;
+}
+
+[data-theme="dark"] .calc-hero-label {
+    color: var(--cor-tag-texto, #38bdf8);
+}
+
+.calc-hero-value {
+    display: block;
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: var(--cor-texto-principal, #1e293b);
+    line-height: 1.2;
+}
+
+[data-theme="dark"] .calc-hero-value {
+    color: var(--cor-texto-principal, #f8fafc);
+}
+
+.calc-hero-subvalue {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--cor-texto-secundario, #64748b);
+    margin-top: 4px;
+}
+
+[data-theme="dark"] .calc-hero-subvalue {
+    color: var(--cor-texto-secundario, #94a3b8);
+}
+
+

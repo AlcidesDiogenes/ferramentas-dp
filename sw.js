@@ -1,7 +1,7 @@
 // sw.js - Service Worker para Ferramentas DP (PWA Offline)
-// Versão incrementada: "Valor por Extenso" renomeado para "Número por Extenso" (novo caminho).
-const CACHE_NAME = 'ferramentas-dp-v1.0.11';
-const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.11';
+// Versão incrementada: Calculadora de Tempo (Projeção de datas com soma/subtração de dias, meses e anos).
+const CACHE_NAME = 'ferramentas-dp-v1.0.13';
+const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.13';
 
 const PRECACHE_ASSETS = [
   '/',

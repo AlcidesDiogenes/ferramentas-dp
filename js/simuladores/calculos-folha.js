@@ -20,7 +20,7 @@ import {
 } from './tabelas.js';
 
 // ==========================================
-// TEMPO DE SERVIÇO / AVISO PRÉVIO
+// TEMPO DE SERVIÇO / AVISO PRÉVIO E PROJEÇÃO DE DATAS
 // ==========================================
 
 /**
@@ -42,6 +42,112 @@ export function calcularAnosCompletos(dataInicio, dataFim) {
 export function calcularAvisoPrevioProporcional(dataInicio, dataFim) {
     const anos = calcularAnosCompletos(dataInicio, dataFim);
     return Math.min(90, 30 + (anos * 3));
+}
+
+/**
+ * Diferença exata em anos, meses e dias entre duas datas de calendário.
+ * Se `incluirUltimoDia` for true, o dia final é contado de forma inclusiva.
+ */
+export function calcularDiferencaExata(dataInicio, dataFim, incluirUltimoDia = false) {
+    const inicio = new Date(dataInicio);
+    const fim = new Date(dataFim);
+
+    if (fim < inicio) {
+        return { invalido: true, anos: 0, meses: 0, dias: 0, totalDiasCorridos: 0 };
+    }
+
+    const fimEfetivo = new Date(fim);
+    if (incluirUltimoDia) {
+        fimEfetivo.setDate(fimEfetivo.getDate() + 1);
+    }
+
+    let anos = fimEfetivo.getFullYear() - inicio.getFullYear();
+    let meses = fimEfetivo.getMonth() - inicio.getMonth();
+    let dias = fimEfetivo.getDate() - inicio.getDate();
+
+    if (dias < 0) {
+        meses--;
+        const ultimoDiaMesAnterior = new Date(fimEfetivo.getFullYear(), fimEfetivo.getMonth(), 0).getDate();
+        dias += ultimoDiaMesAnterior;
+    }
+    if (meses < 0) {
+        anos--;
+        meses += 12;
+    }
+
+    const totalDiasCorridos = Math.round((fimEfetivo - inicio) / 86400000);
+    return { invalido: false, anos, meses, dias, totalDiasCorridos };
+}
+
+/**
+ * Adiciona ou subtrai meses a uma data respeitando o fim de mês
+ * (ex: 31 de janeiro + 1 mês resulta em 28 ou 29 de fevereiro, e não março).
+ */
+export function adicionarMeses(data, meses) {
+    const d = new Date(data);
+    const diaOriginal = d.getDate();
+    d.setDate(1);
+    d.setMonth(d.getMonth() + meses);
+    const maxDias = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+    d.setDate(Math.min(diaOriginal, maxDias));
+    return d;
+}
+
+/**
+ * Adiciona ou subtrai anos a uma data respeitando o fim de mês
+ * (ex: 29 de fevereiro em ano bissexto + 1 ano resulta em 28 de fevereiro).
+ */
+export function adicionarAnos(data, anos) {
+    const d = new Date(data);
+    const diaOriginal = d.getDate();
+    const mesOriginal = d.getMonth();
+    d.setDate(1);
+    d.setFullYear(d.getFullYear() + anos);
+    const maxDias = new Date(d.getFullYear(), mesOriginal + 1, 0).getDate();
+    d.setDate(Math.min(diaOriginal, maxDias));
+    return d;
+}
+
+/**
+ * Adiciona ou subtrai dias a uma data.
+ */
+export function adicionarDias(data, dias) {
+    const d = new Date(data);
+    d.setDate(d.getDate() + dias);
+    return d;
+}
+
+/**
+ * Projeta uma data a partir de uma data de início, adicionando ou subtraindo
+ * anos, meses e dias.
+ * 
+ * Se `incluirDiaInicio` for true (regra padrão de vigência em contratos CLT,
+ * como prazos de experiência onde o 1º dia é trabalhado):
+ * - O dia inicial conta como o Dia 1 da vigência, logo o término recua 1 dia
+ *   quando há prazo positivo (ex: 01/03 + 30 dias termina em 30/03, e não 31/03).
+ */
+export function projetarData(dataInicio, { anos = 0, meses = 0, dias = 0, operacao = 'somar', incluirDiaInicio = false } = {}) {
+    const a = Number(anos) || 0;
+    const m = Number(meses) || 0;
+    const dNum = Number(dias) || 0;
+
+    let d = new Date(dataInicio);
+
+    if (operacao === 'subtrair') {
+        if (a !== 0) d = adicionarAnos(d, -a);
+        if (m !== 0) d = adicionarMeses(d, -m);
+        if (dNum !== 0) d = adicionarDias(d, -dNum);
+    } else {
+        if (a !== 0) d = adicionarAnos(d, a);
+        if (m !== 0) d = adicionarMeses(d, m);
+        if (dNum !== 0) d = adicionarDias(d, dNum);
+
+        if (incluirDiaInicio && (a > 0 || m > 0 || dNum > 0)) {
+            d = adicionarDias(d, -1);
+        }
+    }
+
+    return d;
 }
 
 // ==========================================

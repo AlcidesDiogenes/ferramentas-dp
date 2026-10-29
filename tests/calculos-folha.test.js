@@ -11,6 +11,11 @@ import assert from 'node:assert/strict';
 import {
     calcularAnosCompletos,
     calcularAvisoPrevioProporcional,
+    calcularDiferencaExata,
+    adicionarMeses,
+    adicionarAnos,
+    adicionarDias,
+    projetarData,
     calcularAvos13,
     calcularAvosFerias,
     calcularINSS,
@@ -121,5 +126,102 @@ test('anoDataValido', async (t) => {
     await t.test('respeita os limites configurados', () => {
         assert.equal(anoDataValido(d(1950, 1, 1)), true);
         assert.equal(anoDataValido(d(1949, 12, 31)), false);
+    });
+});
+
+test('calcularDiferencaExata', async (t) => {
+    await t.test('diferença exata entre datas no mesmo dia dá 0 anos, 0 meses, 0 dias', () => {
+        const res = calcularDiferencaExata(d(2026, 3, 1), d(2026, 3, 1));
+        assert.deepEqual(res, { invalido: false, anos: 0, meses: 0, dias: 0, totalDiasCorridos: 0 });
+    });
+
+    await t.test('inclusão do último dia conta 1 dia no mesmo dia', () => {
+        const res = calcularDiferencaExata(d(2026, 3, 1), d(2026, 3, 1), true);
+        assert.deepEqual(res, { invalido: false, anos: 0, meses: 0, dias: 1, totalDiasCorridos: 1 });
+    });
+
+    await t.test('2 anos completos exatos', () => {
+        const res = calcularDiferencaExata(d(2024, 1, 1), d(2026, 1, 1));
+        assert.equal(res.anos, 2);
+        assert.equal(res.meses, 0);
+        assert.equal(res.dias, 0);
+        assert.equal(res.totalDiasCorridos, 731); // 2024 é bissexto (366 + 365 = 731)
+    });
+
+    await t.test('anos, meses e dias combinados', () => {
+        const res = calcularDiferencaExata(d(2024, 2, 15), d(2025, 5, 20));
+        assert.equal(res.anos, 1);
+        assert.equal(res.meses, 3);
+        assert.equal(res.dias, 5);
+    });
+
+    await t.test('data fim anterior à data início retorna invalido', () => {
+        const res = calcularDiferencaExata(d(2026, 5, 1), d(2026, 4, 1));
+        assert.equal(res.invalido, true);
+    });
+});
+
+test('adicionarMeses e adicionarAnos (tratamento de fim de mês)', async (t) => {
+    await t.test('31 de janeiro + 1 mês em ano não bissexto vai para 28 de fevereiro', () => {
+        const res = adicionarMeses(d(2026, 1, 31), 1);
+        assert.equal(res.getFullYear(), 2026);
+        assert.equal(res.getMonth(), 1); // Fevereiro (índice 1)
+        assert.equal(res.getDate(), 28);
+    });
+
+    await t.test('31 de janeiro + 1 mês em ano bissexto vai para 29 de fevereiro', () => {
+        const res = adicionarMeses(d(2024, 1, 31), 1);
+        assert.equal(res.getFullYear(), 2024);
+        assert.equal(res.getMonth(), 1);
+        assert.equal(res.getDate(), 29);
+    });
+
+    await t.test('29 de fevereiro de ano bissexto + 1 ano vai para 28 de fevereiro', () => {
+        const res = adicionarAnos(d(2024, 2, 29), 1);
+        assert.equal(res.getFullYear(), 2025);
+        assert.equal(res.getMonth(), 1);
+        assert.equal(res.getDate(), 28);
+    });
+});
+
+test('projetarData', async (t) => {
+    await t.test('início + 60 dias (soma civil)', () => {
+        // 01/01/2026 + 60 dias: jan=31d, fev2026=28d (total 59d em fev) -> 02/03/2026
+        const res = projetarData(d(2026, 1, 1), { dias: 60 });
+        assert.equal(res.getFullYear(), 2026);
+        assert.equal(res.getMonth(), 2); // Março (índice 2)
+        assert.equal(res.getDate(), 2);
+    });
+
+    await t.test('início + 60 dias com regra CLT de vigência (o 1º dia é o Dia 1)', () => {
+        // O 60º dia é 01/03/2026
+        const res = projetarData(d(2026, 1, 1), { dias: 60, incluirDiaInicio: true });
+        assert.equal(res.getFullYear(), 2026);
+        assert.equal(res.getMonth(), 2);
+        assert.equal(res.getDate(), 1);
+    });
+
+    await t.test('início + 2 meses (soma civil)', () => {
+        // 01/03/2026 + 2 meses -> 01/05/2026
+        const res = projetarData(d(2026, 3, 1), { meses: 2 });
+        assert.equal(res.getFullYear(), 2026);
+        assert.equal(res.getMonth(), 4); // Maio (índice 4)
+        assert.equal(res.getDate(), 1);
+    });
+
+    await t.test('início + 2 meses e 60 dias combinados', () => {
+        // 01/03/2026 + 2 meses -> 01/05/2026; 01/05 + 60 dias (maio 31d, junho 30d: 30 de maio=30d, 30 de junho=60d) -> 30/06/2026
+        const res = projetarData(d(2026, 3, 1), { meses: 2, dias: 60 });
+        assert.equal(res.getFullYear(), 2026);
+        assert.equal(res.getMonth(), 5); // Junho (índice 5)
+        assert.equal(res.getDate(), 30);
+    });
+
+    await t.test('subtrair 15 dias', () => {
+        // 20/03/2026 - 15 dias -> 05/03/2026
+        const res = projetarData(d(2026, 3, 20), { dias: 15, operacao: 'subtrair' });
+        assert.equal(res.getFullYear(), 2026);
+        assert.equal(res.getMonth(), 2);
+        assert.equal(res.getDate(), 5);
     });
 });

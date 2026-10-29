@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Tempo de Casa - Ferramentas DP</title>
+    <title>Calculadora de Tempo - Ferramentas DP</title>
 
     <link rel="stylesheet" href="../../css/style.css">
 
@@ -19,32 +19,154 @@
 
     <main class="main-content">
         <header class="main-header">
-            <h1>Calculadora de Tempo de Casa</h1>
-            <p class="subtitle">Anos, meses e dias exatos entre a admissão e uma data de referência</p>
+            <h1>Calculadora de Tempo</h1>
+            <p class="subtitle">Adicione ou subtraia prazos (dias, meses e anos) para projetar datas ou calcule o tempo decorrido entre datas</p>
         </header>
 
         <section class="module-card">
-            <form id="form-tempo-casa" class="simulator-form">
-                <div style="max-width: 480px; margin: 0 auto;">
-                    <div class="form-section">
-                        <h3>Datas</h3>
-                        <div class="form-group">
-                            <label for="data-admissao" class="form-label">Data de Admissão</label>
-                            <input type="date" id="data-admissao" class="form-control" required>
+            <!-- Abas de Navegação -->
+            <div class="tabs-nav" role="tablist" aria-label="Modos da Calculadora de Tempo">
+                <button type="button" class="tab-btn active" id="tab-btn-projecao" role="tab" aria-selected="true" aria-controls="painel-projecao">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="M12 14v4"/><path d="M10 16h4"/></svg>
+                    <span>Projetar Data (Somar / Subtrair Prazos)</span>
+                </button>
+                <button type="button" class="tab-btn" id="tab-btn-diferenca" role="tab" aria-selected="false" aria-controls="painel-diferenca">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Diferença entre Datas (Tempo Decorrido)</span>
+                </button>
+            </div>
+
+            <!-- Painel 1: Projetar Data (Somar / Subtrair Prazos) -->
+            <div id="painel-projecao" role="tabpanel" aria-labelledby="tab-btn-projecao">
+                <form id="form-projecao" class="simulator-form">
+                    <div style="max-width: 580px; margin: 0 auto;">
+                        <div class="form-section">
+                            <h3>Data de Início</h3>
+                            <div class="form-group">
+                                <label for="proj-data-inicio" class="form-label">Data de Início</label>
+                                <div class="input-with-action">
+                                    <input type="date" id="proj-data-inicio" class="form-control" required>
+                                    <button type="button" class="btn-input-action" id="btn-hoje-proj" title="Preencher com a data de hoje">Hoje</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label class="form-label">Operação</label>
+                                <div class="segmented-control" role="radiogroup" aria-label="Operação">
+                                    <label class="segmented-option active" id="label-op-somar">
+                                        <input type="radio" name="operacao" value="somar" checked>
+                                        <span>➕ Somar Prazo (+)</span>
+                                    </label>
+                                    <label class="segmented-option" id="label-op-subtrair">
+                                        <input type="radio" name="operacao" value="subtrair">
+                                        <span>➖ Subtrair Prazo (-)</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="data-referencia" class="form-label">Data de Referência</label>
-                            <input type="date" id="data-referencia" class="form-control" required>
+
+                        <div class="form-section">
+                            <h3>Tempo a Adicionar / Subtrair</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label for="proj-anos" class="form-label">Anos</label>
+                                    <input type="number" id="proj-anos" class="form-control" min="0" max="100" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="proj-meses" class="form-label">Meses</label>
+                                    <input type="number" id="proj-meses" class="form-control" min="0" max="1200" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="proj-dias" class="form-label">Dias</label>
+                                    <input type="number" id="proj-dias" class="form-control" min="0" max="36500" placeholder="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 14px;">
+                                <label class="form-label" style="font-size: 0.82rem; color: var(--cor-texto-secundario, #64748b); margin-bottom: 4px;">Atalhos frequentes do DP:</label>
+                                <div class="chip-group">
+                                    <button type="button" class="chip-btn" data-chip-dias="15" title="Atestado médico ou estabilidade">+15 dias</button>
+                                    <button type="button" class="chip-btn" data-chip-dias="30" title="1º período de Experiência ou 30 dias">+30 dias</button>
+                                    <button type="button" class="chip-btn" data-chip-dias="45" title="Experiência comum 45 dias">+45 dias</button>
+                                    <button type="button" class="chip-btn" data-chip-dias="60" title="60 dias">+60 dias</button>
+                                    <button type="button" class="chip-btn" data-chip-dias="90" title="Término máximo de Experiência CLT (90 dias)">+90 dias</button>
+                                    <button type="button" class="chip-btn" data-chip-meses="2" title="2 meses exatos">+2 meses</button>
+                                    <button type="button" class="chip-btn" data-chip-meses="6" title="6 meses">+6 meses</button>
+                                    <button type="button" class="chip-btn" data-chip-anos="1" title="1 ano">+1 ano</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 16px; padding: 14px; background: var(--cor-card-subtle-bg, #f8fafc); border: 1px solid var(--cor-borda, #cbd5e1); border-radius: 8px;">
+                                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; margin: 0; font-size: 0.88rem; font-weight: 600; color: var(--cor-texto-principal, #1e293b);">
+                                    <input type="checkbox" id="proj-regra-clt" style="margin-top: 3px; accent-color: var(--cor-destaque, #2563eb);">
+                                    <span>
+                                        Contagem de vigência CLT (o 1º dia é o Dia 1 trabalhado)
+                                        <small style="display: block; font-weight: 400; color: var(--cor-texto-secundario, #64748b); margin-top: 3px; line-height: 1.4;">
+                                            Recomendado para contratos de experiência a termo: o dia de início já é considerado o primeiro dia de cumprimento (ex: 30 dias iniciados em 01/01 vencem em 30/01). Desmarque para soma pura de calendário civil (01/01 + 30 dias = 31/01).
+                                        </small>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+                            <button type="submit" class="btn-action">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                Calcular Data
+                            </button>
+                            <button type="button" class="btn-secondary" id="btn-limpar-proj">Limpar</button>
                         </div>
                     </div>
+                </form>
 
-                    <button type="submit" class="btn-action" style="display: flex; margin: 20px auto 0;">Calcular</button>
-                </div>
-            </form>
-        </section>
+                <section id="resultado-projecao-section" style="display: none; margin-top: 30px;">
+                    <div id="resultado-projecao"></div>
+                </section>
+            </div>
 
-        <section id="resultado-section" style="display: none;">
-            <div id="resultado-calculo"></div>
+            <!-- Painel 2: Diferença entre Datas (Tempo Decorrido) -->
+            <div id="painel-diferenca" role="tabpanel" aria-labelledby="tab-btn-diferenca" style="display: none;">
+                <form id="form-tempo-casa" class="simulator-form">
+                    <div style="max-width: 580px; margin: 0 auto;">
+                        <div class="form-section">
+                            <h3>Período</h3>
+                            <div class="form-group">
+                                <label for="data-admissao" class="form-label">Data de Início</label>
+                                <div class="input-with-action">
+                                    <input type="date" id="data-admissao" class="form-control" required>
+                                    <button type="button" class="btn-input-action" id="btn-hoje-inicio" title="Preencher com a data de hoje">Hoje</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="data-referencia" class="form-label">Data Final / Referência</label>
+                                <div class="input-with-action">
+                                    <input type="date" id="data-referencia" class="form-control" required>
+                                    <button type="button" class="btn-input-action" id="btn-hoje-ref" title="Preencher com a data de hoje">Hoje</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 14px;">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.88rem; color: var(--cor-texto-principal, #1e293b);">
+                                    <input type="checkbox" id="dif-incluir-ultimo-dia" style="accent-color: var(--cor-destaque, #2563eb);">
+                                    <span>Incluir o último dia no cálculo (contagem de dias corridos inclusive)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+                            <button type="submit" class="btn-action">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                Calcular Diferença
+                            </button>
+                            <button type="button" class="btn-secondary" id="btn-limpar-dif">Limpar</button>
+                        </div>
+                    </div>
+                </form>
+
+                <section id="resultado-section" style="display: none; margin-top: 30px;">
+                    <div id="resultado-calculo"></div>
+                </section>
+            </div>
         </section>
     </main>
 
