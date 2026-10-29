@@ -1,7 +1,7 @@
 // sw.js - Service Worker para Ferramentas DP (PWA Offline)
 // Versão incrementada: Calculadora de Tempo (Projeção de datas com soma/subtração de dias, meses e anos).
-const CACHE_NAME = 'ferramentas-dp-v1.0.13';
-const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.13';
+const CACHE_NAME = 'ferramentas-dp-v1.0.14';
+const DYNAMIC_CACHE = 'ferramentas-dp-dynamic-v1.0.14';
 
 const PRECACHE_ASSETS = [
   '/',

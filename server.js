@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Configura limite maior de payload para suportar upload de PDFs e Imagens codificados em base64
 app.use(express.json({ limit: '50mb' }));
